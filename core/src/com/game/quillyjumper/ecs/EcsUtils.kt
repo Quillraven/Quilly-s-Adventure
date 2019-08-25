@@ -23,7 +23,7 @@ fun Engine.gameObject(world: World, posX: Float, posY: Float, width: Float = 1f,
         with<PhysicComponent> {
             body = world.body(bodyType) {
                 position.set(posX + width * 0.5f, posY + height * 0.5f)
-                userData = this@entity
+                userData = this@entity.entity
                 box(width, height)
             }
         }

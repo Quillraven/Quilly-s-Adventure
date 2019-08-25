@@ -33,8 +33,8 @@ class Main : KtxGame<KtxScreen>() {
             bindSingleton(SpriteBatch())
             bindSingleton(AssetManager())
             bindSingleton(Stage(ScreenViewport(), ctx.inject<SpriteBatch>()))
-            bindSingleton(createSKin(ctx.inject()))
-            bindSingleton(createWorld(earthGravity))
+            bindSingleton(createSKin())
+            bindSingleton(createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) })
             bindSingleton(Box2DDebugRenderer())
         }
 
@@ -48,7 +48,7 @@ class Main : KtxGame<KtxScreen>() {
         setScreen<LoadingScreen>()
     }
 
-    private fun createSKin(assets: AssetManager): Skin {
+    private fun createSKin(): Skin {
         // generate fonts for the skin
         val generator = FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"))
         val defaultFont = generator.generateFont { size = 24 }
