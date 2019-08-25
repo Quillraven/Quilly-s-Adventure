@@ -27,7 +27,7 @@ class RenderSystem(private val batch: SpriteBatch,
         // z = background or foreground
         // y = y value of positionXY
         forceSort()
-        // render entites
+        // render entities
         gameViewPort.apply()
         batch.projectionMatrix = gameViewPort.camera.combined
         batch.use {

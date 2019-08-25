@@ -44,7 +44,7 @@ class PhysicContactListener : ContactListener {
         LOG.debug { "Adjusting gravityScale to $gravityScale" }
         entity[PhysicComponent.mapper]?.let { physic ->
             physic.body.gravityScale = gravityScale
-            physic.body.applyForceToCenter(0f, 1000f, true)
+            physic.body.applyForceToCenter(0f, 10f, true)
         }
     }
 }

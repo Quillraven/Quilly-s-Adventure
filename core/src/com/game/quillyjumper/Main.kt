@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.ScreenViewport
+import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.screen.LoadingScreen
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
@@ -32,19 +33,20 @@ class Main : KtxGame<KtxScreen>() {
         ctx.register {
             bindSingleton(SpriteBatch())
             bindSingleton(AssetManager())
+            bindSingleton(GameEventManager())
             bindSingleton(Stage(ScreenViewport(), ctx.inject<SpriteBatch>()))
             bindSingleton(createSKin())
             bindSingleton(createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) })
             bindSingleton(Box2DDebugRenderer())
         }
 
-        // set stage as inputprocessor to react when the user is interacting with UI widgets
+        // set stage as input processor to react when the user is interacting with UI widgets
         Gdx.input.inputProcessor = ctx.inject<Stage>()
         // set our created skin as the default skin for scene2d stuff
         Scene2DSkin.defaultSkin = ctx.inject()
 
         // initial screen is the loading screen which is loading all assets for the game
-        addScreen(LoadingScreen(this, ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject()))
+        addScreen(LoadingScreen(this, ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject()))
         setScreen<LoadingScreen>()
     }
 

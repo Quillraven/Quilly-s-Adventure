@@ -20,7 +20,7 @@ class PhysicSystem(private val world: World,
         while (accumulator >= interval) {
             // store position of physic bodies before the world gets updated to calculate
             // and interpolated position for the rendering.
-            // This will smooth the graphics for the user and avoids "jittering"
+            // This will smooth the graphics for the user and avoids "stuttering"
             entities.forEach { entity ->
                 entity[TransformComponent.mapper]?.let { transform ->
                     entity[PhysicComponent.mapper]?.let { physic ->
