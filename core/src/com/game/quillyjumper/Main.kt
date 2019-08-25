@@ -51,7 +51,7 @@ class Main : KtxGame<KtxScreen>() {
     private fun createSKin(assets: AssetManager): Skin {
         // generate fonts for the skin
         val generator = FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"))
-        val defaultFont = generator.generateFont() { size = 24 }
+        val defaultFont = generator.generateFont { size = 24 }
         // dispose font generator after creating all .ttf fonts that we need
         generator.dispose()
 

@@ -1,15 +1,19 @@
 package com.game.quillyjumper.screen
 
 import com.badlogic.ashley.core.PooledEngine
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.game.quillyjumper.ecs.component.RenderComponent
+import com.game.quillyjumper.ecs.gameObject
 import com.game.quillyjumper.ecs.system.PhysicSystem
 import com.game.quillyjumper.ecs.system.RenderSystem
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
+import ktx.ashley.get
 import ktx.box2d.body
 
 class GameScreen(private val game: KtxGame<KtxScreen>,
@@ -21,24 +25,20 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
         addSystem(PhysicSystem(world, this))
         addSystem(RenderSystem(batch, viewport, world, box2DDebugRenderer))
     }
+    private val player = engine.gameObject(world, 16f, 17f)
 
     override fun show() {
         // TODO remove testing stuff
         // floor
         world.body(BodyDef.BodyType.StaticBody) {
             position.set(16f, 1f)
-            box(width = 30f, height = 1f) {
-                // it.dispose()
-            }
-            //dispose shape??
+            box(width = 30f, height = 1f)
         }
-        // falling object
-        world.body(BodyDef.BodyType.DynamicBody) {
-            position.set(16f, 17f)
-            box(width = 1f, height = 1f) {
-                density = 1f
-                restitution = 0.5f
-            }
+        // set test texture for player
+        player[RenderComponent.mapper]?.let { render ->
+            render.sprite.texture = Texture("graphics/adventurer-idle-00.png")
+            render.sprite.setRegion(0, 0, render.sprite.texture.width, render.sprite.texture.height)
+            render.sprite.setOriginCenter()
         }
     }
 

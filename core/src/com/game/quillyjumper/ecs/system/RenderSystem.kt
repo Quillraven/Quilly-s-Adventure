@@ -11,6 +11,9 @@ import com.game.quillyjumper.ecs.component.TransformComponent
 import ktx.ashley.allOf
 import ktx.ashley.get
 import ktx.graphics.use
+import ktx.log.logger
+
+private val LOG = logger<RenderSystem>()
 
 class RenderSystem(private val batch: SpriteBatch,
                    private val gameViewPort: Viewport,
@@ -37,7 +40,13 @@ class RenderSystem(private val batch: SpriteBatch,
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity[RenderComponent.mapper]?.let { render ->
             entity[TransformComponent.mapper]?.let { transform ->
-                render.sprite.setPosition(transform.interpolatedPosition.x, transform.interpolatedPosition.y)
+                // if the sprite does not have any texture then do not render it to avoid null pointer exceptions
+                if (render.sprite.texture == null) {
+                    LOG.error { "Entity is without a texture for rendering" }
+                    return
+                }
+
+                render.sprite.setBounds(transform.interpolatedPosition.x, transform.interpolatedPosition.y, transform.size.x, transform.size.y)
                 render.sprite.draw(batch)
             }
         }

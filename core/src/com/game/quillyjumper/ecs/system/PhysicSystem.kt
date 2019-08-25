@@ -24,7 +24,7 @@ class PhysicSystem(private val world: World,
             entities.forEach { entity ->
                 entity[TransformComponent.mapper]?.let { transform ->
                     entity[PhysicComponent.mapper]?.let { physic ->
-                        transform.prevPosition.set(physic.body.position)
+                        transform.prevPosition.set(physic.body.position.x - transform.size.x * 0.5f, physic.body.position.y - transform.size.y * 0.5f)
                     }
                 }
             }
@@ -39,7 +39,7 @@ class PhysicSystem(private val world: World,
         entities.forEach { entity ->
             entity[TransformComponent.mapper]?.let { transform ->
                 entity[PhysicComponent.mapper]?.let { physic ->
-                    transform.position.set(physic.body.position)
+                    transform.position.set(physic.body.position.x - transform.size.x * 0.5f, physic.body.position.y - transform.size.y * 0.5f)
                     transform.interpolatedPosition.set(transform.prevPosition.lerp(transform.position, alpha))
                 }
             }
