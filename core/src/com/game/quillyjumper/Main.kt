@@ -22,6 +22,8 @@ import ktx.style.button
 import ktx.style.label
 import ktx.style.skin
 
+const val UNIT_SCALE = 1 / 32f
+
 class Main : KtxGame<KtxScreen>() {
     private val ctx = Context()
 

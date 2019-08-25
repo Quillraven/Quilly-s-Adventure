@@ -18,14 +18,16 @@ private val LOG = logger<RenderSystem>()
 class RenderSystem(private val batch: SpriteBatch,
                    private val gameViewPort: Viewport,
                    private val world: World,
-                   private val box2DDebugRenderer: Box2DDebugRenderer) : SortedIteratingSystem(allOf(RenderComponent::class, TransformComponent::class).get(), compareBy(
-        { entity -> entity[TransformComponent.mapper]?.z },
-        { entity -> entity[TransformComponent.mapper]?.position?.y }
-)) {
-    override fun update(deltaTime: Float) {
+                   private val box2DDebugRenderer: Box2DDebugRenderer) : SortedIteratingSystem(allOf(RenderComponent::class, TransformComponent::class).get(),
         // sort entities by z and y coordinate
         // z = background or foreground
         // y = y value of positionXY
+        compareBy(
+                { entity -> entity[TransformComponent.mapper]?.z },
+                { entity -> entity[TransformComponent.mapper]?.position?.y }
+        )) {
+    override fun update(deltaTime: Float) {
+        // always sort entities before rendering
         forceSort()
         // render entities
         gameViewPort.apply()
@@ -46,7 +48,8 @@ class RenderSystem(private val batch: SpriteBatch,
                     return
                 }
 
-                render.sprite.setBounds(transform.interpolatedPosition.x, transform.interpolatedPosition.y, transform.size.x, transform.size.y)
+                // adjust sprite position to render image centered around the entity's position
+                render.sprite.setPosition(transform.interpolatedPosition.x - render.sprite.width * 0.25f, transform.interpolatedPosition.y - 0.01f)
                 render.sprite.draw(batch)
             }
         }
