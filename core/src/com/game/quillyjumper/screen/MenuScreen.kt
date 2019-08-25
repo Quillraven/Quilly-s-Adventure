@@ -2,6 +2,8 @@ package com.game.quillyjumper.screen
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.game.quillyjumper.AudioManager
+import com.game.quillyjumper.MusicAssets
 import ktx.actors.onClick
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
@@ -10,8 +12,11 @@ import ktx.scene2d.label
 import ktx.scene2d.table
 
 class MenuScreen(private val game: KtxGame<KtxScreen>,
+                 private val audioManager: AudioManager,
                  private val stage: Stage) : KtxScreen {
     override fun show() {
+        audioManager.play(MusicAssets.MENU)
+
         //TODO beautify UI and extract it to separate UI package to avoid creating the same table multiple times
         stage.root.addActor(table {
             defaults().pad(5f, 5f, 5f, 5f)

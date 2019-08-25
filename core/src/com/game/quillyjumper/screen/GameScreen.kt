@@ -9,6 +9,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.game.quillyjumper.AudioManager
+import com.game.quillyjumper.MusicAssets
 import com.game.quillyjumper.ecs.component.MoveComponent
 import com.game.quillyjumper.ecs.component.MoveDirection
 import com.game.quillyjumper.ecs.component.PhysicComponent
@@ -26,6 +28,7 @@ import ktx.box2d.body
 
 class GameScreen(private val game: KtxGame<KtxScreen>,
                  private val gameEventManager: GameEventManager,
+                 private val audioManager: AudioManager,
                  private val world: World,
                  private val batch: SpriteBatch,
                  private val box2DDebugRenderer: Box2DDebugRenderer) : KtxScreen, InputListener {
@@ -38,6 +41,8 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
     private val player = engine.gameObject(world, 16f, 17f, speed = 4f)
 
     override fun show() {
+        audioManager.play(MusicAssets.LEVEL_1)
+
         gameEventManager.addInputListener(this)
 
         // TODO remove testing stuff

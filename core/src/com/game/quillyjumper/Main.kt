@@ -33,6 +33,7 @@ class Main : KtxGame<KtxScreen>() {
         ctx.register {
             bindSingleton(SpriteBatch())
             bindSingleton(AssetManager())
+            bindSingleton(AudioManager(ctx.inject()))
             bindSingleton(GameEventManager())
             bindSingleton(Stage(ScreenViewport(), ctx.inject<SpriteBatch>()))
             bindSingleton(createSKin())
@@ -46,7 +47,7 @@ class Main : KtxGame<KtxScreen>() {
         Scene2DSkin.defaultSkin = ctx.inject()
 
         // initial screen is the loading screen which is loading all assets for the game
-        addScreen(LoadingScreen(this, ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject()))
+        addScreen(LoadingScreen(this, ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject()))
         setScreen<LoadingScreen>()
     }
 
