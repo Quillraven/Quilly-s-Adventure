@@ -1,5 +1,6 @@
 package com.game.quillyjumper.input
 
+import com.game.quillyjumper.ecs.component.JumpDirection
 import com.game.quillyjumper.ecs.component.MoveDirection
 
 enum class InputKey {
@@ -28,5 +29,13 @@ class InputController : InputListener {
                 keyState[InputKey.MoveRight.ordinal] = true
             }
         }
+    }
+
+    override fun jump(direction: JumpDirection) {
+        when (direction) {
+            JumpDirection.JUMPING -> keyState[InputKey.Jump.ordinal] = true
+            else -> keyState[InputKey.Jump.ordinal] = false
+        }
+
     }
 }

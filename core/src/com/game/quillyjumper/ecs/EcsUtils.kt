@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.UNIT_SCALE
-import com.game.quillyjumper.ecs.component.MoveComponent
-import com.game.quillyjumper.ecs.component.PhysicComponent
-import com.game.quillyjumper.ecs.component.RenderComponent
-import com.game.quillyjumper.ecs.component.TransformComponent
+import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.entity
 import ktx.box2d.body
 
@@ -33,6 +30,7 @@ fun Engine.gameObject(world: World,
             body = world.body(bodyType) {
                 position.set(posX + width * 0.5f, posY + height * 0.5f)
                 userData = this@entity.entity
+                //TODO update to newer LibKTX version once it is available to get rid of the memory leak
                 box(width, height, PhysicComponent.tmpVec2.set(collBodyOffsetX, collBodyOffsetY))
             }
         }
@@ -40,6 +38,8 @@ fun Engine.gameObject(world: World,
         with<MoveComponent> {
             maxSpeed = speed
         }
+        // jump
+        with<JumpComponent>()
         // render
         with<RenderComponent> {
             sprite.apply {

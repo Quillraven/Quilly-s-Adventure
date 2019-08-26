@@ -6,9 +6,10 @@
 <node COLOR="#0033ff" CREATED="1566756247602" ID="ID_1285952926" MODIFIED="1566756911183" POSITION="right" TEXT="ToDo">
 <edge STYLE="sharp_bezier" WIDTH="8"/>
 <font NAME="SansSerif" SIZE="18"/>
-<node COLOR="#00b439" CREATED="1566756275724" ID="ID_1120160653" MODIFIED="1566756286976" TEXT="create KeyBoardController">
+<node COLOR="#00b439" CREATED="1566756275724" FOLDED="true" ID="ID_1120160653" MODIFIED="1566837819346" TEXT="create KeyBoardController">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1566756293584" ID="ID_1591613942" MODIFIED="1566756298585" TEXT="Inputmultiplexer needed">
 <font NAME="SansSerif" SIZE="14"/>
 <node COLOR="#111111" CREATED="1566756299068" ID="ID_895853694" MODIFIED="1566756300161" TEXT="Stage"/>
@@ -18,9 +19,10 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566756331927" ID="ID_1239642524" MODIFIED="1566756342459" TEXT="add entity jump logic">
+<node COLOR="#00b439" CREATED="1566756331927" FOLDED="true" ID="ID_1239642524" MODIFIED="1566843968223" TEXT="add entity jump logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1566757280300" ID="ID_838820531" MODIFIED="1566757287334" TEXT="JumpComponent">
 <font NAME="SansSerif" SIZE="14"/>
 <node COLOR="#111111" CREATED="1566757288310" ID="ID_878434856" MODIFIED="1566757291857" TEXT="JumpDirection">
@@ -33,7 +35,14 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566756719166" ID="ID_1588828756" MODIFIED="1566756728355" TEXT="add EntityTypeComponent">
+<node COLOR="#00b439" CREATED="1566756767831" ID="ID_880607672" MODIFIED="1566843974754" TEXT="add PlayerComponent">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1566756773026" ID="ID_1813433416" MODIFIED="1566756776104" TEXT="add it to player entity">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1566756719166" FOLDED="true" ID="ID_1588828756" MODIFIED="1566846142896" TEXT="add EntityTypeComponent">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1566756729593" ID="ID_1661171165" MODIFIED="1566756748157" TEXT="create floor and water as an entity">
@@ -48,14 +57,7 @@
 <node COLOR="#111111" CREATED="1566757165930" ID="ID_1411618001" MODIFIED="1566757169555" TEXT="other"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566756767831" ID="ID_880607672" MODIFIED="1566756772628" TEXT="add PlayerComponent">
-<edge STYLE="bezier" WIDTH="thin"/>
-<font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1566756773026" ID="ID_1813433416" MODIFIED="1566756776104" TEXT="add it to player entity">
-<font NAME="SansSerif" SIZE="14"/>
-</node>
-</node>
-<node COLOR="#00b439" CREATED="1566757357801" ID="ID_1678291687" MODIFIED="1566757368008" TEXT="add collision logic">
+<node COLOR="#00b439" CREATED="1566757357801" FOLDED="true" ID="ID_1678291687" MODIFIED="1566846143848" TEXT="add collision logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1566756777509" ID="ID_894238715" MODIFIED="1566757365664" TEXT="add CollisionComponent">
@@ -76,7 +78,7 @@
 </node>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566757369356" ID="ID_140819722" MODIFIED="1566757372231" TEXT="add animation logic">
+<node COLOR="#00b439" CREATED="1566757369356" FOLDED="true" ID="ID_140819722" MODIFIED="1566837934982" TEXT="add animation logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1566757591240" ID="ID_1571591329" MODIFIED="1566757706431" TEXT="add AnimationCfgs">
@@ -132,7 +134,7 @@
 </node>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566757847427" ID="ID_913038838" MODIFIED="1566757849942" TEXT="add state logic">
+<node COLOR="#00b439" CREATED="1566757847427" FOLDED="true" ID="ID_913038838" MODIFIED="1566837937758" TEXT="add state logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1566757850474" ID="ID_610321452" MODIFIED="1566757854053" TEXT="add StateComponent">
@@ -156,10 +158,17 @@
 </node>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566759034211" ID="ID_381483062" MODIFIED="1566759042181" TEXT="add sound for jump">
+<node COLOR="#00b439" CREATED="1566759034211" FOLDED="true" ID="ID_381483062" MODIFIED="1566837939764" TEXT="add sound for jump">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1566759043501" ID="ID_1322492472" MODIFIED="1566759047329" TEXT="play sound when jump">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1566846092724" ID="ID_1150117663" MODIFIED="1566846135196" TEXT="add DSL for gameObjects">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1566846100447" ID="ID_1838114735" MODIFIED="1566846128581" TEXT="to descriibe width/height/modelType/moveSpeed/jumpSpeed/entityType/...">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>

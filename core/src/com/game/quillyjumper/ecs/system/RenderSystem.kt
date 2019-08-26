@@ -8,8 +8,9 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.game.quillyjumper.ecs.component.RenderComponent
 import com.game.quillyjumper.ecs.component.TransformComponent
+import com.game.quillyjumper.ecs.component.render
+import com.game.quillyjumper.ecs.component.transform
 import ktx.ashley.allOf
-import ktx.ashley.get
 import ktx.graphics.use
 import ktx.log.logger
 
@@ -23,8 +24,8 @@ class RenderSystem(private val batch: SpriteBatch,
         // z = background or foreground
         // y = y value of positionXY
         compareBy(
-                { entity -> entity[TransformComponent.mapper]?.z },
-                { entity -> entity[TransformComponent.mapper]?.position?.y }
+                { entity -> entity.transform.z },
+                { entity -> entity.transform.position.y }
         )) {
     override fun update(deltaTime: Float) {
         // always sort entities before rendering
@@ -32,26 +33,22 @@ class RenderSystem(private val batch: SpriteBatch,
         // render entities
         gameViewPort.apply()
         batch.projectionMatrix = gameViewPort.camera.combined
-        batch.use {
-            super.update(deltaTime)
-        }
+        batch.use { super.update(deltaTime) }
         // debug render box2d
         box2DDebugRenderer.render(world, gameViewPort.camera.combined)
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        entity[RenderComponent.mapper]?.let { render ->
-            entity[TransformComponent.mapper]?.let { transform ->
-                // if the sprite does not have any texture then do not render it to avoid null pointer exceptions
-                if (render.sprite.texture == null) {
-                    LOG.error { "Entity is without a texture for rendering" }
-                    return
-                }
-
-                // adjust sprite position to render image centered around the entity's position
-                render.sprite.setPosition(transform.interpolatedPosition.x - render.sprite.width * 0.25f, transform.interpolatedPosition.y - 0.01f)
-                render.sprite.draw(batch)
+        // if the sprite does not have any texture then do not render it to avoid null pointer exceptions
+        entity.render.sprite.run {
+            if (texture == null) {
+                LOG.error { "Entity is without a texture for rendering" }
+                return
             }
+
+            // adjust sprite position to render image centered around the entity's position
+            setPosition(entity.transform.interpolatedPosition.x - width * 0.25f, entity.transform.interpolatedPosition.y - 0.01f)
+            draw(batch)
         }
     }
 }

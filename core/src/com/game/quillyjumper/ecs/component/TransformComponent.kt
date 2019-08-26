@@ -1,7 +1,9 @@
 package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
+import ktx.ashley.get
 import ktx.ashley.mapperFor
 
 class TransformComponent(var position: Vector2 = Vector2(0f, 0f),
@@ -13,3 +15,6 @@ class TransformComponent(var position: Vector2 = Vector2(0f, 0f),
         val mapper = mapperFor<TransformComponent>()
     }
 }
+
+val Entity.transform: TransformComponent
+    get() = this[TransformComponent.mapper]!!
