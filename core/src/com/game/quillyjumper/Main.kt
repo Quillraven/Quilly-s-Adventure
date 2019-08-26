@@ -54,7 +54,7 @@ class Main : KtxGame<KtxScreen>() {
         // we need a multiplexer to react on the following input events
         // UI widget --> Stage
         // keyboard --> InputProcessor (KeyboardEventDispatcher)
-        Gdx.input.inputProcessor = InputMultiplexer(ctx.inject<InputProcessor>(), ctx.inject<Stage>())
+        Gdx.input.inputProcessor = InputMultiplexer(ctx.inject(), ctx.inject<Stage>())
         // set our created skin as the default skin for scene2d stuff
         Scene2DSkin.defaultSkin = ctx.inject()
 
