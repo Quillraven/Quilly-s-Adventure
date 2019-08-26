@@ -2,6 +2,7 @@ package com.game.quillyjumper.event
 
 import com.badlogic.gdx.utils.Array
 import com.game.quillyjumper.ecs.component.MoveDirection
+import com.game.quillyjumper.input.InputListener
 
 class GameEventManager {
     private val inputListener = Array<InputListener>()

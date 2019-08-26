@@ -1,6 +1,8 @@
 package com.game.quillyjumper
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
@@ -10,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.game.quillyjumper.event.GameEventManager
+import com.game.quillyjumper.input.InputController
+import com.game.quillyjumper.input.KeyboardEventDispatcher
 import com.game.quillyjumper.screen.LoadingScreen
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
@@ -37,14 +41,20 @@ class Main : KtxGame<KtxScreen>() {
             bindSingleton(AssetManager())
             bindSingleton(AudioManager(ctx.inject()))
             bindSingleton(GameEventManager())
+            // register keyboard event dispatcher after we initiate the game event manager
+            // because the event dispatcher is using the game event manager to dispatch input events
+            bindSingleton<InputProcessor>(KeyboardEventDispatcher(ctx.inject()))
+            bindSingleton(InputController().apply { ctx.inject<GameEventManager>().addInputListener(this) })
             bindSingleton(Stage(ScreenViewport(), ctx.inject<SpriteBatch>()))
             bindSingleton(createSKin())
             bindSingleton(createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) })
             bindSingleton(Box2DDebugRenderer())
         }
 
-        // set stage as input processor to react when the user is interacting with UI widgets
-        Gdx.input.inputProcessor = ctx.inject<Stage>()
+        // we need a multiplexer to react on the following input events
+        // UI widget --> Stage
+        // keyboard --> InputProcessor (KeyboardEventDispatcher)
+        Gdx.input.inputProcessor = InputMultiplexer(ctx.inject<InputProcessor>(), ctx.inject<Stage>())
         // set our created skin as the default skin for scene2d stuff
         Scene2DSkin.defaultSkin = ctx.inject()
 

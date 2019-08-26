@@ -1,8 +1,6 @@
 package com.game.quillyjumper.screen
 
 import com.badlogic.ashley.core.PooledEngine
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -20,19 +18,19 @@ import com.game.quillyjumper.ecs.gameObject
 import com.game.quillyjumper.ecs.system.PhysicMoveSystem
 import com.game.quillyjumper.ecs.system.PhysicSystem
 import com.game.quillyjumper.ecs.system.RenderSystem
-import com.game.quillyjumper.event.GameEventManager
-import com.game.quillyjumper.event.InputListener
+import com.game.quillyjumper.input.InputController
+import com.game.quillyjumper.input.InputKey
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get
 import ktx.box2d.body
 
 class GameScreen(private val game: KtxGame<KtxScreen>,
-                 private val gameEventManager: GameEventManager,
+                 private val inputController: InputController,
                  private val audioManager: AudioManager,
                  private val world: World,
                  private val batch: SpriteBatch,
-                 private val box2DDebugRenderer: Box2DDebugRenderer) : KtxScreen, InputListener {
+                 private val box2DDebugRenderer: Box2DDebugRenderer) : KtxScreen {
     private val viewport = FitViewport(32f, 18f)
     private val engine = PooledEngine().apply {
         addSystem(PhysicMoveSystem())
@@ -43,8 +41,6 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
 
     override fun show() {
         audioManager.play(MusicAssets.LEVEL_1)
-
-        gameEventManager.addInputListener(this)
 
         // TODO remove testing stuff
         // floor
@@ -64,25 +60,21 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
         }
     }
 
-    override fun hide() {
-        gameEventManager.removeInputListener(this)
-    }
-
     override fun resize(width: Int, height: Int) {
         viewport.update(width, height, true)
     }
 
     override fun render(delta: Float) {
-        //TODO remove test stuff later on
-        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) gameEventManager.dispatchInputMoveEvent(MoveDirection.LEFT)
-        else if (Gdx.input.isKeyJustPressed(Input.Keys.D)) gameEventManager.dispatchInputMoveEvent(MoveDirection.RIGHT)
-        else if (!Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A)) gameEventManager.dispatchInputMoveEvent(MoveDirection.STOP)
+        //TODO remove teststuff
+        if (inputController.isPressed(InputKey.MoveRight)) {
+            player[MoveComponent.mapper]?.direction = MoveDirection.RIGHT
+        } else if (inputController.isPressed(InputKey.MoveLeft)) {
+            player[MoveComponent.mapper]?.direction = MoveDirection.LEFT
+        } else {
+            player[MoveComponent.mapper]?.direction = MoveDirection.STOP
+        }
 
         // update all ecs engine systems including the render system which draws stuff on the screen
         engine.update(delta)
-    }
-
-    override fun move(direction: MoveDirection) {
-        player[MoveComponent.mapper]?.direction = direction
     }
 }

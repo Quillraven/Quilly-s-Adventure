@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.MusicAssets
-import com.game.quillyjumper.event.GameEventManager
+import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.load
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
@@ -15,7 +15,7 @@ import ktx.app.KtxScreen
 class LoadingScreen(private val game: KtxGame<KtxScreen>,
                     private val stage: Stage,
                     private val assets: AssetManager,
-                    private val gameEventManager: GameEventManager,
+                    private val inputController: InputController,
                     private val audioManager: AudioManager,
                     private val world: World,
                     private val batch: SpriteBatch,
@@ -32,7 +32,7 @@ class LoadingScreen(private val game: KtxGame<KtxScreen>,
         if (assets.update()) {
             // all assets are loaded -> add remaining screens to our game now because
             // now they can access the different assets that they need
-            game.addScreen(GameScreen(game, gameEventManager, audioManager, world, batch, box2DDebugRenderer))
+            game.addScreen(GameScreen(game, inputController, audioManager, world, batch, box2DDebugRenderer))
             game.addScreen(MenuScreen(game, audioManager, stage))
             game.addScreen(EndScreen(game))
             // go to the menu screen once everything is loaded
