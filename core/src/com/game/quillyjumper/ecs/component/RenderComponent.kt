@@ -11,6 +11,3 @@ class RenderComponent(var sprite: Sprite = Sprite()) : Component {
         val mapper = mapperFor<RenderComponent>()
     }
 }
-
-val Entity.render: RenderComponent
-    get() = this[RenderComponent.mapper]!!

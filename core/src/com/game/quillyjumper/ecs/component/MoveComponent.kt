@@ -15,6 +15,3 @@ class MoveComponent(var direction: MoveDirection = MoveDirection.STOP,
         val mapper = mapperFor<MoveComponent>()
     }
 }
-
-val Entity.move: MoveComponent
-    get() = this[MoveComponent.mapper]!!

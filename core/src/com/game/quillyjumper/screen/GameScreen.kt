@@ -21,6 +21,7 @@ import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.InputKey
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
+import ktx.ashley.get
 import ktx.box2d.body
 
 class GameScreen(private val game: KtxGame<KtxScreen>,
@@ -67,14 +68,18 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
 
     override fun render(delta: Float) {
         //TODO remove teststuff
-        player.move.direction = when {
-            inputController.isPressed(InputKey.MoveRight) -> MoveDirection.RIGHT
-            inputController.isPressed(InputKey.MoveLeft) -> MoveDirection.LEFT
-            else -> MoveDirection.STOP
+        player[MoveComponent.mapper]?.let { move ->
+            move.direction = when {
+                inputController.isPressed(InputKey.MoveRight) -> MoveDirection.RIGHT
+                inputController.isPressed(InputKey.MoveLeft) -> MoveDirection.LEFT
+                else -> MoveDirection.STOP
+            }
         }
-        player.jump.direction = when {
-            inputController.isPressed(InputKey.Jump) -> JumpDirection.JUMPING
-            else -> JumpDirection.STOP
+        player[JumpComponent.mapper]?.let { jump ->
+            jump.direction = when {
+                inputController.isPressed(InputKey.Jump) -> JumpDirection.JUMPING
+                else -> JumpDirection.STOP
+            }
         }
 
         // update all ecs engine systems including the render system which draws stuff on the screen

@@ -21,6 +21,3 @@ class PhysicComponent : Component, Disposable {
         body.world.destroyBody(body)
     }
 }
-
-val Entity.physic: PhysicComponent
-    get() = this[PhysicComponent.mapper]!!

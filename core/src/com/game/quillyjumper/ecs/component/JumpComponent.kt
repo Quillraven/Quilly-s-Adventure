@@ -20,6 +20,3 @@ class JumpComponent(var direction: JumpDirection = JumpDirection.STOP,
         val mapper = mapperFor<JumpComponent>()
     }
 }
-
-val Entity.jump: JumpComponent
-    get() = this[JumpComponent.mapper]!!

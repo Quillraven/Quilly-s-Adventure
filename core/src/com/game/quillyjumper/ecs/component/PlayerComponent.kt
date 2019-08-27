@@ -10,6 +10,3 @@ class PlayerComponent : Component {
         val mapper = mapperFor<PlayerComponent>()
     }
 }
-
-val Entity.player: PlayerComponent
-    get() = this[PlayerComponent.mapper]!!
