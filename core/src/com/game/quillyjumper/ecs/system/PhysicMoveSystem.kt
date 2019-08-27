@@ -24,8 +24,14 @@ class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicCompo
             else -> min(entity.move.maxSpeed, max(0f, currentSpeed + acceleration))
         }
 
+        val bodySpeed = entity.physic.body.linearVelocity
+        if (entity.move.speed == 0f && bodySpeed.x == 0f) {
+            // entity does not want to move and is already still -> no need to do anything
+            return
+        }
+
         // apply impulse to physic body
-        impulse.set(entity.physic.body.mass * (entity.move.speed - entity.physic.body.linearVelocity.x), 0f)
+        impulse.set(entity.physic.body.mass * (entity.move.speed - bodySpeed.x), 0f)
         entity.physic.body.applyLinearImpulse(impulse, entity.physic.body.worldCenter, true)
     }
 }

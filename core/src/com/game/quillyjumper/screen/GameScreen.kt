@@ -49,6 +49,10 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
             position.set(16f, 1f)
             box(width = 30f, height = 1f)
         }
+        world.body(BodyDef.BodyType.StaticBody) {
+            position.set(18f, 2f)
+            box(width = 2f, height = 1f)
+        }
         // water
         world.body(BodyDef.BodyType.StaticBody) {
             position.set(16f, 12f)
@@ -68,10 +72,9 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
             inputController.isPressed(InputKey.MoveLeft) -> MoveDirection.LEFT
             else -> MoveDirection.STOP
         }
-        if (inputController.isPressed(InputKey.Jump)) {
-            player.jump.direction = JumpDirection.JUMPING
-        } else if (player.jump.direction == JumpDirection.JUMPING) {
-            player.jump.jumpTimer = player.jump.maxJumpTimer
+        player.jump.direction = when {
+            inputController.isPressed(InputKey.Jump) -> JumpDirection.JUMPING
+            else -> JumpDirection.STOP
         }
 
         // update all ecs engine systems including the render system which draws stuff on the screen
