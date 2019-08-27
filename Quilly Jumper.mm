@@ -67,12 +67,14 @@
 <node COLOR="#111111" CREATED="1566757165930" ID="ID_1411618001" MODIFIED="1566757169555" TEXT="other"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566757357801" ID="ID_1678291687" MODIFIED="1566846899803" TEXT="add collision logic">
+<node COLOR="#00b439" CREATED="1566757357801" FOLDED="true" ID="ID_1678291687" MODIFIED="1566930787670" TEXT="add collision logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1566756777509" ID="ID_894238715" MODIFIED="1566757365664" TEXT="add CollisionComponent">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1566756777509" ID="ID_894238715" MODIFIED="1566928156175" TEXT="add CollisionComponent">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1566756782955" ID="ID_835230966" MODIFIED="1566757365664" TEXT="stores list of entities">
 <font NAME="SansSerif" SIZE="12"/>
 </node>
@@ -80,15 +82,17 @@
 <font NAME="SansSerif" SIZE="12"/>
 </node>
 </node>
-<node COLOR="#990000" CREATED="1566756796152" ID="ID_1705175012" MODIFIED="1566757365680" TEXT="add PlayerCollisionSystem">
+<node COLOR="#990000" CREATED="1566756796152" ID="ID_1705175012" MODIFIED="1566928158442" TEXT="add PlayerCollisionSystem">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1566756809478" ID="ID_1225973656" MODIFIED="1566757365680" TEXT="log messages when colliding with a specific entity type">
 <font NAME="SansSerif" SIZE="12"/>
 </node>
 </node>
-<node COLOR="#990000" CREATED="1566846905194" ID="ID_1417362042" MODIFIED="1566846910315" TEXT="add ground sensor for jump system">
+<node COLOR="#990000" CREATED="1566846905194" ID="ID_1417362042" MODIFIED="1566930782541" TEXT="add ground sensor for jump system">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 </node>
 </node>
 <node COLOR="#00b439" CREATED="1566759034211" ID="ID_381483062" MODIFIED="1566846963647" TEXT="add sound for jump">

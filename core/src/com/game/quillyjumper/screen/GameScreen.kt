@@ -13,10 +13,7 @@ import com.game.quillyjumper.MusicAssets
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.gameObject
-import com.game.quillyjumper.ecs.system.PhysicJumpSystem
-import com.game.quillyjumper.ecs.system.PhysicMoveSystem
-import com.game.quillyjumper.ecs.system.PhysicSystem
-import com.game.quillyjumper.ecs.system.RenderSystem
+import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.InputKey
 import ktx.app.KtxGame
@@ -34,9 +31,15 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
         addSystem(PhysicMoveSystem())
         addSystem(PhysicJumpSystem())
         addSystem(PhysicSystem(world, this))
+        addSystem(PlayerCollisionSystem())
         addSystem(RenderSystem(batch, viewport, world, box2DDebugRenderer))
     }
-    private val player = engine.gameObject(EntityType.Player, world, 16f, 3f, textureRegion = TextureRegion(Texture("graphics/adventurer-idle-00.png")), width = 0.5f, height = 0.8f, speed = 4f, collBodyOffsetX = 4f * UNIT_SCALE).apply {
+    private val player = engine.gameObject(EntityType.Player,
+            world, 16f, 3f,
+            textureRegion = TextureRegion(Texture("graphics/adventurer-idle-00.png")),
+            width = 0.5f, height = 0.8f,
+            speed = 4f, collBodyOffsetX = 4f * UNIT_SCALE,
+            createCharacterSensors = true).apply {
         add(engine.createComponent(PlayerComponent::class.java))
     }
 

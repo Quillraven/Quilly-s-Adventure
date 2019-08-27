@@ -27,6 +27,7 @@ import ktx.style.label
 import ktx.style.skin
 
 const val UNIT_SCALE = 1 / 32f
+const val FIXTURE_TYPE_FOOT_SENSOR = 2
 
 class Main : KtxGame<KtxScreen>() {
     private val ctx = Context()
