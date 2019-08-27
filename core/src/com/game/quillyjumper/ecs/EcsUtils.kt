@@ -10,12 +10,14 @@ import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.entity
 import ktx.box2d.body
 
-fun Engine.gameObject(world: World,
-                      textureRegion: TextureRegion,
+fun Engine.gameObject(type: EntityType,
+                      world: World,
                       posX: Float, posY: Float,
                       width: Float = 1f, height: Float = 1f,
-                      speed: Float = 1f,
+                      textureRegion: TextureRegion? = null,
+                      speed: Float = 0f,
                       bodyType: BodyDef.BodyType = BodyDef.BodyType.DynamicBody,
+                      isSensor: Boolean = false,
                       collBodyOffsetX: Float = 0f, collBodyOffsetY: Float = 0f): Entity {
     return this.entity {
         // transform
@@ -31,24 +33,34 @@ fun Engine.gameObject(world: World,
                 position.set(posX + width * 0.5f, posY + height * 0.5f)
                 userData = this@entity.entity
                 //TODO update to newer LibKTX version once it is available to get rid of the memory leak
-                box(width, height, PhysicComponent.tmpVec2.set(collBodyOffsetX, collBodyOffsetY))
+                box(width, height, PhysicComponent.tmpVec2.set(collBodyOffsetX, collBodyOffsetY)) {
+                    this.isSensor = isSensor
+                }
             }
         }
-        // move
-        with<MoveComponent> {
-            maxSpeed = speed
+        if (speed > 0) {
+            // move
+            with<MoveComponent> {
+                maxSpeed = speed
+            }
         }
         // jump
         with<JumpComponent>()
-        // render
-        with<RenderComponent> {
-            sprite.apply {
-                texture = textureRegion.texture
-                setRegion(0, 0, texture.width, texture.height)
-                // keep aspect ratio of original texture and scale it to fit into the world units
-                setBounds(posX, posY, texture.width * UNIT_SCALE, texture.height * UNIT_SCALE)
-                setOriginCenter()
+        if (textureRegion != null) {
+            // render
+            with<RenderComponent> {
+                sprite.apply {
+                    texture = textureRegion.texture
+                    setRegion(0, 0, texture.width, texture.height)
+                    // keep aspect ratio of original texture and scale it to fit into the world units
+                    setBounds(posX, posY, texture.width * UNIT_SCALE, texture.height * UNIT_SCALE)
+                    setOriginCenter()
+                }
             }
+        }
+        // type of entity
+        with<EntityTypeComponent> {
+            this.type = type
         }
     }
 }

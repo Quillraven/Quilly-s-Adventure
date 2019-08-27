@@ -51,9 +51,10 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566756719166" ID="ID_1588828756" MODIFIED="1566846868481" TEXT="add EntityTypeComponent">
+<node COLOR="#00b439" CREATED="1566756719166" FOLDED="true" ID="ID_1588828756" MODIFIED="1566927332888" TEXT="add EntityTypeComponent">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1566756729593" ID="ID_1661171165" MODIFIED="1566756748157" TEXT="create floor and water as an entity">
 <font NAME="SansSerif" SIZE="14"/>
 </node>

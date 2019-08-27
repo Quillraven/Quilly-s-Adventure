@@ -22,7 +22,6 @@ import com.game.quillyjumper.input.InputKey
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get
-import ktx.box2d.body
 
 class GameScreen(private val game: KtxGame<KtxScreen>,
                  private val inputController: InputController,
@@ -37,7 +36,7 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
         addSystem(PhysicSystem(world, this))
         addSystem(RenderSystem(batch, viewport, world, box2DDebugRenderer))
     }
-    private val player = engine.gameObject(world, TextureRegion(Texture("graphics/adventurer-idle-00.png")), 16f, 3f, width = 0.5f, height = 0.8f, speed = 4f, collBodyOffsetX = 4f * UNIT_SCALE).apply {
+    private val player = engine.gameObject(EntityType.Player, world, 16f, 3f, textureRegion = TextureRegion(Texture("graphics/adventurer-idle-00.png")), width = 0.5f, height = 0.8f, speed = 4f, collBodyOffsetX = 4f * UNIT_SCALE).apply {
         add(engine.createComponent(PlayerComponent::class.java))
     }
 
@@ -46,20 +45,14 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
 
         // TODO remove testing stuff
         // floor
-        world.body(BodyDef.BodyType.StaticBody) {
-            position.set(16f, 1f)
-            box(width = 30f, height = 1f)
-        }
-        world.body(BodyDef.BodyType.StaticBody) {
-            position.set(18f, 2f)
-            box(width = 2f, height = 1f)
-        }
+        engine.gameObject(EntityType.Scenery, world, 1f, 1f, width = 30f, height = 1f, bodyType = BodyDef.BodyType.StaticBody)
+        engine.gameObject(EntityType.Scenery, world, 18f, 2f, width = 2f, height = 1f, bodyType = BodyDef.BodyType.StaticBody)
         // water
-        world.body(BodyDef.BodyType.StaticBody) {
-            position.set(16f, 12f)
-            userData = "WATER"
-            box(width = 20f, height = 4f).isSensor = true
-        }
+        engine.gameObject(EntityType.Scenery, world, 2f, 12f, width = 28f, height = 4f, bodyType = BodyDef.BodyType.StaticBody, isSensor = true)
+        // enemy
+        engine.gameObject(EntityType.Enemy, world, 14f, 3f, width = 1f, height = 1f)
+        // item
+        engine.gameObject(EntityType.Item, world, 18.5f, 4f, width = 1f, height = 1f, bodyType = BodyDef.BodyType.StaticBody, isSensor = true)
     }
 
     override fun resize(width: Int, height: Int) {
