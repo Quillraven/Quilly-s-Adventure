@@ -13,6 +13,7 @@ class KeyboardEventDispatcher(private val gameEventManager: GameEventManager) : 
             Input.Keys.A -> gameEventManager.dispatchInputMoveEvent(MoveDirection.LEFT)
             Input.Keys.D -> gameEventManager.dispatchInputMoveEvent(MoveDirection.RIGHT)
             Input.Keys.SPACE -> gameEventManager.dispatchInputJumpEvent(JumpDirection.JUMPING)
+            Input.Keys.ESCAPE -> gameEventManager.dispatchInputExitEvent()
         }
         return true
     }

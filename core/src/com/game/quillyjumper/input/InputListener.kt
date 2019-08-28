@@ -4,7 +4,9 @@ import com.game.quillyjumper.ecs.component.JumpDirection
 import com.game.quillyjumper.ecs.component.MoveDirection
 
 interface InputListener {
-    fun move(direction: MoveDirection)
+    fun move(direction: MoveDirection) {}
 
-    fun jump(direction: JumpDirection)
+    fun jump(direction: JumpDirection) {}
+
+    fun exit() {}
 }

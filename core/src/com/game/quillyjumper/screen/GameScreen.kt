@@ -14,22 +14,25 @@ import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.gameObject
 import com.game.quillyjumper.ecs.system.*
+import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.InputKey
+import com.game.quillyjumper.input.InputListener
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get
 
 class GameScreen(private val game: KtxGame<KtxScreen>,
+                 private val gameEventManager: GameEventManager,
                  private val inputController: InputController,
                  private val audioManager: AudioManager,
                  private val world: World,
                  private val batch: SpriteBatch,
-                 private val box2DDebugRenderer: Box2DDebugRenderer) : KtxScreen {
+                 private val box2DDebugRenderer: Box2DDebugRenderer) : KtxScreen, InputListener {
     private val viewport = FitViewport(32f, 18f)
     private val engine = PooledEngine().apply {
         addSystem(PhysicMoveSystem())
-        addSystem(PhysicJumpSystem())
+        addSystem(PhysicJumpSystem(audioManager))
         addSystem(PhysicSystem(world, this))
         addSystem(PlayerCollisionSystem())
         addSystem(RenderSystem(batch, viewport, world, box2DDebugRenderer))
@@ -44,6 +47,9 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
     }
 
     override fun show() {
+        // add game screen as input listener to react when the player wants to quit the game (=exit key pressed)
+        gameEventManager.addInputListener(this)
+
         audioManager.play(MusicAssets.LEVEL_1)
 
         // TODO remove testing stuff
@@ -56,6 +62,10 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
         engine.gameObject(EntityType.Enemy, world, 14f, 3f, width = 1f, height = 1f)
         // item
         engine.gameObject(EntityType.Item, world, 18.5f, 4f, width = 1f, height = 1f, bodyType = BodyDef.BodyType.StaticBody, isSensor = true)
+    }
+
+    override fun hide() {
+        gameEventManager.removeInputListener(this)
     }
 
     override fun resize(width: Int, height: Int) {
@@ -80,5 +90,10 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
 
         // update all ecs engine systems including the render system which draws stuff on the screen
         engine.update(delta)
+    }
+
+    override fun exit() {
+        // player pressed exit key -> go back to menu
+        game.setScreen<MenuScreen>()
     }
 }

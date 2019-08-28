@@ -15,4 +15,6 @@ class GameEventManager {
     fun dispatchInputMoveEvent(direction: MoveDirection) = inputListener.forEach { it.move(direction) }
 
     fun dispatchInputJumpEvent(direction: JumpDirection) = inputListener.forEach { it.jump(direction) }
+
+    fun dispatchInputExitEvent() = inputListener.forEach { it.exit() }
 }

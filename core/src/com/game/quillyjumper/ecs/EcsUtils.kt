@@ -3,7 +3,6 @@ package com.game.quillyjumper.ecs
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.FIXTURE_TYPE_FOOT_SENSOR
@@ -14,7 +13,7 @@ import ktx.box2d.body
 
 fun Engine.gameObject(type: EntityType,
                       world: World,
-                      posX: Float, posY: Float,
+                      posX: Float, posY: Float, z: Int = 0,
                       width: Float = 1f, height: Float = 1f,
                       textureRegion: TextureRegion? = null,
                       speed: Float = 0f,
@@ -26,6 +25,7 @@ fun Engine.gameObject(type: EntityType,
         // transform
         with<TransformComponent> {
             position.set(posX, posY)
+            this.z = z
             prevPosition.set(position)
             interpolatedPosition.set(position)
             size.set(width, height)
@@ -42,7 +42,7 @@ fun Engine.gameObject(type: EntityType,
                 }
                 if (createCharacterSensors) {
                     // ground sensor to detect if entity can jump
-                    box(width * 0.5f, 0.25f, Vector2(width * 0.25f, -height * 0.5f)) {
+                    box(width * 0.5f, 0.25f, PhysicComponent.tmpVec2.set(width * 0.25f, -height * 0.5f)) {
                         userData = FIXTURE_TYPE_FOOT_SENSOR
                         this.isSensor = true
                     }
