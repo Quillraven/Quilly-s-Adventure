@@ -5,7 +5,7 @@ import com.badlogic.ashley.systems.IntervalIteratingSystem
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.game.quillyjumper.AudioManager
-import com.game.quillyjumper.SoundAssets
+import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.ecs.component.CollisionComponent
 import com.game.quillyjumper.ecs.component.JumpComponent
 import com.game.quillyjumper.ecs.component.JumpDirection
@@ -21,7 +21,10 @@ private val JUMP_FORCE = Vector2(0f, 40f)
  * 1) Jumping in midair when the entity is changing from moving upwards to downwards
  * 2) Jumping again and again in a very short period of time which could then result in a "super jump" due to the different forces applied to the entity
  */
-class PhysicJumpSystem(private val audioManager: AudioManager) : IntervalIteratingSystem(allOf(JumpComponent::class, PhysicComponent::class, CollisionComponent::class).get(), 1 / 60f) {
+class PhysicJumpSystem(private val audioManager: AudioManager) : IntervalIteratingSystem(
+    allOf(JumpComponent::class, PhysicComponent::class, CollisionComponent::class).get(),
+    1 / 60f
+) {
     override fun processEntity(entity: Entity) {
         entity[PhysicComponent.mapper]?.let { physic ->
             entity[JumpComponent.mapper]?.let { jump ->

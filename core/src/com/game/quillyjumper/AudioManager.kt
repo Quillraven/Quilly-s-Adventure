@@ -2,6 +2,9 @@ package com.game.quillyjumper
 
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.audio.Music
+import com.game.quillyjumper.assets.MusicAssets
+import com.game.quillyjumper.assets.SoundAssets
+import com.game.quillyjumper.assets.get
 
 class AudioManager(private val assets: AssetManager) {
     private var music: Music? = null

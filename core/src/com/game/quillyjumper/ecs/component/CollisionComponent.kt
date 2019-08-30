@@ -5,8 +5,10 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import ktx.ashley.mapperFor
 
-class CollisionComponent(val entities: Array<Entity> = Array(),
-                         var numGroundContacts: Int = 0) : Component {
+class CollisionComponent(
+    val entities: Array<Entity> = Array(),
+    var numGroundContacts: Int = 0
+) : Component {
     companion object {
         val mapper = mapperFor<CollisionComponent>()
     }

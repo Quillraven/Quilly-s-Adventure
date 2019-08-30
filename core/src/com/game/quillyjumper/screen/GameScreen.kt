@@ -7,11 +7,15 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.FitViewport
-import com.game.quillyjumper.*
+import com.game.quillyjumper.AudioManager
+import com.game.quillyjumper.UNIT_SCALE
+import com.game.quillyjumper.assets.MusicAssets
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.gameObject
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
+import com.game.quillyjumper.graphics.AnimationType
+import com.game.quillyjumper.graphics.ModelType
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.InputKey
 import com.game.quillyjumper.input.InputListener
@@ -19,29 +23,37 @@ import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get
 
-class GameScreen(private val game: KtxGame<KtxScreen>,
-                 private val assets: AssetManager,
-                 private val gameEventManager: GameEventManager,
-                 private val inputController: InputController,
-                 private val audioManager: AudioManager,
-                 private val world: World,
-                 private val batch: SpriteBatch,
-                 private val box2DDebugRenderer: Box2DDebugRenderer) : KtxScreen, InputListener {
+class GameScreen(
+    private val game: KtxGame<KtxScreen>,
+    private val assets: AssetManager,
+    private val gameEventManager: GameEventManager,
+    private val inputController: InputController,
+    private val audioManager: AudioManager,
+    private val world: World,
+    private val batch: SpriteBatch,
+    private val box2DDebugRenderer: Box2DDebugRenderer
+) : KtxScreen, InputListener {
     private val viewport = FitViewport(32f, 18f)
     private val engine = PooledEngine().apply {
         addSystem(PhysicMoveSystem())
         addSystem(PhysicJumpSystem(audioManager))
         addSystem(PhysicSystem(world, this))
         addSystem(PlayerCollisionSystem())
+        addSystem(AnimationSystem(assets))
         addSystem(RenderSystem(batch, viewport, world, box2DDebugRenderer))
     }
-    private val player = engine.gameObject(EntityType.Player,
-            world, 16f, 3f,
-            textureRegion = assets[TextureAtlasAssets.GAME_OBJECTS].findRegion("player/idle/adventurer-idle-00"),
-            width = 0.5f, height = 0.8f,
-            speed = 4f, collBodyOffsetX = 4f * UNIT_SCALE,
-            createCharacterSensors = true).apply {
+    private val player = engine.gameObject(
+        EntityType.Player,
+        world, 16f, 3f,
+        width = 0.5f, height = 0.8f,
+        speed = 4f, collBodyOffsetX = 4f * UNIT_SCALE,
+        createCharacterSensors = true
+    ).apply {
         add(engine.createComponent(PlayerComponent::class.java))
+        this[AnimationComponent.mapper]?.apply {
+            modelType = ModelType.PLAYER
+            animationType = AnimationType.RUN
+        }
     }
 
     override fun show() {
@@ -52,14 +64,48 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
 
         // TODO remove testing stuff
         // floor
-        engine.gameObject(EntityType.Scenery, world, 1f, 1f, width = 30f, height = 1f, bodyType = BodyDef.BodyType.StaticBody)
-        engine.gameObject(EntityType.Scenery, world, 18f, 2f, width = 2f, height = 1f, bodyType = BodyDef.BodyType.StaticBody)
+        engine.gameObject(
+            EntityType.Scenery,
+            world,
+            1f,
+            1f,
+            width = 30f,
+            height = 1f,
+            bodyType = BodyDef.BodyType.StaticBody
+        )
+        engine.gameObject(
+            EntityType.Scenery,
+            world,
+            18f,
+            2f,
+            width = 2f,
+            height = 1f,
+            bodyType = BodyDef.BodyType.StaticBody
+        )
         // water
-        engine.gameObject(EntityType.Scenery, world, 2f, 12f, width = 28f, height = 4f, bodyType = BodyDef.BodyType.StaticBody, isSensor = true)
+        engine.gameObject(
+            EntityType.Scenery,
+            world,
+            2f,
+            12f,
+            width = 28f,
+            height = 4f,
+            bodyType = BodyDef.BodyType.StaticBody,
+            isSensor = true
+        )
         // enemy
         engine.gameObject(EntityType.Enemy, world, 14f, 3f, width = 1f, height = 1f)
         // item
-        engine.gameObject(EntityType.Item, world, 18.5f, 4f, width = 1f, height = 1f, bodyType = BodyDef.BodyType.StaticBody, isSensor = true)
+        engine.gameObject(
+            EntityType.Item,
+            world,
+            18.5f,
+            4f,
+            width = 1f,
+            height = 1f,
+            bodyType = BodyDef.BodyType.StaticBody,
+            isSensor = true
+        )
     }
 
     override fun hide() {

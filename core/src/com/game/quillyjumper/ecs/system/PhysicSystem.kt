@@ -9,9 +9,11 @@ import ktx.ashley.allOf
 import ktx.ashley.get
 import kotlin.math.min
 
-class PhysicSystem(private val world: World,
-                   ecsEngine: Engine,
-                   private val interval: Float = 1 / 60f) : EntitySystem() {
+class PhysicSystem(
+    private val world: World,
+    ecsEngine: Engine,
+    private val interval: Float = 1 / 60f
+) : EntitySystem() {
     private var entities = ecsEngine.getEntitiesFor(allOf(PhysicComponent::class, TransformComponent::class).get())
     private var accumulator = 0f
 
@@ -24,7 +26,10 @@ class PhysicSystem(private val world: World,
             entities.forEach { entity ->
                 entity[TransformComponent.mapper]?.let { transform ->
                     entity[PhysicComponent.mapper]?.let { physic ->
-                        transform.prevPosition.set(physic.body.position.x - transform.size.x * 0.5f, physic.body.position.y - transform.size.y * 0.5f)
+                        transform.prevPosition.set(
+                            physic.body.position.x - transform.size.x * 0.5f,
+                            physic.body.position.y - transform.size.y * 0.5f
+                        )
                     }
                 }
             }
@@ -40,7 +45,10 @@ class PhysicSystem(private val world: World,
         entities.forEach { entity ->
             entity[TransformComponent.mapper]?.let { transform ->
                 entity[PhysicComponent.mapper]?.let { physic ->
-                    transform.position.set(physic.body.position.x - transform.size.x * 0.5f, physic.body.position.y - transform.size.y * 0.5f)
+                    transform.position.set(
+                        physic.body.position.x - transform.size.x * 0.5f,
+                        physic.body.position.y - transform.size.y * 0.5f
+                    )
                     transform.interpolatedPosition.set(transform.prevPosition.lerp(transform.position, alpha))
                 }
             }

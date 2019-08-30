@@ -6,21 +6,22 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.FIXTURE_TYPE_FOOT_SENSOR
-import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.entity
 import ktx.box2d.body
 
-fun Engine.gameObject(type: EntityType,
-                      world: World,
-                      posX: Float, posY: Float, z: Int = 0,
-                      width: Float = 1f, height: Float = 1f,
-                      textureRegion: TextureRegion? = null,
-                      speed: Float = 0f,
-                      bodyType: BodyDef.BodyType = BodyDef.BodyType.DynamicBody,
-                      isSensor: Boolean = false,
-                      collBodyOffsetX: Float = 0f, collBodyOffsetY: Float = 0f,
-                      createCharacterSensors: Boolean = false): Entity {
+fun Engine.gameObject(
+    type: EntityType,
+    world: World,
+    posX: Float, posY: Float, z: Int = 0,
+    width: Float = 1f, height: Float = 1f,
+    textureRegion: TextureRegion? = null,
+    speed: Float = 0f,
+    bodyType: BodyDef.BodyType = BodyDef.BodyType.DynamicBody,
+    isSensor: Boolean = false,
+    collBodyOffsetX: Float = 0f, collBodyOffsetY: Float = 0f,
+    createCharacterSensors: Boolean = false
+): Entity {
     return this.entity {
         // transform
         with<TransformComponent> {
@@ -57,23 +58,15 @@ fun Engine.gameObject(type: EntityType,
         }
         // jump
         with<JumpComponent>()
-        if (textureRegion != null) {
-            // render
-            with<RenderComponent> {
-                sprite.apply {
-                    texture = textureRegion.texture
-                    setRegion(textureRegion)
-                    // keep aspect ratio of original texture and scale it to fit into the world units
-                    setBounds(posX, posY, textureRegion.regionWidth * UNIT_SCALE, textureRegion.regionHeight * UNIT_SCALE)
-                    setOriginCenter()
-                }
-            }
-        }
+        // render
+        with<RenderComponent>()
         // type of entity
         with<EntityTypeComponent> {
             this.type = type
         }
         // collision to store colliding entities
         with<CollisionComponent>()
+        // animation
+        with<AnimationComponent>()
     }
 }

@@ -11,115 +11,115 @@ error
   orig: 32, 32
   offset: 0, 0
   index: -1
-player/fall/adventurer-fall-00
+player/fall
   rotate: false
   xy: 56, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/fall/adventurer-fall-01
+  index: 0
+player/fall
   rotate: false
   xy: 110, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/idle/adventurer-idle-00
+  index: 1
+player/idle
   rotate: false
   xy: 164, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/idle/adventurer-idle-01
+  index: 0
+player/idle
   rotate: false
   xy: 218, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/idle/adventurer-idle-02
+  index: 1
+player/idle
   rotate: false
   xy: 272, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/idle/adventurer-idle-03
+  index: 2
+player/idle
   rotate: false
   xy: 326, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/jump/adventurer-jump-00
+  index: 3
+player/jump
   rotate: false
   xy: 380, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/jump/adventurer-jump-01
+  index: 0
+player/jump
   rotate: false
   xy: 434, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/jump/adventurer-jump-02
+  index: 1
+player/jump
   rotate: false
   xy: 488, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/jump/adventurer-jump-03
+  index: 2
+player/jump
   rotate: false
   xy: 542, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/run/adventurer-run-00
+  index: 3
+player/run
   rotate: false
   xy: 596, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/run/adventurer-run-01
+  index: 0
+player/run
   rotate: false
   xy: 650, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/run/adventurer-run-02
+  index: 1
+player/run
   rotate: false
   xy: 704, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/run/adventurer-run-03
+  index: 2
+player/run
   rotate: false
   xy: 758, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/run/adventurer-run-04
+  index: 3
+player/run
   rotate: false
   xy: 812, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
-player/run/adventurer-run-05
+  index: 4
+player/run
   rotate: false
   xy: 866, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: -1
+  index: 5

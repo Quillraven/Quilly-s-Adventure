@@ -1,4 +1,4 @@
-package com.game.quillyjumper
+package com.game.quillyjumper.assets
 
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.audio.Music

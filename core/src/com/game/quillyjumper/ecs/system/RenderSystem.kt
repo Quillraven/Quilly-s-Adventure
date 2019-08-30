@@ -15,12 +15,14 @@ import ktx.log.logger
 
 private val LOG = logger<RenderSystem>()
 
-class RenderSystem(private val batch: SpriteBatch,
-                   private val gameViewPort: Viewport,
-                   private val world: World,
-                   private val box2DDebugRenderer: Box2DDebugRenderer) : SortedIteratingSystem(
-        allOf(RenderComponent::class, TransformComponent::class).get(),
-        compareBy { entity -> entity[TransformComponent.mapper] }
+class RenderSystem(
+    private val batch: SpriteBatch,
+    private val gameViewPort: Viewport,
+    private val world: World,
+    private val box2DDebugRenderer: Box2DDebugRenderer
+) : SortedIteratingSystem(
+    allOf(RenderComponent::class, TransformComponent::class).get(),
+    compareBy { entity -> entity[TransformComponent.mapper] }
 ) {
     override fun update(deltaTime: Float) {
         // always sort entities before rendering
@@ -44,7 +46,10 @@ class RenderSystem(private val batch: SpriteBatch,
                     }
 
                     // adjust sprite position to render image centered around the entity's position
-                    setPosition(transform.interpolatedPosition.x - width * 0.25f, transform.interpolatedPosition.y - 0.01f)
+                    setPosition(
+                        transform.interpolatedPosition.x - width * 0.25f,
+                        transform.interpolatedPosition.y - 0.01f
+                    )
                     draw(batch)
                 }
             }

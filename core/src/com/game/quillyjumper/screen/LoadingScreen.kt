@@ -5,21 +5,28 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.game.quillyjumper.*
+import com.game.quillyjumper.AudioManager
+import com.game.quillyjumper.assets.MusicAssets
+import com.game.quillyjumper.assets.SoundAssets
+import com.game.quillyjumper.assets.TextureAtlasAssets
+import com.game.quillyjumper.assets.load
 import com.game.quillyjumper.event.GameEventManager
+import com.game.quillyjumper.graphics.loadAllAnimations
 import com.game.quillyjumper.input.InputController
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 
-class LoadingScreen(private val game: KtxGame<KtxScreen>,
-                    private val stage: Stage,
-                    private val assets: AssetManager,
-                    private val gameEventManager: GameEventManager,
-                    private val inputController: InputController,
-                    private val audioManager: AudioManager,
-                    private val world: World,
-                    private val batch: SpriteBatch,
-                    private val box2DDebugRenderer: Box2DDebugRenderer) : KtxScreen {
+class LoadingScreen(
+    private val game: KtxGame<KtxScreen>,
+    private val stage: Stage,
+    private val assets: AssetManager,
+    private val gameEventManager: GameEventManager,
+    private val inputController: InputController,
+    private val audioManager: AudioManager,
+    private val world: World,
+    private val batch: SpriteBatch,
+    private val box2DDebugRenderer: Box2DDebugRenderer
+) : KtxScreen {
     override fun show() {
         MusicAssets.values().forEach { assets.load(it) }
         SoundAssets.values().forEach { assets.load(it) }
@@ -32,9 +39,23 @@ class LoadingScreen(private val game: KtxGame<KtxScreen>,
 
     override fun render(delta: Float) {
         if (assets.update()) {
+            // load all animations
+            assets.loadAllAnimations()
+
             // all assets are loaded -> add remaining screens to our game now because
             // now they can access the different assets that they need
-            game.addScreen(GameScreen(game, assets, gameEventManager, inputController, audioManager, world, batch, box2DDebugRenderer))
+            game.addScreen(
+                GameScreen(
+                    game,
+                    assets,
+                    gameEventManager,
+                    inputController,
+                    audioManager,
+                    world,
+                    batch,
+                    box2DDebugRenderer
+                )
+            )
             game.addScreen(MenuScreen(game, audioManager, stage))
             game.addScreen(EndScreen(game))
             // go to the menu screen once everything is loaded
