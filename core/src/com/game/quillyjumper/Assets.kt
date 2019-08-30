@@ -3,6 +3,7 @@ package com.game.quillyjumper
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import ktx.assets.getAsset
 import ktx.assets.load
 
@@ -22,3 +23,11 @@ enum class SoundAssets(val filePath: String, val volumeScale: Float = 1f) {
 
 fun AssetManager.load(asset: SoundAssets) = load<Sound>(asset.filePath)
 operator fun AssetManager.get(asset: SoundAssets) = this.getAsset<Sound>(asset.filePath)
+
+// texture atlas
+enum class TextureAtlasAssets(val filePath: String) {
+    GAME_OBJECTS("graphics/gameObjects.atlas")
+}
+
+fun AssetManager.load(asset: TextureAtlasAssets) = load<TextureAtlas>(asset.filePath)
+operator fun AssetManager.get(asset: TextureAtlasAssets) = this.getAsset<TextureAtlas>(asset.filePath)

@@ -1,16 +1,13 @@
 package com.game.quillyjumper.screen
 
 import com.badlogic.ashley.core.PooledEngine
-import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.FitViewport
-import com.game.quillyjumper.AudioManager
-import com.game.quillyjumper.MusicAssets
-import com.game.quillyjumper.UNIT_SCALE
+import com.game.quillyjumper.*
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.gameObject
 import com.game.quillyjumper.ecs.system.*
@@ -23,6 +20,7 @@ import ktx.app.KtxScreen
 import ktx.ashley.get
 
 class GameScreen(private val game: KtxGame<KtxScreen>,
+                 private val assets: AssetManager,
                  private val gameEventManager: GameEventManager,
                  private val inputController: InputController,
                  private val audioManager: AudioManager,
@@ -39,7 +37,7 @@ class GameScreen(private val game: KtxGame<KtxScreen>,
     }
     private val player = engine.gameObject(EntityType.Player,
             world, 16f, 3f,
-            textureRegion = TextureRegion(Texture("graphics/adventurer-idle-00.png")),
+            textureRegion = assets[TextureAtlasAssets.GAME_OBJECTS].findRegion("player/idle/adventurer-idle-00"),
             width = 0.5f, height = 0.8f,
             speed = 4f, collBodyOffsetX = 4f * UNIT_SCALE,
             createCharacterSensors = true).apply {

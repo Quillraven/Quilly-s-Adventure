@@ -62,9 +62,9 @@ fun Engine.gameObject(type: EntityType,
             with<RenderComponent> {
                 sprite.apply {
                     texture = textureRegion.texture
-                    setRegion(0, 0, texture.width, texture.height)
+                    setRegion(textureRegion)
                     // keep aspect ratio of original texture and scale it to fit into the world units
-                    setBounds(posX, posY, texture.width * UNIT_SCALE, texture.height * UNIT_SCALE)
+                    setBounds(posX, posY, textureRegion.regionWidth * UNIT_SCALE, textureRegion.regionHeight * UNIT_SCALE)
                     setOriginCenter()
                 }
             }

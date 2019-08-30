@@ -1,0 +1,125 @@
+
+gameObjects.png
+size: 1024,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+error
+  rotate: false
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+player/fall/adventurer-fall-00
+  rotate: false
+  xy: 56, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/fall/adventurer-fall-01
+  rotate: false
+  xy: 110, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/idle/adventurer-idle-00
+  rotate: false
+  xy: 164, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/idle/adventurer-idle-01
+  rotate: false
+  xy: 218, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/idle/adventurer-idle-02
+  rotate: false
+  xy: 272, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/idle/adventurer-idle-03
+  rotate: false
+  xy: 326, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/jump/adventurer-jump-00
+  rotate: false
+  xy: 380, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/jump/adventurer-jump-01
+  rotate: false
+  xy: 434, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/jump/adventurer-jump-02
+  rotate: false
+  xy: 488, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/jump/adventurer-jump-03
+  rotate: false
+  xy: 542, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/run/adventurer-run-00
+  rotate: false
+  xy: 596, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/run/adventurer-run-01
+  rotate: false
+  xy: 650, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/run/adventurer-run-02
+  rotate: false
+  xy: 704, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/run/adventurer-run-03
+  rotate: false
+  xy: 758, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/run/adventurer-run-04
+  rotate: false
+  xy: 812, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+player/run/adventurer-run-05
+  rotate: false
+  xy: 866, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
