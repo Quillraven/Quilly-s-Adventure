@@ -127,10 +127,13 @@ class AnimationSystem(assets: AssetManager) :
                     }
 
                     texture = textureRegion.texture
+                    val flipX = isFlipX
+                    val flipY = isFlipY
                     setRegion(textureRegion)
                     // keep aspect ratio of original texture and scale it to fit into the world units
                     setSize(textureRegion.regionWidth * UNIT_SCALE, textureRegion.regionHeight * UNIT_SCALE)
                     setOriginCenter()
+                    setFlip(isFlipX, isFlipY)
                 }
             }
         }
