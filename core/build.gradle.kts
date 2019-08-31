@@ -29,6 +29,12 @@ dependencies {
     api("io.github.libktx:ktx-style:$ktxVersion")
 }
 
+sourceSets {
+    main {
+        resources.srcDir(rootProject.file("assets"))
+    }
+}
+
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }

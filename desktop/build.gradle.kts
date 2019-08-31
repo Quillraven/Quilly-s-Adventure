@@ -23,12 +23,6 @@ application {
     mainClassName = "com.game.quillyjumper.desktop.DesktopLauncherKt"
 }
 
-sourceSets {
-    main {
-        resources.srcDir(rootProject.file("assets"))
-    }
-}
-
 tasks {
     "run"(JavaExec::class) {
         dependsOn(classes)
