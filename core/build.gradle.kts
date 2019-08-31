@@ -4,10 +4,10 @@ plugins {
     kotlin("jvm")
 }
 val gdxVersion = project.ext["gdxVersion"] as String
-val aiVersion = rootProject.ext["aiVersion"] as String
-val ashleyVersion = rootProject.ext["ashleyVersion"] as String
-val ktxVersion = rootProject.ext["ktxVersion"] as String
-val box2DLightsVersion = rootProject.ext["box2DLightsVersion"] as String
+val aiVersion = project.ext["aiVersion"] as String
+val ashleyVersion = project.ext["ashleyVersion"] as String
+val ktxVersion = project.ext["ktxVersion"] as String
+val box2DLightsVersion = project.ext["box2DLightsVersion"] as String
 
 dependencies {
     implementation(kotlin("stdlib"))
