@@ -1,10 +1,25 @@
 package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
-import com.game.quillyjumper.graphics.Animation
-import com.game.quillyjumper.graphics.AnimationType
-import com.game.quillyjumper.graphics.ModelType
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.utils.Array
 import ktx.ashley.mapperFor
+
+enum class ModelType {
+    UNKNOWN,
+    PLAYER
+}
+
+enum class AnimationType {
+    IDLE, RUN, JUMP, FALL
+}
+
+class Animation(
+    val modelType: ModelType,
+    val animationType: AnimationType,
+    regionKeys: Array<TextureAtlas.AtlasRegion>,
+    frameDuration: Float = 1 / 15f
+) : com.badlogic.gdx.graphics.g2d.Animation<TextureAtlas.AtlasRegion>(frameDuration, regionKeys)
 
 class AnimationComponent(
     var modelType: ModelType = ModelType.UNKNOWN,

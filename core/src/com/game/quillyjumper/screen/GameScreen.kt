@@ -14,8 +14,6 @@ import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.gameObject
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
-import com.game.quillyjumper.graphics.AnimationType
-import com.game.quillyjumper.graphics.ModelType
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.InputKey
 import com.game.quillyjumper.input.InputListener
