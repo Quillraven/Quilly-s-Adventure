@@ -10,11 +10,7 @@ import com.badlogic.gdx.utils.Array
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.assets.TextureAtlasAssets
 import com.game.quillyjumper.assets.get
-import com.game.quillyjumper.ecs.component.AnimationComponent
-import com.game.quillyjumper.ecs.component.RenderComponent
-import com.game.quillyjumper.graphics.Animation
-import com.game.quillyjumper.graphics.AnimationType
-import com.game.quillyjumper.graphics.ModelType
+import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.allOf
 import ktx.ashley.get
 import ktx.log.logger
@@ -131,10 +127,13 @@ class AnimationSystem(assets: AssetManager) :
                     }
 
                     texture = textureRegion.texture
+                    val flipX = isFlipX
+                    val flipY = isFlipY
                     setRegion(textureRegion)
                     // keep aspect ratio of original texture and scale it to fit into the world units
                     setSize(textureRegion.regionWidth * UNIT_SCALE, textureRegion.regionHeight * UNIT_SCALE)
                     setOriginCenter()
+                    setFlip(isFlipX, isFlipY)
                 }
             }
         }

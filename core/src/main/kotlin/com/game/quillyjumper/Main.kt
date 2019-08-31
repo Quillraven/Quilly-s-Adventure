@@ -62,7 +62,7 @@ class Main : KtxGame<KtxScreen>() {
         // initial screen is the loading screen which is loading all assets for the game
         addScreen(
             LoadingScreen(
-                this,
+                this, // game instance to switch screens
                 ctx.inject(), // stage
                 ctx.inject(), // assets
                 ctx.inject(), // game event manager

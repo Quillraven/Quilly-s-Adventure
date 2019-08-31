@@ -68,5 +68,7 @@ fun Engine.gameObject(
         with<CollisionComponent>()
         // animation
         with<AnimationComponent>()
+        // state
+        with<StateComponent>()
     }
 }

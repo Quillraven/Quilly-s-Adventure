@@ -10,14 +10,14 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.assets.MusicAssets
-import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.ecs.component.AnimationComponent
+import com.game.quillyjumper.ecs.component.EntityType
+import com.game.quillyjumper.ecs.component.ModelType
+import com.game.quillyjumper.ecs.component.PlayerComponent
 import com.game.quillyjumper.ecs.gameObject
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
-import com.game.quillyjumper.graphics.AnimationType
-import com.game.quillyjumper.graphics.ModelType
 import com.game.quillyjumper.input.InputController
-import com.game.quillyjumper.input.InputKey
 import com.game.quillyjumper.input.InputListener
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
@@ -39,6 +39,7 @@ class GameScreen(
         addSystem(PhysicJumpSystem(audioManager))
         addSystem(PhysicSystem(world, this))
         addSystem(PlayerCollisionSystem())
+        addSystem(PlayerStateSystem(inputController))
         addSystem(AnimationSystem(assets))
         addSystem(RenderSystem(batch, viewport, world, box2DDebugRenderer))
     }
@@ -52,7 +53,6 @@ class GameScreen(
         add(engine.createComponent(PlayerComponent::class.java))
         this[AnimationComponent.mapper]?.apply {
             modelType = ModelType.PLAYER
-            animationType = AnimationType.RUN
         }
     }
 
@@ -117,21 +117,6 @@ class GameScreen(
     }
 
     override fun render(delta: Float) {
-        //TODO remove teststuff
-        player[MoveComponent.mapper]?.let { move ->
-            move.direction = when {
-                inputController.isPressed(InputKey.MoveRight) -> MoveDirection.RIGHT
-                inputController.isPressed(InputKey.MoveLeft) -> MoveDirection.LEFT
-                else -> MoveDirection.STOP
-            }
-        }
-        player[JumpComponent.mapper]?.let { jump ->
-            jump.direction = when {
-                inputController.isPressed(InputKey.Jump) -> JumpDirection.JUMPING
-                else -> JumpDirection.STOP
-            }
-        }
-
         // update all ecs engine systems including the render system which draws stuff on the screen
         engine.update(delta)
     }
