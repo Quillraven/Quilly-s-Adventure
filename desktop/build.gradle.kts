@@ -7,7 +7,7 @@ plugins {
     kotlin("jvm")
 }
 
-val assetsDir = rootProject.file("android/assets")
+val assetsDir = rootProject.file("assets")
 val gdxVersion = project.ext["gdxVersion"] as String
 
 dependencies {

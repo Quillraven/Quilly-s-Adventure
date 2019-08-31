@@ -106,7 +106,7 @@ tasks {
     }
 
     task("run", Exec::class) {
-        var path: String? = null
+        val path: String?
         val localProperties = rootProject.file("local.properties")
         path = if (localProperties.exists()) {
             val properties = Properties()
