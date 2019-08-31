@@ -8,25 +8,22 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.game.quillyjumper.ecs.component.RenderComponent
 import com.game.quillyjumper.ecs.component.TransformComponent
-import com.game.quillyjumper.ecs.component.render
-import com.game.quillyjumper.ecs.component.transform
 import ktx.ashley.allOf
+import ktx.ashley.get
 import ktx.graphics.use
 import ktx.log.logger
 
 private val LOG = logger<RenderSystem>()
 
-class RenderSystem(private val batch: SpriteBatch,
-                   private val gameViewPort: Viewport,
-                   private val world: World,
-                   private val box2DDebugRenderer: Box2DDebugRenderer) : SortedIteratingSystem(allOf(RenderComponent::class, TransformComponent::class).get(),
-        // sort entities by z and y coordinate
-        // z = background or foreground
-        // y = y value of positionXY
-        compareBy(
-                { entity -> entity.transform.z },
-                { entity -> entity.transform.position.y }
-        )) {
+class RenderSystem(
+    private val batch: SpriteBatch,
+    private val gameViewPort: Viewport,
+    private val world: World,
+    private val box2DDebugRenderer: Box2DDebugRenderer
+) : SortedIteratingSystem(
+    allOf(RenderComponent::class, TransformComponent::class).get(),
+    compareBy { entity -> entity[TransformComponent.mapper] }
+) {
     override fun update(deltaTime: Float) {
         // always sort entities before rendering
         forceSort()
@@ -39,16 +36,23 @@ class RenderSystem(private val batch: SpriteBatch,
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        // if the sprite does not have any texture then do not render it to avoid null pointer exceptions
-        entity.render.sprite.run {
-            if (texture == null) {
-                LOG.error { "Entity is without a texture for rendering" }
-                return
-            }
+        entity[RenderComponent.mapper]?.let { render ->
+            entity[TransformComponent.mapper]?.let { transform ->
+                // if the sprite does not have any texture then do not render it to avoid null pointer exceptions
+                render.sprite.run {
+                    if (texture == null) {
+                        LOG.error { "Entity is without a texture for rendering" }
+                        return
+                    }
 
-            // adjust sprite position to render image centered around the entity's position
-            setPosition(entity.transform.interpolatedPosition.x - width * 0.25f, entity.transform.interpolatedPosition.y - 0.01f)
-            draw(batch)
+                    // adjust sprite position to render image centered around the entity's position
+                    setPosition(
+                        transform.interpolatedPosition.x - (width - transform.size.x) * 0.5f,
+                        transform.interpolatedPosition.y - 0.01f
+                    )
+                    draw(batch)
+                }
+            }
         }
     }
 }

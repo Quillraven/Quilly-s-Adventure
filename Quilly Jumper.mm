@@ -35,16 +35,26 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566756767831" ID="ID_880607672" MODIFIED="1566843974754" TEXT="add PlayerComponent">
+<node COLOR="#00b439" CREATED="1566756767831" FOLDED="true" ID="ID_880607672" MODIFIED="1566846854252" TEXT="add PlayerComponent">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1566756773026" ID="ID_1813433416" MODIFIED="1566756776104" TEXT="add it to player entity">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566756719166" FOLDED="true" ID="ID_1588828756" MODIFIED="1566846142896" TEXT="add EntityTypeComponent">
+<node COLOR="#00b439" CREATED="1566919363979" FOLDED="true" ID="ID_718044140" MODIFIED="1566922298344" TEXT="revert the val Entity. stuff because it seems like the compiler does not optimize it and therefore we have then multiple entity.get(cmp) calls --&gt; bad performance">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1566919409836" ID="ID_1977007630" MODIFIED="1566919416150" TEXT="use &quot;let&quot; calls again">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1566756719166" FOLDED="true" ID="ID_1588828756" MODIFIED="1566927332888" TEXT="add EntityTypeComponent">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1566756729593" ID="ID_1661171165" MODIFIED="1566756748157" TEXT="create floor and water as an entity">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
@@ -57,12 +67,14 @@
 <node COLOR="#111111" CREATED="1566757165930" ID="ID_1411618001" MODIFIED="1566757169555" TEXT="other"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566757357801" FOLDED="true" ID="ID_1678291687" MODIFIED="1566846143848" TEXT="add collision logic">
+<node COLOR="#00b439" CREATED="1566757357801" FOLDED="true" ID="ID_1678291687" MODIFIED="1566930787670" TEXT="add collision logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1566756777509" ID="ID_894238715" MODIFIED="1566757365664" TEXT="add CollisionComponent">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1566756777509" ID="ID_894238715" MODIFIED="1566928156175" TEXT="add CollisionComponent">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1566756782955" ID="ID_835230966" MODIFIED="1566757365664" TEXT="stores list of entities">
 <font NAME="SansSerif" SIZE="12"/>
 </node>
@@ -70,25 +82,41 @@
 <font NAME="SansSerif" SIZE="12"/>
 </node>
 </node>
-<node COLOR="#990000" CREATED="1566756796152" ID="ID_1705175012" MODIFIED="1566757365680" TEXT="add PlayerCollisionSystem">
+<node COLOR="#990000" CREATED="1566756796152" ID="ID_1705175012" MODIFIED="1566928158442" TEXT="add PlayerCollisionSystem">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1566756809478" ID="ID_1225973656" MODIFIED="1566757365680" TEXT="log messages when colliding with a specific entity type">
 <font NAME="SansSerif" SIZE="12"/>
 </node>
 </node>
+<node COLOR="#990000" CREATED="1566846905194" ID="ID_1417362042" MODIFIED="1566930782541" TEXT="add ground sensor for jump system">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 </node>
-<node COLOR="#00b439" CREATED="1566757369356" FOLDED="true" ID="ID_140819722" MODIFIED="1566837934982" TEXT="add animation logic">
+</node>
+<node COLOR="#00b439" CREATED="1566759034211" FOLDED="true" ID="ID_381483062" MODIFIED="1567009646944" TEXT="add sound for jump">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1566757591240" ID="ID_1571591329" MODIFIED="1566757706431" TEXT="add AnimationCfgs">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1566759043501" ID="ID_1322492472" MODIFIED="1566759047329" TEXT="play sound when jump">
 <font NAME="SansSerif" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1566757369356" FOLDED="true" ID="ID_140819722" MODIFIED="1567242740350" TEXT="add animation logic">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1566757591240" ID="ID_1571591329" MODIFIED="1567207011276" TEXT="add AnimationCfgs">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="stop-sign"/>
 <node COLOR="#111111" CREATED="1566757596859" ID="ID_922723291" MODIFIED="1566757718100" TEXT="create simple DSL to describe an animation"/>
 <node COLOR="#111111" CREATED="1566758329232" ID="ID_465879660" MODIFIED="1566758341734" TEXT="custom Animation class needed that contains model and animationType information"/>
 </node>
-<node COLOR="#990000" CREATED="1566756912373" ID="ID_1859438504" MODIFIED="1566757376573" TEXT="add AnimationComponent">
+<node COLOR="#990000" CREATED="1566756912373" FOLDED="true" ID="ID_1859438504" MODIFIED="1567207018177" TEXT="add AnimationComponent">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1566756918990" ID="ID_1330604124" MODIFIED="1566757376573" TEXT="Animation&lt;TextureRegion&gt;">
 <font NAME="SansSerif" SIZE="12"/>
 </node>
@@ -109,9 +137,10 @@
 </node>
 </node>
 </node>
-<node COLOR="#990000" CREATED="1566756944754" ID="ID_1241458087" MODIFIED="1566757376589" TEXT="add AnimationSystem">
+<node COLOR="#990000" CREATED="1566756944754" FOLDED="true" ID="ID_1241458087" MODIFIED="1567207031930" TEXT="add AnimationSystem">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1566756950536" ID="ID_1354249477" MODIFIED="1566757376589" TEXT="updates animation">
 <font NAME="SansSerif" SIZE="12"/>
 <node COLOR="#111111" CREATED="1566758365965" ID="ID_1990580397" MODIFIED="1566758386545" TEXT="checks if animation.model and animation.type are equal to the component. If not it retrieves the new animation"/>
@@ -120,21 +149,59 @@
 <font NAME="SansSerif" SIZE="12"/>
 <node COLOR="#111111" CREATED="1566757575094" ID="ID_1104290609" MODIFIED="1566757588861" TEXT="sets error image in case model/animationType are not part of AnimationCache"/>
 </node>
-<node COLOR="#111111" CREATED="1566757632665" ID="ID_1208610979" MODIFIED="1566757730216" TEXT="parameter is AnimationCfgs"/>
+<node COLOR="#111111" CREATED="1566757632665" ID="ID_1208610979" MODIFIED="1567207027975" TEXT="parameter is AnimationCfgs">
+<icon BUILTIN="stop-sign"/>
+</node>
 <node COLOR="#111111" CREATED="1566757733751" ID="ID_1644381456" MODIFIED="1566757739299" TEXT="contains an animationCache">
 <node COLOR="#111111" CREATED="1566757739967" ID="ID_489182471" MODIFIED="1566757752312" TEXT="if cache does not contain model/animation then it gets loaded via animationCfg"/>
 </node>
 </node>
-<node COLOR="#990000" CREATED="1566757387593" ID="ID_1977994125" MODIFIED="1566757836544" TEXT="pack idle and walk animation of player">
+<node COLOR="#990000" CREATED="1566757387593" FOLDED="true" ID="ID_1977994125" MODIFIED="1567207037790" TEXT="pack idle and walk animation of player">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1566757400186" ID="ID_78883975" MODIFIED="1566757836544" TEXT="TextureAtlasAsset">
 <font NAME="SansSerif" SIZE="12"/>
 <node COLOR="#111111" CREATED="1566757406548" ID="ID_942027535" MODIFIED="1566757410579" TEXT="add to LoadingScreen"/>
 </node>
 </node>
+<node COLOR="#990000" CREATED="1567207039867" ID="ID_492759856" MODIFIED="1567242736368" TEXT="ToDo">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1567207044305" FOLDED="true" ID="ID_1219020415" MODIFIED="1567241052862" TEXT="Fix Animation constructor to make textureRegions optional">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1567207081843" ID="ID_505607965" MODIFIED="1567207089306" TEXT="call  setKeyFrames in init method of class"/>
+<node COLOR="#111111" CREATED="1567207434734" ID="ID_451882125" MODIFIED="1567207442990" TEXT="update constructor call of AnimationComponent afterwards"/>
 </node>
-<node COLOR="#00b439" CREATED="1566757847427" FOLDED="true" ID="ID_913038838" MODIFIED="1566837937758" TEXT="add state logic">
+<node COLOR="#111111" CREATED="1567207219641" FOLDED="true" ID="ID_953245415" MODIFIED="1567241076168" TEXT="loadAllAnimations">
+<icon BUILTIN="stop-sign"/>
+<node COLOR="#111111" CREATED="1567207223060" ID="ID_1563036534" MODIFIED="1567207233572" TEXT="optimize findRegions so that it does not create a new array instance all the time"/>
+<node COLOR="#111111" CREATED="1567207234509" ID="ID_490630779" MODIFIED="1567207241763" TEXT="e.g. create extension method with an array parameter">
+<node COLOR="#111111" CREATED="1567207395125" ID="ID_1408391261" MODIFIED="1567207414574" TEXT="pass in the regionKeys array from the parameters of the loader"/>
+</node>
+<node COLOR="#111111" CREATED="1567207720037" ID="ID_1209886802" MODIFIED="1567207733001" TEXT="extract fileName key creation to a method because it is used in two different places"/>
+</node>
+<node COLOR="#111111" CREATED="1567207312816" ID="ID_1773116224" MODIFIED="1567241085230" TEXT="add some debug and error log messages to Animation.kt">
+<icon BUILTIN="stop-sign"/>
+</node>
+<node COLOR="#111111" CREATED="1567207477278" FOLDED="true" ID="ID_1036158918" MODIFIED="1567241586578" TEXT="AnimationSystem">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1567207480252" ID="ID_1895841074" MODIFIED="1567207492103" TEXT="find a cleaner solution to set the first animation instead of using keyframes.isEmpty()"/>
+<node COLOR="#111111" CREATED="1567207535253" ID="ID_706140362" MODIFIED="1567207553147" TEXT="if textureRegion is null for getKeyFrames then print an error message and use the error texture as fallback"/>
+</node>
+<node COLOR="#111111" CREATED="1567207608088" FOLDED="true" ID="ID_1463354305" MODIFIED="1567241592521" TEXT="Known Bug:">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1567207611055" ID="ID_1047405096" MODIFIED="1567207619490" TEXT="red rectangles are drawn outside of box2d bodies - why?"/>
+</node>
+<node COLOR="#111111" CREATED="1567207939181" ID="ID_1431111896" MODIFIED="1567242714605" TEXT="go through existing files due to the new codestyle and add some comments">
+<icon BUILTIN="button_ok"/>
+</node>
+<node COLOR="#111111" CREATED="1567208192499" ID="ID_535673349" MODIFIED="1567242733777" TEXT="create MIT license">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1566757847427" ID="ID_913038838" MODIFIED="1567242742465" TEXT="add state logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1566757850474" ID="ID_610321452" MODIFIED="1566757854053" TEXT="add StateComponent">
@@ -156,16 +223,10 @@
 <node COLOR="#111111" CREATED="1566758927261" ID="ID_1026117406" MODIFIED="1566758944041" TEXT="jump.speed &gt; 0 --&gt; JUMP"/>
 <node COLOR="#111111" CREATED="1566758945262" ID="ID_1601916990" MODIFIED="1566758950888" TEXT="jump.speed &lt; 0 --&gt; FALL"/>
 </node>
+<node COLOR="#111111" CREATED="1567242754101" ID="ID_1431759126" MODIFIED="1567242769149" TEXT="also sets the animation of the entity and flips the sprite if needed (e.g. move left/right)"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566759034211" FOLDED="true" ID="ID_381483062" MODIFIED="1566837939764" TEXT="add sound for jump">
-<edge STYLE="bezier" WIDTH="thin"/>
-<font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1566759043501" ID="ID_1322492472" MODIFIED="1566759047329" TEXT="play sound when jump">
-<font NAME="SansSerif" SIZE="14"/>
-</node>
-</node>
-<node COLOR="#00b439" CREATED="1566846092724" ID="ID_1150117663" MODIFIED="1566846135196" TEXT="add DSL for gameObjects">
+<node COLOR="#00b439" CREATED="1566846092724" FOLDED="true" ID="ID_1150117663" MODIFIED="1567207849666" TEXT="add DSL for gameObjects">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1566846100447" ID="ID_1838114735" MODIFIED="1566846128581" TEXT="to descriibe width/height/modelType/moveSpeed/jumpSpeed/entityType/...">

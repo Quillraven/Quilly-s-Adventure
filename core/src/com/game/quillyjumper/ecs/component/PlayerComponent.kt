@@ -1,8 +1,6 @@
 package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
-import com.badlogic.ashley.core.Entity
-import ktx.ashley.get
 import ktx.ashley.mapperFor
 
 class PlayerComponent : Component {
@@ -10,6 +8,3 @@ class PlayerComponent : Component {
         val mapper = mapperFor<PlayerComponent>()
     }
 }
-
-val Entity.player: PlayerComponent
-    get() = this[PlayerComponent.mapper]!!

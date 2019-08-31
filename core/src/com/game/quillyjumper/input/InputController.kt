@@ -9,33 +9,36 @@ enum class InputKey {
     Jump
 }
 
+private operator fun BooleanArray.get(inputKey: InputKey) = this[inputKey.ordinal]
+
+private operator fun BooleanArray.set(inputKey: InputKey, value: Boolean) = this.set(inputKey.ordinal, value)
+
 class InputController : InputListener {
     private val keyState = BooleanArray(InputKey.values().size) { false }
 
-    fun isPressed(inputKey: InputKey) = keyState[inputKey.ordinal]
+    fun isPressed(inputKey: InputKey) = keyState[inputKey]
 
     override fun move(direction: MoveDirection) {
         when (direction) {
             MoveDirection.STOP -> {
-                keyState[InputKey.MoveLeft.ordinal] = false
-                keyState[InputKey.MoveRight.ordinal] = false
+                keyState[InputKey.MoveLeft] = false
+                keyState[InputKey.MoveRight] = false
             }
             MoveDirection.LEFT -> {
-                keyState[InputKey.MoveLeft.ordinal] = true
-                keyState[InputKey.MoveRight.ordinal] = false
+                keyState[InputKey.MoveLeft] = true
+                keyState[InputKey.MoveRight] = false
             }
             MoveDirection.RIGHT -> {
-                keyState[InputKey.MoveLeft.ordinal] = false
-                keyState[InputKey.MoveRight.ordinal] = true
+                keyState[InputKey.MoveLeft] = false
+                keyState[InputKey.MoveRight] = true
             }
         }
     }
 
     override fun jump(direction: JumpDirection) {
         when (direction) {
-            JumpDirection.JUMPING -> keyState[InputKey.Jump.ordinal] = true
-            else -> keyState[InputKey.Jump.ordinal] = false
+            JumpDirection.JUMPING -> keyState[InputKey.Jump] = true
+            else -> keyState[InputKey.Jump] = false
         }
-
     }
 }

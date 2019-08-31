@@ -27,6 +27,7 @@ import ktx.style.label
 import ktx.style.skin
 
 const val UNIT_SCALE = 1 / 32f
+const val FIXTURE_TYPE_FOOT_SENSOR = 2
 
 class Main : KtxGame<KtxScreen>() {
     private val ctx = Context()
@@ -59,7 +60,19 @@ class Main : KtxGame<KtxScreen>() {
         Scene2DSkin.defaultSkin = ctx.inject()
 
         // initial screen is the loading screen which is loading all assets for the game
-        addScreen(LoadingScreen(this, ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject(), ctx.inject()))
+        addScreen(
+            LoadingScreen(
+                this,
+                ctx.inject(), // stage
+                ctx.inject(), // assets
+                ctx.inject(), // game event manager
+                ctx.inject(), // input controller
+                ctx.inject(), // audio manager
+                ctx.inject(), // physic world
+                ctx.inject(), // sprite batch
+                ctx.inject() // box2d debug renderer
+            )
+        )
         setScreen<LoadingScreen>()
     }
 
