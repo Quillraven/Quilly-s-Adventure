@@ -77,8 +77,7 @@ android {
 tasks {
     task("copyAndroidNatives") {
         doFirst {
-            println(configurations["natives"].files)
-            configurations["natives"].files.forEach { jar ->
+            natives.files.forEach { jar ->
                 var outputDir: File? = null
                 if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
                 if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
