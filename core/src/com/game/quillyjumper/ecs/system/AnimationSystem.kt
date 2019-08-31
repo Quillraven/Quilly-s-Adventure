@@ -133,7 +133,7 @@ class AnimationSystem(assets: AssetManager) :
                     // keep aspect ratio of original texture and scale it to fit into the world units
                     setSize(textureRegion.regionWidth * UNIT_SCALE, textureRegion.regionHeight * UNIT_SCALE)
                     setOriginCenter()
-                    setFlip(isFlipX, isFlipY)
+                    setFlip(flipX, flipY)
                 }
             }
         }

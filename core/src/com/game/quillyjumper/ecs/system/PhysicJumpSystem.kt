@@ -34,8 +34,8 @@ class PhysicJumpSystem(private val audioManager: AudioManager) : IntervalIterati
                     val direction = jump.direction
 
                     if (direction == JumpDirection.STOP) {
-                        if (jumpSpeed == 0f) {
-                            // entity does not want to jump and is neither jumping nor falling -> do nothing
+                        if (jumpSpeed == 0f && collision.numGroundContacts > 0) {
+                            // entity does not want to jump and is already on the ground -> do nothing
                             return
                         }
                         // entity wants to stop the jump -> set the remaining jump steps to zero to not apply the up force
@@ -55,8 +55,8 @@ class PhysicJumpSystem(private val audioManager: AudioManager) : IntervalIterati
                     } else {
                         // update the jump direction with the real direction by analyzing the physic body of the entity
                         jump.direction = when {
-                            jumpSpeed < 0f -> JumpDirection.FALLING
-                            jumpSpeed == 0f && collision.numGroundContacts > 0 && jumpSpeed == 0f -> JumpDirection.STOP
+                            jumpSpeed == 0f && collision.numGroundContacts > 0 -> JumpDirection.STOP
+                            jumpSpeed <= 0f -> JumpDirection.FALLING
                             else -> JumpDirection.JUMPING
                         }
                     }
