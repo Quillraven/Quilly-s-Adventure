@@ -103,9 +103,10 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566757369356" ID="ID_140819722" MODIFIED="1567184730901" TEXT="add animation logic">
+<node COLOR="#00b439" CREATED="1566757369356" FOLDED="true" ID="ID_140819722" MODIFIED="1567242740350" TEXT="add animation logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1566757591240" ID="ID_1571591329" MODIFIED="1567207011276" TEXT="add AnimationCfgs">
 <font NAME="SansSerif" SIZE="14"/>
 <icon BUILTIN="stop-sign"/>
@@ -164,31 +165,43 @@
 <node COLOR="#111111" CREATED="1566757406548" ID="ID_942027535" MODIFIED="1566757410579" TEXT="add to LoadingScreen"/>
 </node>
 </node>
-<node COLOR="#990000" CREATED="1567207039867" ID="ID_492759856" MODIFIED="1567207041720" TEXT="ToDo">
+<node COLOR="#990000" CREATED="1567207039867" ID="ID_492759856" MODIFIED="1567242736368" TEXT="ToDo">
 <font NAME="SansSerif" SIZE="14"/>
-<node COLOR="#111111" CREATED="1567207044305" ID="ID_1219020415" MODIFIED="1567207058826" TEXT="Fix Animation constructor to make textureRegions optional">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1567207044305" FOLDED="true" ID="ID_1219020415" MODIFIED="1567241052862" TEXT="Fix Animation constructor to make textureRegions optional">
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1567207081843" ID="ID_505607965" MODIFIED="1567207089306" TEXT="call  setKeyFrames in init method of class"/>
 <node COLOR="#111111" CREATED="1567207434734" ID="ID_451882125" MODIFIED="1567207442990" TEXT="update constructor call of AnimationComponent afterwards"/>
 </node>
-<node COLOR="#111111" CREATED="1567207219641" ID="ID_953245415" MODIFIED="1567207222710" TEXT="loadAllAnimations">
+<node COLOR="#111111" CREATED="1567207219641" FOLDED="true" ID="ID_953245415" MODIFIED="1567241076168" TEXT="loadAllAnimations">
+<icon BUILTIN="stop-sign"/>
 <node COLOR="#111111" CREATED="1567207223060" ID="ID_1563036534" MODIFIED="1567207233572" TEXT="optimize findRegions so that it does not create a new array instance all the time"/>
 <node COLOR="#111111" CREATED="1567207234509" ID="ID_490630779" MODIFIED="1567207241763" TEXT="e.g. create extension method with an array parameter">
 <node COLOR="#111111" CREATED="1567207395125" ID="ID_1408391261" MODIFIED="1567207414574" TEXT="pass in the regionKeys array from the parameters of the loader"/>
 </node>
 <node COLOR="#111111" CREATED="1567207720037" ID="ID_1209886802" MODIFIED="1567207733001" TEXT="extract fileName key creation to a method because it is used in two different places"/>
 </node>
-<node COLOR="#111111" CREATED="1567207312816" ID="ID_1773116224" MODIFIED="1567207320821" TEXT="add some debug and error log messages to Animation.kt"/>
-<node COLOR="#111111" CREATED="1567207477278" ID="ID_1036158918" MODIFIED="1567207479926" TEXT="AnimationSystem">
+<node COLOR="#111111" CREATED="1567207312816" ID="ID_1773116224" MODIFIED="1567241085230" TEXT="add some debug and error log messages to Animation.kt">
+<icon BUILTIN="stop-sign"/>
+</node>
+<node COLOR="#111111" CREATED="1567207477278" FOLDED="true" ID="ID_1036158918" MODIFIED="1567241586578" TEXT="AnimationSystem">
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1567207480252" ID="ID_1895841074" MODIFIED="1567207492103" TEXT="find a cleaner solution to set the first animation instead of using keyframes.isEmpty()"/>
 <node COLOR="#111111" CREATED="1567207535253" ID="ID_706140362" MODIFIED="1567207553147" TEXT="if textureRegion is null for getKeyFrames then print an error message and use the error texture as fallback"/>
 </node>
-<node COLOR="#111111" CREATED="1567207608088" ID="ID_1463354305" MODIFIED="1567207610737" TEXT="Known Bug:">
+<node COLOR="#111111" CREATED="1567207608088" FOLDED="true" ID="ID_1463354305" MODIFIED="1567241592521" TEXT="Known Bug:">
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1567207611055" ID="ID_1047405096" MODIFIED="1567207619490" TEXT="red rectangles are drawn outside of box2d bodies - why?"/>
 </node>
-<node COLOR="#111111" CREATED="1567207939181" ID="ID_1431111896" MODIFIED="1567207950941" TEXT="go through existing files due to the new codestyle and add some comments"/>
+<node COLOR="#111111" CREATED="1567207939181" ID="ID_1431111896" MODIFIED="1567242714605" TEXT="go through existing files due to the new codestyle and add some comments">
+<icon BUILTIN="button_ok"/>
+</node>
+<node COLOR="#111111" CREATED="1567208192499" ID="ID_535673349" MODIFIED="1567242733777" TEXT="create MIT license">
+<icon BUILTIN="button_ok"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566757847427" FOLDED="true" ID="ID_913038838" MODIFIED="1567207848648" TEXT="add state logic">
+</node>
+<node COLOR="#00b439" CREATED="1566757847427" ID="ID_913038838" MODIFIED="1567242742465" TEXT="add state logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1566757850474" ID="ID_610321452" MODIFIED="1566757854053" TEXT="add StateComponent">
@@ -210,6 +223,7 @@
 <node COLOR="#111111" CREATED="1566758927261" ID="ID_1026117406" MODIFIED="1566758944041" TEXT="jump.speed &gt; 0 --&gt; JUMP"/>
 <node COLOR="#111111" CREATED="1566758945262" ID="ID_1601916990" MODIFIED="1566758950888" TEXT="jump.speed &lt; 0 --&gt; FALL"/>
 </node>
+<node COLOR="#111111" CREATED="1567242754101" ID="ID_1431759126" MODIFIED="1567242769149" TEXT="also sets the animation of the entity and flips the sprite if needed (e.g. move left/right)"/>
 </node>
 </node>
 <node COLOR="#00b439" CREATED="1566846092724" FOLDED="true" ID="ID_1150117663" MODIFIED="1567207849666" TEXT="add DSL for gameObjects">

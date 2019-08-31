@@ -11,9 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.ScreenViewport
-import com.game.quillyjumper.assets.AnimationLoader
 import com.game.quillyjumper.event.GameEventManager
-import com.game.quillyjumper.graphics.Animation
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.KeyboardEventDispatcher
 import com.game.quillyjumper.screen.LoadingScreen
@@ -41,12 +39,7 @@ class Main : KtxGame<KtxScreen>() {
         // setup context and register stuff that should also be disposed at the end of the game lifecycle
         ctx.register {
             bindSingleton(SpriteBatch())
-            bindSingleton(AssetManager().apply {
-                this.setLoader(
-                    Animation::class.java,
-                    AnimationLoader(this.fileHandleResolver)
-                )
-            })
+            bindSingleton(AssetManager())
             bindSingleton(AudioManager(ctx.inject()))
             bindSingleton(GameEventManager())
             // register keyboard event dispatcher after we initiate the game event manager
@@ -70,14 +63,14 @@ class Main : KtxGame<KtxScreen>() {
         addScreen(
             LoadingScreen(
                 this,
-                ctx.inject(),
-                ctx.inject(),
-                ctx.inject(),
-                ctx.inject(),
-                ctx.inject(),
-                ctx.inject(),
-                ctx.inject(),
-                ctx.inject()
+                ctx.inject(), // stage
+                ctx.inject(), // assets
+                ctx.inject(), // game event manager
+                ctx.inject(), // input controller
+                ctx.inject(), // audio manager
+                ctx.inject(), // physic world
+                ctx.inject(), // sprite batch
+                ctx.inject() // box2d debug renderer
             )
         )
         setScreen<LoadingScreen>()

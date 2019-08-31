@@ -4,14 +4,14 @@ import com.badlogic.ashley.core.Component
 import ktx.ashley.mapperFor
 
 enum class EntityType {
-    Player,
-    Scenery,
-    Enemy,
-    Item,
-    Other
+    PLAYER,
+    SCENERY,
+    ENEMY,
+    ITEM,
+    OTHER
 }
 
-class EntityTypeComponent(var type: EntityType = EntityType.Other) : Component {
+class EntityTypeComponent(var type: EntityType = EntityType.OTHER) : Component {
     companion object {
         val mapper = mapperFor<EntityTypeComponent>()
     }

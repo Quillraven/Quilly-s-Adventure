@@ -43,7 +43,7 @@ class GameScreen(
         addSystem(RenderSystem(batch, viewport, world, box2DDebugRenderer))
     }
     private val player = engine.gameObject(
-        EntityType.Player,
+        EntityType.PLAYER,
         world, 16f, 3f,
         width = 0.5f, height = 0.8f,
         speed = 4f, collBodyOffsetX = 4f * UNIT_SCALE,
@@ -65,7 +65,7 @@ class GameScreen(
         // TODO remove testing stuff
         // floor
         engine.gameObject(
-            EntityType.Scenery,
+            EntityType.SCENERY,
             world,
             1f,
             1f,
@@ -74,7 +74,7 @@ class GameScreen(
             bodyType = BodyDef.BodyType.StaticBody
         )
         engine.gameObject(
-            EntityType.Scenery,
+            EntityType.SCENERY,
             world,
             18f,
             2f,
@@ -84,7 +84,7 @@ class GameScreen(
         )
         // water
         engine.gameObject(
-            EntityType.Scenery,
+            EntityType.SCENERY,
             world,
             2f,
             12f,
@@ -94,10 +94,10 @@ class GameScreen(
             isSensor = true
         )
         // enemy
-        engine.gameObject(EntityType.Enemy, world, 14f, 3f, width = 1f, height = 1f)
+        engine.gameObject(EntityType.ENEMY, world, 14f, 3f, width = 1f, height = 1f)
         // item
         engine.gameObject(
-            EntityType.Item,
+            EntityType.ITEM,
             world,
             18.5f,
             4f,

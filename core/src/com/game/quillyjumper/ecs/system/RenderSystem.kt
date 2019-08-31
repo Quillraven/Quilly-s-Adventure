@@ -47,7 +47,7 @@ class RenderSystem(
 
                     // adjust sprite position to render image centered around the entity's position
                     setPosition(
-                        transform.interpolatedPosition.x - width * 0.25f,
+                        transform.interpolatedPosition.x - (width - transform.size.x) * 0.5f,
                         transform.interpolatedPosition.y - 0.01f
                     )
                     draw(batch)

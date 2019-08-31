@@ -15,7 +15,7 @@ class PhysicContactListener : ContactListener {
      */
     private fun addCollisionData(fixture: Fixture, collCmp: CollisionComponent, entity: Entity) {
         if (fixture.userData == FIXTURE_TYPE_FOOT_SENSOR) {
-            if (entity[EntityTypeComponent.mapper]?.type == EntityType.Scenery) {
+            if (entity[EntityTypeComponent.mapper]?.type == EntityType.SCENERY) {
                 collCmp.numGroundContacts++
             }
         } else {
@@ -30,7 +30,7 @@ class PhysicContactListener : ContactListener {
      */
     private fun removeCollisionData(fixture: Fixture, collCmp: CollisionComponent, entity: Entity) {
         if (fixture.userData == FIXTURE_TYPE_FOOT_SENSOR) {
-            if (entity[EntityTypeComponent.mapper]?.type == EntityType.Scenery) {
+            if (entity[EntityTypeComponent.mapper]?.type == EntityType.SCENERY) {
                 collCmp.numGroundContacts--
             }
         } else {

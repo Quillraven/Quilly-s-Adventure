@@ -11,7 +11,6 @@ import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.assets.TextureAtlasAssets
 import com.game.quillyjumper.assets.load
 import com.game.quillyjumper.event.GameEventManager
-import com.game.quillyjumper.graphics.loadAllAnimations
 import com.game.quillyjumper.input.InputController
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
@@ -28,6 +27,7 @@ class LoadingScreen(
     private val box2DDebugRenderer: Box2DDebugRenderer
 ) : KtxScreen {
     override fun show() {
+        // queue all assets that should be loaded
         MusicAssets.values().forEach { assets.load(it) }
         SoundAssets.values().forEach { assets.load(it) }
         TextureAtlasAssets.values().forEach { assets.load(it) }
@@ -39,9 +39,6 @@ class LoadingScreen(
 
     override fun render(delta: Float) {
         if (assets.update()) {
-            // load all animations
-            assets.loadAllAnimations()
-
             // all assets are loaded -> add remaining screens to our game now because
             // now they can access the different assets that they need
             game.addScreen(
