@@ -19,9 +19,6 @@ repositories {
 val natives: Configuration by configurations.register("natives")
 
 dependencies {
-    implementation(project(":core"))
-    api("com.badlogicgames.gdx:gdx-backend-android:$gdxVersion")
-    api("com.badlogicgames.gdx:gdx-freetype:$gdxVersion")
     natives("com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi")
     natives("com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a")
     natives("com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-arm64-v8a")
@@ -32,15 +29,11 @@ dependencies {
     natives("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a")
     natives("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86")
     natives("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64")
-    api("com.badlogicgames.gdx:gdx-box2d:$gdxVersion")
     natives("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi")
     natives("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a")
     natives("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a")
     natives("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86")
     natives("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64")
-    api("com.badlogicgames.gdx:gdx-ai:$aiVersion")
-    api("com.badlogicgames.ashley:ashley:$ashleyVersion")
-    api("com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion")
 }
 
 android {
