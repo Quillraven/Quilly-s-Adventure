@@ -99,11 +99,7 @@ class PlayerStateSystem(private val input: InputController) :
 
                     if (jump.direction == JumpDirection.JUMPING && !input.isPressed(Jump)) {
                         // player wants to stop the jump
-                        // set direction to FALLING because for some reason if we set it to stop
-                        // then the else if below gets triggered BEFORE the player is really standing
-                        // again on the ground. This means that the move animation will play while falling.
-                        // I have no idea why this happens but setting the direction to FALLING solves it
-                        jump.direction = JumpDirection.FALLING
+                        jump.direction = JumpDirection.STOP
                     } else if (jump.direction == JumpDirection.STOP) {
                         // jump  has stopped -> go to run or idle state
                         val targetState = if (isMoving) StateType.RUN else StateType.IDLE
