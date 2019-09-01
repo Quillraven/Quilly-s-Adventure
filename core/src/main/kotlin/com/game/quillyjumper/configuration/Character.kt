@@ -15,8 +15,12 @@ enum class Character {
 
 class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
     var speed = 0f
-    var size = Vector2(1f, 1f)
-    var collBodyOffset = Vector2(0f, 0f)
+    val size = Vector2(1f, 1f)
+    val collBodyOffset = Vector2(0f, 0f)
+
+    fun size(width: Float, height: Float): Vector2 = size.set(width, height)
+
+    fun collisionBodyOffset(offsetX: Float, offsetY: Float): Vector2 = collBodyOffset.set(offsetX, offsetY)
 }
 
 class CharacterCfgCache : EnumMap<Character, CharacterCfg>(Character::class.java) {

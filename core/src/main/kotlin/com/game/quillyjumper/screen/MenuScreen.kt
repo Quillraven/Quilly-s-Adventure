@@ -27,6 +27,7 @@ class MenuScreen(
             button { cell -> label("Continue"); cell.fillX().row() }
             button { cell -> label("[X] [-] Music [+]"); cell.fillX().row() }
             button { cell -> label("[X] [-] Sound [+]"); cell.fillX().row() }
+            //TODO mention Schlaubi for his awesome support throughout the entire project (BOLD AND COLORFUL TEXT)
             button { cell -> label("Credits"); cell.fillX().row() }
             button { cell -> label("Exit"); cell.fillX().row() }.onClick { Gdx.app.exit() }
             setFillParent(true)

@@ -106,11 +106,11 @@ class Main : KtxGame<KtxScreen>() {
         return characterCfgCache {
             characterCfg(Character.PLAYER, EntityType.PLAYER, ModelType.PLAYER) {
                 speed = 4f
-                size.set(0.5f, 0.8f)
+                size(0.5f, 0.8f)
             }
             characterCfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
                 speed = 1f
-                size.set(0.5f, 0.5f)
+                size(0.5f, 0.5f)
             }
         }
     }
