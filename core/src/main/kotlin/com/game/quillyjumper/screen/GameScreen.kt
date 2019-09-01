@@ -3,29 +3,31 @@ package com.game.quillyjumper.screen
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.AudioManager
-import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.assets.MusicAssets
-import com.game.quillyjumper.ecs.component.AnimationComponent
-import com.game.quillyjumper.ecs.component.EntityType
-import com.game.quillyjumper.ecs.component.ModelType
+import com.game.quillyjumper.configuration.Character
+import com.game.quillyjumper.configuration.CharacterCfgCache
+import com.game.quillyjumper.configuration.Item
+import com.game.quillyjumper.configuration.ItemCfgCache
+import com.game.quillyjumper.ecs.character
 import com.game.quillyjumper.ecs.component.PlayerComponent
-import com.game.quillyjumper.ecs.gameObject
+import com.game.quillyjumper.ecs.item
+import com.game.quillyjumper.ecs.scenery
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.InputListener
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
-import ktx.ashley.get
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
     private val assets: AssetManager,
+    private val characterCfgCache: CharacterCfgCache,
+    private val itemCfgCache: ItemCfgCache,
     private val gameEventManager: GameEventManager,
     private val inputController: InputController,
     private val audioManager: AudioManager,
@@ -43,69 +45,27 @@ class GameScreen(
         addSystem(AnimationSystem(assets))
         addSystem(RenderSystem(batch, viewport, world, box2DDebugRenderer))
     }
-    private val player = engine.gameObject(
-        EntityType.PLAYER,
-        world, 16f, 3f,
-        width = 0.5f, height = 0.8f,
-        speed = 4f, collBodyOffsetX = 4f * UNIT_SCALE,
-        createCharacterSensors = true
-    ).apply {
-        add(engine.createComponent(PlayerComponent::class.java))
-        this[AnimationComponent.mapper]?.apply {
-            modelType = ModelType.PLAYER
-        }
-    }
 
     override fun show() {
         // add game screen as input listener to react when the player wants to quit the game (=exit key pressed)
         gameEventManager.addInputListener(this)
 
+        // play nice background music ;)
         audioManager.play(MusicAssets.LEVEL_1)
 
         // TODO remove testing stuff
+        // player
+        engine.character(characterCfgCache[Character.PLAYER], world, 16f, 3f, 1).apply {
+            add(engine.createComponent(PlayerComponent::class.java))
+        }
         // floor
-        engine.gameObject(
-            EntityType.SCENERY,
-            world,
-            1f,
-            1f,
-            width = 30f,
-            height = 1f,
-            bodyType = BodyDef.BodyType.StaticBody
-        )
-        engine.gameObject(
-            EntityType.SCENERY,
-            world,
-            18f,
-            2f,
-            width = 2f,
-            height = 1f,
-            bodyType = BodyDef.BodyType.StaticBody
-        )
-        // water
-        engine.gameObject(
-            EntityType.SCENERY,
-            world,
-            2f,
-            12f,
-            width = 28f,
-            height = 4f,
-            bodyType = BodyDef.BodyType.StaticBody,
-            isSensor = true
-        )
+        engine.scenery(world, 1f, 1f, 30f, 1f)
+        engine.scenery(world, 18f, 2f, 2f, 1f)
         // enemy
-        engine.gameObject(EntityType.ENEMY, world, 14f, 3f, width = 1f, height = 1f)
+        engine.character(characterCfgCache[Character.BLUE_SLIME], world, 14f, 3f)
         // item
-        engine.gameObject(
-            EntityType.ITEM,
-            world,
-            18.5f,
-            4f,
-            width = 1f,
-            height = 1f,
-            bodyType = BodyDef.BodyType.StaticBody,
-            isSensor = true
-        )
+        engine.item(itemCfgCache[Item.POTION_GAIN_LIFE], world, assets, 18.5f, 4f)
+        engine.item(itemCfgCache[Item.POTION_GAIN_MANA], world, assets, 21f, 4f)
     }
 
     override fun hide() {

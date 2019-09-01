@@ -7,7 +7,8 @@ import ktx.ashley.mapperFor
 
 enum class ModelType {
     UNKNOWN,
-    PLAYER
+    PLAYER,
+    BLUE_SLIME
 }
 
 enum class AnimationType {

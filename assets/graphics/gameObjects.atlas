@@ -1,125 +1,195 @@
 
 gameObjects.png
-size: 1024,64
+size: 2048,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-error
+blue_slime/idle
   rotate: false
   xy: 2, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 0
+blue_slime/idle
+  rotate: false
+  xy: 56, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 1
+blue_slime/idle
+  rotate: false
+  xy: 110, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 2
+blue_slime/idle
+  rotate: false
+  xy: 164, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 3
+blue_slime/run
+  rotate: false
+  xy: 218, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 0
+blue_slime/run
+  rotate: false
+  xy: 272, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 1
+blue_slime/run
+  rotate: false
+  xy: 326, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 2
+blue_slime/run
+  rotate: false
+  xy: 380, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 3
+error
+  rotate: false
+  xy: 434, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 player/fall
   rotate: false
-  xy: 56, 2
+  xy: 488, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
 player/fall
   rotate: false
-  xy: 110, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 1
-player/idle
-  rotate: false
-  xy: 164, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 0
-player/idle
-  rotate: false
-  xy: 218, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 1
-player/idle
-  rotate: false
-  xy: 272, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 2
-player/idle
-  rotate: false
-  xy: 326, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 3
-player/jump
-  rotate: false
-  xy: 380, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 0
-player/jump
-  rotate: false
-  xy: 434, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 1
-player/jump
-  rotate: false
-  xy: 488, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 2
-player/jump
-  rotate: false
   xy: 542, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-player/run
+  index: 1
+player/idle
   rotate: false
   xy: 596, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
-player/run
+player/idle
   rotate: false
   xy: 650, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
-player/run
+player/idle
   rotate: false
   xy: 704, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
-player/run
+player/idle
   rotate: false
   xy: 758, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
-player/run
+player/jump
   rotate: false
   xy: 812, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+player/jump
+  rotate: false
+  xy: 866, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+player/jump
+  rotate: false
+  xy: 920, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+player/jump
+  rotate: false
+  xy: 974, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+player/run
+  rotate: false
+  xy: 1028, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+player/run
+  rotate: false
+  xy: 1082, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+player/run
+  rotate: false
+  xy: 1136, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+player/run
+  rotate: false
+  xy: 1190, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+player/run
+  rotate: false
+  xy: 1244, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 4
 player/run
   rotate: false
-  xy: 866, 2
+  xy: 1298, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 5
+potion_blue_plus
+  rotate: false
+  xy: 1352, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+potion_green_plus
+  rotate: false
+  xy: 1406, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

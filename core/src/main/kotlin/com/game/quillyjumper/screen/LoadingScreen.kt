@@ -10,6 +10,8 @@ import com.game.quillyjumper.assets.MusicAssets
 import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.assets.TextureAtlasAssets
 import com.game.quillyjumper.assets.load
+import com.game.quillyjumper.configuration.CharacterCfgCache
+import com.game.quillyjumper.configuration.ItemCfgCache
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.input.InputController
 import ktx.app.KtxGame
@@ -19,6 +21,8 @@ class LoadingScreen(
     private val game: KtxGame<KtxScreen>,
     private val stage: Stage,
     private val assets: AssetManager,
+    private val characterCfgCache: CharacterCfgCache,
+    private val itemCfgCache: ItemCfgCache,
     private val gameEventManager: GameEventManager,
     private val inputController: InputController,
     private val audioManager: AudioManager,
@@ -45,6 +49,8 @@ class LoadingScreen(
                 GameScreen(
                     game,
                     assets,
+                    characterCfgCache,
+                    itemCfgCache,
                     gameEventManager,
                     inputController,
                     audioManager,

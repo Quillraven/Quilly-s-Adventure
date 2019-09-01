@@ -201,9 +201,10 @@
 </node>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566757847427" ID="ID_913038838" MODIFIED="1567242742465" TEXT="add state logic">
+<node COLOR="#00b439" CREATED="1566757847427" FOLDED="true" ID="ID_913038838" MODIFIED="1567334409085" TEXT="add state logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1566757850474" ID="ID_610321452" MODIFIED="1566757854053" TEXT="add StateComponent">
 <font NAME="SansSerif" SIZE="14"/>
 <node COLOR="#111111" CREATED="1566757922383" ID="ID_1788406565" MODIFIED="1566757923774" TEXT="state">
@@ -226,10 +227,18 @@
 <node COLOR="#111111" CREATED="1567242754101" ID="ID_1431759126" MODIFIED="1567242769149" TEXT="also sets the animation of the entity and flips the sprite if needed (e.g. move left/right)"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1566846092724" FOLDED="true" ID="ID_1150117663" MODIFIED="1567207849666" TEXT="add DSL for gameObjects">
+<node COLOR="#00b439" CREATED="1566846092724" FOLDED="true" ID="ID_1150117663" MODIFIED="1567364644650" TEXT="add DSL for gameObjects">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1566846100447" ID="ID_1838114735" MODIFIED="1566846128581" TEXT="to descriibe width/height/modelType/moveSpeed/jumpSpeed/entityType/...">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1567364650728" ID="ID_201333319" MODIFIED="1567364654614" TEXT="Optimizations">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1567364654911" ID="ID_787700400" MODIFIED="1567364670622" TEXT="when realisng the move keys during a jump, the move impulse is not stopped correctly">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>

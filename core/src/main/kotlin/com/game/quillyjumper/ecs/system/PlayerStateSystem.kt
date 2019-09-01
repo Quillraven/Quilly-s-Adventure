@@ -10,7 +10,7 @@ import ktx.ashley.allOf
 import ktx.ashley.get
 
 class PlayerStateSystem(private val input: InputController) :
-        IteratingSystem(allOf(PlayerComponent::class, StateComponent::class).get()) {
+    IteratingSystem(allOf(PlayerComponent::class, StateComponent::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity[StateComponent.mapper]?.let { state ->
             when (state.stateType) {
@@ -33,10 +33,10 @@ class PlayerStateSystem(private val input: InputController) :
     }
 
     private fun moveToRunState(
-            player: Entity,
-            state: StateComponent,
-            move: MoveComponent,
-            moveDirection: MoveDirection
+        player: Entity,
+        state: StateComponent,
+        move: MoveComponent,
+        moveDirection: MoveDirection
     ) {
         moveToState(player, state, StateType.RUN, AnimationType.RUN)
         setMoveDirection(player, move, moveDirection)

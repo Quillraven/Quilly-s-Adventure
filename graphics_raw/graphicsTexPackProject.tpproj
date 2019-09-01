@@ -1,6 +1,6 @@
 name=gameObjects
 filename=
-output=../android/assets/graphics
+output=../assets/graphics
 
 alias=true
 alphaThreshold=0
