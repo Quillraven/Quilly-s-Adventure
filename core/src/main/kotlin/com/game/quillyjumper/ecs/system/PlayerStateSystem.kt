@@ -29,7 +29,11 @@ class PlayerStateSystem(private val input: InputController) :
 
     private fun setMoveDirection(player: Entity, move: MoveComponent, moveDirection: MoveDirection) {
         move.direction = moveDirection
-        player[RenderComponent.mapper]?.sprite?.setFlip(moveDirection == LEFT, false)
+        if (moveDirection == RIGHT || moveDirection == LEFT) {
+            // only update in case of a specific direction
+            // otherwise keep the sprite flipped as  it is (e.g. if movement stops)
+            player[RenderComponent.mapper]?.sprite?.setFlip(moveDirection == LEFT, false)
+        }
     }
 
     private fun moveToRunState(
@@ -65,6 +69,8 @@ class PlayerStateSystem(private val input: InputController) :
         } else if (direction.isStopOrRight() && !input.isPressed(MoveRight) && input.isPressed(MoveLeft)) {
             // move direction changed from right to left
             setMoveDirection(player, move, LEFT)
+        } else if (!input.isPressed(MoveLeft) && !input.isPressed(MoveRight)) {
+            setMoveDirection(player, move, STOP)
         }
     }
 
