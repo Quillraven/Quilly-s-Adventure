@@ -25,7 +25,7 @@ allprojects {
         set("box2DLightsVersion", "1.4")
         set("ashleyVersion", "1.7.3")
         set("aiVersion", "1.8.2")
-        set("ktxVersion", "1.9.10-b1")
+        set("ktxVersion", "1.9.10-b2")
     }
 
     repositories {

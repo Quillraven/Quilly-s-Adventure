@@ -33,8 +33,6 @@ fun Engine.character(cfg: CharacterCfg, world: World, posX: Float, posY: Float, 
             body = world.body(BodyDef.BodyType.DynamicBody) {
                 position.set(posX + cfg.size.x * 0.5f, posY + cfg.size.y * 0.5f)
                 userData = this@entity.entity
-                //TODO update to newer LibKTX version once it is available to get rid of the memory leak
-                // collision body
                 box(cfg.size.x, cfg.size.y, cfg.collBodyOffset)
                 // ground sensor to detect if entity can jump
                 box(cfg.size.x * 0.5f, 0.25f, PhysicComponent.tmpVec2.set(0f, -cfg.size.y * 0.5f)) {
@@ -83,8 +81,6 @@ fun Engine.item(cfg: ItemCfg, world: World, assets: AssetManager, posX: Float, p
             body = world.body(BodyDef.BodyType.StaticBody) {
                 position.set(posX + 0.5f, posY + 0.5f)
                 userData = this@entity.entity
-                //TODO update to newer LibKTX version once it is available to get rid of the memory leak
-                // collision body
                 box(1f, 1f) {
                     isSensor = true
                 }
@@ -140,8 +136,6 @@ fun Engine.scenery(world: World, posX: Float, posY: Float, width: Float, height:
                 // bottom right corner
                 TMP_FLOAT_ARRAY[6] = width * 0.5f
                 TMP_FLOAT_ARRAY[7] = -height * 0.5f
-                //TODO update to newer LibKTX version once it is available to get rid of the memory leak
-                // collision body
                 loop(TMP_FLOAT_ARRAY)
             }
         }
