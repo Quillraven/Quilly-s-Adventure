@@ -6,6 +6,9 @@ import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
+import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.TmxMapLoader
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2D
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
@@ -42,7 +45,12 @@ class Main : KtxGame<KtxScreen>() {
         // setup context and register stuff that should also be disposed at the end of the game lifecycle
         ctx.register {
             bindSingleton(SpriteBatch())
-            bindSingleton(AssetManager())
+            bindSingleton(AssetManager().apply {
+                // we use tmx tiledmaps created via the Tiled tool and therefore
+                // we use the TmxMapLoader for our assetmanager to be able to
+                // load/unload .tmx files
+                setLoader(TiledMap::class.java, TmxMapLoader(fileHandleResolver))
+            })
             bindSingleton(AudioManager(ctx.inject()))
             bindSingleton(GameEventManager())
             // register keyboard event dispatcher after we initiate the game event manager
@@ -53,6 +61,7 @@ class Main : KtxGame<KtxScreen>() {
             bindSingleton(createSKin())
             bindSingleton(createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) })
             bindSingleton(Box2DDebugRenderer())
+            bindSingleton(OrthogonalTiledMapRenderer(null, UNIT_SCALE, ctx.inject<SpriteBatch>()))
             bindSingleton(createCharacterCfgCache())
             bindSingleton(createItemCfgCache())
         }
@@ -77,6 +86,7 @@ class Main : KtxGame<KtxScreen>() {
                 ctx.inject(), // audio manager
                 ctx.inject(), // physic world
                 ctx.inject(), // sprite batch
+                ctx.inject(), // tiled map renderer
                 ctx.inject() // box2d debug renderer
             )
         )

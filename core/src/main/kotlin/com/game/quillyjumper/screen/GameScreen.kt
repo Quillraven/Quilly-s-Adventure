@@ -3,11 +3,14 @@ package com.game.quillyjumper.screen
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.AudioManager
+import com.game.quillyjumper.assets.MapAssets
 import com.game.quillyjumper.assets.MusicAssets
+import com.game.quillyjumper.assets.get
 import com.game.quillyjumper.configuration.Character
 import com.game.quillyjumper.configuration.CharacterCfgCache
 import com.game.quillyjumper.configuration.Item
@@ -33,6 +36,7 @@ class GameScreen(
     private val audioManager: AudioManager,
     private val world: World,
     private val batch: SpriteBatch,
+    private val mapRenderer: OrthogonalTiledMapRenderer,
     private val box2DDebugRenderer: Box2DDebugRenderer
 ) : KtxScreen, InputListener {
     private val viewport = FitViewport(32f, 18f)
@@ -43,7 +47,7 @@ class GameScreen(
         addSystem(PlayerCollisionSystem())
         addSystem(PlayerStateSystem(inputController))
         addSystem(AnimationSystem(assets))
-        addSystem(RenderSystem(batch, viewport, world, box2DDebugRenderer))
+        addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
     }
 
     override fun show() {
@@ -66,6 +70,8 @@ class GameScreen(
         // item
         engine.item(itemCfgCache[Item.POTION_GAIN_LIFE], world, assets, 18.5f, 4f)
         engine.item(itemCfgCache[Item.POTION_GAIN_MANA], world, assets, 21f, 4f)
+        // set map to render
+        mapRenderer.map = assets[MapAssets.TEST_MAP]
     }
 
     override fun hide() {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="34" height="28" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="3">
+ <tileset firstgid="1" source="tilesets.tsx"/>
+ <layer id="2" name="bgd2" width="34" height="28">
+  <data encoding="base64" compression="zlib">
+   eJzt0rkVggAQRdEBKhAwcqlGlo4E7EjAzKUZWTKXJnwleEy+wcw5N3jZDyY2swQplohFnSFHgVLYFWo0OAi7RYceJ2EPGDFhFvYi4FeQIA10vUOGHIWw96hQoxH2ES069MK+Y8CISdh+fn7f3zk0u+CKW6jrf9nxwBMvvIXtO3yH7/Adv/YqMltjg22k6w8Td+/y
+  </data>
+ </layer>
+ <layer id="3" name="bgd3" width="34" height="28">
+  <data encoding="base64" compression="zlib">
+   eJzt09dNA0EABFDb5Ewv5Jx6ARzJUAvJgWSbWsDgQIZeePSwki10o3u/uzN3ulgsSpTOzxbbJEmRJkOWHDvsssc+BxxyxDEngXqccc4Fl+QpUKTEFdfccMsdZSpUuQ+05ZEaTzxTp0GTFi+88sY7H3zyxTc/gbbE4h4SdNFND7300c8AgwwxzAijjDEeD7NlwjmTTDHNDLPMMc8CiyyxzAqrrLHORjzMlk222CZJijQZsuTYYZc99jngkCOO42G2nHLGORdckqdAkRJXXHPDLXeUqVANtOXh7/tS44ln6jRo0uKFV95454NPvvgOtCVEj0454z+9j07ObMI/xzwLifb1SLs7Q5ZcG3vk3V2gSKmNPerubtCk1cYeUaJE6ez8Atds1hk=
+  </data>
+ </layer>
+ <layer id="1" name="bgd1" width="34" height="28">
+  <data encoding="base64" compression="zlib">
+   eJztztkyggEcxuFvpusjW4mIS0GWkC2Xouxkv5Qskeyc9VyBA9+Jg/9v5jl8Z94kiaIoiqIo+r2+TJL0k2WAQYYYZoQceUYpMMY4RSaYpMQU05m//5ixnWWOMvMssMgSFZZZYZUqa6yzwSZb1NhO8WPHtk6DXfbY54BDjjjmhFOanHHOBZdccc1Nih8t21vuuOeBNo880eGZLi+88sY7H3zyxTc/KX5EURT9l3pAETPh
+  </data>
+ </layer>
+ <layer id="4" name="bgd4" width="34" height="28">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSgYBaNg8ID/TECCmYGBkRlCszEj+HxAzM9MH3cYAe0xBmITKLZEYjsCsROd3JEKtCcNiNOx4BIgLqWjO2YC8SwsmN7uSBsk7oCFx9xBFh5zB8AdMwZJ+gAAqGcgBA==
+  </data>
+ </layer>
+ <objectgroup color="#ff0000" id="5" name="collision">
+  <object id="1" x="11" y="672" width="247" height="15"/>
+ </objectgroup>
+ <objectgroup color="#00ffff" id="6" name="playerSpawnLocation">
+  <object id="2" x="111" y="652">
+   <point/>
+  </object>
+ </objectgroup>
+</map>

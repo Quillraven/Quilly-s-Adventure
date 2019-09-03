@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.maps.tiled.TiledMap
 import ktx.assets.getAsset
 import ktx.assets.load
 
@@ -31,3 +32,11 @@ enum class TextureAtlasAssets(val filePath: String) {
 
 fun AssetManager.load(asset: TextureAtlasAssets) = load<TextureAtlas>(asset.filePath)
 operator fun AssetManager.get(asset: TextureAtlasAssets) = this.getAsset<TextureAtlas>(asset.filePath)
+
+// tiled map
+enum class MapAssets(val filePath: String) {
+    TEST_MAP("assets/map/testmap.tmx")
+}
+
+fun AssetManager.load(asset: MapAssets) = load<TiledMap>(asset.filePath)
+operator fun AssetManager.get(asset: MapAssets) = this.getAsset<TiledMap>(asset.filePath)

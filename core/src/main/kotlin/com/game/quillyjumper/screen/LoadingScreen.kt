@@ -2,14 +2,12 @@ package com.game.quillyjumper.screen
 
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.game.quillyjumper.AudioManager
-import com.game.quillyjumper.assets.MusicAssets
-import com.game.quillyjumper.assets.SoundAssets
-import com.game.quillyjumper.assets.TextureAtlasAssets
-import com.game.quillyjumper.assets.load
+import com.game.quillyjumper.assets.*
 import com.game.quillyjumper.configuration.CharacterCfgCache
 import com.game.quillyjumper.configuration.ItemCfgCache
 import com.game.quillyjumper.event.GameEventManager
@@ -28,6 +26,7 @@ class LoadingScreen(
     private val audioManager: AudioManager,
     private val world: World,
     private val batch: SpriteBatch,
+    private val mapRenderer: OrthogonalTiledMapRenderer,
     private val box2DDebugRenderer: Box2DDebugRenderer
 ) : KtxScreen {
     override fun show() {
@@ -35,6 +34,7 @@ class LoadingScreen(
         MusicAssets.values().forEach { assets.load(it) }
         SoundAssets.values().forEach { assets.load(it) }
         TextureAtlasAssets.values().forEach { assets.load(it) }
+        MapAssets.values().forEach { assets.load(it) }
     }
 
     override fun resize(width: Int, height: Int) {
@@ -56,6 +56,7 @@ class LoadingScreen(
                     audioManager,
                     world,
                     batch,
+                    mapRenderer,
                     box2DDebugRenderer
                 )
             )

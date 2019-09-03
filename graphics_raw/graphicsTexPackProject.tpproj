@@ -35,6 +35,45 @@ scaleFactors=[{suffix:"",factor:1,resampling:bicubic}]
 inputFiles=[{path:.,type:Input,dirFilePrefix:null,recursive:true,flattenPaths:false}]
 
 
+---
+
+name=tilesets
+filename=
+output=../assets/graphics
+
+alias=true
+alphaThreshold=0
+debug=false
+duplicatePadding=false
+edgePadding=false
+fast=false
+filterMag=Nearest
+filterMin=Nearest
+ignoreBlankImages=true
+maxHeight=2048
+maxWidth=2048
+minHeight=16
+minWidth=16
+paddingX=0
+paddingY=0
+pot=true
+mof=false
+rotation=false
+stripWhitespaceX=false
+stripWhitespaceY=false
+wrapX=ClampToEdge
+wrapY=ClampToEdge
+premultiplyAlpha=false
+grid=false
+square=false
+bleed=true
+limitMemory=true
+useIndexes=true
+
+scaleFactors=[{suffix:"",factor:1,resampling:bicubic}]
+inputFiles=[{path:map,type:Input,dirFilePrefix:null,recursive:false,flattenPaths:false}]
+
+
 -PROJ-
 
 version=4.8.2
