@@ -12,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.game.quillyjumper.ecs.component.RenderComponent
 import com.game.quillyjumper.ecs.component.TransformComponent
+import com.game.quillyjumper.map.Map
+import com.game.quillyjumper.map.MapChangeListener
 import ktx.ashley.allOf
 import ktx.ashley.get
 import ktx.graphics.use
@@ -25,7 +27,7 @@ class RenderSystem(
     private val world: World,
     private val mapRenderer: OrthogonalTiledMapRenderer,
     private val box2DDebugRenderer: Box2DDebugRenderer
-) : SortedIteratingSystem(
+) : MapChangeListener, SortedIteratingSystem(
     allOf(RenderComponent::class, TransformComponent::class).get(),
     compareBy { entity -> entity[TransformComponent.mapper] }
 ) {
@@ -35,7 +37,7 @@ class RenderSystem(
         // update camera to set the correct matrix for rendering later on
         gameViewPort.apply()
         batch.use {
-            // set view of maprenderer internally sets the projection matrix of the sprite batch
+            // set view of map renderer internally sets the projection matrix of the sprite batch
             // which is used to correctly render not map related stuff like our entities
             mapRenderer.setView(gameViewPort.camera as OrthographicCamera)
             // render map
@@ -73,5 +75,9 @@ class RenderSystem(
                 }
             }
         }
+    }
+
+    override fun mapChange(newMap: Map) {
+        mapRenderer.map = newMap.tiledMap
     }
 }

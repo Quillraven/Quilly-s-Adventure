@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="34" height="28" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="3">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="34" height="28" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="8">
  <tileset firstgid="1" source="tilesets.tsx"/>
  <layer id="2" name="bgd2" width="34" height="28">
   <data encoding="base64" compression="zlib">
@@ -21,8 +21,41 @@
    eJxjYBgFo2AUjIJRMApGwSgYBaNg8ID/TECCmYGBkRlCszEj+HxAzM9MH3cYAe0xBmITKLZEYjsCsROd3JEKtCcNiNOx4BIgLqWjO2YC8SwsmN7uSBsk7oCFx9xBFh5zB8AdMwZJ+gAAqGcgBA==
   </data>
  </layer>
+ <layer id="9" name="fgd" width="34" height="28">
+  <data encoding="base64" compression="zlib">
+   eJztztENABAQBNGLrtASWkJLKMh2cRHzkvneNQMAAPhTDGZJ5eD7o2i/qub8o2t/qOn8Y2l/q+P8A8B7LqsyBmc=
+  </data>
+ </layer>
  <objectgroup color="#ff0000" id="5" name="collision">
   <object id="1" x="11" y="672" width="247" height="15"/>
+  <object id="3" x="262" y="672">
+   <polyline points="0,0 88,29 125,63 153,125"/>
+  </object>
+  <object id="6" x="179.5" y="634">
+   <polygon points="0,0 28,-21.5 100.5,-25.5 91.5,-54 63.5,-75.5 29.5,-43 16.5,-55 0.5,-52 -17.5,-23"/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ff5500" id="7" name="enemy">
+  <object id="4" x="208" y="659">
+   <properties>
+    <property name="Character" value="BLUE_SLIME"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="7" x="248" y="654.667">
+   <properties>
+    <property name="Character" value="GREEN_SLIME"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ffff00" id="8" name="item">
+  <object id="5" x="334" y="628">
+   <properties>
+    <property name="Item" value="POTION_GAIN_LIFE"/>
+   </properties>
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup color="#00ffff" id="6" name="playerSpawnLocation">
   <object id="2" x="111" y="652">

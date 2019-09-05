@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2
 import com.game.quillyjumper.ecs.component.EntityType
 import com.game.quillyjumper.ecs.component.ModelType
 import ktx.log.logger
+import ktx.math.vec2
 import java.util.*
 
 private val LOG = logger<CharacterCfgCache>()
@@ -15,8 +16,8 @@ enum class Character {
 
 class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
     var speed = 0f
-    val size = Vector2(1f, 1f)
-    val collBodyOffset = Vector2(0f, 0f)
+    val size = vec2(1f, 1f)
+    val collBodyOffset = vec2(0f, 0f)
 
     fun size(width: Float, height: Float): Vector2 = size.set(width, height)
 

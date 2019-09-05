@@ -8,36 +8,33 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.AudioManager
-import com.game.quillyjumper.assets.MapAssets
-import com.game.quillyjumper.assets.MusicAssets
-import com.game.quillyjumper.assets.get
 import com.game.quillyjumper.configuration.Character
 import com.game.quillyjumper.configuration.CharacterCfgCache
-import com.game.quillyjumper.configuration.Item
 import com.game.quillyjumper.configuration.ItemCfgCache
 import com.game.quillyjumper.ecs.character
 import com.game.quillyjumper.ecs.component.PlayerComponent
-import com.game.quillyjumper.ecs.item
-import com.game.quillyjumper.ecs.scenery
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.InputListener
+import com.game.quillyjumper.map.MapManager
+import com.game.quillyjumper.map.MapType
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
+import ktx.ashley.allOf
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
-    private val assets: AssetManager,
-    private val characterCfgCache: CharacterCfgCache,
-    private val itemCfgCache: ItemCfgCache,
+    assets: AssetManager,
+    characterCfgCache: CharacterCfgCache,
+    itemCfgCache: ItemCfgCache,
     private val gameEventManager: GameEventManager,
-    private val inputController: InputController,
+    inputController: InputController,
     private val audioManager: AudioManager,
-    private val world: World,
-    private val batch: SpriteBatch,
-    private val mapRenderer: OrthogonalTiledMapRenderer,
-    private val box2DDebugRenderer: Box2DDebugRenderer
+    world: World,
+    batch: SpriteBatch,
+    mapRenderer: OrthogonalTiledMapRenderer,
+    box2DDebugRenderer: Box2DDebugRenderer
 ) : KtxScreen, InputListener {
     private val viewport = FitViewport(32f, 18f)
     private val engine = PooledEngine().apply {
@@ -48,34 +45,30 @@ class GameScreen(
         addSystem(PlayerStateSystem(inputController))
         addSystem(AnimationSystem(assets))
         addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
+        // create player entity
+        character(characterCfgCache[Character.PLAYER], world, 0f, 0f, 1).apply {
+            add(createComponent(PlayerComponent::class.java))
+        }
     }
+    private val playerEntities = engine.getEntitiesFor(allOf(PlayerComponent::class).get())
+    private val mapManager =
+        MapManager(assets, world, engine, characterCfgCache, itemCfgCache, playerEntities, gameEventManager)
 
     override fun show() {
         // add game screen as input listener to react when the player wants to quit the game (=exit key pressed)
         gameEventManager.addInputListener(this)
-
-        // play nice background music ;)
-        audioManager.play(MusicAssets.LEVEL_1)
-
-        // TODO remove testing stuff
-        // player
-        engine.character(characterCfgCache[Character.PLAYER], world, 16f, 3f, 1).apply {
-            add(engine.createComponent(PlayerComponent::class.java))
-        }
-        // floor
-        engine.scenery(world, 1f, 1f, 30f, 1f)
-        engine.scenery(world, 18f, 2f, 2f, 1f)
-        // enemy
-        engine.character(characterCfgCache[Character.BLUE_SLIME], world, 14f, 3f)
-        // item
-        engine.item(itemCfgCache[Item.POTION_GAIN_LIFE], world, assets, 18.5f, 4f)
-        engine.item(itemCfgCache[Item.POTION_GAIN_MANA], world, assets, 21f, 4f)
-        // set map to render
-        mapRenderer.map = assets[MapAssets.TEST_MAP]
+        // add RenderSystem as MapChangeListener to update the mapRenderer whenever the map changes
+        gameEventManager.addMapChangeListener(engine.getSystem(RenderSystem::class.java))
+        // add AudioManager as MapChangeListener to play the music of the map whenever it gets changed
+        gameEventManager.addMapChangeListener(audioManager)
+        // set map
+        mapManager.setMap(MapType.TEST_MAP)
     }
 
     override fun hide() {
         gameEventManager.removeInputListener(this)
+        gameEventManager.removeMapChangeListener(engine.getSystem(RenderSystem::class.java))
+        gameEventManager.removeMapChangeListener(audioManager)
     }
 
     override fun resize(width: Int, height: Int) {

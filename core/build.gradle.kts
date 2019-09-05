@@ -25,6 +25,7 @@ dependencies {
     api("io.github.libktx:ktx-graphics:$ktxVersion")
     api("io.github.libktx:ktx-inject:$ktxVersion")
     api("io.github.libktx:ktx-log:$ktxVersion")
+    api("io.github.libktx:ktx-math:$ktxVersion")
     api("io.github.libktx:ktx-scene2d:$ktxVersion")
     api("io.github.libktx:ktx-style:$ktxVersion")
 }

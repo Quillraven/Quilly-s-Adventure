@@ -46,7 +46,7 @@ class Main : KtxGame<KtxScreen>() {
         ctx.register {
             bindSingleton(SpriteBatch())
             bindSingleton(AssetManager().apply {
-                // we use tmx tiledmaps created via the Tiled tool and therefore
+                // we use tmx tiled maps created via the Tiled tool and therefore
                 // we use the TmxMapLoader for our assetmanager to be able to
                 // load/unload .tmx files
                 setLoader(TiledMap::class.java, TmxMapLoader(fileHandleResolver))

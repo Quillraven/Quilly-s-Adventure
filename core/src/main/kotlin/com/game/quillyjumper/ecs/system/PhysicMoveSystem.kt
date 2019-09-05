@@ -2,17 +2,17 @@ package com.game.quillyjumper.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
-import com.badlogic.gdx.math.Vector2
 import com.game.quillyjumper.ecs.component.MoveComponent
 import com.game.quillyjumper.ecs.component.MoveDirection
 import com.game.quillyjumper.ecs.component.PhysicComponent
 import ktx.ashley.allOf
 import ktx.ashley.get
+import ktx.math.vec2
 import kotlin.math.max
 import kotlin.math.min
 
 class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicComponent::class).get()) {
-    private val impulse = Vector2(0f, 0f)
+    private val impulse = vec2(0f, 0f)
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity[MoveComponent.mapper]?.let { move ->

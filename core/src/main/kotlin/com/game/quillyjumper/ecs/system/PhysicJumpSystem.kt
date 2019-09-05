@@ -2,7 +2,6 @@ package com.game.quillyjumper.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.assets.SoundAssets
@@ -12,8 +11,9 @@ import com.game.quillyjumper.ecs.component.JumpDirection
 import com.game.quillyjumper.ecs.component.PhysicComponent
 import ktx.ashley.allOf
 import ktx.ashley.get
+import ktx.math.vec2
 
-private val JUMP_FORCE = Vector2(0f, 40f)
+private val JUMP_FORCE = vec2(0f, 40f)
 
 /**
  * An entity can jump when it is in contact with the ground [CollisionComponent.numGroundContacts] > 0 and

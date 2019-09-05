@@ -33,7 +33,12 @@ fun Engine.character(cfg: CharacterCfg, world: World, posX: Float, posY: Float, 
             body = world.body(BodyDef.BodyType.DynamicBody) {
                 position.set(posX + cfg.size.x * 0.5f, posY + cfg.size.y * 0.5f)
                 userData = this@entity.entity
-                box(cfg.size.x, cfg.size.y, cfg.collBodyOffset)
+                // characters do not need to rotate
+                fixedRotation = true
+                box(cfg.size.x, cfg.size.y, cfg.collBodyOffset) {
+                    // characters should not stick on walls or other physic objects
+                    friction = 0f
+                }
                 // ground sensor to detect if entity can jump
                 box(cfg.size.x * 0.5f, 0.25f, PhysicComponent.tmpVec2.set(0f, -cfg.size.y * 0.5f)) {
                     userData = FIXTURE_TYPE_FOOT_SENSOR
@@ -81,6 +86,8 @@ fun Engine.item(cfg: ItemCfg, world: World, assets: AssetManager, posX: Float, p
             body = world.body(BodyDef.BodyType.StaticBody) {
                 position.set(posX + 0.5f, posY + 0.5f)
                 userData = this@entity.entity
+                // items do not need to rotate
+                fixedRotation = true
                 box(1f, 1f) {
                     isSensor = true
                 }
@@ -110,19 +117,13 @@ fun Engine.item(cfg: ItemCfg, world: World, assets: AssetManager, posX: Float, p
 
 fun Engine.scenery(world: World, posX: Float, posY: Float, width: Float, height: Float): Entity {
     return this.entity {
-        // transform
-        with<TransformComponent> {
-            position.set(posX, posY)
-            this.z = 0
-            prevPosition.set(position)
-            interpolatedPosition.set(position)
-            size.set(width, height)
-        }
         // physic
         with<PhysicComponent> {
             body = world.body(BodyDef.BodyType.StaticBody) {
                 position.set(posX + width * 0.5f, posY + height * 0.5f)
                 userData = this@entity.entity
+                // scenery does not need to rotate
+                fixedRotation = true
                 // define loop vertices
                 // bottom left corner
                 TMP_FLOAT_ARRAY[0] = -width * 0.5f
@@ -137,6 +138,25 @@ fun Engine.scenery(world: World, posX: Float, posY: Float, width: Float, height:
                 TMP_FLOAT_ARRAY[6] = width * 0.5f
                 TMP_FLOAT_ARRAY[7] = -height * 0.5f
                 loop(TMP_FLOAT_ARRAY)
+            }
+        }
+        // type of entity
+        with<EntityTypeComponent> {
+            this.type = EntityType.SCENERY
+        }
+    }
+}
+
+fun Engine.scenery(world: World, posX: Float, posY: Float, vertices: FloatArray, loop: Boolean = false): Entity {
+    return this.entity {
+        // physic
+        with<PhysicComponent> {
+            body = world.body(BodyDef.BodyType.StaticBody) {
+                position.set(posX, posY)
+                // scenery does not need to rotate
+                fixedRotation = true
+                userData = this@entity.entity
+                if (loop) loop(vertices) else chain(vertices)
             }
         }
         // type of entity
