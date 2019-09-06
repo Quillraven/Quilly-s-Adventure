@@ -243,11 +243,13 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1567529275747" ID="ID_614696170" MODIFIED="1567529289915" TEXT="add Tiled map loading support">
+<node COLOR="#00b439" CREATED="1567529275747" FOLDED="true" ID="ID_614696170" MODIFIED="1567791230710" TEXT="add Tiled map loading support">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1567529290314" ID="ID_1774830948" MODIFIED="1567529307409" TEXT="MapManager">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1567529290314" FOLDED="true" ID="ID_1774830948" MODIFIED="1567714932400" TEXT="MapManager">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1567529307908" ID="ID_1391537116" MODIFIED="1567529310617" TEXT="setMap method">
 <node COLOR="#111111" CREATED="1567529365964" ID="ID_1005377167" MODIFIED="1567529398526" TEXT="parses TiledMap data">
 <node COLOR="#111111" CREATED="1567529399389" ID="ID_431940509" MODIFIED="1567529401712" TEXT="collision  areas">
@@ -269,21 +271,93 @@
 </node>
 <node COLOR="#111111" CREATED="1567529680820" ID="ID_614791794" MODIFIED="1567529687368" TEXT="mapCache&lt;MapID, Map&gt;"/>
 </node>
-<node COLOR="#990000" CREATED="1567529342693" ID="ID_273167015" MODIFIED="1567529365567" TEXT="Map">
+<node COLOR="#990000" CREATED="1567529342693" FOLDED="true" ID="ID_273167015" MODIFIED="1567714937269" TEXT="Map">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1567529666309" ID="ID_589211638" MODIFIED="1567529669533" TEXT="enum MapID"/>
 </node>
-<node COLOR="#990000" CREATED="1567529714190" ID="ID_322942617" MODIFIED="1567529718576" TEXT="MapListener">
+<node COLOR="#990000" CREATED="1567529714190" FOLDED="true" ID="ID_322942617" MODIFIED="1567714945511" TEXT="MapListener">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1567529718910" ID="ID_66885710" MODIFIED="1567529721276" TEXT="onMapChange"/>
 <node COLOR="#111111" CREATED="1567529722915" ID="ID_1034284691" MODIFIED="1567529733972" TEXT="RenderSystem will register as listener to get notified when map changes">
 <node COLOR="#111111" CREATED="1567529734949" ID="ID_1903398113" MODIFIED="1567529742344" TEXT="this will update the TiledMapRenderer with the new map"/>
 </node>
 </node>
-<node COLOR="#990000" CREATED="1567530866129" ID="ID_1378842601" MODIFIED="1567530876221" TEXT="SpriteSheet Info">
+<node COLOR="#990000" CREATED="1567714950087" FOLDED="true" ID="ID_642609254" MODIFIED="1567791099248" TEXT="Refactoring">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1567714955462" ID="ID_1807541345" MODIFIED="1567714975945" TEXT="choose either the parse concept approach or the spawn concept approach">
+<node COLOR="#111111" CREATED="1567714976580" ID="ID_1678515865" MODIFIED="1567714981230" TEXT="refer to current Map implementation"/>
+</node>
+<node COLOR="#111111" CREATED="1567714982968" ID="ID_984348203" MODIFIED="1567714995707" TEXT="add bgd/fgx layer parsing to optimize map rendering"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1567715090130" ID="ID_504563942" MODIFIED="1567791231979" TEXT="CameraSystem">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1567715095208" ID="ID_1686995078" MODIFIED="1567715099676" TEXT="camera boundaries are map boundaries">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1567715100539" ID="ID_241517315" MODIFIED="1567715104792" TEXT="camera sticks to player">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1567715114515" FOLDED="true" ID="ID_1717443638" MODIFIED="1567791239825" TEXT="Improvements">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1567715118333" ID="ID_1973310679" MODIFIED="1567715137015" TEXT="optimize animations because right now e.g. the jump animation gets player in a loop instead of only one time">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1567715140896" ID="ID_1590432143" MODIFIED="1567715155402" TEXT="optimize jump and movesystem to get rid of the bug mentioned at github (inconsistent maximum height)">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1567715179604" ID="ID_1859725468" MODIFIED="1567715186760" TEXT="add Flippy EasterEgg Character">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1567715051244" FOLDED="true" ID="ID_1333128473" MODIFIED="1567791225165" TEXT="make a nice looking first easy level">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1567715058712" ID="ID_455498290" MODIFIED="1567791117734" TEXT="few screens from left to right">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1567715067516" ID="ID_719110560" MODIFIED="1567791117734" TEXT="some simple monsters">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1567715071830" ID="ID_480409077" MODIFIED="1567791117735" TEXT="one item to pickup">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1567791159831" FOLDED="true" ID="ID_1358993190" MODIFIED="1567791252871" TEXT="Update Wikipedia page of project">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1567791166566" ID="ID_940234751" MODIFIED="1567791175621" TEXT="Gimp Sprite Gutter plugin for map">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1567791177112" ID="ID_697657101" MODIFIED="1567791182129" TEXT="How to create a new Character">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1567791188651" ID="ID_393657603" MODIFIED="1567791191988" TEXT="collisionBodyOffset"/>
+</node>
+<node COLOR="#990000" CREATED="1567791183463" ID="ID_330887285" MODIFIED="1567791187608" TEXT="How to create a new Item">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1567791201700" ID="ID_148144328" MODIFIED="1567791206078" TEXT="How to setup a Tiled Map">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1567791206426" ID="ID_522019661" MODIFIED="1567791209441" TEXT="layer name conventions"/>
+<node COLOR="#111111" CREATED="1567791210342" ID="ID_1345078008" MODIFIED="1567791222126" TEXT="supported map Objects for enemies, items and scenery"/>
+</node>
+</node>
+</node>
+<node COLOR="#0033ff" CREATED="1567791125419" FOLDED="true" ID="ID_519556287" MODIFIED="1567791254477" POSITION="right" TEXT="Information">
+<edge STYLE="sharp_bezier" WIDTH="8"/>
+<font NAME="SansSerif" SIZE="18"/>
 <icon BUILTIN="info"/>
-<node COLOR="#111111" CREATED="1567530877478" ID="ID_987988347" MODIFIED="1567530884113" TEXT="Use Gimp Sprite Gutter plugin">
+<node COLOR="#00b439" CREATED="1567530866129" ID="ID_1378842601" MODIFIED="1567791142860" TEXT="SpriteSheet Info">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1567530877478" ID="ID_987988347" MODIFIED="1567791132269" TEXT="Use Gimp Sprite Gutter plugin">
+<font NAME="SansSerif" SIZE="14"/>
 <node COLOR="#111111" CREATED="1567530892736" ID="ID_1625964005" MODIFIED="1567530934044" TEXT="Filter/Sprite Sheet/add Gutter">
 <node COLOR="#111111" CREATED="1567530917703" ID="ID_1678433558" MODIFIED="1567530924938" TEXT="Padding minimum of 4 to avoid bleeding"/>
 <node COLOR="#111111" CREATED="1567530934045" ID="ID_704284413" MODIFIED="1567530935769" TEXT="Spacing 0"/>
@@ -295,7 +369,6 @@
 <node COLOR="#111111" CREATED="1567530973275" ID="ID_1242927483" MODIFIED="1567530979106" TEXT="For Tiled tileset use">
 <node COLOR="#111111" CREATED="1567531001662" ID="ID_1986427002" MODIFIED="1567531009098" TEXT="margin  = margin of gutter plugin"/>
 <node COLOR="#111111" CREATED="1567531016275" ID="ID_378457413" MODIFIED="1567531024210" TEXT="spacing = two times the margin"/>
-</node>
 </node>
 </node>
 </node>
