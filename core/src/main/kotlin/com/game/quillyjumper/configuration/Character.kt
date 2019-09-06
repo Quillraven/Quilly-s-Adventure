@@ -7,7 +7,7 @@ import ktx.log.logger
 import ktx.math.vec2
 import java.util.*
 
-private val LOG = logger<CharacterCfgCache>()
+private val LOG = logger<CharacterConfigurations>()
 
 enum class Character {
     PLAYER,
@@ -24,10 +24,10 @@ class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
     fun collisionBodyOffset(offsetX: Float, offsetY: Float): Vector2 = collBodyOffset.set(offsetX, offsetY)
 }
 
-class CharacterCfgCache : EnumMap<Character, CharacterCfg>(Character::class.java) {
+class CharacterConfigurations : EnumMap<Character, CharacterCfg>(Character::class.java) {
     private val defaultCfg = CharacterCfg(EntityType.OTHER, ModelType.UNKNOWN)
 
-    fun characterCfg(
+    fun cfg(
         id: Character,
         entityType: EntityType,
         modelType: ModelType,
@@ -50,4 +50,4 @@ class CharacterCfgCache : EnumMap<Character, CharacterCfg>(Character::class.java
     }
 }
 
-inline fun characterCfgCache(init: CharacterCfgCache.() -> Unit) = CharacterCfgCache().apply(init)
+inline fun characterConfigurations(init: CharacterConfigurations.() -> Unit) = CharacterConfigurations().apply(init)

@@ -8,10 +8,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.AudioManager
-import com.game.quillyjumper.configuration.Character
-import com.game.quillyjumper.configuration.CharacterCfgCache
-import com.game.quillyjumper.configuration.ItemCfgCache
+import com.game.quillyjumper.configuration.*
 import com.game.quillyjumper.ecs.character
+import com.game.quillyjumper.ecs.component.EntityType
+import com.game.quillyjumper.ecs.component.ModelType
 import com.game.quillyjumper.ecs.component.PlayerComponent
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
@@ -26,8 +26,6 @@ import ktx.ashley.allOf
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
     assets: AssetManager,
-    characterCfgCache: CharacterCfgCache,
-    itemCfgCache: ItemCfgCache,
     private val gameEventManager: GameEventManager,
     inputController: InputController,
     private val audioManager: AudioManager,
@@ -36,6 +34,8 @@ class GameScreen(
     mapRenderer: OrthogonalTiledMapRenderer,
     box2DDebugRenderer: Box2DDebugRenderer
 ) : KtxScreen, InputListener {
+    private val characterCfgCache = initCharacterConfigurations()
+    private val itemCfgCache = initItemConfigurations(assets)
     private val viewport = FitViewport(32f, 18f)
     private val engine = PooledEngine().apply {
         addSystem(PhysicMoveSystem())
@@ -83,5 +83,26 @@ class GameScreen(
     override fun exit() {
         // player pressed exit key -> go back to menu
         game.setScreen<MenuScreen>()
+    }
+
+
+    private fun initCharacterConfigurations(): CharacterConfigurations {
+        return characterConfigurations {
+            cfg(Character.PLAYER, EntityType.PLAYER, ModelType.PLAYER) {
+                speed = 4f
+                size(0.5f, 0.8f)
+            }
+            cfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
+                speed = 1f
+                size(0.5f, 0.5f)
+            }
+        }
+    }
+
+    private fun initItemConfigurations(assets: AssetManager): ItemConfigurations {
+        return itemConfigurations(assets) {
+            cfg(Item.POTION_GAIN_LIFE, "potion_green_plus")
+            cfg(Item.POTION_GAIN_MANA, "potion_blue_plus")
+        }
     }
 }

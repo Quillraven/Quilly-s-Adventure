@@ -8,8 +8,6 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.assets.*
-import com.game.quillyjumper.configuration.CharacterCfgCache
-import com.game.quillyjumper.configuration.ItemCfgCache
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.input.InputController
 import ktx.app.KtxGame
@@ -19,8 +17,6 @@ class LoadingScreen(
     private val game: KtxGame<KtxScreen>,
     private val stage: Stage,
     private val assets: AssetManager,
-    private val characterCfgCache: CharacterCfgCache,
-    private val itemCfgCache: ItemCfgCache,
     private val gameEventManager: GameEventManager,
     private val inputController: InputController,
     private val audioManager: AudioManager,
@@ -49,8 +45,6 @@ class LoadingScreen(
                 GameScreen(
                     game,
                     assets,
-                    characterCfgCache,
-                    itemCfgCache,
                     gameEventManager,
                     inputController,
                     audioManager,

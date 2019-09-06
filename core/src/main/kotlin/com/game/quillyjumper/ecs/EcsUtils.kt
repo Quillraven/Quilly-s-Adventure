@@ -2,13 +2,10 @@ package com.game.quillyjumper.ecs
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.FIXTURE_TYPE_FOOT_SENSOR
 import com.game.quillyjumper.UNIT_SCALE
-import com.game.quillyjumper.assets.TextureAtlasAssets
-import com.game.quillyjumper.assets.get
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
@@ -71,7 +68,7 @@ fun Engine.character(cfg: CharacterCfg, world: World, posX: Float, posY: Float, 
     }
 }
 
-fun Engine.item(cfg: ItemCfg, world: World, assets: AssetManager, posX: Float, posY: Float): Entity {
+fun Engine.item(cfg: ItemCfg, world: World, posX: Float, posY: Float): Entity {
     return this.entity {
         // transform
         with<TransformComponent> {
@@ -96,11 +93,7 @@ fun Engine.item(cfg: ItemCfg, world: World, assets: AssetManager, posX: Float, p
         // render
         with<RenderComponent> {
             sprite.apply {
-                //TODO add safety in case region cannot be found
-                // maybe create item/character cache, etc. AFTER assets are loaded because that way we could
-                // set texture regions in our Cfg classes instead of strings and check for issues in those
-                // classes directly
-                val region = assets[TextureAtlasAssets.GAME_OBJECTS].findRegion(cfg.regionKey)
+                val region = cfg.region
                 texture = region.texture
                 setRegion(region)
                 // keep aspect ratio of original texture and scale it to fit into the world units

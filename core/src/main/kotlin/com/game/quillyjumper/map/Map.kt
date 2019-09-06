@@ -1,7 +1,6 @@
 package com.game.quillyjumper.map
 
 import com.badlogic.ashley.core.Engine
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.maps.MapLayer
 import com.badlogic.gdx.maps.MapLayers
 import com.badlogic.gdx.maps.MapObject
@@ -14,9 +13,9 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Array
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.configuration.Character
-import com.game.quillyjumper.configuration.CharacterCfgCache
+import com.game.quillyjumper.configuration.CharacterConfigurations
 import com.game.quillyjumper.configuration.Item
-import com.game.quillyjumper.configuration.ItemCfgCache
+import com.game.quillyjumper.configuration.ItemConfigurations
 import com.game.quillyjumper.ecs.character
 import com.game.quillyjumper.ecs.item
 import ktx.log.logger
@@ -111,7 +110,7 @@ class Map(val type: MapType, val tiledMap: TiledMap) {
         }
     }
 
-    fun spawnEnemyObjects(engine: Engine, world: World, characterCfgCache: CharacterCfgCache) {
+    fun spawnEnemyObjects(engine: Engine, world: World, characterConfigurations: CharacterConfigurations) {
         tiledMap.layers[LAYER_ENEMY]?.run {
             // layer existing -> spawn enemies
             this.objects.getByType(RectangleMapObject::class.java, TMP_RCT_MAP_OBJECTS)
@@ -120,19 +119,19 @@ class Map(val type: MapType, val tiledMap: TiledMap) {
                     val charID = enemyObj.properties.get("Character", "", String::class.java)
                     val charKey = Character.valueOf(charID)
                     engine.character(
-                        characterCfgCache[charKey],
+                        characterConfigurations[charKey],
                         world,
                         enemyObj.rectangle.x * UNIT_SCALE,
                         enemyObj.rectangle.y * UNIT_SCALE
                     )
                 } catch (e: IllegalArgumentException) {
-                    LOG.error { "Invalid character property specified for object with ID ${enemyObj.id} for map $type" }
+                    LOG.error(e) { "Invalid character property specified for object with ID ${enemyObj.id} for map $type" }
                 }
             }
         }
     }
 
-    fun spawnItemObjects(engine: Engine, world: World, assets: AssetManager, itemCfgCache: ItemCfgCache) {
+    fun spawnItemObjects(engine: Engine, world: World, itemConfigurations: ItemConfigurations) {
         tiledMap.layers[LAYER_ITEM]?.run {
             // layer existing -> spawn items
             this.objects.getByType(RectangleMapObject::class.java, TMP_RCT_MAP_OBJECTS)
@@ -141,9 +140,8 @@ class Map(val type: MapType, val tiledMap: TiledMap) {
                     val itemID = itemObj.properties.get("Item", "", String::class.java)
                     val itemKey = Item.valueOf(itemID)
                     engine.item(
-                        itemCfgCache[itemKey],
+                        itemConfigurations[itemKey],
                         world,
-                        assets,
                         itemObj.rectangle.x * UNIT_SCALE,
                         itemObj.rectangle.y * UNIT_SCALE
                     )

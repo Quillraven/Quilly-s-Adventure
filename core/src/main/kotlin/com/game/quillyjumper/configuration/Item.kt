@@ -1,21 +1,27 @@
 package com.game.quillyjumper.configuration
 
+import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.game.quillyjumper.assets.TextureAtlasAssets
+import com.game.quillyjumper.assets.get
 import ktx.log.logger
 import java.util.*
 
-private val LOG = logger<ItemCfgCache>()
+private val LOG = logger<ItemConfigurations>()
 
 enum class Item {
     POTION_GAIN_LIFE,
     POTION_GAIN_MANA
 }
 
-class ItemCfg(val regionKey: String)
+class ItemCfg(val region: TextureAtlas.AtlasRegion)
 
-class ItemCfgCache : EnumMap<Item, ItemCfg>(Item::class.java) {
-    private val defaultCfg = ItemCfg("error")
+class ItemConfigurations(assets: AssetManager) : EnumMap<Item, ItemCfg>(Item::class.java) {
+    private val atlas = assets[TextureAtlasAssets.GAME_OBJECTS]
+    private val defaultRegion = atlas.findRegion("error")!!
+    private val defaultCfg = ItemCfg(defaultRegion)
 
-    fun itemCfg(
+    fun cfg(
         id: Item,
         regionKey: String,
         init: ItemCfg.() -> Unit = { Unit }
@@ -24,7 +30,12 @@ class ItemCfgCache : EnumMap<Item, ItemCfg>(Item::class.java) {
             LOG.error { "Item configuration for id $id is already existing!" }
             return
         }
-        this[id] = ItemCfg(regionKey).apply(init)
+        var region = atlas.findRegion(regionKey)
+        if (region == null) {
+            LOG.error { "Wrong region for item configuration. Region: $regionKey" }
+            region = defaultRegion
+        }
+        this[id] = ItemCfg(region).apply(init)
     }
 
     override operator fun get(key: Item): ItemCfg {
@@ -37,4 +48,5 @@ class ItemCfgCache : EnumMap<Item, ItemCfg>(Item::class.java) {
     }
 }
 
-inline fun itemCfgCache(init: ItemCfgCache.() -> Unit) = ItemCfgCache().apply(init)
+inline fun itemConfigurations(assets: AssetManager, init: ItemConfigurations.() -> Unit) =
+    ItemConfigurations(assets).apply(init)

@@ -14,9 +14,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.ScreenViewport
-import com.game.quillyjumper.configuration.*
-import com.game.quillyjumper.ecs.component.EntityType
-import com.game.quillyjumper.ecs.component.ModelType
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.KeyboardEventDispatcher
@@ -62,8 +59,6 @@ class Main : KtxGame<KtxScreen>() {
             bindSingleton(createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) })
             bindSingleton(Box2DDebugRenderer())
             bindSingleton(OrthogonalTiledMapRenderer(null, UNIT_SCALE, ctx.inject<SpriteBatch>()))
-            bindSingleton(createCharacterCfgCache())
-            bindSingleton(createItemCfgCache())
         }
 
         // we need a multiplexer to react on the following input events
@@ -79,8 +74,6 @@ class Main : KtxGame<KtxScreen>() {
                 this, // game instance to switch screens
                 ctx.inject(), // stage
                 ctx.inject(), // assets
-                ctx.inject(), // character cfg cache
-                ctx.inject(), // item cfg cache
                 ctx.inject(), // game event manager
                 ctx.inject(), // input controller
                 ctx.inject(), // audio manager
@@ -109,26 +102,6 @@ class Main : KtxGame<KtxScreen>() {
             label { font = skin.getFont("defaultFont") }
             // default button style
             button { }
-        }
-    }
-
-    private fun createCharacterCfgCache(): CharacterCfgCache {
-        return characterCfgCache {
-            characterCfg(Character.PLAYER, EntityType.PLAYER, ModelType.PLAYER) {
-                speed = 4f
-                size(0.5f, 0.8f)
-            }
-            characterCfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
-                speed = 1f
-                size(0.5f, 0.5f)
-            }
-        }
-    }
-
-    private fun createItemCfgCache(): ItemCfgCache {
-        return itemCfgCache {
-            itemCfg(Item.POTION_GAIN_LIFE, "potion_green_plus")
-            itemCfg(Item.POTION_GAIN_MANA, "potion_blue_plus")
         }
     }
 

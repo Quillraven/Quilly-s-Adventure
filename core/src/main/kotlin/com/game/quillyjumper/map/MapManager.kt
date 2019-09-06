@@ -11,8 +11,8 @@ import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.assets.MapAssets
 import com.game.quillyjumper.assets.MusicAssets
 import com.game.quillyjumper.assets.get
-import com.game.quillyjumper.configuration.CharacterCfgCache
-import com.game.quillyjumper.configuration.ItemCfgCache
+import com.game.quillyjumper.configuration.CharacterConfigurations
+import com.game.quillyjumper.configuration.ItemConfigurations
 import com.game.quillyjumper.ecs.component.PhysicComponent
 import com.game.quillyjumper.ecs.scenery
 import com.game.quillyjumper.event.GameEventManager
@@ -27,8 +27,8 @@ class MapManager(
     private val assets: AssetManager,
     private val world: World,
     private val ecsEngine: Engine,
-    private val characterCfgCache: CharacterCfgCache,
-    private val itemCfgCache: ItemCfgCache,
+    private val characterConfigurations: CharacterConfigurations,
+    private val itemConfigurations: ItemConfigurations,
     private val playerEntities: ImmutableArray<Entity>,
     private val gameEventManager: GameEventManager
 ) {
@@ -46,8 +46,8 @@ class MapManager(
         val newMap = mapCache.computeIfAbsent(mapType) { Map(mapType, assets[mapType.asset]) }
         movePlayerToStartLocation(newMap)
         createCollisionEntities(newMap)
-        newMap.spawnEnemyObjects(ecsEngine, world, characterCfgCache)
-        newMap.spawnItemObjects(ecsEngine, world, assets, itemCfgCache)
+        newMap.spawnEnemyObjects(ecsEngine, world, characterConfigurations)
+        newMap.spawnItemObjects(ecsEngine, world, itemConfigurations)
         gameEventManager.dispatchMapChangeEvent(newMap)
     }
 
