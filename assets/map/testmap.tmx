@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="34" height="28" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="8">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="34" height="28" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="10">
  <tileset firstgid="1" source="tilesets.tsx"/>
  <layer id="2" name="bgd2" width="34" height="28">
   <data encoding="base64" compression="zlib">
@@ -53,6 +53,18 @@
   <object id="5" x="334" y="628">
    <properties>
     <property name="Item" value="POTION_GAIN_LIFE"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="8" x="367.333" y="642.667">
+   <properties>
+    <property name="Item" value="POTION_GAIN_LIFE2"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="9" x="394.667" y="663.333">
+   <properties>
+    <property name="Item2" value="POTION_GAIN_LIFE"/>
    </properties>
    <point/>
   </object>
