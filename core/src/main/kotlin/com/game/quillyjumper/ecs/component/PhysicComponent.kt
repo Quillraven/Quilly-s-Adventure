@@ -2,11 +2,11 @@ package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.physics.box2d.Body
-import com.badlogic.gdx.utils.Disposable
+import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 
-class PhysicComponent : Component, Disposable {
+class PhysicComponent : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<PhysicComponent>()
         val tmpVec2 = vec2()
@@ -14,8 +14,12 @@ class PhysicComponent : Component, Disposable {
 
     lateinit var body: Body
 
-    override fun dispose() {
-        body.userData = null
+    override fun reset() {
         body.world.destroyBody(body)
+        // clear user data AFTER body gets destroyed
+        // because destroying a body seems to trigger the
+        // collision listener which then fails with a NPE
+        // in case the userData is not an entity
+        body.userData = null
     }
 }
