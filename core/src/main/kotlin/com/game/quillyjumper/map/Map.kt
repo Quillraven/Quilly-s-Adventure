@@ -3,7 +3,12 @@ package com.game.quillyjumper.map
 import com.badlogic.gdx.maps.MapLayer
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.MapObjects
+import com.badlogic.gdx.maps.objects.PolygonMapObject
+import com.badlogic.gdx.maps.objects.PolylineMapObject
+import com.badlogic.gdx.maps.objects.RectangleMapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.Shape2D
 import com.game.quillyjumper.assets.MapAssets
 import com.game.quillyjumper.assets.MusicAssets
 import ktx.log.logger
@@ -31,6 +36,18 @@ enum class MapType(val asset: MapAssets, val music: MusicAssets) {
 // extension method to access properties the Kotlin way ;)
 inline fun <reified T> MapObject.property(key: String, defaultValue: T): T =
     this.properties[key, defaultValue, T::class.java]
+
+// extension property to access shape of a MapObject
+val MapObject.shape: Shape2D
+    get() = when (this) {
+        is RectangleMapObject -> this.rectangle
+        is PolylineMapObject -> this.polyline
+        is PolygonMapObject -> this.polygon
+        else -> {
+            LOG.error { "Unsupported MapObject of type ${this::class.java}. Cannot retrieve shape!" }
+            Rectangle.tmp.set(0f, 0f, 1f, 1f)
+        }
+    }
 
 // extension property to easily access MapObject IDs, x and y position
 val MapObject.id: Int

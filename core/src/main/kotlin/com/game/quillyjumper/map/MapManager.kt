@@ -4,8 +4,6 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.assets.AssetManager
-import com.badlogic.gdx.maps.objects.PolygonMapObject
-import com.badlogic.gdx.maps.objects.PolylineMapObject
 import com.badlogic.gdx.maps.objects.RectangleMapObject
 import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.UNIT_SCALE
@@ -90,38 +88,7 @@ class MapManager(
             // loop through all map objects of that layer and
             // create the scenery entity according to the shape
             // of the map object.
-            // Every shape gets scaled according to the world units.
-            when (mapObj) {
-                is RectangleMapObject -> {
-                    // rectangle
-                    val shape = mapObj.rectangle.apply {
-                        x *= UNIT_SCALE
-                        y *= UNIT_SCALE
-                        width *= UNIT_SCALE
-                        height *= UNIT_SCALE
-                    }
-                    ecsEngine.scenery(world, shape.x, shape.y, shape.width, shape.height)
-                }
-                is PolylineMapObject -> {
-                    // polyline
-                    val shape = mapObj.polyline.apply {
-                        setPosition(x * UNIT_SCALE, y * UNIT_SCALE)
-                        vertices.forEachIndexed { index, vertex -> vertices[index] = vertex * UNIT_SCALE }
-                    }
-                    ecsEngine.scenery(world, shape.x, shape.y, shape.vertices, loop = false)
-                }
-                is PolygonMapObject -> {
-                    // polygon
-                    val shape = mapObj.polygon.apply {
-                        setPosition(x * UNIT_SCALE, y * UNIT_SCALE)
-                        vertices.forEachIndexed { index, vertex -> vertices[index] = vertex * UNIT_SCALE }
-                    }
-                    ecsEngine.scenery(world, shape.x, shape.y, shape.vertices, loop = true)
-                }
-                else -> {
-                    LOG.error { "Unsupported collision map object type ${mapObj::class.java} for map ${map.type}" }
-                }
-            }
+            ecsEngine.scenery(world, mapObj.shape)
         }
     }
 
@@ -156,7 +123,7 @@ class MapManager(
                     mapObj.y * UNIT_SCALE
                 )
             } catch (e: IllegalArgumentException) {
-                if (!mapObj.properties.containsKey(PROPERTY_CHARACTER)) {
+                if (!mapObj.properties.containsKey(PROPERTY_ITEM)) {
                     LOG.error { "Missing item property for object with ID ${mapObj.id} for map ${map.type}" }
                 } else {
                     LOG.error(e) { "Invalid item property specified for object with ID ${mapObj.id} for map ${map.type}" }
