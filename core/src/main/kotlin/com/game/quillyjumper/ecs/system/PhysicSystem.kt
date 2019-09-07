@@ -14,7 +14,7 @@ class PhysicSystem(
     ecsEngine: Engine,
     private val interval: Float = 1 / 60f
 ) : EntitySystem() {
-    private var entities = ecsEngine.getEntitiesFor(allOf(PhysicComponent::class, TransformComponent::class).get())
+    private val entities = ecsEngine.getEntitiesFor(allOf(PhysicComponent::class, TransformComponent::class).get())
     private var accumulator = 0f
 
     override fun update(deltaTime: Float) {

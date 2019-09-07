@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="34" height="28" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="10">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="34" height="28" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="11">
  <tileset firstgid="1" source="tilesets.tsx"/>
  <layer id="2" name="bgd2" width="34" height="28">
   <data encoding="base64" compression="zlib">
@@ -29,7 +29,7 @@
  <objectgroup color="#ff0000" id="5" name="collision">
   <object id="1" x="11" y="672" width="247" height="15"/>
   <object id="3" x="262" y="672">
-   <polyline points="0,0 88,29 125,63 153,125"/>
+   <polyline points="0,0 228.667,-16.3333 542.333,-252.333 825.667,-479.667"/>
   </object>
   <object id="6" x="179.5" y="634">
    <polygon points="0,0 28,-21.5 100.5,-25.5 91.5,-54 63.5,-75.5 29.5,-43 16.5,-55 0.5,-52 -17.5,-23"/>
@@ -67,6 +67,15 @@
     <property name="Item2" value="POTION_GAIN_LIFE"/>
    </properties>
    <point/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#0000ff" id="10" name="portal">
+  <object id="10" x="12" y="587" width="24.5" height="81.5">
+   <properties>
+    <property name="TargetMap" value="TEST_MAP3x3"/>
+    <property name="TargetOffsetX" type="int" value="-1"/>
+    <property name="TargetPortalID" type="int" value="15"/>
+   </properties>
   </object>
  </objectgroup>
  <objectgroup color="#00ffff" id="6" name="playerSpawnLocation">

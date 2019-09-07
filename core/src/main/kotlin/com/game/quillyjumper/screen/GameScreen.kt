@@ -2,14 +2,16 @@ package com.game.quillyjumper.screen
 
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.utils.viewport.FitViewport
+import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.configuration.*
 import com.game.quillyjumper.ecs.character
+import com.game.quillyjumper.ecs.component.CameraLockComponent
 import com.game.quillyjumper.ecs.component.EntityType
 import com.game.quillyjumper.ecs.component.ModelType
 import com.game.quillyjumper.ecs.component.PlayerComponent
@@ -36,7 +38,7 @@ class GameScreen(
 ) : KtxScreen, InputListener {
     private val characterCfgCache = initCharacterConfigurations()
     private val itemCfgCache = initItemConfigurations(assets)
-    private val viewport = FitViewport(32f, 18f)
+    private val viewport = ExtendViewport(16f, 9f, 0f, 9f)
     private val engine = PooledEngine().apply {
         addSystem(PhysicMoveSystem())
         addSystem(PhysicJumpSystem(audioManager))
@@ -44,10 +46,12 @@ class GameScreen(
         addSystem(PlayerCollisionSystem())
         addSystem(PlayerStateSystem(inputController))
         addSystem(AnimationSystem(assets))
+        addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
         addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
         // create player entity
-        character(characterCfgCache[Character.PLAYER], world, 0f, 0f, 1).apply {
-            add(createComponent(PlayerComponent::class.java))
+        character(characterCfgCache[Character.PLAYER], world, 0f, 0f, 1) {
+            with<PlayerComponent>()
+            with<CameraLockComponent>()
         }
     }
     private val playerEntities = engine.getEntitiesFor(allOf(PlayerComponent::class).get())
@@ -59,15 +63,19 @@ class GameScreen(
         gameEventManager.addInputListener(this)
         // add RenderSystem as MapChangeListener to update the mapRenderer whenever the map changes
         gameEventManager.addMapChangeListener(engine.getSystem(RenderSystem::class.java))
+        // add CameraSystem as MapChangeListener to update the camera boundaries whenever the map changes
+        gameEventManager.addMapChangeListener(engine.getSystem(CameraSystem::class.java))
         // add AudioManager as MapChangeListener to play the music of the map whenever it gets changed
         gameEventManager.addMapChangeListener(audioManager)
         // set map
         mapManager.setMap(MapType.TEST_MAP)
+        //mapManager.setMap(MapType.TEST_MAP3x3)
     }
 
     override fun hide() {
         gameEventManager.removeInputListener(this)
         gameEventManager.removeMapChangeListener(engine.getSystem(RenderSystem::class.java))
+        gameEventManager.removeMapChangeListener(engine.getSystem(CameraSystem::class.java))
         gameEventManager.removeMapChangeListener(audioManager)
     }
 

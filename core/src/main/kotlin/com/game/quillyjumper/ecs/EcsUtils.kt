@@ -13,6 +13,7 @@ import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
+import ktx.ashley.EngineEntity
 import ktx.ashley.entity
 import ktx.box2d.body
 import ktx.log.logger
@@ -21,7 +22,14 @@ import ktx.log.logger
 private val TMP_FLOAT_ARRAY = FloatArray(8) { 0f }
 private val LOG = logger<Engine>()
 
-fun Engine.character(cfg: CharacterCfg, world: World, posX: Float, posY: Float, z: Int = 0): Entity {
+fun Engine.character(
+    cfg: CharacterCfg,
+    world: World,
+    posX: Float,
+    posY: Float,
+    z: Int = 0,
+    compData: EngineEntity.() -> Unit = { Unit }
+): Entity {
     return this.entity {
         // transform
         with<TransformComponent> {
@@ -71,6 +79,8 @@ fun Engine.character(cfg: CharacterCfg, world: World, posX: Float, posY: Float, 
         }
         // state
         with<StateComponent>()
+        // optional component data via lambda parameter
+        this.compData()
     }
 }
 
