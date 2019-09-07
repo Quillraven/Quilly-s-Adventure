@@ -19,13 +19,14 @@ class Animation(
     val modelType: ModelType,
     val animationType: AnimationType,
     regionKeys: Array<TextureAtlas.AtlasRegion>,
-    frameDuration: Float = 1 / 15f
+    frameDuration: Float = 1 / 10f
 ) : com.badlogic.gdx.graphics.g2d.Animation<TextureAtlas.AtlasRegion>(frameDuration, regionKeys)
 
 class AnimationComponent(
     var modelType: ModelType = ModelType.UNKNOWN,
     var animationType: AnimationType = AnimationType.IDLE,
-    var animationTime: Float = 0f
+    var animationTime: Float = 0f,
+    var loopAnimation: Boolean = true
 ) : Component {
     // animation gets initialized in AnimationSystem
     lateinit var animation: Animation

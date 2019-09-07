@@ -321,8 +321,9 @@
 <node COLOR="#00b439" CREATED="1567715114515" ID="ID_1717443638" MODIFIED="1567869317639" TEXT="Improvements">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1567715118333" ID="ID_1973310679" MODIFIED="1567715137015" TEXT="optimize animations because right now e.g. the jump animation gets player in a loop instead of only one time">
+<node COLOR="#990000" CREATED="1567715118333" ID="ID_1973310679" MODIFIED="1567881242598" TEXT="optimize animations because right now e.g. the jump animation gets player in a loop instead of only one time">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 </node>
 <node COLOR="#990000" CREATED="1567715140896" ID="ID_1590432143" MODIFIED="1567715155402" TEXT="optimize jump and movesystem to get rid of the bug mentioned at github (inconsistent maximum height)">
 <font NAME="SansSerif" SIZE="14"/>
@@ -373,11 +374,16 @@
 </node>
 </node>
 </node>
+<node COLOR="#990000" CREATED="1567869636021" ID="ID_476288689" MODIFIED="1567869654508" TEXT="should we integrate GdxAI and DefaultStateMachine for State processing and state transitions">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="help"/>
+</node>
 <node COLOR="#990000" CREATED="1567715179604" ID="ID_1859725468" MODIFIED="1567715186760" TEXT="add Flippy EasterEgg Character">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
-<node COLOR="#990000" CREATED="1567791587900" ID="ID_1857212295" MODIFIED="1567791594198" TEXT="integrate sound from RedRum for first level">
+<node COLOR="#990000" CREATED="1567791587900" ID="ID_1857212295" MODIFIED="1567869615325" TEXT="integrate sound from RedRum for first level">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 </node>
 </node>
 <node COLOR="#00b439" CREATED="1567715051244" FOLDED="true" ID="ID_1333128473" MODIFIED="1567791640289" TEXT="make a nice looking first easy level">

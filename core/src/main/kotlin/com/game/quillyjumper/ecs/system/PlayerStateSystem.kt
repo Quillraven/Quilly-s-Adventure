@@ -23,9 +23,18 @@ class PlayerStateSystem(private val input: InputController) :
         }
     }
 
-    private fun moveToState(player: Entity, state: StateComponent, stateType: StateType, animationType: AnimationType) {
+    private fun moveToState(
+        player: Entity,
+        state: StateComponent,
+        stateType: StateType,
+        animationType: AnimationType,
+        loopAnimation: Boolean = true
+    ) {
         state.stateType = stateType
-        player[AnimationComponent.mapper]?.animationType = animationType
+        player[AnimationComponent.mapper]?.let { ani ->
+            ani.animationType = animationType
+            ani.loopAnimation = loopAnimation
+        }
     }
 
     private fun setMoveDirection(player: Entity, move: MoveComponent, moveDirection: MoveDirection) {
@@ -48,7 +57,7 @@ class PlayerStateSystem(private val input: InputController) :
     }
 
     private fun moveToJumpState(player: Entity, state: StateComponent) {
-        moveToState(player, state, StateType.JUMP, AnimationType.JUMP)
+        moveToState(player, state, StateType.JUMP, AnimationType.JUMP, false)
         player[JumpComponent.mapper]?.direction = JumpDirection.JUMPING
     }
 

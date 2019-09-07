@@ -122,7 +122,7 @@ class AnimationSystem(assets: AssetManager) :
             // the sprite will then be used for the rendering in the RenderSystem
             entity[RenderComponent.mapper]?.let { render ->
                 render.sprite.apply {
-                    var textureRegion = aniCmp.animation.getKeyFrame(aniCmp.animationTime, true)
+                    var textureRegion = aniCmp.animation.getKeyFrame(aniCmp.animationTime, aniCmp.loopAnimation)
                     if (textureRegion == null) {
                         LOG.error { "Could not retrieve textureRegion for ${aniCmp.modelType}/${aniCmp.animationType} at time ${aniCmp.animationTime}" }
                         textureRegion = defaultRegion
