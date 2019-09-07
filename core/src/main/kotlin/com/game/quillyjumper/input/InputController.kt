@@ -4,9 +4,9 @@ import com.game.quillyjumper.ecs.component.JumpDirection
 import com.game.quillyjumper.ecs.component.MoveDirection
 
 enum class InputKey {
-    MoveLeft,
-    MoveRight,
-    Jump
+    KEY_LEFT,
+    KEY_RIGHT,
+    KEY_JUMP
 }
 
 private operator fun BooleanArray.get(inputKey: InputKey) = this[inputKey.ordinal]
@@ -21,24 +21,24 @@ class InputController : InputListener {
     override fun move(direction: MoveDirection) {
         when (direction) {
             MoveDirection.STOP -> {
-                keyState[InputKey.MoveLeft] = false
-                keyState[InputKey.MoveRight] = false
+                keyState[InputKey.KEY_LEFT] = false
+                keyState[InputKey.KEY_RIGHT] = false
             }
             MoveDirection.LEFT -> {
-                keyState[InputKey.MoveLeft] = true
-                keyState[InputKey.MoveRight] = false
+                keyState[InputKey.KEY_LEFT] = true
+                keyState[InputKey.KEY_RIGHT] = false
             }
             MoveDirection.RIGHT -> {
-                keyState[InputKey.MoveLeft] = false
-                keyState[InputKey.MoveRight] = true
+                keyState[InputKey.KEY_LEFT] = false
+                keyState[InputKey.KEY_RIGHT] = true
             }
         }
     }
 
     override fun jump(direction: JumpDirection) {
         when (direction) {
-            JumpDirection.JUMPING -> keyState[InputKey.Jump] = true
-            else -> keyState[InputKey.Jump] = false
+            JumpDirection.JUMPING -> keyState[InputKey.KEY_JUMP] = true
+            else -> keyState[InputKey.KEY_JUMP] = false
         }
     }
 }

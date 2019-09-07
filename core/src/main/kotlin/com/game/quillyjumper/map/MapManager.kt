@@ -19,6 +19,7 @@ import com.game.quillyjumper.ecs.item
 import com.game.quillyjumper.ecs.portal
 import com.game.quillyjumper.ecs.scenery
 import com.game.quillyjumper.event.GameEventManager
+import com.game.quillyjumper.input.InputController
 import ktx.ashley.get
 import ktx.log.logger
 import java.util.*
@@ -28,6 +29,7 @@ private val LOG = logger<MapManager>()
 class MapManager(
     private val assets: AssetManager,
     private val world: World,
+    private val input: InputController,
     private val ecsEngine: Engine,
     private val characterConfigurations: CharacterConfigurations,
     private val itemConfigurations: ItemConfigurations,
@@ -56,7 +58,7 @@ class MapManager(
 
         // check if new map is already existing. Otherwise, create it
         currentMapType = mapType
-        val newMap = mapCache.computeIfAbsent(mapType) { Map(mapType, assets[mapType.asset]) }.apply {
+        mapCache.computeIfAbsent(mapType) { Map(mapType, assets[mapType.asset]) }.apply {
             if (targetPortal == -1) {
                 // target portal is not specified -> move to default player start location
                 movePlayerToStartLocation(this)
@@ -107,6 +109,7 @@ class MapManager(
                 ecsEngine.character(
                     characterConfigurations[charKey],
                     world,
+                    input,
                     mapObj.x * UNIT_SCALE,
                     mapObj.y * UNIT_SCALE
                 )

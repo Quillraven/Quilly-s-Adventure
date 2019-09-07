@@ -374,9 +374,14 @@
 </node>
 </node>
 </node>
-<node COLOR="#990000" CREATED="1567869636021" ID="ID_476288689" MODIFIED="1567869654508" TEXT="should we integrate GdxAI and DefaultStateMachine for State processing and state transitions">
+<node COLOR="#990000" CREATED="1567869636021" FOLDED="true" ID="ID_476288689" MODIFIED="1567887995439" TEXT="should we integrate GdxAI and DefaultStateMachine for State processing and state transitions">
 <font NAME="SansSerif" SIZE="14"/>
-<icon BUILTIN="help"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1567887945105" ID="ID_1556870112" MODIFIED="1567887952512" TEXT="yes we did that ">
+<icon BUILTIN="ksmiletris"/>
+</node>
+<node COLOR="#111111" CREATED="1567887964316" ID="ID_593303727" MODIFIED="1567887973504" TEXT="has a lot of advantages over our switch/case approach"/>
+<node COLOR="#111111" CREATED="1567887979109" ID="ID_421585577" MODIFIED="1567887991564" TEXT="added EntityAgent class to easily access all necessary data in an AI state"/>
 </node>
 <node COLOR="#990000" CREATED="1567715179604" ID="ID_1859725468" MODIFIED="1567715186760" TEXT="add Flippy EasterEgg Character">
 <font NAME="SansSerif" SIZE="14"/>

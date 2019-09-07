@@ -2,6 +2,7 @@ package com.game.quillyjumper.ecs
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.math.Polygon
 import com.badlogic.gdx.math.Polyline
 import com.badlogic.gdx.math.Rectangle
@@ -10,9 +11,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.FIXTURE_TYPE_FOOT_SENSOR
 import com.game.quillyjumper.UNIT_SCALE
+import com.game.quillyjumper.ai.DefaultState
+import com.game.quillyjumper.ai.EntityAgent
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.map.MapType
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
@@ -28,9 +32,11 @@ private val LOG = logger<Engine>()
 fun Engine.character(
     cfg: CharacterCfg,
     world: World,
+    input: InputController,
     posX: Float,
     posY: Float,
     z: Int = 0,
+    initialState: State<EntityAgent> = DefaultState.IDLE,
     compData: EngineEntity.() -> Unit = { Unit }
 ): Entity {
     return this.entity {
@@ -43,7 +49,7 @@ fun Engine.character(
             size.set(cfg.size)
         }
         // physic
-        with<PhysicComponent> {
+        val physic = with<PhysicComponent> {
             body = world.body(BodyDef.BodyType.DynamicBody) {
                 position.set(posX + cfg.size.x * 0.5f, posY + cfg.size.y * 0.5f)
                 userData = this@entity.entity
@@ -61,15 +67,13 @@ fun Engine.character(
             }
         }
         // move
-        if (cfg.speed > 0f) {
-            with<MoveComponent> {
-                maxSpeed = cfg.speed
-            }
+        val move = with<MoveComponent> {
+            maxSpeed = cfg.speed
         }
         // jump
-        with<JumpComponent>()
+        val jump = with<JumpComponent>()
         // render
-        with<RenderComponent>()
+        val render = with<RenderComponent>()
         // type of entity
         with<EntityTypeComponent> {
             this.type = cfg.entityType
@@ -77,11 +81,28 @@ fun Engine.character(
         // collision to store colliding entities
         with<CollisionComponent>()
         // animation
-        with<AnimationComponent> {
+        val animation = with<AnimationComponent> {
             modelType = cfg.modelType
         }
         // state
-        with<StateComponent>()
+        with<StateComponent> {
+            if (stateMachine.owner == null) {
+                // create new entity agent
+                stateMachine.owner = EntityAgent(this@entity.entity, input, this, physic, animation, render, move, jump)
+            } else {
+                // update entity agent fields
+                stateMachine.owner.apply {
+                    this.entity = this@entity.entity
+                    this.state = this@with
+                    this.physic = physic
+                    this.animation = animation
+                    this.render = render
+                    this.move = move
+                    this.jump = jump
+                }
+            }
+            stateMachine.setInitialState(initialState)
+        }
         // optional component data via lambda parameter
         this.compData()
     }
@@ -147,7 +168,7 @@ private fun BodyDefinition.shape2D(shape: Shape2D, init: FixtureDefinition.() ->
             // bottom right corner
             TMP_FLOAT_ARRAY[6] = width * 0.5f
             TMP_FLOAT_ARRAY[7] = -height * 0.5f
-            loop(TMP_FLOAT_ARRAY)
+            loop(TMP_FLOAT_ARRAY).init()
         }
         is Polyline -> {
             val x = shape.x
@@ -158,7 +179,7 @@ private fun BodyDefinition.shape2D(shape: Shape2D, init: FixtureDefinition.() ->
             // and then restore it afterwards
             shape.setPosition(0f, 0f)
             shape.setScale(UNIT_SCALE, UNIT_SCALE)
-            chain(shape.transformedVertices)
+            chain(shape.transformedVertices).init()
             // restore position
             shape.setPosition(x, y)
         }
@@ -171,7 +192,7 @@ private fun BodyDefinition.shape2D(shape: Shape2D, init: FixtureDefinition.() ->
             // and then restore it afterwards
             shape.setPosition(0f, 0f)
             shape.setScale(UNIT_SCALE, UNIT_SCALE)
-            loop(shape.transformedVertices)
+            loop(shape.transformedVertices).init()
             // restore position
             shape.setPosition(x, y)
         }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.game.quillyjumper.AudioManager
+import com.game.quillyjumper.ai.PlayerState
 import com.game.quillyjumper.configuration.*
 import com.game.quillyjumper.ecs.character
 import com.game.quillyjumper.ecs.component.CameraLockComponent
@@ -42,7 +43,16 @@ class GameScreen(
     private val engine = PooledEngine()
     private val playerEntities = engine.getEntitiesFor(allOf(PlayerComponent::class).get())
     private val mapManager =
-        MapManager(assets, world, engine, characterCfgCache, itemCfgCache, playerEntities, gameEventManager)
+        MapManager(
+            assets,
+            world,
+            inputController,
+            engine,
+            characterCfgCache,
+            itemCfgCache,
+            playerEntities,
+            gameEventManager
+        )
 
     override fun show() {
         if (engine.systems.size() == 0) {
@@ -52,13 +62,13 @@ class GameScreen(
                 addSystem(PhysicJumpSystem(audioManager))
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))
-                addSystem(PlayerStateSystem(inputController))
+                addSystem(PlayerStateSystem())
                 addSystem(AnimationSystem(assets))
                 addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
                 addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
                 addSystem(RemoveSystem())
                 // create player entity
-                character(characterCfgCache[Character.PLAYER], world, 0f, 0f, 1) {
+                character(characterCfgCache[Character.PLAYER], world, inputController, 0f, 0f, 1, PlayerState.IDLE) {
                     with<PlayerComponent>()
                     with<CameraLockComponent>()
                 }
