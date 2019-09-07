@@ -7,10 +7,11 @@ import com.game.quillyjumper.ecs.component.MoveDirection.*
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.InputKey.*
 import ktx.ashley.allOf
+import ktx.ashley.exclude
 import ktx.ashley.get
 
 class PlayerStateSystem(private val input: InputController) :
-    IteratingSystem(allOf(PlayerComponent::class, StateComponent::class).get()) {
+    IteratingSystem(allOf(PlayerComponent::class, StateComponent::class).exclude(RemoveComponent::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity[StateComponent.mapper]?.let { state ->
             when (state.stateType) {

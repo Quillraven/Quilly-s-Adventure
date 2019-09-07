@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.assets.AssetManager
-import com.badlogic.gdx.maps.objects.RectangleMapObject
 import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.assets.get
@@ -14,7 +13,10 @@ import com.game.quillyjumper.configuration.Item
 import com.game.quillyjumper.configuration.ItemConfigurations
 import com.game.quillyjumper.ecs.character
 import com.game.quillyjumper.ecs.component.PhysicComponent
+import com.game.quillyjumper.ecs.component.PlayerComponent
+import com.game.quillyjumper.ecs.component.RemoveComponent
 import com.game.quillyjumper.ecs.item
+import com.game.quillyjumper.ecs.portal
 import com.game.quillyjumper.ecs.scenery
 import com.game.quillyjumper.event.GameEventManager
 import ktx.ashley.get
@@ -35,23 +37,37 @@ class MapManager(
     private var currentMapType = MapType.TEST_MAP
     private val mapCache = EnumMap<MapType, Map>(MapType::class.java)
 
-    fun setMap(mapType: MapType) {
+    fun setMap(mapType: MapType, targetPortal: Int = -1, targetOffsetX: Int = -1) {
         val currentMap = mapCache[currentMapType]
         if (currentMap != null) {
             //TODO
             // 1) save current entity data to a file
-            // 2) remove current entities except for player entities
-            // 3) check for new map if there is already existing data in the save file.
+            // 2) check for new map if there is already existing data in the save file.
             //    Otherwise, load data from TiledMap.tmx file
+
+            // remove all non-player entities of the current loaded map
+            ecsEngine.entities.forEach { entity ->
+                if (entity[PlayerComponent.mapper] == null) {
+                    // non player entity -> remove it
+                    entity.add(ecsEngine.createComponent(RemoveComponent::class.java))
+                }
+            }
         }
 
         // check if new map is already existing. Otherwise, create it
         currentMapType = mapType
         val newMap = mapCache.computeIfAbsent(mapType) { Map(mapType, assets[mapType.asset]) }.apply {
-            movePlayerToStartLocation(this)
+            if (targetPortal == -1) {
+                // target portal is not specified -> move to default player start location
+                movePlayerToStartLocation(this)
+            } else {
+                // move player to target portal position
+                movePlayerToPortal(this, targetPortal, targetOffsetX)
+            }
             createSceneryEntities(this)
             createEnemyEntities(this)
             createItemEntities(this)
+            createPortalEntities(this)
             gameEventManager.dispatchMapChangeEvent(this)
         }
     }
@@ -62,23 +78,15 @@ class MapManager(
             LOG.error { "There is not exactly one player start location defined for map ${map.type}. Amount: ${mapObjects.count}" }
         } else {
             mapObjects.forEach { mapObj ->
-                when (mapObj) {
-                    is RectangleMapObject -> {
-                        // use the first position that is available in the tiled map
-                        // and move the player entities directly to that location
-                        mapObj.rectangle.getPosition(PhysicComponent.tmpVec2)
-                        // convert to world units
-                        PhysicComponent.tmpVec2.scl(UNIT_SCALE)
-                        // set player entity positions
-                        playerEntities.forEach { player ->
-                            player[PhysicComponent.mapper]?.body?.setTransform(PhysicComponent.tmpVec2, 0f)
-                        }
-                        return
-                    }
-                    else -> {
-                        LOG.error { "Unsupported player start location map object type ${mapObj::class.java} for map ${map.type}" }
-                    }
+                // set player entity positions to first location of tiled map
+                playerEntities.forEach { player ->
+                    player[PhysicComponent.mapper]?.body?.setTransform(
+                        mapObj.x * UNIT_SCALE,
+                        mapObj.y * UNIT_SCALE,
+                        0f
+                    )
                 }
+                return
             }
         }
     }
@@ -130,5 +138,54 @@ class MapManager(
                 }
             }
         }
+    }
+
+    private fun createPortalEntities(map: Map) {
+        map.mapObjects(LAYER_PORTAL).forEach { mapObj ->
+            try {
+                // retrieve and validate portal properties
+                val targetMap = MapType.valueOf(mapObj.property(PROPERTY_TARGET_MAP, ""))
+                val targetPortal = mapObj.property(PROPERTY_TARGET_PORTAL_ID, -1)
+                if (targetPortal == -1) {
+                    LOG.error { "Target portal ID not specified for object with ID ${mapObj.id} for map ${map.type}" }
+                    return@forEach
+                }
+                val targetOffsetX = mapObj.property(PROPERTY_TARGET_OFFSET_X, 0)
+                if (targetOffsetX == 0) {
+                    LOG.error { "Target offset X not specified for object with ID ${mapObj.id} for map ${map.type}" }
+                    return@forEach
+                }
+
+                // create portal entity
+                ecsEngine.portal(world, mapObj.shape, targetMap, targetPortal, targetOffsetX)
+            } catch (e: IllegalArgumentException) {
+                if (!mapObj.properties.containsKey(PROPERTY_TARGET_MAP)) {
+                    LOG.error { "Missing target map property for object with ID ${mapObj.id} for map ${map.type}" }
+                } else {
+                    LOG.error(e) { "Invalid map property specified for object with ID ${mapObj.id} for map ${map.type}" }
+                }
+            }
+        }
+    }
+
+
+    private fun movePlayerToPortal(map: Map, targetPortal: Int, targetOffsetX: Int) {
+        map.mapObjects(LAYER_PORTAL).forEach { mapObj ->
+            if (mapObj.id == targetPortal) {
+                // found target portal by ID -> move player to that location
+                playerEntities.forEach { player ->
+                    player[PhysicComponent.mapper]?.body?.setTransform(
+                        mapObj.x * UNIT_SCALE + targetOffsetX,
+                        mapObj.y * UNIT_SCALE,
+                        0f
+                    )
+                }
+                return
+            }
+        }
+
+        // could not find portal -> move player to start location instead
+        LOG.error { "Could not find portal $targetPortal for map ${map.type}" }
+        movePlayerToStartLocation(map)
     }
 }

@@ -11,7 +11,8 @@ import ktx.assets.load
 // music
 enum class MusicAssets(val filePath: String, val volumeScale: Float = 0.15f) {
     MENU("music/menu.ogg"),
-    LEVEL_1("music/level1.ogg")
+    LEVEL_1("music/level1.ogg"),
+    LEVEL_1_REMASTERED("music/level1_remastered.ogg")
 }
 
 fun AssetManager.load(asset: MusicAssets) = load<Music>(asset.filePath)
@@ -36,7 +37,7 @@ operator fun AssetManager.get(asset: TextureAtlasAssets) = this.getAsset<Texture
 // tiled map
 enum class MapAssets(val filePath: String) {
     TEST_MAP("assets/map/testmap.tmx"),
-    TEST_MAP3x3("assets/map/testmap3x3.tmx")
+    TEST_MAP_SMALL("assets/map/testmap3x3.tmx")
 }
 
 fun AssetManager.load(asset: MapAssets) = load<TiledMap>(asset.filePath)

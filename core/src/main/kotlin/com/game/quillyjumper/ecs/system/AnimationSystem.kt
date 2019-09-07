@@ -12,6 +12,7 @@ import com.game.quillyjumper.assets.TextureAtlasAssets
 import com.game.quillyjumper.assets.get
 import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.allOf
+import ktx.ashley.exclude
 import ktx.ashley.get
 import ktx.log.logger
 import java.util.*
@@ -32,7 +33,8 @@ private const val DEFAULT_REGION_KEY = "error"
  * as keys for the regions of the atlas.
  */
 class AnimationSystem(assets: AssetManager) :
-    IteratingSystem(allOf(AnimationComponent::class, RenderComponent::class).get()), EntityListener {
+    IteratingSystem(allOf(AnimationComponent::class, RenderComponent::class).exclude(RemoveComponent::class).get()),
+    EntityListener {
     private val animationFamily = allOf(AnimationComponent::class).get()
     private val animationCache = EnumMap<ModelType, EnumMap<AnimationType, Animation>>(ModelType::class.java)
     private val textureAtlas = assets[TextureAtlasAssets.GAME_OBJECTS]

@@ -8,6 +8,7 @@ enum class EntityType {
     SCENERY,
     ENEMY,
     ITEM,
+    PORTAL,
     OTHER
 }
 

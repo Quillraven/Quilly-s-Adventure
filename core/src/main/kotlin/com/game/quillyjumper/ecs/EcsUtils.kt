@@ -13,8 +13,11 @@ import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.map.MapType
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
+import ktx.box2d.BodyDefinition
+import ktx.box2d.FixtureDefinition
 import ktx.box2d.body
 import ktx.log.logger
 
@@ -124,6 +127,60 @@ fun Engine.item(cfg: ItemCfg, world: World, posX: Float, posY: Float): Entity {
     }
 }
 
+private fun BodyDefinition.shape2D(shape: Shape2D, init: FixtureDefinition.() -> Unit = { Unit }) {
+    // position and fixture scaled according to world units
+    when (shape) {
+        is Rectangle -> {
+            val width = shape.width * UNIT_SCALE
+            val height = shape.height * UNIT_SCALE
+            position.set(shape.x * UNIT_SCALE + width * 0.5f, shape.y * UNIT_SCALE + height * 0.5f)
+            // define loop vertices
+            // bottom left corner
+            TMP_FLOAT_ARRAY[0] = -width * 0.5f
+            TMP_FLOAT_ARRAY[1] = -height * 0.5f
+            // top left corner
+            TMP_FLOAT_ARRAY[2] = -width * 0.5f
+            TMP_FLOAT_ARRAY[3] = height * 0.5f
+            // top right corner
+            TMP_FLOAT_ARRAY[4] = width * 0.5f
+            TMP_FLOAT_ARRAY[5] = height * 0.5f
+            // bottom right corner
+            TMP_FLOAT_ARRAY[6] = width * 0.5f
+            TMP_FLOAT_ARRAY[7] = -height * 0.5f
+            loop(TMP_FLOAT_ARRAY)
+        }
+        is Polyline -> {
+            val x = shape.x
+            val y = shape.y
+            position.set(x * UNIT_SCALE, y * UNIT_SCALE)
+            // transformed vertices also adds the position to each
+            // vertex. Therefore, we need to set position first to ZERO
+            // and then restore it afterwards
+            shape.setPosition(0f, 0f)
+            shape.setScale(UNIT_SCALE, UNIT_SCALE)
+            chain(shape.transformedVertices)
+            // restore position
+            shape.setPosition(x, y)
+        }
+        is Polygon -> {
+            val x = shape.x
+            val y = shape.y
+            position.set(x * UNIT_SCALE, y * UNIT_SCALE)
+            // transformed vertices also adds the position to each
+            // vertex. Therefore, we need to set position first to ZERO
+            // and then restore it afterwards
+            shape.setPosition(0f, 0f)
+            shape.setScale(UNIT_SCALE, UNIT_SCALE)
+            loop(shape.transformedVertices)
+            // restore position
+            shape.setPosition(x, y)
+        }
+        else -> {
+            LOG.error { "Unsupported shape ${shape::class.java} for scenery object." }
+        }
+    }
+}
+
 fun Engine.scenery(world: World, shape: Shape2D): Entity {
     return this.entity {
         // physic
@@ -132,62 +189,40 @@ fun Engine.scenery(world: World, shape: Shape2D): Entity {
                 userData = this@entity.entity
                 // scenery does not need to rotate
                 fixedRotation = true
-                // position and fixture scaled according to world units
-                when (shape) {
-                    is Rectangle -> {
-                        val width = shape.width * UNIT_SCALE
-                        val height = shape.height * UNIT_SCALE
-                        position.set(shape.x * UNIT_SCALE + width * 0.5f, shape.y * UNIT_SCALE + height * 0.5f)
-                        // define loop vertices
-                        // bottom left corner
-                        TMP_FLOAT_ARRAY[0] = -width * 0.5f
-                        TMP_FLOAT_ARRAY[1] = -height * 0.5f
-                        // top left corner
-                        TMP_FLOAT_ARRAY[2] = -width * 0.5f
-                        TMP_FLOAT_ARRAY[3] = height * 0.5f
-                        // top right corner
-                        TMP_FLOAT_ARRAY[4] = width * 0.5f
-                        TMP_FLOAT_ARRAY[5] = height * 0.5f
-                        // bottom right corner
-                        TMP_FLOAT_ARRAY[6] = width * 0.5f
-                        TMP_FLOAT_ARRAY[7] = -height * 0.5f
-                        loop(TMP_FLOAT_ARRAY)
-                    }
-                    is Polyline -> {
-                        val x = shape.x
-                        val y = shape.y
-                        position.set(x * UNIT_SCALE, y * UNIT_SCALE)
-                        // transformed vertices also adds the position to each
-                        // vertex. Therefore, we need to set position first to ZERO
-                        // and then restore it afterwards
-                        shape.setPosition(0f, 0f)
-                        shape.setScale(UNIT_SCALE, UNIT_SCALE)
-                        chain(shape.transformedVertices)
-                        // restore position
-                        shape.setPosition(x, y)
-                    }
-                    is Polygon -> {
-                        val x = shape.x
-                        val y = shape.y
-                        position.set(x * UNIT_SCALE, y * UNIT_SCALE)
-                        // transformed vertices also adds the position to each
-                        // vertex. Therefore, we need to set position first to ZERO
-                        // and then restore it afterwards
-                        shape.setPosition(0f, 0f)
-                        shape.setScale(UNIT_SCALE, UNIT_SCALE)
-                        loop(shape.transformedVertices)
-                        // restore position
-                        shape.setPosition(x, y)
-                    }
-                    else -> {
-                        LOG.error { "Unsupported shape ${shape::class.java} for scenery object." }
-                    }
-                }
+                // create fixture according to given shape
+                // fixture gets scaled to world units
+                shape2D(shape)
             }
         }
         // type of entity
         with<EntityTypeComponent> {
             this.type = EntityType.SCENERY
+        }
+    }
+}
+
+fun Engine.portal(world: World, shape: Shape2D, targetMap: MapType, targetPortal: Int, targetOffsetX: Int): Entity {
+    return this.entity {
+        // physic
+        with<PhysicComponent> {
+            body = world.body(BodyDef.BodyType.StaticBody) {
+                userData = this@entity.entity
+                // scenery does not need to rotate
+                fixedRotation = true
+                // create fixture according to given shape
+                // fixture gets scaled to world units
+                shape2D(shape) { isSensor = true }
+            }
+        }
+        // type of entity
+        with<EntityTypeComponent> {
+            this.type = EntityType.PORTAL
+        }
+        // portal information
+        with<PortalComponent> {
+            this.targetMap = targetMap
+            this.targetOffsetX = targetOffsetX
+            this.targetPortal = targetPortal
         }
     }
 }

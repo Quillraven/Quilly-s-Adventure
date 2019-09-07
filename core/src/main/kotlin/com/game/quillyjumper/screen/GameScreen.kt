@@ -27,38 +27,44 @@ import ktx.ashley.allOf
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
-    assets: AssetManager,
+    private val assets: AssetManager,
     private val gameEventManager: GameEventManager,
-    inputController: InputController,
+    private val inputController: InputController,
     private val audioManager: AudioManager,
-    world: World,
-    batch: SpriteBatch,
-    mapRenderer: OrthogonalTiledMapRenderer,
-    box2DDebugRenderer: Box2DDebugRenderer
+    private val world: World,
+    private val batch: SpriteBatch,
+    private val mapRenderer: OrthogonalTiledMapRenderer,
+    private val box2DDebugRenderer: Box2DDebugRenderer
 ) : KtxScreen, InputListener {
     private val characterCfgCache = initCharacterConfigurations()
     private val itemCfgCache = initItemConfigurations(assets)
     private val viewport = ExtendViewport(16f, 9f, 0f, 9f)
-    private val engine = PooledEngine().apply {
-        addSystem(PhysicMoveSystem())
-        addSystem(PhysicJumpSystem(audioManager))
-        addSystem(PhysicSystem(world, this))
-        addSystem(PlayerCollisionSystem())
-        addSystem(PlayerStateSystem(inputController))
-        addSystem(AnimationSystem(assets))
-        addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
-        addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
-        // create player entity
-        character(characterCfgCache[Character.PLAYER], world, 0f, 0f, 1) {
-            with<PlayerComponent>()
-            with<CameraLockComponent>()
-        }
-    }
+    private val engine = PooledEngine()
     private val playerEntities = engine.getEntitiesFor(allOf(PlayerComponent::class).get())
     private val mapManager =
         MapManager(assets, world, engine, characterCfgCache, itemCfgCache, playerEntities, gameEventManager)
 
     override fun show() {
+        if (engine.systems.size() == 0) {
+            // initialize engine
+            engine.apply {
+                addSystem(PhysicMoveSystem())
+                addSystem(PhysicJumpSystem(audioManager))
+                addSystem(PhysicSystem(world, this))
+                addSystem(PlayerCollisionSystem(mapManager))
+                addSystem(PlayerStateSystem(inputController))
+                addSystem(AnimationSystem(assets))
+                addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
+                addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
+                addSystem(RemoveSystem())
+                // create player entity
+                character(characterCfgCache[Character.PLAYER], world, 0f, 0f, 1) {
+                    with<PlayerComponent>()
+                    with<CameraLockComponent>()
+                }
+            }
+        }
+
         // add game screen as input listener to react when the player wants to quit the game (=exit key pressed)
         gameEventManager.addInputListener(this)
         // add RenderSystem as MapChangeListener to update the mapRenderer whenever the map changes

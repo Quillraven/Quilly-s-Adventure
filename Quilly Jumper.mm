@@ -293,17 +293,32 @@
 <node COLOR="#111111" CREATED="1567714982968" ID="ID_984348203" MODIFIED="1567714995707" TEXT="add bgd/fgx layer parsing to optimize map rendering"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1567715090130" ID="ID_504563942" MODIFIED="1567791231979" TEXT="CameraSystem">
+<node COLOR="#00b439" CREATED="1567715090130" FOLDED="true" ID="ID_504563942" MODIFIED="1567868739067" TEXT="CameraSystem">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1567715095208" ID="ID_1686995078" MODIFIED="1567715099676" TEXT="camera boundaries are map boundaries">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1567715095208" ID="ID_1686995078" MODIFIED="1567863984485" TEXT="camera boundaries are map boundaries">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1567842562722" ID="ID_123616506" MODIFIED="1567842584199" TEXT="or in case map &lt; camera viewport then the viewport  is the boundary"/>
+<node COLOR="#111111" CREATED="1567842586165" ID="ID_139409821" MODIFIED="1567842641243" TEXT="change gameViewport to ExtendViewport with a fixed height of 9f"/>
 </node>
-<node COLOR="#990000" CREATED="1567715100539" ID="ID_241517315" MODIFIED="1567715104792" TEXT="camera sticks to player">
+<node COLOR="#990000" CREATED="1567715100539" ID="ID_241517315" MODIFIED="1567862951422" TEXT="camera sticks to the first entity with &quot;CameraComponent&quot;">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+</node>
+<node COLOR="#990000" CREATED="1567842674356" ID="ID_819266832" MODIFIED="1567868735060" TEXT="create a second testmap which is smaller than the camera viewport 4x4 tiles">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1567842698378" ID="ID_1080627215" MODIFIED="1567842703866" TEXT="test camerasystem"/>
+<node COLOR="#111111" CREATED="1567842704880" ID="ID_1434885856" MODIFIED="1567842724564" TEXT="implement MapManager changeMap method to cleanup entities and recreate them">
+<node COLOR="#111111" CREATED="1567842772239" ID="ID_510834028" MODIFIED="1567842783698" TEXT="EcsUtils method to remove all entities except for player entities">
+<node COLOR="#111111" CREATED="1567842784974" ID="ID_1729336783" MODIFIED="1567842794622" TEXT="entity[PlayerComponent.mapper] != null"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1567715114515" FOLDED="true" ID="ID_1717443638" MODIFIED="1567791239825" TEXT="Improvements">
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1567715114515" ID="ID_1717443638" MODIFIED="1567869317639" TEXT="Improvements">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1567715118333" ID="ID_1973310679" MODIFIED="1567715137015" TEXT="optimize animations because right now e.g. the jump animation gets player in a loop instead of only one time">
@@ -311,12 +326,61 @@
 </node>
 <node COLOR="#990000" CREATED="1567715140896" ID="ID_1590432143" MODIFIED="1567715155402" TEXT="optimize jump and movesystem to get rid of the bug mentioned at github (inconsistent maximum height)">
 <font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1567841487137" ID="ID_716145348" MODIFIED="1567841999903" TEXT="create a jumpForce property for PhysicComponent">
+<node COLOR="#111111" CREATED="1567841494153" ID="ID_1889481935" MODIFIED="1567841503805" TEXT="this force is applied once before calling worl.step in PhysicSystem"/>
+<node COLOR="#111111" CREATED="1567842031002" ID="ID_1002059284" MODIFIED="1567842037210" TEXT="only if necessary"/>
+</node>
+<node COLOR="#111111" CREATED="1567842004121" ID="ID_1885093532" MODIFIED="1567842013811" TEXT="create a moveImpulse property for PhysicComponent">
+<node COLOR="#111111" CREATED="1567842014999" ID="ID_1501443197" MODIFIED="1567842026503" TEXT="this impulse is applied once before calling world.step in PhysicSystem"/>
+<node COLOR="#111111" CREATED="1567842031002" ID="ID_208412520" MODIFIED="1567842037210" TEXT="only if necessary"/>
+</node>
+<node COLOR="#111111" CREATED="1567841677240" ID="ID_45104803" MODIFIED="1567841681178" TEXT="MoveSystem">
+<node COLOR="#111111" CREATED="1567841685754" ID="ID_1989166377" MODIFIED="1567841759497" TEXT="moveDirection">
+<node COLOR="#111111" CREATED="1567841692996" ID="ID_1869791049" MODIFIED="1567842069090" TEXT="set PhysicComponent impulse accordingly"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1567842049683" ID="ID_1785253260" MODIFIED="1567842052483" TEXT="JumpSystem">
+<node COLOR="#111111" CREATED="1567841713628" ID="ID_1692707688" MODIFIED="1567841724803" TEXT="jumpDirection">
+<node COLOR="#111111" CREATED="1567841725782" ID="ID_595969886" MODIFIED="1567842075362" TEXT=" set PhysicComponent force value accordingly"/>
+<node COLOR="#111111" CREATED="1567842087186" ID="ID_1748792664" MODIFIED="1567842091879" TEXT="remove FALLING direction"/>
+</node>
+<node COLOR="#111111" CREATED="1567842107191" ID="ID_1218034071" MODIFIED="1567842113275" TEXT="canJump?">
+<node COLOR="#111111" CREATED="1567842113921" ID="ID_43170994" MODIFIED="1567842123111" TEXT="numGroundContacts &gt; 0"/>
+</node>
+<node COLOR="#111111" CREATED="1567842178219" ID="ID_1747069132" MODIFIED="1567842198264" TEXT="jump force will only be applied for 1 second">
+<node COLOR="#111111" CREATED="1567842198742" ID="ID_1856342580" MODIFIED="1567842204811" TEXT="when jump starts reset jumpTimer"/>
+<node COLOR="#111111" CREATED="1567842205808" ID="ID_1130850096" MODIFIED="1567842225018" TEXT="when jumpTimer &gt;= 1f then reset force of PhysicComponent to ZERO"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1567841923027" ID="ID_1629383752" MODIFIED="1567841932655" TEXT="PlayerStateSystem">
+<node COLOR="#111111" CREATED="1567841933060" ID="ID_1017107921" MODIFIED="1567841940343" TEXT="check conditions for jumping/falling/running"/>
+<node COLOR="#111111" CREATED="1567842238472" ID="ID_329774462" MODIFIED="1567842239382" TEXT="move">
+<node COLOR="#111111" CREATED="1567842239847" ID="ID_1241671343" MODIFIED="1567842247242" TEXT="movement change can always happen"/>
+</node>
+<node COLOR="#111111" CREATED="1567842248716" ID="ID_590657575" MODIFIED="1567842249988" TEXT="jump">
+<node COLOR="#111111" CREATED="1567842251426" ID="ID_1988870634" MODIFIED="1567842282200" TEXT="only enter jump state if numGroundContacts &gt; 0"/>
+<node COLOR="#111111" CREATED="1567842298094" ID="ID_462408462" MODIFIED="1567842333419" TEXT="go to falling if linearVelocity &lt; 0"/>
+<node COLOR="#111111" CREATED="1567842359309" ID="ID_301327892" MODIFIED="1567842365186" TEXT="go to move/idle if">
+<node COLOR="#111111" CREATED="1567842384167" ID="ID_1391904596" MODIFIED="1567842392204" TEXT="numGroundContacts &gt; 0"/>
+<node COLOR="#111111" CREATED="1567842393485" ID="ID_1956450473" MODIFIED="1567842430024" TEXT="PhysicComponent jumpForce is ZERO"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1567842473675" ID="ID_1137924255" MODIFIED="1567842475708" TEXT="fall">
+<node COLOR="#111111" CREATED="1567842359309" ID="ID_1864365538" MODIFIED="1567842365186" TEXT="go to move/idle if">
+<node COLOR="#111111" CREATED="1567842384167" ID="ID_1013696030" MODIFIED="1567842392204" TEXT="numGroundContacts &gt; 0"/>
+<node COLOR="#111111" CREATED="1567842393485" ID="ID_210694973" MODIFIED="1567842430024" TEXT="PhysicComponent jumpForce is ZERO"/>
+</node>
+</node>
+</node>
 </node>
 <node COLOR="#990000" CREATED="1567715179604" ID="ID_1859725468" MODIFIED="1567715186760" TEXT="add Flippy EasterEgg Character">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
+<node COLOR="#990000" CREATED="1567791587900" ID="ID_1857212295" MODIFIED="1567791594198" TEXT="integrate sound from RedRum for first level">
+<font NAME="SansSerif" SIZE="14"/>
 </node>
-<node COLOR="#00b439" CREATED="1567715051244" FOLDED="true" ID="ID_1333128473" MODIFIED="1567791225165" TEXT="make a nice looking first easy level">
+</node>
+<node COLOR="#00b439" CREATED="1567715051244" FOLDED="true" ID="ID_1333128473" MODIFIED="1567791640289" TEXT="make a nice looking first easy level">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1567715058712" ID="ID_455498290" MODIFIED="1567791117734" TEXT="few screens from left to right">

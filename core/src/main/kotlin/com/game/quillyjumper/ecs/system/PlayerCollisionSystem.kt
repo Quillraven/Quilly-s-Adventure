@@ -2,17 +2,40 @@ package com.game.quillyjumper.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
-import com.game.quillyjumper.ecs.component.CollisionComponent
-import com.game.quillyjumper.ecs.component.PlayerComponent
+import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.map.MapManager
 import ktx.ashley.allOf
+import ktx.ashley.get
+import ktx.log.logger
 
-//private val LOG = logger<PlayerCollisionSystem>()
+private val LOG = logger<PlayerCollisionSystem>()
 
-class PlayerCollisionSystem : IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()) {
+class PlayerCollisionSystem(private val mapManager: MapManager) :
+    IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        /*entity[CollisionComponent.mapper]?.let { collision ->
-            collision.entities.forEach { collidingEntity -> LOG.debug { "${collidingEntity[EntityTypeComponent.mapper]?.type}" } }
-            LOG.debug { "${collision.numGroundContacts}" }
-        }*/
+        entity[CollisionComponent.mapper]?.let { collision ->
+            // loop through all colliding entities
+            collision.entities.forEach { collidingEntity ->
+                when (val collEntityType = collidingEntity[EntityTypeComponent.mapper]?.type) {
+                    EntityType.PORTAL -> {
+                        // player collides with a portal -> move player to new location/map
+                        val portalCmp = collidingEntity[PortalComponent.mapper]
+                        if (portalCmp == null) {
+                            LOG.error { "Portal entity is without portal component. Cannot port player." }
+                            return@forEach
+                        }
+                        mapManager.setMap(portalCmp.targetMap, portalCmp.targetPortal, portalCmp.targetOffsetX)
+                        // ignore any other collisions for that frame because the player got moved to a new map
+                        return
+                    }
+                    EntityType.SCENERY -> {
+                        // do nothing
+                    }
+                    else -> {
+                        LOG.debug { "Unsupported entity type for collision: $collEntityType" }
+                    }
+                }
+            }
+        }
     }
 }

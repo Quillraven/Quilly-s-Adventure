@@ -11,12 +11,14 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.viewport.Viewport
+import com.game.quillyjumper.ecs.component.RemoveComponent
 import com.game.quillyjumper.ecs.component.RenderComponent
 import com.game.quillyjumper.ecs.component.TransformComponent
 import com.game.quillyjumper.map.Map
 import com.game.quillyjumper.map.MapChangeListener
 import com.game.quillyjumper.map.TILED_LAYER_BACKGROUND_PREFIX
 import ktx.ashley.allOf
+import ktx.ashley.exclude
 import ktx.ashley.get
 import ktx.graphics.use
 import ktx.log.logger
@@ -30,7 +32,7 @@ class RenderSystem(
     private val mapRenderer: OrthogonalTiledMapRenderer,
     private val box2DDebugRenderer: Box2DDebugRenderer
 ) : MapChangeListener, SortedIteratingSystem(
-    allOf(RenderComponent::class, TransformComponent::class).get(),
+    allOf(RenderComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get(),
     compareBy { entity -> entity[TransformComponent.mapper] }
 ) {
     private val camera = gameViewPort.camera as OrthographicCamera

@@ -33,7 +33,7 @@
   </object>
  </objectgroup>
  <objectgroup color="#ff5500" id="7" name="enemy">
-  <object id="4" x="208" y="115">
+  <object id="4" x="332.667" y="115.667">
    <properties>
     <property name="Character" value="BLUE_SLIME"/>
    </properties>
@@ -42,7 +42,7 @@
  </objectgroup>
  <objectgroup color="#ffff00" id="8" name="item"/>
  <objectgroup color="#00ffff" id="6" name="playerSpawnLocation">
-  <object id="2" x="111" y="108">
+  <object id="2" x="206.333" y="42">
    <point/>
   </object>
  </objectgroup>
@@ -50,7 +50,7 @@
   <object id="11" x="416" y="5.33333" width="30.6667" height="115.333">
    <properties>
     <property name="TargetMap" value="TEST_MAP"/>
-    <property name="TargetOffsetX" type="int" value="1"/>
+    <property name="TargetOffsetX" type="int" value="2"/>
     <property name="TargetPortalID" type="int" value="10"/>
    </properties>
   </object>

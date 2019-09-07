@@ -40,7 +40,7 @@ const val PROPERTY_TARGET_PORTAL_ID = "TargetPortalID"
 // Map Types
 enum class MapType(val asset: MapAssets, val music: MusicAssets) {
     TEST_MAP(MapAssets.TEST_MAP, MusicAssets.LEVEL_1),
-    TEST_MAP3x3(MapAssets.TEST_MAP3x3, MusicAssets.MENU)
+    TEST_MAP_SMALL(MapAssets.TEST_MAP_SMALL, MusicAssets.LEVEL_1_REMASTERED)
 }
 
 // extension method to access properties the Kotlin way ;)
