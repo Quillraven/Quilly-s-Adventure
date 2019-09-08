@@ -318,15 +318,17 @@
 </node>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1567715114515" ID="ID_1717443638" MODIFIED="1567869317639" TEXT="Improvements">
+<node COLOR="#00b439" CREATED="1567715114515" FOLDED="true" ID="ID_1717443638" MODIFIED="1567937934888" TEXT="Improvements">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1567715118333" ID="ID_1973310679" MODIFIED="1567881242598" TEXT="optimize animations because right now e.g. the jump animation gets player in a loop instead of only one time">
 <font NAME="SansSerif" SIZE="14"/>
 <icon BUILTIN="button_ok"/>
 </node>
-<node COLOR="#990000" CREATED="1567715140896" ID="ID_1590432143" MODIFIED="1567715155402" TEXT="optimize jump and movesystem to get rid of the bug mentioned at github (inconsistent maximum height)">
+<node COLOR="#990000" CREATED="1567715140896" ID="ID_1590432143" MODIFIED="1567937922574" TEXT="optimize jump and movesystem to get rid of the bug mentioned at github (inconsistent maximum height)">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1567841487137" ID="ID_716145348" MODIFIED="1567841999903" TEXT="create a jumpForce property for PhysicComponent">
 <node COLOR="#111111" CREATED="1567841494153" ID="ID_1889481935" MODIFIED="1567841503805" TEXT="this force is applied once before calling worl.step in PhysicSystem"/>
 <node COLOR="#111111" CREATED="1567842031002" ID="ID_1002059284" MODIFIED="1567842037210" TEXT="only if necessary"/>
@@ -383,15 +385,12 @@
 <node COLOR="#111111" CREATED="1567887964316" ID="ID_593303727" MODIFIED="1567887973504" TEXT="has a lot of advantages over our switch/case approach"/>
 <node COLOR="#111111" CREATED="1567887979109" ID="ID_421585577" MODIFIED="1567887991564" TEXT="added EntityAgent class to easily access all necessary data in an AI state"/>
 </node>
-<node COLOR="#990000" CREATED="1567715179604" ID="ID_1859725468" MODIFIED="1567715186760" TEXT="add Flippy EasterEgg Character">
-<font NAME="SansSerif" SIZE="14"/>
-</node>
 <node COLOR="#990000" CREATED="1567791587900" ID="ID_1857212295" MODIFIED="1567869615325" TEXT="integrate sound from RedRum for first level">
 <font NAME="SansSerif" SIZE="14"/>
 <icon BUILTIN="button_ok"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1567715051244" FOLDED="true" ID="ID_1333128473" MODIFIED="1567791640289" TEXT="make a nice looking first easy level">
+<node COLOR="#00b439" CREATED="1567715051244" ID="ID_1333128473" MODIFIED="1567937926434" TEXT="make a nice looking first easy level">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1567715058712" ID="ID_455498290" MODIFIED="1567791117734" TEXT="few screens from left to right">
@@ -401,6 +400,9 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 <node COLOR="#990000" CREATED="1567715071830" ID="ID_480409077" MODIFIED="1567791117735" TEXT="one item to pickup">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1567715179604" ID="ID_1859725468" MODIFIED="1567715186760" TEXT="add Flippy EasterEgg Character">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
