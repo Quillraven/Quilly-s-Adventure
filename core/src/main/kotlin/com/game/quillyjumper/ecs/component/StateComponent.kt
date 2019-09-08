@@ -7,7 +7,10 @@ import com.game.quillyjumper.ai.EntityAgent
 import ktx.ashley.mapperFor
 
 
-class StateComponent(val stateMachine: DefaultStateMachine<EntityAgent, State<EntityAgent>> = DefaultStateMachine()) :
+class StateComponent(
+    var stateTime: Float = 0f,
+    val stateMachine: DefaultStateMachine<EntityAgent, State<EntityAgent>> = DefaultStateMachine()
+) :
     Component {
     companion object {
         val mapper = mapperFor<StateComponent>()

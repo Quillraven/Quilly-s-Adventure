@@ -1,8 +1,8 @@
 package com.game.quillyjumper.event
 
 import com.badlogic.gdx.utils.Array
-import com.game.quillyjumper.ecs.component.JumpDirection
-import com.game.quillyjumper.ecs.component.MoveDirection
+import com.game.quillyjumper.ecs.component.JumpOrder
+import com.game.quillyjumper.ecs.component.MoveOrder
 import com.game.quillyjumper.input.InputListener
 import com.game.quillyjumper.map.Map
 import com.game.quillyjumper.map.MapChangeListener
@@ -15,9 +15,9 @@ class GameEventManager {
 
     fun removeInputListener(listener: InputListener) = inputListener.removeValue(listener, true)
 
-    fun dispatchInputMoveEvent(direction: MoveDirection) = inputListener.forEach { it.move(direction) }
+    fun dispatchInputMoveEvent(order: MoveOrder) = inputListener.forEach { it.move(order) }
 
-    fun dispatchInputJumpEvent(direction: JumpDirection) = inputListener.forEach { it.jump(direction) }
+    fun dispatchInputJumpEvent(order: JumpOrder) = inputListener.forEach { it.jump(order) }
 
     fun dispatchInputExitEvent() = inputListener.forEach { it.exit() }
 

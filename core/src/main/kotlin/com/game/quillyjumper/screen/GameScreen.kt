@@ -9,13 +9,11 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.game.quillyjumper.AudioManager
+import com.game.quillyjumper.ai.GlobalState
 import com.game.quillyjumper.ai.PlayerState
 import com.game.quillyjumper.configuration.*
 import com.game.quillyjumper.ecs.character
-import com.game.quillyjumper.ecs.component.CameraLockComponent
-import com.game.quillyjumper.ecs.component.EntityType
-import com.game.quillyjumper.ecs.component.ModelType
-import com.game.quillyjumper.ecs.component.PlayerComponent
+import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.input.InputController
@@ -25,6 +23,7 @@ import com.game.quillyjumper.map.MapType
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.allOf
+import ktx.ashley.get
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
@@ -47,6 +46,7 @@ class GameScreen(
             assets,
             world,
             inputController,
+            audioManager,
             engine,
             characterCfgCache,
             itemCfgCache,
@@ -59,19 +59,28 @@ class GameScreen(
             // initialize engine
             engine.apply {
                 addSystem(PhysicMoveSystem())
-                addSystem(PhysicJumpSystem(audioManager))
+                addSystem(PhysicJumpSystem())
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))
-                addSystem(PlayerStateSystem())
+                addSystem(StateSystem())
                 addSystem(AnimationSystem(assets))
                 addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
                 addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
                 addSystem(RemoveSystem())
                 // create player entity
-                character(characterCfgCache[Character.PLAYER], world, inputController, 0f, 0f, 1, PlayerState.IDLE) {
+                character(
+                    characterCfgCache[Character.PLAYER],
+                    world,
+                    inputController,
+                    audioManager,
+                    0f,
+                    0f,
+                    1,
+                    PlayerState.IDLE
+                ) {
                     with<PlayerComponent>()
                     with<CameraLockComponent>()
-                }
+                }.apply { this[StateComponent.mapper]?.stateMachine?.globalState = GlobalState.CHECK_MOVE_INPUT }
             }
         }
 

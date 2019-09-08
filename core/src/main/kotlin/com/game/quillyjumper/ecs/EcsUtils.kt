@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Shape2D
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
+import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.FIXTURE_TYPE_FOOT_SENSOR
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ai.DefaultState
@@ -33,6 +34,7 @@ fun Engine.character(
     cfg: CharacterCfg,
     world: World,
     input: InputController,
+    audioManager: AudioManager,
     posX: Float,
     posY: Float,
     z: Int = 0,
@@ -79,7 +81,7 @@ fun Engine.character(
             this.type = cfg.entityType
         }
         // collision to store colliding entities
-        with<CollisionComponent>()
+        val collision = with<CollisionComponent>()
         // animation
         val animation = with<AnimationComponent> {
             modelType = cfg.modelType
@@ -88,13 +90,26 @@ fun Engine.character(
         with<StateComponent> {
             if (stateMachine.owner == null) {
                 // create new entity agent
-                stateMachine.owner = EntityAgent(this@entity.entity, input, this, physic, animation, render, move, jump)
+                stateMachine.owner =
+                    EntityAgent(
+                        this@entity.entity,
+                        input,
+                        audioManager,
+                        this,
+                        physic,
+                        collision,
+                        animation,
+                        render,
+                        move,
+                        jump
+                    )
             } else {
                 // update entity agent fields
                 stateMachine.owner.apply {
                     this.entity = this@entity.entity
                     this.state = this@with
                     this.physic = physic
+                    this.collision = collision
                     this.animation = animation
                     this.render = render
                     this.move = move

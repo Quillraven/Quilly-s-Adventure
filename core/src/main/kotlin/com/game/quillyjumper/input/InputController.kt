@@ -1,7 +1,7 @@
 package com.game.quillyjumper.input
 
-import com.game.quillyjumper.ecs.component.JumpDirection
-import com.game.quillyjumper.ecs.component.MoveDirection
+import com.game.quillyjumper.ecs.component.JumpOrder
+import com.game.quillyjumper.ecs.component.MoveOrder
 
 enum class InputKey {
     KEY_LEFT,
@@ -18,27 +18,12 @@ class InputController : InputListener {
 
     fun isPressed(inputKey: InputKey) = keyState[inputKey]
 
-    override fun move(direction: MoveDirection) {
-        when (direction) {
-            MoveDirection.STOP -> {
-                keyState[InputKey.KEY_LEFT] = false
-                keyState[InputKey.KEY_RIGHT] = false
-            }
-            MoveDirection.LEFT -> {
-                keyState[InputKey.KEY_LEFT] = true
-                keyState[InputKey.KEY_RIGHT] = false
-            }
-            MoveDirection.RIGHT -> {
-                keyState[InputKey.KEY_LEFT] = false
-                keyState[InputKey.KEY_RIGHT] = true
-            }
-        }
+    override fun move(order: MoveOrder) {
+        keyState[InputKey.KEY_LEFT] = order == MoveOrder.LEFT
+        keyState[InputKey.KEY_RIGHT] = order == MoveOrder.RIGHT
     }
 
-    override fun jump(direction: JumpDirection) {
-        when (direction) {
-            JumpDirection.JUMPING -> keyState[InputKey.KEY_JUMP] = true
-            else -> keyState[InputKey.KEY_JUMP] = false
-        }
+    override fun jump(order: JumpOrder) {
+        keyState[InputKey.KEY_JUMP] = order == JumpOrder.JUMP
     }
 }

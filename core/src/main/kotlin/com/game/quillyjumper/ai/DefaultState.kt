@@ -12,6 +12,7 @@ enum class DefaultState(private val aniType: AnimationType, private val loopAni:
             this.animationType = aniType
             this.loopAnimation = loopAni
         }
+        agent.state.stateTime = 0f
     }
 
     override fun exit(agent: EntityAgent) {

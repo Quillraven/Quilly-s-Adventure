@@ -2,76 +2,50 @@ package com.game.quillyjumper.ai
 
 import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.ai.msg.Telegram
+import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.ecs.component.AnimationType
-import com.game.quillyjumper.ecs.component.JumpDirection
-import com.game.quillyjumper.ecs.component.MoveDirection
-import com.game.quillyjumper.input.InputKey.*
+import com.game.quillyjumper.ecs.component.JumpOrder
+import com.game.quillyjumper.ecs.component.MoveOrder
 
 enum class PlayerState(private val aniType: AnimationType, private val loopAni: Boolean = true) : State<EntityAgent> {
     IDLE(AnimationType.IDLE) {
         override fun update(agent: EntityAgent) {
             when {
-                agent.keyPressed(KEY_RIGHT) -> agent.changeState(RUN)
-                agent.keyPressed(KEY_LEFT) -> agent.changeState(RUN)
-                agent.keyPressed(KEY_JUMP) -> agent.changeState(JUMP)
+                agent.jump.order == JumpOrder.JUMP -> agent.changeState(JUMP)
+                agent.move.order != MoveOrder.NONE -> agent.changeState(RUN)
             }
         }
     },
     RUN(AnimationType.RUN) {
         override fun update(agent: EntityAgent) {
-            val isMoving = agent.physic.body.linearVelocity.x != 0f
-
-            if (agent.keyPressed(KEY_JUMP)) {
-                agent.changeState(JUMP)
-            } else if (!agent.keyPressed(KEY_LEFT) && !agent.keyPressed(KEY_RIGHT)) {
-                // stop movement
-                agent.move.direction = MoveDirection.STOP
-                if (!isMoving) {
-                    agent.changeState(IDLE)
-                }
-            } else {
-                checkAndUpdateMoveDirectionIfNecessary(agent)
-            }
-
-            val moveDirection = agent.move.direction
-            if (moveDirection != MoveDirection.STOP) {
-                agent.render.sprite.setFlip(moveDirection == MoveDirection.LEFT, false)
+            when {
+                agent.jump.order == JumpOrder.JUMP -> agent.changeState(JUMP)
+                agent.physic.body.linearVelocity.x == 0f -> agent.changeState(IDLE)
             }
         }
     },
     JUMP(AnimationType.JUMP, false) {
         override fun enter(agent: EntityAgent) {
+            agent.audioManager.play(SoundAssets.PLAYER_JUMP)
             super.enter(agent)
-            agent.jump.direction = JumpDirection.JUMPING
         }
 
         override fun update(agent: EntityAgent) {
-            val isMoving = agent.physic.body.linearVelocity.x != 0f
-
-            // allow player to change move direction in mid air
-            checkAndUpdateMoveDirectionIfNecessary(agent)
-
-            if (agent.jump.direction == JumpDirection.JUMPING && !agent.keyPressed(KEY_JUMP)) {
-                // player wants to stop the jump
-                agent.jump.direction = JumpDirection.STOP
-            } else if (agent.jump.direction == JumpDirection.STOP) {
-                // jump  has stopped -> go to run or idle state
-                agent.changeState(if (isMoving) RUN else IDLE)
-            } else if (agent.jump.direction == JumpDirection.FALLING) {
+            if ((agent.physic.body.linearVelocity.y <= 0f && agent.collision.numGroundContacts == 0) || agent.state.stateTime > 0.8f) {
+                // player is in mid-air and falling down OR player exceeds maximum jump time
                 agent.changeState(FALL)
+            } else if (agent.collision.numGroundContacts > 0 && agent.jump.order == JumpOrder.NONE) {
+                // player is on ground and does not want to jump anymore
+                agent.changeState(if (agent.physic.body.linearVelocity.x != 0f) RUN else IDLE)
             }
         }
     },
     FALL(AnimationType.FALL) {
         override fun update(agent: EntityAgent) {
-            val isMoving = agent.physic.body.linearVelocity.x != 0f
-
-            // allow player to change move direction in mid air
-            checkAndUpdateMoveDirectionIfNecessary(agent)
-
-            if (agent.jump.direction == JumpDirection.STOP) {
-                // fall  has stopped -> go to run or idle state
-                agent.changeState(if (isMoving) RUN else IDLE)
+            agent.jump.order = JumpOrder.NONE
+            if (agent.collision.numGroundContacts > 0) {
+                // reached ground again
+                agent.changeState(if (agent.physic.body.linearVelocity.x != 0f) RUN else IDLE)
             }
         }
     };
@@ -81,32 +55,11 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
             this.animationType = aniType
             this.loopAnimation = loopAni
         }
+        agent.state.stateTime = 0f
     }
 
     override fun exit(agent: EntityAgent) {
     }
 
     override fun onMessage(agent: EntityAgent, telegram: Telegram): Boolean = false
-
-    private fun setMoveDirection(agent: EntityAgent, moveDirection: MoveDirection) {
-        agent.move.direction = moveDirection
-        if (moveDirection == MoveDirection.LEFT || moveDirection == MoveDirection.RIGHT) {
-            // only update in case of a specific direction
-            // otherwise keep the sprite flipped as  it is (e.g. if movement stops)
-            agent.render.sprite.setFlip(moveDirection == MoveDirection.LEFT, false)
-        }
-    }
-
-    fun checkAndUpdateMoveDirectionIfNecessary(agent: EntityAgent) {
-        val direction = agent.move.direction
-        if (direction.isStopOrLeft() && !agent.keyPressed(KEY_LEFT) && agent.keyPressed(KEY_RIGHT)) {
-            // move direction changed from left to right
-            setMoveDirection(agent, MoveDirection.RIGHT)
-        } else if (direction.isStopOrRight() && !agent.keyPressed(KEY_RIGHT) && agent.keyPressed(KEY_LEFT)) {
-            // move direction changed from right to left
-            setMoveDirection(agent, MoveDirection.LEFT)
-        } else if (!agent.keyPressed(KEY_LEFT) && !agent.keyPressed(KEY_RIGHT)) {
-            setMoveDirection(agent, MoveDirection.STOP)
-        }
-    }
 }

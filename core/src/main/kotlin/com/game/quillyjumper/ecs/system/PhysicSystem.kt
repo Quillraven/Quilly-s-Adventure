@@ -20,20 +20,26 @@ class PhysicSystem(
     override fun update(deltaTime: Float) {
         accumulator += min(0.25f, deltaTime)
         while (accumulator >= interval) {
-            // store position of physic bodies before the world gets updated to calculate
-            // and interpolated position for the rendering.
-            // This will smooth the graphics for the user and avoids "stuttering"
             entities.forEach { entity ->
                 entity[TransformComponent.mapper]?.let { transform ->
                     entity[PhysicComponent.mapper]?.let { physic ->
+                        val body = physic.body
+
+                        // store position of physic bodies before the world gets updated to calculate
+                        // and interpolated position for the rendering.
+                        // This will smooth the graphics for the user and avoids "stuttering"
                         transform.prevPosition.set(
-                            physic.body.position.x - transform.size.x * 0.5f,
-                            physic.body.position.y - transform.size.y * 0.5f
+                            body.position.x - transform.size.x * 0.5f,
+                            body.position.y - transform.size.y * 0.5f
                         )
+
+                        if (body.linearVelocity.x != 0f || !physic.impulse.isZero) {
+                            // body is moving or impulse specified --> apply it
+                            body.applyLinearImpulse(physic.impulse, body.worldCenter, true)
+                        }
                     }
                 }
             }
-
 
             // step physic world with a constant interval between 1/45f and 1/300f
             world.step(interval, 6, 2)
