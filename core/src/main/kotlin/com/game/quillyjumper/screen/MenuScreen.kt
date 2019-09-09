@@ -29,6 +29,7 @@ class MenuScreen(
             button { cell -> label("[X] [-] Sound [+]"); cell.fillX().row() }
             //TODO mention Schlaubi for his awesome support throughout the entire project (BOLD AND COLORFUL TEXT)
             // also add REDRUM on soundcloud for awesome music stuff!
+            // Valvoorik just because he is awesome
             button { cell -> label("Credits"); cell.fillX().row() }
             button { cell -> label("Exit"); cell.fillX().row() }.onClick { Gdx.app.exit() }
             setFillParent(true)

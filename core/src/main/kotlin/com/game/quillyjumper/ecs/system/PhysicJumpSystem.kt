@@ -13,7 +13,7 @@ import kotlin.math.min
 class PhysicJumpSystem :
     IteratingSystem(allOf(JumpComponent::class, PhysicComponent::class).get()) {
     companion object {
-        val jumpAlpha: Interpolation = Interpolation.exp10
+        val jumpAlpha: Interpolation = Interpolation.pow2Out
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {

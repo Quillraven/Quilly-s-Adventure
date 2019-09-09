@@ -62,7 +62,11 @@ fun Engine.character(
                     friction = 0f
                 }
                 // ground sensor to detect if entity can jump
-                box(cfg.size.x * 0.5f, 0.25f, PhysicComponent.tmpVec2.set(0f, -cfg.size.y * 0.5f)) {
+                box(
+                    cfg.size.x * 0.5f,
+                    0.25f,
+                    PhysicComponent.tmpVec2.set(0f + cfg.collBodyOffset.x, -cfg.size.y * 0.5f + cfg.collBodyOffset.y)
+                ) {
                     userData = FIXTURE_TYPE_FOOT_SENSOR
                     this.isSensor = true
                 }
