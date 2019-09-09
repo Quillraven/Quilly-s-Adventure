@@ -11,7 +11,8 @@ private val LOG = logger<CharacterConfigurations>()
 
 enum class Character {
     PLAYER,
-    BLUE_SLIME
+    BLUE_SLIME,
+    EASTEREGG_CHAR
 }
 
 class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {

@@ -39,6 +39,7 @@ const val PROPERTY_TARGET_PORTAL_ID = "TargetPortalID"
 
 // Map Types
 enum class MapType(val asset: MapAssets, val music: MusicAssets) {
+    MAP1(MapAssets.MAP_1, MusicAssets.LEVEL_1_REMASTERED),
     TEST_MAP(MapAssets.TEST_MAP, MusicAssets.LEVEL_1),
     TEST_MAP_SMALL(MapAssets.TEST_MAP_SMALL, MusicAssets.LEVEL_1_REMASTERED)
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.game.quillyjumper.AudioManager
+import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ai.GlobalState
 import com.game.quillyjumper.ai.PlayerState
 import com.game.quillyjumper.configuration.*
@@ -93,8 +94,7 @@ class GameScreen(
         // add AudioManager as MapChangeListener to play the music of the map whenever it gets changed
         gameEventManager.addMapChangeListener(audioManager)
         // set map
-        mapManager.setMap(MapType.TEST_MAP)
-        //mapManager.setMap(MapType.TEST_MAP3x3)
+        mapManager.setMap(MapType.MAP1)
     }
 
     override fun hide() {
@@ -128,6 +128,11 @@ class GameScreen(
             cfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
                 speed = 1f
                 size(0.5f, 0.5f)
+            }
+            cfg(Character.EASTEREGG_CHAR, EntityType.OTHER, ModelType.EASTEREGG_CHAR) {
+                speed = 0f
+                size(0.65f, 2f)
+                collisionBodyOffset(3f * UNIT_SCALE, 0f)
             }
         }
     }

@@ -36,6 +36,7 @@ operator fun AssetManager.get(asset: TextureAtlasAssets) = this.getAsset<Texture
 
 // tiled map
 enum class MapAssets(val filePath: String) {
+    MAP_1("assets/map/map1.tmx"),
     TEST_MAP("assets/map/testmap.tmx"),
     TEST_MAP_SMALL("assets/map/testmap3x3.tmx")
 }

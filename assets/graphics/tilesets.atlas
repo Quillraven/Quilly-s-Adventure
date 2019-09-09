@@ -6,36 +6,36 @@ filter: Nearest,Nearest
 repeat: none
 clouds
   rotate: false
-  xy: 0, 120
-  size: 680, 280
-  orig: 680, 280
+  xy: 0, 192
+  size: 816, 336
+  orig: 816, 336
   offset: 0, 0
   index: -1
 far-grounds
   rotate: false
-  xy: 1160, 640
-  size: 760, 160
-  orig: 760, 160
+  xy: 0, 0
+  size: 912, 192
+  orig: 912, 192
   offset: 0, 0
   index: -1
 sea
   rotate: false
-  xy: 1160, 520
-  size: 160, 120
-  orig: 160, 120
+  xy: 816, 384
+  size: 192, 144
+  orig: 192, 144
   offset: 0, 0
   index: -1
 sky
   rotate: false
-  xy: 680, 0
-  size: 160, 400
-  orig: 160, 400
+  xy: 1392, 528
+  size: 192, 480
+  orig: 192, 480
   offset: 0, 0
   index: -1
 tileset
   rotate: false
-  xy: 0, 400
-  size: 1160, 400
-  orig: 1160, 400
+  xy: 0, 528
+  size: 1392, 480
+  orig: 1392, 480
   offset: 0, 0
   index: -1

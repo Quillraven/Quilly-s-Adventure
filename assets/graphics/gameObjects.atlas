@@ -1,6 +1,6 @@
 
 gameObjects.png
-size: 2048,64
+size: 2048,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -13,182 +13,189 @@ blue_slime/idle
   index: 0
 blue_slime/idle
   rotate: false
-  xy: 56, 2
+  xy: 70, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 1
 blue_slime/idle
   rotate: false
-  xy: 110, 2
+  xy: 138, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 2
 blue_slime/idle
   rotate: false
-  xy: 164, 2
+  xy: 206, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 3
 blue_slime/run
   rotate: false
-  xy: 218, 2
+  xy: 274, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 0
 blue_slime/run
   rotate: false
-  xy: 272, 2
+  xy: 342, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 1
 blue_slime/run
   rotate: false
-  xy: 326, 2
+  xy: 410, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 2
 blue_slime/run
   rotate: false
-  xy: 380, 2
+  xy: 478, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 3
+easteregg_char/idle
+  rotate: false
+  xy: 546, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 0
 error
   rotate: false
-  xy: 434, 2
+  xy: 614, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 player/fall
   rotate: false
-  xy: 488, 2
+  xy: 682, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
 player/fall
   rotate: false
-  xy: 542, 2
+  xy: 750, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
 player/idle
   rotate: false
-  xy: 596, 2
+  xy: 818, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
 player/idle
   rotate: false
-  xy: 650, 2
+  xy: 886, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
 player/idle
   rotate: false
-  xy: 704, 2
+  xy: 954, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
 player/idle
   rotate: false
-  xy: 758, 2
+  xy: 1022, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
 player/jump
   rotate: false
-  xy: 812, 2
+  xy: 1090, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
 player/jump
   rotate: false
-  xy: 866, 2
+  xy: 1158, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
 player/jump
   rotate: false
-  xy: 920, 2
+  xy: 1226, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
 player/jump
   rotate: false
-  xy: 974, 2
+  xy: 1294, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
 player/run
   rotate: false
-  xy: 1028, 2
+  xy: 1362, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
 player/run
   rotate: false
-  xy: 1082, 2
+  xy: 1430, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
 player/run
   rotate: false
-  xy: 1136, 2
+  xy: 1498, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
 player/run
   rotate: false
-  xy: 1190, 2
+  xy: 1566, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
 player/run
   rotate: false
-  xy: 1244, 2
+  xy: 1634, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 4
 player/run
   rotate: false
-  xy: 1298, 2
+  xy: 1702, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 5
 potion_blue_plus
   rotate: false
-  xy: 1352, 2
+  xy: 1770, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 potion_green_plus
   rotate: false
-  xy: 1406, 2
+  xy: 1838, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

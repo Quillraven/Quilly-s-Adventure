@@ -32,7 +32,7 @@ limitMemory=true
 useIndexes=true
 
 scaleFactors=[{suffix:"",factor:1,resampling:bicubic}]
-inputFiles=[{path:.,type:Input,dirFilePrefix:null,recursive:true,flattenPaths:false}]
+inputFiles=[{path:gameObjects,type:Input,dirFilePrefix:null,recursive:true,flattenPaths:false}]
 
 
 ---
