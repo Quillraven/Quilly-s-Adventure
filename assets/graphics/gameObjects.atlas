@@ -4,188 +4,188 @@ size: 2048,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-blue_slime/idle
+BLUE_SLIME/IDLE
   rotate: false
   xy: 2, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 0
-blue_slime/idle
+BLUE_SLIME/IDLE
   rotate: false
   xy: 70, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 1
-blue_slime/idle
+BLUE_SLIME/IDLE
   rotate: false
   xy: 138, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 2
-blue_slime/idle
+BLUE_SLIME/IDLE
   rotate: false
   xy: 206, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 3
-blue_slime/run
+BLUE_SLIME/RUN
   rotate: false
   xy: 274, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 0
-blue_slime/run
+BLUE_SLIME/RUN
   rotate: false
   xy: 342, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 1
-blue_slime/run
+BLUE_SLIME/RUN
   rotate: false
   xy: 410, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 2
-blue_slime/run
+BLUE_SLIME/RUN
   rotate: false
   xy: 478, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 3
-easteregg_char/idle
+FLIPPY/IDLE
   rotate: false
   xy: 546, 2
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 0
-error
+PLAYER/FALL
   rotate: false
   xy: 614, 2
-  size: 32, 32
-  orig: 32, 32
+  size: 50, 37
+  orig: 50, 37
   offset: 0, 0
-  index: -1
-player/fall
+  index: 0
+PLAYER/FALL
   rotate: false
   xy: 682, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
-player/fall
+  index: 1
+PLAYER/IDLE
   rotate: false
   xy: 750, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-player/idle
+  index: 0
+PLAYER/IDLE
   rotate: false
   xy: 818, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
-player/idle
+  index: 1
+PLAYER/IDLE
   rotate: false
   xy: 886, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-player/idle
+  index: 2
+PLAYER/IDLE
   rotate: false
   xy: 954, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
-player/idle
+  index: 3
+PLAYER/JUMP
   rotate: false
   xy: 1022, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-player/jump
+  index: 0
+PLAYER/JUMP
   rotate: false
   xy: 1090, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
-player/jump
+  index: 1
+PLAYER/JUMP
   rotate: false
   xy: 1158, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-player/jump
+  index: 2
+PLAYER/JUMP
   rotate: false
   xy: 1226, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
-player/jump
+  index: 3
+PLAYER/RUN
   rotate: false
   xy: 1294, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-player/run
+  index: 0
+PLAYER/RUN
   rotate: false
   xy: 1362, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
-player/run
+  index: 1
+PLAYER/RUN
   rotate: false
   xy: 1430, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-player/run
+  index: 2
+PLAYER/RUN
   rotate: false
   xy: 1498, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
-player/run
+  index: 3
+PLAYER/RUN
   rotate: false
   xy: 1566, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-player/run
+  index: 4
+PLAYER/RUN
   rotate: false
   xy: 1634, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 4
-player/run
+  index: 5
+error
   rotate: false
   xy: 1702, 2
-  size: 50, 37
-  orig: 50, 37
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
-  index: 5
+  index: -1
 potion_blue_plus
   rotate: false
   xy: 1770, 2

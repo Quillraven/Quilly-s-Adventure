@@ -129,7 +129,7 @@ class GameScreen(
                 speed = 1f
                 size(0.5f, 0.5f)
             }
-            cfg(Character.EASTEREGG_CHAR, EntityType.OTHER, ModelType.EASTEREGG_CHAR) {
+            cfg(Character.FLIPPY, EntityType.OTHER, ModelType.FLIPPY) {
                 speed = 0f
                 size(0.65f, 2f)
                 collisionBodyOffset(3f * UNIT_SCALE, 0f)

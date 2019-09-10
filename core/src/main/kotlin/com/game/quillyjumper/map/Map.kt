@@ -86,7 +86,7 @@ class Map(val type: MapType, val tiledMap: TiledMap) {
         val layer = tiledMap.layers.get(layerName)
         if (layer == null) {
             // layer not defined in tiled map
-            LOG.error { "There is no $layerName layer for map $type" }
+            LOG.debug { "There is no $layerName layer for map $type" }
             return defaultLayer
         }
         return layer

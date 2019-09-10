@@ -9,7 +9,7 @@ enum class ModelType {
     UNKNOWN,
     PLAYER,
     BLUE_SLIME,
-    EASTEREGG_CHAR
+    FLIPPY
 }
 
 enum class AnimationType {

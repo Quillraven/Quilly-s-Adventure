@@ -86,8 +86,7 @@ class AnimationSystem(assets: AssetManager) :
      * Otherwise, a new [Animation] instance is created with the regions from the texture atlas.
      */
     private fun getAnimation(modelType: ModelType, animationType: AnimationType): Animation {
-        val regions =
-            textureAtlas.findRegions("${modelType.name.toLowerCase()}/${animationType.name.toLowerCase()}")
+        val regions = textureAtlas.findRegions("${modelType.name}/${animationType.name}")
         LOG.debug { "Creating animation for $modelType/$animationType. Found ${regions.size} regions" }
 
         // if no regions are found then return the error animation to render at least something
