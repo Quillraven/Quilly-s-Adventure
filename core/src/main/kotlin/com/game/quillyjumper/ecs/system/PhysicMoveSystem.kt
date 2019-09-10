@@ -9,44 +9,41 @@ import com.game.quillyjumper.ecs.component.PhysicComponent
 import com.game.quillyjumper.ecs.component.RenderComponent
 import ktx.ashley.allOf
 import ktx.ashley.get
+import kotlin.math.min
 
 class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicComponent::class).get()) {
     companion object {
-        private val stopAlpha = Interpolation.exp10Out
+        private val stopAlpha = Interpolation.pow2Out
         private val moveAlpha = Interpolation.circleOut
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity[MoveComponent.mapper]?.let { move ->
             entity[PhysicComponent.mapper]?.let { physic ->
-                when {
-                    move.order == MoveOrder.NONE && move.speed != 0f -> {
-                        // entity should not move but it is still moving -> stop it
-                        move.speed = stopAlpha.apply(move.speed, 0f, deltaTime)
-                        if (move.speed < 0.1f && move.speed > -0.1f) {
-                            // tolerance for movement stop to avoid playing the run
-                            // animation although the entity visually already stopped
-                            move.speed = 0f
+                move.moveTime = min(1f, move.moveTime + deltaTime)
+
+                val velocity = physic.body.linearVelocity.x
+                val speed = when (move.order) {
+                    MoveOrder.NONE -> {
+                        if (velocity >= -0.01f && velocity < 0.01f) {
+                            // tolerance to stop entity immediately when it is below a certain speed
+                            0f
+                        } else {
+                            stopAlpha.apply(velocity, 0f, move.moveTime)
                         }
                     }
-                    move.order == MoveOrder.RIGHT && move.speed != move.maxSpeed -> {
-                        // entity should move right but did not reach maximum speed yet
-                        move.speed = moveAlpha.apply(move.speed, move.maxSpeed, deltaTime * 0.1f)
-                    }
-                    move.order == MoveOrder.LEFT && move.speed != -move.maxSpeed -> {
-                        // entity should move left but did not reach maximum speed yet
-                        move.speed = moveAlpha.apply(move.speed, -move.maxSpeed, deltaTime * 0.1f)
-                    }
+                    MoveOrder.RIGHT -> moveAlpha.apply(0f, move.maxSpeed, move.moveTime)
+                    MoveOrder.LEFT -> -moveAlpha.apply(0f, move.maxSpeed, move.moveTime)
                 }
 
                 // set the value of the impulse that will be applied before each physic step call
-                physic.impulse.x = physic.body.mass * (move.speed - physic.body.linearVelocity.x)
+                physic.impulse.x = physic.body.mass * (speed - velocity)
 
                 // in case the entity is rendered then flip its sprite according to the move direction
                 entity[RenderComponent.mapper]?.also { render ->
                     when {
-                        move.speed > 0f -> render.sprite.setFlip(false, render.sprite.isFlipY)
-                        move.speed < 0f -> render.sprite.setFlip(true, render.sprite.isFlipY)
+                        speed > 0f -> render.sprite.setFlip(false, render.sprite.isFlipY)
+                        speed < 0f -> render.sprite.setFlip(true, render.sprite.isFlipY)
                     }
                 }
             }

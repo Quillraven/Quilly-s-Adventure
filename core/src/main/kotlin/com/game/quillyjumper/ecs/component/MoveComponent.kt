@@ -8,10 +8,15 @@ enum class MoveOrder {
 }
 
 class MoveComponent(
-    var order: MoveOrder = MoveOrder.NONE,
-    var speed: Float = 0f,
+    var moveTime: Float = 0f,
     var maxSpeed: Float = 1f
 ) : Component {
+    var order: MoveOrder = MoveOrder.NONE
+        set(value) {
+            if (value != field) moveTime = 0f
+            field = value
+        }
+
     companion object {
         val mapper = mapperFor<MoveComponent>()
     }
