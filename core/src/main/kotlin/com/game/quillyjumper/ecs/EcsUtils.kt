@@ -44,7 +44,7 @@ fun Engine.character(
     return this.entity {
         // transform
         with<TransformComponent> {
-            position.set(posX, posY)
+            position.set(posX - cfg.size.x * 0.5f, posY)
             this.z = z
             prevPosition.set(position)
             interpolatedPosition.set(position)
@@ -53,7 +53,7 @@ fun Engine.character(
         // physic
         val physic = with<PhysicComponent> {
             body = world.body(BodyDef.BodyType.DynamicBody) {
-                position.set(posX + cfg.size.x * 0.5f, posY + cfg.size.y * 0.5f)
+                position.set(posX, posY + cfg.size.y * 0.5f)
                 userData = this@entity.entity
                 // characters do not need to rotate
                 fixedRotation = true
@@ -131,7 +131,7 @@ fun Engine.item(cfg: ItemCfg, world: World, posX: Float, posY: Float): Entity {
     return this.entity {
         // transform
         with<TransformComponent> {
-            position.set(posX, posY)
+            position.set(posX - 0.5f, posY)
             this.z = 0
             prevPosition.set(position)
             interpolatedPosition.set(position)
@@ -140,7 +140,7 @@ fun Engine.item(cfg: ItemCfg, world: World, posX: Float, posY: Float): Entity {
         // physic
         with<PhysicComponent> {
             body = world.body(BodyDef.BodyType.StaticBody) {
-                position.set(posX + 0.5f, posY + 0.5f)
+                position.set(posX, posY + 0.5f)
                 userData = this@entity.entity
                 // items do not need to rotate
                 fixedRotation = true

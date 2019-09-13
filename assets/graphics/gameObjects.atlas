@@ -67,135 +67,142 @@ FLIPPY/IDLE
   orig: 64, 64
   offset: 0, 0
   index: 0
-PLAYER/FALL
+FLIPPY/IDLE
   rotate: false
   xy: 614, 2
-  size: 50, 37
-  orig: 50, 37
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
-  index: 0
+  index: 1
 PLAYER/FALL
   rotate: false
   xy: 682, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-PLAYER/IDLE
+  index: 0
+PLAYER/FALL
   rotate: false
   xy: 750, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
+  index: 1
 PLAYER/IDLE
   rotate: false
   xy: 818, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
+  index: 0
 PLAYER/IDLE
   rotate: false
   xy: 886, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
+  index: 1
 PLAYER/IDLE
   rotate: false
   xy: 954, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-PLAYER/JUMP
+  index: 2
+PLAYER/IDLE
   rotate: false
   xy: 1022, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
+  index: 3
 PLAYER/JUMP
   rotate: false
   xy: 1090, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
+  index: 0
 PLAYER/JUMP
   rotate: false
   xy: 1158, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
+  index: 1
 PLAYER/JUMP
   rotate: false
   xy: 1226, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-PLAYER/RUN
+  index: 2
+PLAYER/JUMP
   rotate: false
   xy: 1294, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
+  index: 3
 PLAYER/RUN
   rotate: false
   xy: 1362, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
+  index: 0
 PLAYER/RUN
   rotate: false
   xy: 1430, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
+  index: 1
 PLAYER/RUN
   rotate: false
   xy: 1498, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
+  index: 2
 PLAYER/RUN
   rotate: false
   xy: 1566, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 4
+  index: 3
 PLAYER/RUN
   rotate: false
   xy: 1634, 2
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 5
-error
+  index: 4
+PLAYER/RUN
   rotate: false
   xy: 1702, 2
-  size: 32, 32
-  orig: 32, 32
+  size: 50, 37
+  orig: 50, 37
   offset: 0, 0
-  index: -1
-potion_blue_plus
+  index: 5
+error
   rotate: false
   xy: 1770, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-potion_green_plus
+potion_blue_plus
   rotate: false
   xy: 1838, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+potion_green_plus
+  rotate: false
+  xy: 1906, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

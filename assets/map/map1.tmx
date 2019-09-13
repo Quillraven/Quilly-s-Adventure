@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="96" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="20">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="96" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="24">
  <tileset firstgid="1" source="tilesets.tsx"/>
  <layer id="1" name="bgd1" width="96" height="26">
   <data encoding="base64" compression="zlib">
@@ -16,19 +16,24 @@
    eJzt1sVuZEcAhtE2d7eZmT15ohlDs5mZJ280YLaHmTlvlBxL2UbKpt2Wpz7p7Kt+XZVuJBIKhUKhUCgUCoVCoVAodHUlopFIkhRpMmTJMR4t9Olufoc2PuKYE04545yLsH/eK41FImWUU0GUGHEqY4U+3c1vzMYJkqRIkyFLLuyf9w5sfMgRx5xwyhnnYf+8VxL3BlFGORVEiRGPF/p0N79RG4+RIEmKNBmyYf/Qf1REMSWUUkY5FVz+tl0+nZefTyVVVFNDLXXU00AjTTTTQitttNNBJ11000MvffQzwCBD3OKPfF74mjXMCKOMkSBJijQZsuQYZ4JJpphmhlnmmGeBRZZYZoVV1lhng0222GaHXfbY5y5/5vPC16z7POAhBxxyxDEnnHLGORc84jFPeMoznvOCl7ziNW94yzve84GPfOIzX/jKN77zg5/84q98Xvi65QEqopgSSimjnAqixIhTSRXV1FBLHfU00EgTzbTQShvtdNBJF9300Esf/QwwyBC3igo9ytV1x12HGWGUMRIkSZEmQ5Yc40wwyRTTzDDLHPMssMgSy6ywyhrrbLDJFtvssMse+9z9jfa/5673ecBDDjjkiGNOOOWMcy54xGOe8JRnPOcFL3nFa97wlne85wMf+cRnvvCVb3znBz/59Rvt//e/P0BFFFNCKWWUU0GUGHEqqaKaGmqpo54GGmmimRZaaaOdDjrpopseeumjnwEGGSou9CpX1213vcMwI4wyRoIkKdJkyJJjnAkmmWKaGWaZY54FFllimRVWWWOdDTbZYpsddtlj/3/u/w85U4au
   </data>
  </layer>
+ <layer id="10" name="bgdMountain" width="96" height="26">
+  <data encoding="base64" compression="zlib">
+   eJztmduOwiAYhLksbX2K1sMrtrXq6utt7Gl39XF20JLgqlzBkpD5kgmpF4SMA/35KwQxGaUQE9QunlVnQjTQNgu9ynhp4f3ujf8dfO+hgf57w8x/lSDzUJPcn8tciCW0ykOvMl7M/J/hewf1s/8H/P4hQ68wbsz8FxhLaDk/f2P8of9esZ3/zL9/bPUP8+8fW/6PeA+cktArjBtb/i/w/kr/vTGgrhyhKee9KwQreL2GNqr2xB7opJ97V53i/4S2qZv5YqGFvztoDxXwpkz9ZL/DvD000P8HRng8QV+Zn56DmftPeb9fkEfMPaD8d5l9M/d8n7zm7x5wee7r2pZ9PDt6Dyj/XfbbdG3LPp4dvQeU/y77DTr/FXyvoYb+v2QNXzbzHcBlv0Hn/4y5O6in/29ppb/8F+pbgjrbFu7mjo1R+su/+p5TqXs1/X/CrNFv+cd4hE68K/0LZo1+yz/GC3Sl/4QQQhzyC7ewfuE=
+  </data>
+ </layer>
  <layer id="4" name="bgd4" width="96" height="26">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <layer id="5" name="bgd5" width="96" height="26">
   <data encoding="base64" compression="zlib">
-   eJzt1stKw0AYhuERbZsTeFiqKOo1WW1zquBhqaKo96T0XDfqroqi3pOvbkohIgSTlPC98DBZtZMfZogxSimllFJKKaWUUuWvaRnjI0CICDFaOLCK3l356zDjLnroY4AhRrjX/DNvwTamgipqsGDDgWsXvbvy12DGTfgIECJCjJbmn3ltZtxBFz30McAQI80/8+Yd7iBUUEUNFmw4TtG7m41WXWPWsI4NbKZYt7CNHXf6t/eZcQNN+AgQIkKs+f90yszOcI4LXKZYr3CNG/fv/1PTjZnZM17wircU6zs+8Kn5q4QeueueEu67Ot8Ae/oOyLxlzuVKwtm8ZfZ3mn/mHTP7k6S7kTMxV+LvgN/Ofd49MPuGx3cYfAQIscve6jOwv//O5t0cb3LuF3le8vL576Q5f9dm7aCLHvo57aeIIt4t9ibn/pDno5zed1bm/AV6M0pl
+   eJzt2EsvA1EYxvEjtJ1b4rJECD6TMvdKXJYIwXcinUtbG+xKCL6TP5tuphITczHeJ/nlzG7eeZJzcjJKSSQSiUTy82yYSm1iy6x6kv+ZC3q/xJX0X0le6f0N79K/RCKRSCR/Ko6mlAsPPgKE6GFPq3q65iei4xgJUgwwxAi30n/hmdOVaqGNDjToMGDqVU/X/Nh07MCFBx8BQvSk/8LTp+MIMRKkGGCIkfRfeGYNziC00EYHGnQYRtXT1SPLplIrWMUa1nOs0/7V7dKxDQcuPPgIEEr/XzmmsxOc4gznOVb5V5c/Yzp7xBOe8ZJjlX91ku9yz1n3kHHedbkD7Mg9oPAssi+XMvbmNd3fSP+F55Duj7LORvbETIPvAdP2fdm5o3vb4h4GFx58bDNbtwbz/XZ0vs2wJvt+nucFq5x3Z/X8mT5rhBgJ0pLmqSIB3xZak32/z/NBSd9bl54/AEUkTvc=
   </data>
  </layer>
  <layer id="6" name="fgd1" width="96" height="26">
   <data encoding="base64" compression="zlib">
-   eJzt1FkOgkAUBdFOFOjGDcqMG5RR12dtgpBgVXL+X+7HC8HMzMzMzMzM7BrVMYQGLTr0GDDiFc++7vpNbDxjwYoNOz74uv/h3VMIGXIUiEgo8UhnX3f9Kjau0aBFhx4DRvc/vDcbT5ixYMWGHR/3P7xbyQ9ChhwFIhLK8uzrrt+TjSvUaNCiQ4/B/c3MzMzM7A/6AZu7FjU=
+   eJzt2FkKgmAYRmGhHNtgmlMbzLn1dZYggfxh58BzK/JeiHxRtK9rHkUxEqTIkKPALd/5EPu6ko0rPFCjQYsOvfsf3ouNB4yYMGPBis39D+9S8A1CjAQpMuQoitBvd/7ubFyiwgM1GrTo3N/MzMzMfqwq478VNRq06NDjmYV+u/M3sPGICTMWrNjwdv/D834XNu93YfN+Fzbvd2HzfmdmZmZmZv/eBz1+I2k=
   </data>
  </layer>
  <objectgroup color="#ff0000" id="7" name="collision">
@@ -63,6 +68,23 @@
   </object>
   <object id="19" x="318" y="217.5">
    <polygon points="0,0 -3.75,4.25 -4.25,11.75 -1.5,13.75 -2.25,23.25 2.25,27.5 8.75,23.75 16.5,24.75 22.5,19.25 25.75,9.5 20.75,-0.75"/>
+  </object>
+  <object id="20" x="69.3333" y="166">
+   <polygon points="0,0 4.75,-5.5 39.5,-4.75 39.25,17.25 25,25.75 -0.25,11.25"/>
+  </object>
+  <object id="21" x="177.333" y="80">
+   <polygon points="0,0 108,-1.41667 117.854,19.1434 79.6957,22.0334 71,37 39,54.25 4.25,25.5 13.75,13.75 -0.75,10.5"/>
+  </object>
+  <object id="22" x="31.3333" y="106.667">
+   <polygon points="0,0 -3.75,4.25 -4.25,11.75 -1.5,13.75 -2.25,23.25 2.25,27.5 8.75,23.75 16.5,24.75 22.5,19.25 25.75,9.5 20.75,-0.75"/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ffff00" id="11" name="item">
+  <object id="23" x="224" y="66">
+   <properties>
+    <property name="Item" value="POTION_GAIN_LIFE"/>
+   </properties>
+   <point/>
   </object>
  </objectgroup>
  <objectgroup id="8" name="playerSpawnLocation">

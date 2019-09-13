@@ -25,7 +25,7 @@ class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicCompo
                 val velocity = physic.body.linearVelocity.x
                 val speed = when (move.order) {
                     MoveOrder.NONE -> {
-                        if (velocity >= -0.01f && velocity < 0.01f) {
+                        if (velocity >= -0.05f && velocity < 0.05f) {
                             // tolerance to stop entity immediately when it is below a certain speed
                             0f
                         } else {
