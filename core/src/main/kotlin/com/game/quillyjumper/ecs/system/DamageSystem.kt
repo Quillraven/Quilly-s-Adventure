@@ -1,8 +1,6 @@
 package com.game.quillyjumper.ecs.system
 
-import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.EntityListener
 import com.badlogic.ashley.systems.IteratingSystem
 import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.allOf
@@ -14,31 +12,7 @@ import kotlin.math.max
 private val LOG = logger<DamageSystem>()
 
 class DamageSystem :
-    IteratingSystem(allOf(DamageComponent::class, CollisionComponent::class).exclude(RemoveComponent::class).get()),
-    EntityListener {
-    override fun addedToEngine(engine: Engine) {
-        engine.addEntityListener(this)
-        super.addedToEngine(engine)
-    }
-
-    override fun removedFromEngine(engine: Engine) {
-        engine.removeEntityListener(this)
-        super.removedFromEngine(engine)
-    }
-
-    override fun entityAdded(entity: Entity) {
-        // do nothing
-    }
-
-    override fun entityRemoved(entity: Entity) {
-        // remove it from any damageDealt arrays in case another entity gets recreated
-        // which means it would be a completely new entity but it reuses the pooled entity
-        // from the array and therefore it would not get detected by the system below
-        this.entities.forEach {
-            it[DamageComponent.mapper]?.damagedEntities?.removeValue(entity, true)
-        }
-    }
-
+    IteratingSystem(allOf(DamageComponent::class, CollisionComponent::class).exclude(RemoveComponent::class).get()) {
     private fun isEnemy(source: Entity, collEntity: Entity): Boolean {
         source[EntityTypeComponent.mapper]?.let { type ->
             collEntity[EntityTypeComponent.mapper]?.let { collType ->

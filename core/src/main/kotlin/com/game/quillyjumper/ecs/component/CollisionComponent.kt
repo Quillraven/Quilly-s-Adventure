@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array
 import ktx.ashley.mapperFor
 
 class CollisionComponent(
-    val entities: Array<Entity> = Array(),
+    val entities: Array<Entity> = Array(4),
     var numGroundContacts: Int = 0
 ) : Component {
     companion object {

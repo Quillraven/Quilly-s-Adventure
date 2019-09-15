@@ -469,7 +469,11 @@
 <node COLOR="#111111" CREATED="1568557152481" ID="ID_237680097" MODIFIED="1568557155514" TEXT="StringBuilder"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1568550333494" FOLDED="true" ID="ID_330682411" MODIFIED="1568550505383" TEXT="Refactoring of EntityAgent">
+<node COLOR="#00b439" CREATED="1568557549342" ID="ID_649335855" MODIFIED="1568557579803" TEXT="add blue slime AI so that it moves towards player and attacks him when in range">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+</node>
+<node COLOR="#00b439" CREATED="1568550333494" FOLDED="true" ID="ID_330682411" MODIFIED="1568557571061" TEXT="Refactoring of EntityAgent">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1568550350311" ID="ID_706382582" MODIFIED="1568550360743" TEXT="audioManager and input is set for stateMachine">

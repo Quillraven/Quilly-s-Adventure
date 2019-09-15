@@ -69,7 +69,7 @@ class GameScreen(
                 addSystem(AnimationSystem(assets))
                 addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
                 addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
-                addSystem(RemoveSystem())
+                addSystem(RemoveSystem(this))
                 // create player entity
                 character(
                     characterCfgCache[Character.PLAYER],
