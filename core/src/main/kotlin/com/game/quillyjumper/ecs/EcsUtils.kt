@@ -17,6 +17,7 @@ import com.game.quillyjumper.ai.EntityAgent
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.ecs.system.StatsComponent
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.map.MapType
 import ktx.ashley.EngineEntity
@@ -61,6 +62,10 @@ fun Engine.character(
                     // characters should not stick on walls or other physic objects
                     friction = 0f
                 }
+                // characters are not allowed to sleep because otherwise the damage emitter
+                // sensors do not detect collision correctly (body needs to be awake to trigger
+                // contact events)
+                allowSleep = false
                 // ground sensor to detect if entity can jump
                 box(
                     cfg.size.x * 0.5f,
@@ -76,6 +81,8 @@ fun Engine.character(
         val move = with<MoveComponent> {
             maxSpeed = cfg.speed
         }
+        // facing
+        with<FacingComponent>()
         // jump
         val jump = with<JumpComponent>()
         // render
@@ -89,6 +96,17 @@ fun Engine.character(
         // animation
         val animation = with<AnimationComponent> {
             modelType = cfg.modelType
+        }
+        // attack
+        val attack = with<AttackComponent> {
+            range = cfg.attackRange
+            cooldown = cfg.attackCooldown
+        }
+        // stats
+        with<StatsComponent> {
+            this.armor = cfg.armor
+            this.damage = cfg.damage
+            this.life = cfg.life
         }
         // state
         with<StateComponent> {
@@ -105,7 +123,8 @@ fun Engine.character(
                         animation,
                         render,
                         move,
-                        jump
+                        jump,
+                        attack
                     )
             } else {
                 // update entity agent fields
@@ -118,6 +137,7 @@ fun Engine.character(
                     this.render = render
                     this.move = move
                     this.jump = jump
+                    this.attack = attack
                 }
             }
             stateMachine.setInitialState(initialState)
@@ -263,6 +283,42 @@ fun Engine.portal(world: World, shape: Shape2D, targetMap: MapType, targetPortal
             this.targetMap = targetMap
             this.targetOffsetX = targetOffsetX
             this.targetPortal = targetPortal
+        }
+    }
+}
+
+fun Engine.damageEmitter(
+    world: World,
+    posX: Float,
+    posY: Float,
+    sizeX: Float,
+    sizeY: Float,
+    damage: Float,
+    lifeSpan: Float,
+    source: Entity
+): Entity {
+    return this.entity {
+        // physic
+        with<PhysicComponent> {
+            body = world.body(BodyDef.BodyType.StaticBody) {
+                position.set(posX + sizeX * 0.5f, posY + sizeY * 0.5f)
+                userData = this@entity.entity
+                // damage emitters do not need to rotate
+                fixedRotation = true
+                box(sizeX, sizeY) {
+                    isSensor = true
+                }
+            }
+        }
+        // collision
+        with<CollisionComponent>()
+        // type
+        with<EntityTypeComponent> { type = EntityType.DAMAGE_EMITTER }
+        // damage
+        with<DamageComponent> {
+            this.damage = damage
+            this.lifeSpan = lifeSpan
+            this.source = source
         }
     }
 }

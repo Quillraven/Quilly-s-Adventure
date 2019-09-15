@@ -61,6 +61,8 @@ class GameScreen(
             engine.apply {
                 addSystem(PhysicMoveSystem())
                 addSystem(PhysicJumpSystem())
+                addSystem(AttackSystem(world))
+                addSystem(DamageSystem())
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))
                 addSystem(StateSystem())
@@ -124,10 +126,17 @@ class GameScreen(
             cfg(Character.PLAYER, EntityType.PLAYER, ModelType.PLAYER) {
                 speed = 4f
                 size(0.5f, 0.8f)
+                attackRange = 0.4f
+                attackCooldown = 1f
+                damage = 6f
+                life = 80f
+                armor = 2f
             }
             cfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
                 speed = 1f
                 size(0.5f, 0.5f)
+                damage = 2f
+                life = 10f
             }
             cfg(Character.FLIPPY, EntityType.OTHER, ModelType.FLIPPY) {
                 speed = 0f

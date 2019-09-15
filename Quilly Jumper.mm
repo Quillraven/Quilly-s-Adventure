@@ -390,9 +390,10 @@
 <icon BUILTIN="button_ok"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1567715051244" ID="ID_1333128473" MODIFIED="1567937926434" TEXT="make a nice looking first easy level">
+<node COLOR="#00b439" CREATED="1567715051244" FOLDED="true" ID="ID_1333128473" MODIFIED="1568548098262" TEXT="make a nice looking first easy level">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1567715058712" ID="ID_455498290" MODIFIED="1567791117734" TEXT="few screens from left to right">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
@@ -403,6 +404,85 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 <node COLOR="#990000" CREATED="1567715179604" ID="ID_1859725468" MODIFIED="1567715186760" TEXT="add Flippy EasterEgg Character">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1568548101201" FOLDED="true" ID="ID_546680555" MODIFIED="1568554882325" TEXT="Player Attack System">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1568548110999" ID="ID_873925378" MODIFIED="1568549848771" TEXT="new state Attack">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+</node>
+<node COLOR="#990000" CREATED="1568548114701" ID="ID_42828637" MODIFIED="1568549848771" TEXT="new Animation Attack">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+</node>
+<node COLOR="#990000" CREATED="1568548302169" FOLDED="true" ID="ID_693890487" MODIFIED="1568550936911" TEXT="AttackComponent">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1568548309875" ID="ID_1347413521" MODIFIED="1568548314221" TEXT="range : Float"/>
+<node COLOR="#111111" CREATED="1568548349699" ID="ID_143058745" MODIFIED="1568548353738" TEXT="cooldown : Float"/>
+</node>
+<node COLOR="#990000" CREATED="1568548123139" ID="ID_574733992" MODIFIED="1568548132017" TEXT="after short delay in Attack State">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1568548132378" FOLDED="true" ID="ID_325147555" MODIFIED="1568554870108" TEXT="spawn a DamageEmitter Entity">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1568548145340" ID="ID_1773090746" MODIFIED="1568548148024" TEXT="box2d sensor"/>
+<node COLOR="#111111" CREATED="1568548152726" ID="ID_687305535" MODIFIED="1568548159971" TEXT="DamageComponent">
+<node COLOR="#111111" CREATED="1568548160754" ID="ID_1596234408" MODIFIED="1568548164818" TEXT="damage source : Entity"/>
+<node COLOR="#111111" CREATED="1568548166019" ID="ID_317992731" MODIFIED="1568548185082" TEXT="damage : Float"/>
+<node COLOR="#111111" CREATED="1568548201571" ID="ID_1465766868" MODIFIED="1568548205766" TEXT="lifeSpan :  Float"/>
+<node COLOR="#111111" CREATED="1568548539204" ID="ID_1949192" MODIFIED="1568548546748" TEXT="alreadyDamaged : Array&lt;Entity&gt;"/>
+</node>
+<node COLOR="#111111" CREATED="1568548217897" ID="ID_1065212724" MODIFIED="1568548221391" TEXT="CollisionComponent"/>
+</node>
+<node COLOR="#111111" CREATED="1568548413792" ID="ID_1156657918" MODIFIED="1568554875040" TEXT="DamageSystem">
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1568548419020" ID="ID_691749802" MODIFIED="1568548444630" TEXT="IteratingSystem">
+<node COLOR="#111111" CREATED="1568548444981" ID="ID_654026128" MODIFIED="1568548447612" TEXT="DamageComponent"/>
+<node COLOR="#111111" CREATED="1568548448419" ID="ID_556136681" MODIFIED="1568548451786" TEXT="CollisionComponent"/>
+<node COLOR="#111111" CREATED="1568548452607" ID="ID_1518442041" MODIFIED="1568548456304" TEXT="exclude RemoveComponent"/>
+</node>
+<node COLOR="#111111" CREATED="1568548457891" ID="ID_1875115482" MODIFIED="1568548487468" TEXT="damage all entities of CollisionComponent"/>
+</node>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1568557075858" ID="ID_1358937484" MODIFIED="1568557091983" TEXT="add floating damage text to visualize if damage was dealt to something">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1568557096699" ID="ID_379765569" MODIFIED="1568557104335" TEXT="physic entity">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1568557105010" ID="ID_1304436524" MODIFIED="1568557109295" TEXT="gravity impact 0">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1568557110637" ID="ID_1753862608" MODIFIED="1568557116415" TEXT="random upwards impulse">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1568557117744" ID="ID_94442865" MODIFIED="1568557132667" TEXT="RenderSystem is drawing number text according to entity boundaries">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1568557133957" ID="ID_631768926" MODIFIED="1568557147520" TEXT="new Component : TextComponent">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1568557152481" ID="ID_237680097" MODIFIED="1568557155514" TEXT="StringBuilder"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1568550333494" FOLDED="true" ID="ID_330682411" MODIFIED="1568550505383" TEXT="Refactoring of EntityAgent">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1568550350311" ID="ID_706382582" MODIFIED="1568550360743" TEXT="audioManager and input is set for stateMachine">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1568550361487" ID="ID_1984474848" MODIFIED="1568550371905" TEXT="initialize in StateSystem and pass them to the StateSystem as well">
+<node COLOR="#111111" CREATED="1568550373989" ID="ID_30694817" MODIFIED="1568550381320" TEXT="addedToEngine for initialization"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1568550400876" ID="ID_96947468" MODIFIED="1568550431631" TEXT="get  rid of components and if possible provide helper methods to write code more easily in states">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1568550432267" ID="ID_1918128968" MODIFIED="1568550455237" TEXT="e.g. helper method agent.move encapsulates the call entity[MoveComponent.mapper]?.let { }"/>
+</node>
+<node COLOR="#990000" CREATED="1568550480317" ID="ID_906430063" MODIFIED="1568550497859" TEXT="once that is finished then do no longer create move and attack components for characters that cannot move or attack">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>

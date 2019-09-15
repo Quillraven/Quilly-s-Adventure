@@ -3,10 +3,7 @@ package com.game.quillyjumper.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Interpolation
-import com.game.quillyjumper.ecs.component.MoveComponent
-import com.game.quillyjumper.ecs.component.MoveOrder
-import com.game.quillyjumper.ecs.component.PhysicComponent
-import com.game.quillyjumper.ecs.component.RenderComponent
+import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.allOf
 import ktx.ashley.get
 import kotlin.math.min
@@ -32,8 +29,14 @@ class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicCompo
                             stopAlpha.apply(velocity, 0f, move.moveTime)
                         }
                     }
-                    MoveOrder.RIGHT -> moveAlpha.apply(0f, move.maxSpeed, move.moveTime)
-                    MoveOrder.LEFT -> -moveAlpha.apply(0f, move.maxSpeed, move.moveTime)
+                    MoveOrder.RIGHT -> {
+                        entity[FacingComponent.mapper]?.direction = FacingDirection.RIGHT
+                        moveAlpha.apply(0f, move.maxSpeed, move.moveTime)
+                    }
+                    MoveOrder.LEFT -> {
+                        entity[FacingComponent.mapper]?.direction = FacingDirection.LEFT
+                        -moveAlpha.apply(0f, move.maxSpeed, move.moveTime)
+                    }
                 }
 
                 // set the value of the impulse that will be applied before each physic step call

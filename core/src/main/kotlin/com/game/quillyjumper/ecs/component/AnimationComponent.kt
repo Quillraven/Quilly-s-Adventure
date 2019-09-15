@@ -13,7 +13,7 @@ enum class ModelType {
 }
 
 enum class AnimationType {
-    IDLE, RUN, JUMP, FALL
+    IDLE, RUN, JUMP, FALL, ATTACK
 }
 
 class Animation(
@@ -31,6 +31,8 @@ class AnimationComponent(
 ) : Component {
     // animation gets initialized in AnimationSystem
     lateinit var animation: Animation
+
+    fun isAnimationFinished() = animation.isAnimationFinished(animationTime)
 
     companion object {
         val mapper = mapperFor<AnimationComponent>()

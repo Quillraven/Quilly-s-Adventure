@@ -4,6 +4,7 @@ import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.ai.msg.Telegram
 import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.ecs.component.AnimationType
+import com.game.quillyjumper.ecs.component.AttackOrder
 import com.game.quillyjumper.ecs.component.JumpOrder
 import com.game.quillyjumper.ecs.component.MoveOrder
 
@@ -13,6 +14,7 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
             when {
                 agent.jump.order == JumpOrder.JUMP -> agent.changeState(JUMP)
                 agent.move.order != MoveOrder.NONE -> agent.changeState(RUN)
+                agent.attack.order != AttackOrder.NONE -> agent.changeState(ATTACK)
             }
         }
     },
@@ -21,6 +23,7 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
             when {
                 agent.jump.order == JumpOrder.JUMP -> agent.changeState(JUMP)
                 agent.physic.body.linearVelocity.x == 0f -> agent.changeState(IDLE)
+                agent.attack.order != AttackOrder.NONE -> agent.changeState(ATTACK)
             }
         }
     },
@@ -45,6 +48,22 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
             agent.jump.order = JumpOrder.NONE
             if (agent.collision.numGroundContacts > 0) {
                 // reached ground again
+                agent.changeState(if (agent.physic.body.linearVelocity.x != 0f) RUN else IDLE)
+            }
+        }
+    },
+    ATTACK(AnimationType.ATTACK, false) {
+        override fun enter(agent: EntityAgent) {
+            agent.audioManager.play(SoundAssets.SWING)
+            super.enter(agent)
+        }
+
+        override fun update(agent: EntityAgent) {
+            // stop any movement
+            agent.move.order = MoveOrder.NONE
+
+            if (agent.animation.isAnimationFinished()) {
+                agent.attack.order = AttackOrder.NONE
                 agent.changeState(if (agent.physic.body.linearVelocity.x != 0f) RUN else IDLE)
             }
         }

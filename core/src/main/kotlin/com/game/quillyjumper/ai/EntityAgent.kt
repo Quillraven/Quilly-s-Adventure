@@ -17,7 +17,8 @@ class EntityAgent(
     var animation: AnimationComponent,
     var render: RenderComponent,
     var move: MoveComponent,
-    var jump: JumpComponent
+    var jump: JumpComponent,
+    var attack: AttackComponent
 ) {
     fun keyPressed(key: InputKey) = input.isPressed(key)
 

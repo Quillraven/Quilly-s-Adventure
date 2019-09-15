@@ -19,6 +19,11 @@ class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
     var speed = 0f
     val size = vec2(1f, 1f)
     val collBodyOffset = vec2(0f, 0f)
+    var attackRange = 0f
+    var attackCooldown = 0f
+    var damage = 0f
+    var life = 0f
+    var armor = 0f
 
     fun size(width: Float, height: Float): Vector2 = size.set(width, height)
 

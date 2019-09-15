@@ -2,6 +2,7 @@ package com.game.quillyjumper.ai
 
 import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.ai.msg.Telegram
+import com.game.quillyjumper.ecs.component.AttackOrder
 import com.game.quillyjumper.ecs.component.JumpOrder
 import com.game.quillyjumper.ecs.component.MoveOrder
 import com.game.quillyjumper.input.InputKey
@@ -9,6 +10,10 @@ import com.game.quillyjumper.input.InputKey
 enum class GlobalState : State<EntityAgent> {
     CHECK_MOVE_INPUT {
         override fun update(agent: EntityAgent) {
+            if (agent.keyPressed(InputKey.KEY_ATTACK) && agent.attack.attackTime <= 0f) {
+                agent.attack.order = AttackOrder.ATTACK_ONCE
+            }
+
             agent.move.order = when {
                 agent.keyPressed(InputKey.KEY_LEFT) -> MoveOrder.LEFT
                 agent.keyPressed(InputKey.KEY_RIGHT) -> MoveOrder.RIGHT

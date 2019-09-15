@@ -20,7 +20,8 @@ operator fun AssetManager.get(asset: MusicAssets) = this.getAsset<Music>(asset.f
 
 // sound
 enum class SoundAssets(val filePath: String, val volumeScale: Float = 1f) {
-    PLAYER_JUMP("sounds/jump.ogg")
+    PLAYER_JUMP("sounds/jump.ogg"),
+    SWING("sounds/swing.ogg")
 }
 
 fun AssetManager.load(asset: SoundAssets) = load<Sound>(asset.filePath)
@@ -37,8 +38,7 @@ operator fun AssetManager.get(asset: TextureAtlasAssets) = this.getAsset<Texture
 // tiled map
 enum class MapAssets(val filePath: String) {
     MAP_1("assets/map/map1.tmx"),
-    TEST_MAP("assets/map/testmap.tmx"),
-    TEST_MAP_SMALL("assets/map/testmap3x3.tmx")
+    TEST_MAP("assets/map/testmap.tmx")
 }
 
 fun AssetManager.load(asset: MapAssets) = load<TiledMap>(asset.filePath)

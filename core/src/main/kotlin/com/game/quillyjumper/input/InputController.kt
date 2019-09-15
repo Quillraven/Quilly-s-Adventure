@@ -1,12 +1,14 @@
 package com.game.quillyjumper.input
 
+import com.game.quillyjumper.ecs.component.AttackOrder
 import com.game.quillyjumper.ecs.component.JumpOrder
 import com.game.quillyjumper.ecs.component.MoveOrder
 
 enum class InputKey {
     KEY_LEFT,
     KEY_RIGHT,
-    KEY_JUMP
+    KEY_JUMP,
+    KEY_ATTACK
 }
 
 private operator fun BooleanArray.get(inputKey: InputKey) = this[inputKey.ordinal]
@@ -25,5 +27,9 @@ class InputController : InputListener {
 
     override fun jump(order: JumpOrder) {
         keyState[InputKey.KEY_JUMP] = order == JumpOrder.JUMP
+    }
+
+    override fun attack(order: AttackOrder) {
+        keyState[InputKey.KEY_ATTACK] = order != AttackOrder.NONE
     }
 }

@@ -9,6 +9,7 @@ enum class EntityType {
     ENEMY,
     ITEM,
     PORTAL,
+    DAMAGE_EMITTER,
     OTHER
 }
 
