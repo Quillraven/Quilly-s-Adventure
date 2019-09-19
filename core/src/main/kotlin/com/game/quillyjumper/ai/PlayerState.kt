@@ -3,27 +3,40 @@ package com.game.quillyjumper.ai
 import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.ai.msg.Telegram
 import com.game.quillyjumper.assets.SoundAssets
-import com.game.quillyjumper.ecs.component.AnimationType
-import com.game.quillyjumper.ecs.component.AttackOrder
-import com.game.quillyjumper.ecs.component.JumpOrder
-import com.game.quillyjumper.ecs.component.MoveOrder
+import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.ecs.execute
+import ktx.ashley.get
 
 enum class PlayerState(private val aniType: AnimationType, private val loopAni: Boolean = true) : State<EntityAgent> {
     IDLE(AnimationType.IDLE) {
         override fun update(agent: EntityAgent) {
-            when {
-                agent.jump.order == JumpOrder.JUMP -> agent.changeState(JUMP)
-                agent.move.order != MoveOrder.NONE -> agent.changeState(RUN)
-                agent.attack.order != AttackOrder.NONE -> agent.changeState(ATTACK)
+            agent.entity.execute(
+                JumpComponent.mapper,
+                MoveComponent.mapper,
+                AttackComponent.mapper,
+                StateComponent.mapper
+            ) { jump, move, attack, state ->
+                when {
+                    jump.order == JumpOrder.JUMP -> state.stateMachine.changeState(JUMP)
+                    move.order != MoveOrder.NONE -> state.stateMachine.changeState(RUN)
+                    attack.order != AttackOrder.NONE -> state.stateMachine.changeState(ATTACK)
+                }
             }
         }
     },
     RUN(AnimationType.RUN) {
         override fun update(agent: EntityAgent) {
-            when {
-                agent.jump.order == JumpOrder.JUMP -> agent.changeState(JUMP)
-                agent.physic.body.linearVelocity.x == 0f -> agent.changeState(IDLE)
-                agent.attack.order != AttackOrder.NONE -> agent.changeState(ATTACK)
+            agent.entity.execute(
+                JumpComponent.mapper,
+                PhysicComponent.mapper,
+                AttackComponent.mapper,
+                StateComponent.mapper
+            ) { jump, physic, attack, state ->
+                when {
+                    jump.order == JumpOrder.JUMP -> state.stateMachine.changeState(JUMP)
+                    physic.body.linearVelocity.x == 0f -> state.stateMachine.changeState(IDLE)
+                    attack.order != AttackOrder.NONE -> state.stateMachine.changeState(ATTACK)
+                }
             }
         }
     },
@@ -34,21 +47,35 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
         }
 
         override fun update(agent: EntityAgent) {
-            if ((agent.physic.body.linearVelocity.y <= 0f && agent.collision.numGroundContacts == 0) || agent.state.stateTime > 0.8f) {
-                // player is in mid-air and falling down OR player exceeds maximum jump time
-                agent.changeState(FALL)
-            } else if (agent.collision.numGroundContacts > 0 && agent.jump.order == JumpOrder.NONE) {
-                // player is on ground and does not want to jump anymore
-                agent.changeState(if (agent.physic.body.linearVelocity.x != 0f) RUN else IDLE)
+            agent.entity.execute(
+                PhysicComponent.mapper,
+                CollisionComponent.mapper,
+                StateComponent.mapper,
+                JumpComponent.mapper
+            ) { physic, collision, state, jump ->
+                if ((physic.body.linearVelocity.y <= 0f && collision.numGroundContacts == 0) || state.stateTime > 0.8f) {
+                    // player is in mid-air and falling down OR player exceeds maximum jump time
+                    state.stateMachine.changeState(FALL)
+                } else if (collision.numGroundContacts > 0 && jump.order == JumpOrder.NONE) {
+                    // player is on ground and does not want to jump anymore
+                    state.stateMachine.changeState(if (physic.body.linearVelocity.x != 0f) RUN else IDLE)
+                }
             }
         }
     },
     FALL(AnimationType.FALL) {
         override fun update(agent: EntityAgent) {
-            agent.jump.order = JumpOrder.NONE
-            if (agent.collision.numGroundContacts > 0) {
-                // reached ground again
-                agent.changeState(if (agent.physic.body.linearVelocity.x != 0f) RUN else IDLE)
+            agent.entity.execute(
+                JumpComponent.mapper,
+                CollisionComponent.mapper,
+                StateComponent.mapper,
+                PhysicComponent.mapper
+            ) { jump, collision, state, physic ->
+                jump.order = JumpOrder.NONE
+                if (collision.numGroundContacts > 0) {
+                    // reached ground again
+                    state.stateMachine.changeState(if (physic.body.linearVelocity.x != 0f) RUN else IDLE)
+                }
             }
         }
     },
@@ -60,21 +87,30 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
 
         override fun update(agent: EntityAgent) {
             // stop any movement
-            agent.move.order = MoveOrder.NONE
+            agent.entity[MoveComponent.mapper]?.order = MoveOrder.NONE
 
-            if (agent.animation.isAnimationFinished()) {
-                agent.attack.order = AttackOrder.NONE
-                agent.changeState(if (agent.physic.body.linearVelocity.x != 0f) RUN else IDLE)
+            agent.entity.execute(
+                PhysicComponent.mapper,
+                AnimationComponent.mapper,
+                AttackComponent.mapper,
+                StateComponent.mapper
+            ) { physic, animation, attack, state ->
+                if (animation.isAnimationFinished()) {
+                    attack.order = AttackOrder.NONE
+                    state.stateMachine.changeState(if (physic.body.linearVelocity.x != 0f) RUN else IDLE)
+                }
             }
         }
     };
 
     override fun enter(agent: EntityAgent) {
-        agent.animation.apply {
-            this.animationType = aniType
-            this.loopAnimation = loopAni
+        agent.entity.execute(AnimationComponent.mapper, StateComponent.mapper) { animation, state ->
+            animation.run {
+                this.animationType = aniType
+                this.loopAnimation = loopAni
+            }
+            state.stateTime = 0f
         }
-        agent.state.stateTime = 0f
     }
 
     override fun exit(agent: EntityAgent) {

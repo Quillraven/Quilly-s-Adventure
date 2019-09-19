@@ -1,4 +1,4 @@
-package com.game.quillyjumper.ecs.system
+package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
 import ktx.ashley.mapperFor

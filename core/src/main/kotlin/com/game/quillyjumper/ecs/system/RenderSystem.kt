@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import com.game.quillyjumper.ecs.component.RemoveComponent
 import com.game.quillyjumper.ecs.component.RenderComponent
 import com.game.quillyjumper.ecs.component.TransformComponent
+import com.game.quillyjumper.ecs.execute
 import com.game.quillyjumper.map.Map
 import com.game.quillyjumper.map.MapChangeListener
 import com.game.quillyjumper.map.TILED_LAYER_BACKGROUND_PREFIX
@@ -62,22 +63,20 @@ class RenderSystem(
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        entity[RenderComponent.mapper]?.let { render ->
-            entity[TransformComponent.mapper]?.let { transform ->
-                // if the sprite does not have any texture then do not render it to avoid null pointer exceptions
-                render.sprite.run {
-                    if (texture == null) {
-                        LOG.error { "Entity is without a texture for rendering" }
-                        return
-                    }
-
-                    // adjust sprite position to render image centered around the entity's position
-                    setPosition(
-                        transform.interpolatedPosition.x - (width - transform.size.x) * 0.5f,
-                        transform.interpolatedPosition.y - 0.01f
-                    )
-                    draw(batch)
+        entity.execute(RenderComponent.mapper, TransformComponent.mapper) { render, transform ->
+            // if the sprite does not have any texture then do not render it to avoid null pointer exceptions
+            render.sprite.run {
+                if (texture == null) {
+                    LOG.error { "Entity is without a texture for rendering" }
+                    return@execute
                 }
+
+                // adjust sprite position to render image centered around the entity's position
+                setPosition(
+                    transform.interpolatedPosition.x - (width - transform.size.x) * 0.5f,
+                    transform.interpolatedPosition.y - 0.01f
+                )
+                draw(batch)
             }
         }
     }

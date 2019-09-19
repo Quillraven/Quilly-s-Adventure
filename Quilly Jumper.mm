@@ -470,11 +470,12 @@
 <node COLOR="#111111" CREATED="1568557152481" ID="ID_237680097" MODIFIED="1568557155514" TEXT="StringBuilder"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1568550333494" FOLDED="true" ID="ID_330682411" MODIFIED="1568919627960" TEXT="Refactoring">
+<node COLOR="#00b439" CREATED="1568550333494" ID="ID_330682411" MODIFIED="1568922216072" TEXT="Refactoring">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1568918846772" ID="ID_1309115071" MODIFIED="1568918865358" TEXT="multiple ?.let calls">
+<node COLOR="#990000" CREATED="1568918846772" FOLDED="true" ID="ID_1309115071" MODIFIED="1568922364795" TEXT="multiple ?.let calls">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1568918853990" ID="ID_151968500" MODIFIED="1568918864618" TEXT="replace with custom &quot;run(comp1, comp2)&quot; calls"/>
 <node COLOR="#111111" CREATED="1568918866693" ID="ID_1449650227" MODIFIED="1568918875706" TEXT="or custom &quot;run(comp1, comp2, comp3)&quot; calls"/>
 </node>
@@ -486,12 +487,14 @@
 <node COLOR="#111111" CREATED="1568550373989" ID="ID_30694817" MODIFIED="1568550381320" TEXT="addedToEngine for initialization"/>
 </node>
 </node>
-<node COLOR="#111111" CREATED="1568550400876" ID="ID_96947468" MODIFIED="1568918845352" TEXT="get  rid of components and if possible provide helper methods to write code more easily in states">
+<node COLOR="#111111" CREATED="1568550400876" ID="ID_96947468" MODIFIED="1568922355419" TEXT="get  rid of components and if possible provide helper methods to write code more easily in states">
 <font NAME="SansSerif" SIZE="12"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1568550432267" ID="ID_1918128968" MODIFIED="1568550455237" TEXT="e.g. helper method agent.move encapsulates the call entity[MoveComponent.mapper]?.let { }"/>
 </node>
-<node COLOR="#111111" CREATED="1568550480317" ID="ID_906430063" MODIFIED="1568918845356" TEXT="once that is finished then do no longer create move and attack components for characters that cannot move or attack">
+<node COLOR="#111111" CREATED="1568550480317" ID="ID_906430063" MODIFIED="1568922324574" TEXT="once that is finished then do no longer create move and attack components for characters that cannot move or attack">
 <font NAME="SansSerif" SIZE="12"/>
+<icon BUILTIN="button_ok"/>
 </node>
 </node>
 <node COLOR="#990000" CREATED="1568919431574" ID="ID_505454858" MODIFIED="1568919443340" TEXT="make a death system and remove the death check within the damage system">

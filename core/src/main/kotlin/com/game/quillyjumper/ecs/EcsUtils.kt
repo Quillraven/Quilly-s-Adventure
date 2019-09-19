@@ -1,5 +1,7 @@
 package com.game.quillyjumper.ecs
 
+import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.fsm.State
@@ -20,11 +22,11 @@ import com.game.quillyjumper.ai.EntityAgent
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
-import com.game.quillyjumper.ecs.system.StatsComponent
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.map.MapType
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
+import ktx.ashley.get
 import ktx.box2d.BodyDefinition
 import ktx.box2d.FixtureDefinition
 import ktx.box2d.body
@@ -33,6 +35,52 @@ import ktx.log.logger
 // float array to define the vertices of a loop shape for rectangle scenery objects
 private val TMP_FLOAT_ARRAY = FloatArray(8) { 0f }
 private val LOG = logger<Engine>()
+
+// helper functions to make multiple ?.let calls more readable at other locations
+fun <S : Component, T : Component> Entity.execute(
+    mapper1: ComponentMapper<S>,
+    mapper2: ComponentMapper<T>,
+    execute: (S, T) -> Unit
+) {
+    this[mapper1]?.let { comp1 ->
+        this[mapper2]?.let { comp2 ->
+            execute(comp1, comp2)
+        }
+    }
+}
+
+fun <S : Component, T : Component, U : Component> Entity.execute(
+    mapper1: ComponentMapper<S>,
+    mapper2: ComponentMapper<T>,
+    mapper3: ComponentMapper<U>,
+    execute: (S, T, U) -> Unit
+) {
+    this[mapper1]?.let { comp1 ->
+        this[mapper2]?.let { comp2 ->
+            this[mapper3]?.let { comp3 ->
+                execute(comp1, comp2, comp3)
+            }
+        }
+    }
+}
+
+fun <S : Component, T : Component, U : Component, V : Component> Entity.execute(
+    mapper1: ComponentMapper<S>,
+    mapper2: ComponentMapper<T>,
+    mapper3: ComponentMapper<U>,
+    mapper4: ComponentMapper<V>,
+    execute: (S, T, U, V) -> Unit
+) {
+    this[mapper1]?.let { comp1 ->
+        this[mapper2]?.let { comp2 ->
+            this[mapper3]?.let { comp3 ->
+                this[mapper4]?.let { comp4 ->
+                    execute(comp1, comp2, comp3, comp4)
+                }
+            }
+        }
+    }
+}
 
 fun Engine.floatingText(
     posX: Float,
@@ -85,7 +133,7 @@ fun Engine.character(
             size.set(cfg.size)
         }
         // physic
-        val physic = with<PhysicComponent> {
+        with<PhysicComponent> {
             body = world.body(BodyDef.BodyType.DynamicBody) {
                 position.set(posX, posY + cfg.size.y * 0.5f)
                 userData = this@entity.entity
@@ -110,30 +158,34 @@ fun Engine.character(
                 }
             }
         }
-        // move
-        val move = with<MoveComponent> {
-            maxSpeed = cfg.speed
+        if (cfg.speed > 0f) {
+            // move
+            with<MoveComponent> {
+                maxSpeed = cfg.speed
+            }
         }
         // facing
         with<FacingComponent>()
         // jump
-        val jump = with<JumpComponent>()
+        with<JumpComponent>()
         // render
-        val render = with<RenderComponent>()
+        with<RenderComponent>()
         // type of entity
         with<EntityTypeComponent> {
             this.type = cfg.entityType
         }
         // collision to store colliding entities
-        val collision = with<CollisionComponent>()
+        with<CollisionComponent>()
         // animation
-        val animation = with<AnimationComponent> {
+        with<AnimationComponent> {
             modelType = cfg.modelType
         }
         // attack
-        val attack = with<AttackComponent> {
-            range = cfg.attackRange
-            cooldown = cfg.attackCooldown
+        if (cfg.attackRange > 0f) {
+            with<AttackComponent> {
+                range = cfg.attackRange
+                cooldown = cfg.attackCooldown
+            }
         }
         // stats
         with<StatsComponent> {
@@ -145,33 +197,10 @@ fun Engine.character(
         with<StateComponent> {
             if (stateMachine.owner == null) {
                 // create new entity agent
-                stateMachine.owner =
-                    EntityAgent(
-                        this@entity.entity,
-                        input,
-                        audioManager,
-                        this,
-                        physic,
-                        collision,
-                        animation,
-                        render,
-                        move,
-                        jump,
-                        attack
-                    )
+                stateMachine.owner = EntityAgent(this@entity.entity, input, audioManager)
             } else {
                 // update entity agent fields
-                stateMachine.owner.apply {
-                    this.entity = this@entity.entity
-                    this.state = this@with
-                    this.physic = physic
-                    this.collision = collision
-                    this.animation = animation
-                    this.render = render
-                    this.move = move
-                    this.jump = jump
-                    this.attack = attack
-                }
+                stateMachine.owner.apply { this.entity = this@entity.entity }
             }
             stateMachine.setInitialState(initialState)
         }

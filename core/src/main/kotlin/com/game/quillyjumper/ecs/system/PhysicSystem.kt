@@ -5,8 +5,8 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.ecs.component.PhysicComponent
 import com.game.quillyjumper.ecs.component.TransformComponent
+import com.game.quillyjumper.ecs.execute
 import ktx.ashley.allOf
-import ktx.ashley.get
 import kotlin.math.min
 
 class PhysicSystem(
@@ -20,23 +20,21 @@ class PhysicSystem(
     override fun update(deltaTime: Float) {
         accumulator += min(0.25f, deltaTime)
         while (accumulator >= interval) {
-            entities.forEach { entity ->
-                entity[TransformComponent.mapper]?.let { transform ->
-                    entity[PhysicComponent.mapper]?.let { physic ->
-                        val body = physic.body
+            entities.forEach {
+                it.execute(TransformComponent.mapper, PhysicComponent.mapper) { transform, physic ->
+                    val body = physic.body
 
-                        // store position of physic bodies before the world gets updated to calculate
-                        // and interpolated position for the rendering.
-                        // This will smooth the graphics for the user and avoids "stuttering"
-                        transform.prevPosition.set(
-                            body.position.x - transform.size.x * 0.5f,
-                            body.position.y - transform.size.y * 0.5f
-                        )
+                    // store position of physic bodies before the world gets updated to calculate
+                    // and interpolated position for the rendering.
+                    // This will smooth the graphics for the user and avoids "stuttering"
+                    transform.prevPosition.set(
+                        body.position.x - transform.size.x * 0.5f,
+                        body.position.y - transform.size.y * 0.5f
+                    )
 
-                        if (body.linearVelocity.x != 0f || !physic.impulse.isZero) {
-                            // body is moving or impulse specified --> apply it
-                            body.applyLinearImpulse(physic.impulse, body.worldCenter, true)
-                        }
+                    if (body.linearVelocity.x != 0f || !physic.impulse.isZero) {
+                        // body is moving or impulse specified --> apply it
+                        body.applyLinearImpulse(physic.impulse, body.worldCenter, true)
                     }
                 }
             }
@@ -48,15 +46,13 @@ class PhysicSystem(
 
         // store position of physic bodies and calculate interpolated position for transform component
         val alpha = accumulator / interval
-        entities.forEach { entity ->
-            entity[TransformComponent.mapper]?.let { transform ->
-                entity[PhysicComponent.mapper]?.let { physic ->
-                    transform.position.set(
-                        physic.body.position.x - transform.size.x * 0.5f,
-                        physic.body.position.y - transform.size.y * 0.5f
-                    )
-                    transform.interpolatedPosition.set(transform.prevPosition.lerp(transform.position, alpha))
-                }
+        entities.forEach {
+            it.execute(TransformComponent.mapper, PhysicComponent.mapper) { transform, physic ->
+                transform.position.set(
+                    physic.body.position.x - transform.size.x * 0.5f,
+                    physic.body.position.y - transform.size.y * 0.5f
+                )
+                transform.interpolatedPosition.set(transform.prevPosition.lerp(transform.position, alpha))
             }
         }
     }
