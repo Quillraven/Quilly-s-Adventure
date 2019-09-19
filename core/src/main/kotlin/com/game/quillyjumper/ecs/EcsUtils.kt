@@ -3,12 +3,15 @@ package com.game.quillyjumper.ecs
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.fsm.State
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.math.Polygon
 import com.badlogic.gdx.math.Polyline
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Shape2D
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.utils.StringBuilder
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.FIXTURE_TYPE_FOOT_SENSOR
 import com.game.quillyjumper.UNIT_SCALE
@@ -30,6 +33,36 @@ import ktx.log.logger
 // float array to define the vertices of a loop shape for rectangle scenery objects
 private val TMP_FLOAT_ARRAY = FloatArray(8) { 0f }
 private val LOG = logger<Engine>()
+
+fun Engine.floatingText(
+    posX: Float,
+    posY: Float,
+    font: BitmapFont,
+    text: StringBuilder,
+    color: Color,
+    speedX: Float,
+    speedY: Float,
+    lifeSpan: Float
+): Entity {
+    return this.entity {
+        // transform
+        with<TransformComponent> {
+            this.position.set(posX, posY)
+        }
+        // text
+        with<FloatingTextComponent> {
+            stringBuilder.append(text)
+            speed.set(speedX, speedY)
+            this.font = font
+            this.lifeSpan = lifeSpan
+            this.color = color
+        }
+        // type of entity
+        with<EntityTypeComponent> {
+            this.type = EntityType.OTHER
+        }
+    }
+}
 
 fun Engine.character(
     cfg: CharacterCfg,

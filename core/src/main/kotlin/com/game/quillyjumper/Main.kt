@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.Box2D
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.utils.viewport.ScreenViewport
+import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.input.KeyboardEventDispatcher
@@ -54,7 +54,7 @@ class Main : KtxGame<KtxScreen>() {
             // because the event dispatcher is using the game event manager to dispatch input events
             bindSingleton<InputProcessor>(KeyboardEventDispatcher(ctx.inject()))
             bindSingleton(InputController().apply { ctx.inject<GameEventManager>().addInputListener(this) })
-            bindSingleton(Stage(ScreenViewport(), ctx.inject<SpriteBatch>()))
+            bindSingleton(Stage(FitViewport(1280f, 720f), ctx.inject<SpriteBatch>()))
             bindSingleton(createSKin())
             bindSingleton(createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) })
             bindSingleton(Box2DDebugRenderer())

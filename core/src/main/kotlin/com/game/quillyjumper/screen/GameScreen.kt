@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
@@ -25,6 +26,7 @@ import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.allOf
 import ktx.ashley.get
+import ktx.scene2d.Scene2DSkin
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
@@ -35,7 +37,8 @@ class GameScreen(
     private val world: World,
     private val batch: SpriteBatch,
     private val mapRenderer: OrthogonalTiledMapRenderer,
-    private val box2DDebugRenderer: Box2DDebugRenderer
+    private val box2DDebugRenderer: Box2DDebugRenderer,
+    private val stage: Stage
 ) : KtxScreen, InputListener {
     private val characterCfgCache = initCharacterConfigurations()
     private val itemCfgCache = initItemConfigurations(assets)
@@ -62,13 +65,14 @@ class GameScreen(
                 addSystem(PhysicMoveSystem())
                 addSystem(PhysicJumpSystem())
                 addSystem(AttackSystem(world))
-                addSystem(DamageSystem())
+                addSystem(DamageSystem(Scene2DSkin.defaultSkin.getFont("defaultFont")))
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))
                 addSystem(StateSystem())
                 addSystem(AnimationSystem(assets))
                 addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
                 addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
+                addSystem(FloatingTextSystem(batch, viewport, stage.viewport))
                 addSystem(RemoveSystem(this))
                 // create player entity
                 character(

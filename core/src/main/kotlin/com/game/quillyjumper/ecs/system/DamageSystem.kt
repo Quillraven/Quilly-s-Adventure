@@ -2,7 +2,12 @@ package com.game.quillyjumper.ecs.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.utils.StringBuilder
 import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.ecs.floatingText
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.ashley.get
@@ -11,8 +16,10 @@ import kotlin.math.max
 
 private val LOG = logger<DamageSystem>()
 
-class DamageSystem :
+class DamageSystem(private val normalFont: BitmapFont) :
     IteratingSystem(allOf(DamageComponent::class, CollisionComponent::class).exclude(RemoveComponent::class).get()) {
+    private val stringBuilder = StringBuilder(4)
+
     private fun isEnemy(source: Entity, collEntity: Entity): Boolean {
         source[EntityTypeComponent.mapper]?.let { type ->
             collEntity[EntityTypeComponent.mapper]?.let { collType ->
@@ -37,9 +44,28 @@ class DamageSystem :
                         if (isEnemy(damage.source, collEntity) && !damage.damagedEntities.contains(collEntity)) {
                             collEntity[StatsComponent.mapper]?.let { stats ->
                                 // entity was not damaged yet -> deal damage to it
+                                // let damage fluctuate within 10%
+                                val damageDealt = damage.damage * MathUtils.random(0.9f, 1.1f)
                                 // formula : dealtDamage = damage of source - armor value of enemy
-                                val damageValue = max(damage.damage - stats.armor, 0f)
+                                val damageValue = max(damageDealt - stats.armor, 0f)
                                 stats.life -= damageValue
+
+                                // create floating text to display damage number to player
+                                collEntity[TransformComponent.mapper]?.let { transform ->
+                                    stringBuilder.clear()
+                                    stringBuilder.append(damageValue.toInt())
+                                    engine.floatingText(
+                                        transform.position.x + transform.size.x * 0.5f - 0.1f,
+                                        transform.position.y + transform.size.y,
+                                        normalFont,
+                                        stringBuilder,
+                                        Color.RED,
+                                        0f,
+                                        -1f,
+                                        1.25f
+                                    )
+                                }
+
                                 if (stats.life <= 0f) {
                                     // entity dies because it has no more life
                                     collEntity.add(engine.createComponent(RemoveComponent::class.java))

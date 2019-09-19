@@ -449,9 +449,10 @@
 </node>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1568557075858" ID="ID_1358937484" MODIFIED="1568557091983" TEXT="add floating damage text to visualize if damage was dealt to something">
+<node COLOR="#00b439" CREATED="1568557075858" FOLDED="true" ID="ID_1358937484" MODIFIED="1568918822595" TEXT="add floating damage text to visualize if damage was dealt to something">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1568557096699" ID="ID_379765569" MODIFIED="1568557104335" TEXT="physic entity">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
@@ -469,26 +470,49 @@
 <node COLOR="#111111" CREATED="1568557152481" ID="ID_237680097" MODIFIED="1568557155514" TEXT="StringBuilder"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1568557549342" ID="ID_649335855" MODIFIED="1568557579803" TEXT="add blue slime AI so that it moves towards player and attacks him when in range">
+<node COLOR="#00b439" CREATED="1568550333494" FOLDED="true" ID="ID_330682411" MODIFIED="1568919627960" TEXT="Refactoring">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
-</node>
-<node COLOR="#00b439" CREATED="1568550333494" FOLDED="true" ID="ID_330682411" MODIFIED="1568557571061" TEXT="Refactoring of EntityAgent">
-<edge STYLE="bezier" WIDTH="thin"/>
-<font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1568550350311" ID="ID_706382582" MODIFIED="1568550360743" TEXT="audioManager and input is set for stateMachine">
+<node COLOR="#990000" CREATED="1568918846772" ID="ID_1309115071" MODIFIED="1568918865358" TEXT="multiple ?.let calls">
 <font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1568918853990" ID="ID_151968500" MODIFIED="1568918864618" TEXT="replace with custom &quot;run(comp1, comp2)&quot; calls"/>
+<node COLOR="#111111" CREATED="1568918866693" ID="ID_1449650227" MODIFIED="1568918875706" TEXT="or custom &quot;run(comp1, comp2, comp3)&quot; calls"/>
+</node>
+<node COLOR="#990000" CREATED="1568918840537" ID="ID_1130203428" MODIFIED="1568918842597" TEXT="EntityAgent">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1568550350311" ID="ID_706382582" MODIFIED="1568918845344" TEXT="audioManager and input is set for stateMachine">
+<font NAME="SansSerif" SIZE="12"/>
 <node COLOR="#111111" CREATED="1568550361487" ID="ID_1984474848" MODIFIED="1568550371905" TEXT="initialize in StateSystem and pass them to the StateSystem as well">
 <node COLOR="#111111" CREATED="1568550373989" ID="ID_30694817" MODIFIED="1568550381320" TEXT="addedToEngine for initialization"/>
 </node>
 </node>
-<node COLOR="#990000" CREATED="1568550400876" ID="ID_96947468" MODIFIED="1568550431631" TEXT="get  rid of components and if possible provide helper methods to write code more easily in states">
-<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1568550400876" ID="ID_96947468" MODIFIED="1568918845352" TEXT="get  rid of components and if possible provide helper methods to write code more easily in states">
+<font NAME="SansSerif" SIZE="12"/>
 <node COLOR="#111111" CREATED="1568550432267" ID="ID_1918128968" MODIFIED="1568550455237" TEXT="e.g. helper method agent.move encapsulates the call entity[MoveComponent.mapper]?.let { }"/>
 </node>
-<node COLOR="#990000" CREATED="1568550480317" ID="ID_906430063" MODIFIED="1568550497859" TEXT="once that is finished then do no longer create move and attack components for characters that cannot move or attack">
+<node COLOR="#111111" CREATED="1568550480317" ID="ID_906430063" MODIFIED="1568918845356" TEXT="once that is finished then do no longer create move and attack components for characters that cannot move or attack">
+<font NAME="SansSerif" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1568919431574" ID="ID_505454858" MODIFIED="1568919443340" TEXT="make a death system and remove the death check within the damage system">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1568919444156" ID="ID_496110641" MODIFIED="1568919470696" TEXT="this will be useful in the future in case there are healing effects or something else that can then trigger between damage taken and death check"/>
+</node>
+<node COLOR="#990000" CREATED="1568919602739" ID="ID_98969095" MODIFIED="1568919608608" TEXT="what is the purpose of a FontCache?">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1568919609060" ID="ID_89463930" MODIFIED="1568919625501" TEXT="should we rewrite the font.draw logic in the FloatingTextSystem to cache multiple font draw calls?"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1568918880833" ID="ID_588671581" MODIFIED="1568918893449" TEXT="add render performance analyzer">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1568918895403" ID="ID_991311196" MODIFIED="1568918909299" TEXT="analyze garbage of strings for damage texts via VisUI">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
+</node>
+<node COLOR="#00b439" CREATED="1568557549342" ID="ID_649335855" MODIFIED="1568557579803" TEXT="add blue slime AI so that it moves towards player and attacks him when in range">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
 </node>
 <node COLOR="#00b439" CREATED="1567791159831" FOLDED="true" ID="ID_1358993190" MODIFIED="1567791252871" TEXT="Update Wikipedia page of project">
 <edge STYLE="bezier" WIDTH="thin"/>

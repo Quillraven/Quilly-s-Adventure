@@ -51,7 +51,8 @@ class LoadingScreen(
                     world,
                     batch,
                     mapRenderer,
-                    box2DDebugRenderer
+                    box2DDebugRenderer,
+                    stage
                 )
             )
             game.addScreen(MenuScreen(game, audioManager, stage))
