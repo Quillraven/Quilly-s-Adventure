@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.physics.box2d.World
-import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.assets.get
 import com.game.quillyjumper.configuration.Character
@@ -20,7 +19,6 @@ import com.game.quillyjumper.ecs.item
 import com.game.quillyjumper.ecs.portal
 import com.game.quillyjumper.ecs.scenery
 import com.game.quillyjumper.event.GameEventManager
-import com.game.quillyjumper.input.InputController
 import ktx.ashley.get
 import ktx.log.logger
 import java.util.*
@@ -30,8 +28,6 @@ private val LOG = logger<MapManager>()
 class MapManager(
     private val assets: AssetManager,
     private val world: World,
-    private val input: InputController,
-    private val audioManager: AudioManager,
     private val ecsEngine: Engine,
     private val characterConfigurations: CharacterConfigurations,
     private val itemConfigurations: ItemConfigurations,
@@ -111,8 +107,6 @@ class MapManager(
                 ecsEngine.character(
                     characterConfigurations[charKey],
                     world,
-                    input,
-                    audioManager,
                     mapObj.x * UNIT_SCALE,
                     mapObj.y * UNIT_SCALE
                 )

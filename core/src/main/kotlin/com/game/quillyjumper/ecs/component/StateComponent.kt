@@ -1,17 +1,16 @@
 package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine
 import com.badlogic.gdx.ai.fsm.State
-import com.game.quillyjumper.ai.EntityAgent
 import ktx.ashley.mapperFor
 
 
 class StateComponent(
     var stateTime: Float = 0f,
-    val stateMachine: DefaultStateMachine<EntityAgent, State<EntityAgent>> = DefaultStateMachine()
-) :
-    Component {
+    val stateMachine: DefaultStateMachine<Entity, State<Entity>> = DefaultStateMachine()
+) : Component {
     companion object {
         val mapper = mapperFor<StateComponent>()
     }

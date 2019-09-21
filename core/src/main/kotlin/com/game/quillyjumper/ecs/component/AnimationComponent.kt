@@ -3,6 +3,7 @@ package com.game.quillyjumper.ecs.component
 import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Array
+import com.game.quillyjumper.assets.SoundAssets
 import ktx.ashley.mapperFor
 
 enum class ModelType {
@@ -19,6 +20,7 @@ enum class AnimationType {
 class Animation(
     val modelType: ModelType,
     val animationType: AnimationType,
+    val sound: SoundAssets,
     regionKeys: Array<TextureAtlas.AtlasRegion>,
     frameDuration: Float = 1 / 10f
 ) : com.badlogic.gdx.graphics.g2d.Animation<TextureAtlas.AtlasRegion>(frameDuration, regionKeys)

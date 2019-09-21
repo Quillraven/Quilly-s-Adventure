@@ -19,7 +19,7 @@ class AttackSystem(private val world: World) : IteratingSystem(
 ) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity[AttackComponent.mapper]?.let { attack ->
-            if (attack.attackTime <= 0f && attack.order != AttackOrder.NONE) {
+            if (attack.attackTime <= 0f && attack.order == AttackOrder.ATTACK_ONCE) {
                 // entity wants to attack and has no cooldown on its attack
                 // 1) set cooldown
                 attack.attackTime = attack.cooldown

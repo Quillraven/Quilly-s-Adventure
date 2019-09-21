@@ -20,6 +20,7 @@ operator fun AssetManager.get(asset: MusicAssets) = this.getAsset<Music>(asset.f
 
 // sound
 enum class SoundAssets(val filePath: String, val volumeScale: Float = 1f) {
+    UNKNOWN(""),
     PLAYER_JUMP("sounds/jump.ogg"),
     SWING("sounds/swing.ogg")
 }

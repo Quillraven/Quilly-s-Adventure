@@ -1,5 +1,6 @@
 package com.game.quillyjumper.ai
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.ai.msg.Telegram
 import com.game.quillyjumper.ecs.component.AnimationComponent
@@ -7,11 +8,11 @@ import com.game.quillyjumper.ecs.component.AnimationType
 import com.game.quillyjumper.ecs.component.StateComponent
 import com.game.quillyjumper.ecs.execute
 
-enum class DefaultState(private val aniType: AnimationType, private val loopAni: Boolean = true) : State<EntityAgent> {
+enum class DefaultState(private val aniType: AnimationType, private val loopAni: Boolean = true) : State<Entity> {
     IDLE(AnimationType.IDLE);
 
-    override fun enter(agent: EntityAgent) {
-        agent.entity.execute(AnimationComponent.mapper, StateComponent.mapper) { animation, state ->
+    override fun enter(entity: Entity) {
+        entity.execute(AnimationComponent.mapper, StateComponent.mapper) { animation, state ->
             animation.run {
                 this.animationType = aniType
                 this.loopAnimation = loopAni
@@ -20,11 +21,11 @@ enum class DefaultState(private val aniType: AnimationType, private val loopAni:
         }
     }
 
-    override fun exit(agent: EntityAgent) {
+    override fun exit(entity: Entity) {
     }
 
-    override fun update(agent: EntityAgent) {
+    override fun update(entity: Entity) {
     }
 
-    override fun onMessage(agent: EntityAgent, telegram: Telegram): Boolean = false
+    override fun onMessage(entity: Entity, telegram: Telegram): Boolean = false
 }

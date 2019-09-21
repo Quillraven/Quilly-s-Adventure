@@ -14,15 +14,12 @@ import com.badlogic.gdx.math.Shape2D
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.StringBuilder
-import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.FIXTURE_TYPE_FOOT_SENSOR
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ai.DefaultState
-import com.game.quillyjumper.ai.EntityAgent
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
-import com.game.quillyjumper.input.InputController
 import com.game.quillyjumper.map.MapType
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
@@ -115,12 +112,10 @@ fun Engine.floatingText(
 fun Engine.character(
     cfg: CharacterCfg,
     world: World,
-    input: InputController,
-    audioManager: AudioManager,
     posX: Float,
     posY: Float,
     z: Int = 0,
-    initialState: State<EntityAgent> = DefaultState.IDLE,
+    initialState: State<Entity> = DefaultState.IDLE,
     compData: EngineEntity.() -> Unit = { Unit }
 ): Entity {
     return this.entity {
@@ -195,13 +190,7 @@ fun Engine.character(
         }
         // state
         with<StateComponent> {
-            if (stateMachine.owner == null) {
-                // create new entity agent
-                stateMachine.owner = EntityAgent(this@entity.entity, input, audioManager)
-            } else {
-                // update entity agent fields
-                stateMachine.owner.apply { this.entity = this@entity.entity }
-            }
+            stateMachine.owner = this@entity.entity
             stateMachine.setInitialState(initialState)
         }
         // optional component data via lambda parameter

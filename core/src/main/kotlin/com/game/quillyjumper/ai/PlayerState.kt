@@ -1,53 +1,38 @@
 package com.game.quillyjumper.ai
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.ai.msg.Telegram
-import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.execute
 import ktx.ashley.get
 
-enum class PlayerState(private val aniType: AnimationType, private val loopAni: Boolean = true) : State<EntityAgent> {
+enum class PlayerState(private val aniType: AnimationType, private val loopAni: Boolean = true) : State<Entity> {
     IDLE(AnimationType.IDLE) {
-        override fun update(agent: EntityAgent) {
-            agent.entity.execute(
-                JumpComponent.mapper,
-                MoveComponent.mapper,
-                AttackComponent.mapper,
-                StateComponent.mapper
-            ) { jump, move, attack, state ->
+        override fun update(entity: Entity) {
+            entity[StateComponent.mapper]?.let { state ->
                 when {
-                    jump.order == JumpOrder.JUMP -> state.stateMachine.changeState(JUMP)
-                    move.order != MoveOrder.NONE -> state.stateMachine.changeState(RUN)
-                    attack.order != AttackOrder.NONE -> state.stateMachine.changeState(ATTACK)
+                    entity[JumpComponent.mapper]?.order == JumpOrder.JUMP -> state.stateMachine.changeState(JUMP)
+                    entity[MoveComponent.mapper]?.order != MoveOrder.NONE -> state.stateMachine.changeState(RUN)
+                    entity[AttackComponent.mapper]?.order == AttackOrder.START -> state.stateMachine.changeState(ATTACK)
                 }
             }
         }
     },
     RUN(AnimationType.RUN) {
-        override fun update(agent: EntityAgent) {
-            agent.entity.execute(
-                JumpComponent.mapper,
-                PhysicComponent.mapper,
-                AttackComponent.mapper,
-                StateComponent.mapper
-            ) { jump, physic, attack, state ->
+        override fun update(entity: Entity) {
+            entity[StateComponent.mapper]?.let { state ->
                 when {
-                    jump.order == JumpOrder.JUMP -> state.stateMachine.changeState(JUMP)
-                    physic.body.linearVelocity.x == 0f -> state.stateMachine.changeState(IDLE)
-                    attack.order != AttackOrder.NONE -> state.stateMachine.changeState(ATTACK)
+                    entity[JumpComponent.mapper]?.order == JumpOrder.JUMP -> state.stateMachine.changeState(JUMP)
+                    entity[PhysicComponent.mapper]?.body?.linearVelocity?.x == 0f -> state.stateMachine.changeState(IDLE)
+                    entity[AttackComponent.mapper]?.order == AttackOrder.START -> state.stateMachine.changeState(ATTACK)
                 }
             }
         }
     },
     JUMP(AnimationType.JUMP, false) {
-        override fun enter(agent: EntityAgent) {
-            agent.audioManager.play(SoundAssets.PLAYER_JUMP)
-            super.enter(agent)
-        }
-
-        override fun update(agent: EntityAgent) {
-            agent.entity.execute(
+        override fun update(entity: Entity) {
+            entity.execute(
                 PhysicComponent.mapper,
                 CollisionComponent.mapper,
                 StateComponent.mapper,
@@ -64,14 +49,15 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
         }
     },
     FALL(AnimationType.FALL) {
-        override fun update(agent: EntityAgent) {
-            agent.entity.execute(
-                JumpComponent.mapper,
+        override fun update(entity: Entity) {
+            // stop any jump movement
+            entity[JumpComponent.mapper]?.order = JumpOrder.NONE
+
+            entity.execute(
                 CollisionComponent.mapper,
                 StateComponent.mapper,
                 PhysicComponent.mapper
-            ) { jump, collision, state, physic ->
-                jump.order = JumpOrder.NONE
+            ) { collision, state, physic ->
                 if (collision.numGroundContacts > 0) {
                     // reached ground again
                     state.stateMachine.changeState(if (physic.body.linearVelocity.x != 0f) RUN else IDLE)
@@ -80,16 +66,17 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
         }
     },
     ATTACK(AnimationType.ATTACK, false) {
-        override fun enter(agent: EntityAgent) {
-            agent.audioManager.play(SoundAssets.SWING)
-            super.enter(agent)
+        override fun enter(entity: Entity) {
+            entity[AttackComponent.mapper]?.order = AttackOrder.ATTACK_ONCE
+            super.enter(entity)
         }
 
-        override fun update(agent: EntityAgent) {
+        override fun update(entity: Entity) {
             // stop any movement
-            agent.entity[MoveComponent.mapper]?.order = MoveOrder.NONE
+            entity[MoveComponent.mapper]?.order = MoveOrder.NONE
+            entity[JumpComponent.mapper]?.order = JumpOrder.NONE
 
-            agent.entity.execute(
+            entity.execute(
                 PhysicComponent.mapper,
                 AnimationComponent.mapper,
                 AttackComponent.mapper,
@@ -103,8 +90,8 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
         }
     };
 
-    override fun enter(agent: EntityAgent) {
-        agent.entity.execute(AnimationComponent.mapper, StateComponent.mapper) { animation, state ->
+    override fun enter(entity: Entity) {
+        entity.execute(AnimationComponent.mapper, StateComponent.mapper) { animation, state ->
             animation.run {
                 this.animationType = aniType
                 this.loopAnimation = loopAni
@@ -113,8 +100,8 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
         }
     }
 
-    override fun exit(agent: EntityAgent) {
+    override fun exit(entity: Entity) {
     }
 
-    override fun onMessage(agent: EntityAgent, telegram: Telegram): Boolean = false
+    override fun onMessage(entity: Entity, telegram: Telegram): Boolean = false
 }

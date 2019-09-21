@@ -11,11 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
-import com.game.quillyjumper.ai.GlobalState
 import com.game.quillyjumper.ai.PlayerState
 import com.game.quillyjumper.configuration.*
 import com.game.quillyjumper.ecs.character
-import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.ecs.component.CameraLockComponent
+import com.game.quillyjumper.ecs.component.EntityType
+import com.game.quillyjumper.ecs.component.ModelType
+import com.game.quillyjumper.ecs.component.PlayerComponent
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.input.InputController
@@ -25,7 +27,6 @@ import com.game.quillyjumper.map.MapType
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.allOf
-import ktx.ashley.get
 import ktx.scene2d.Scene2DSkin
 
 class GameScreen(
@@ -49,8 +50,6 @@ class GameScreen(
         MapManager(
             assets,
             world,
-            inputController,
-            audioManager,
             engine,
             characterCfgCache,
             itemCfgCache,
@@ -66,10 +65,12 @@ class GameScreen(
                 addSystem(PhysicJumpSystem())
                 addSystem(AttackSystem(world))
                 addSystem(DamageSystem(Scene2DSkin.defaultSkin.getFont("defaultFont")))
+                addSystem(DeathSystem())
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))
+                addSystem(PlayerInputSystem(inputController))
                 addSystem(StateSystem())
-                addSystem(AnimationSystem(assets))
+                addSystem(AnimationSystem(assets, audioManager))
                 addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
                 addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
                 addSystem(FloatingTextSystem(batch, viewport, stage.viewport))
@@ -78,8 +79,6 @@ class GameScreen(
                 character(
                     characterCfgCache[Character.PLAYER],
                     world,
-                    inputController,
-                    audioManager,
                     0f,
                     0f,
                     1,
@@ -87,7 +86,7 @@ class GameScreen(
                 ) {
                     with<PlayerComponent>()
                     with<CameraLockComponent>()
-                }.apply { this[StateComponent.mapper]?.stateMachine?.globalState = GlobalState.CHECK_MOVE_INPUT }
+                }
             }
         }
 

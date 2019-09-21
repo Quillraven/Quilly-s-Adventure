@@ -3,7 +3,7 @@ package com.game.quillyjumper.ecs.component
 import com.badlogic.ashley.core.Component
 import ktx.ashley.mapperFor
 
-enum class AttackOrder { NONE, ATTACK_ONCE }
+enum class AttackOrder { NONE, START, ATTACK_ONCE }
 
 class AttackComponent(
     var range: Float = 1f,

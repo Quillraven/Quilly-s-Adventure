@@ -66,10 +66,6 @@ class DamageSystem(private val normalFont: BitmapFont) :
                                     )
                                 }
 
-                                if (stats.life <= 0f) {
-                                    // entity dies because it has no more life
-                                    collEntity.add(engine.createComponent(RemoveComponent::class.java))
-                                }
                                 // remember entities that got already damaged once to not
                                 // damage them every frame
                                 damage.damagedEntities.add(collEntity)

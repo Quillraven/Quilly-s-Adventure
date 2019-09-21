@@ -28,7 +28,7 @@ class LoadingScreen(
     override fun show() {
         // queue all assets that should be loaded
         MusicAssets.values().forEach { assets.load(it) }
-        SoundAssets.values().forEach { assets.load(it) }
+        SoundAssets.values().forEach { if (it != SoundAssets.UNKNOWN) assets.load(it) }
         TextureAtlasAssets.values().forEach { assets.load(it) }
         MapAssets.values().forEach { assets.load(it) }
     }
