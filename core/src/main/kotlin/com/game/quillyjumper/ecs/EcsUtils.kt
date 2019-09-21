@@ -183,10 +183,12 @@ fun Engine.character(
             }
         }
         // stats
-        with<StatsComponent> {
-            this.armor = cfg.armor
-            this.damage = cfg.damage
-            this.life = cfg.life
+        if (cfg.life > 0) {
+            with<StatsComponent> {
+                this.armor = cfg.armor
+                this.damage = cfg.damage
+                this.life = cfg.life
+            }
         }
         // state
         with<StateComponent> {

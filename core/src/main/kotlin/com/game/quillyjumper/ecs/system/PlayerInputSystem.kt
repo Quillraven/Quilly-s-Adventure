@@ -11,8 +11,9 @@ import ktx.ashley.get
 class PlayerInputSystem(private val input: InputController) : IteratingSystem(allOf(PlayerComponent::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity[AttackComponent.mapper]?.let { attack ->
-            if (input.isPressed(InputKey.KEY_ATTACK) && attack.attackTime <= 0f) {
-                attack.order = AttackOrder.START
+            attack.order = when {
+                input.isPressed(InputKey.KEY_ATTACK) && attack.attackTime <= 0f -> AttackOrder.START
+                else -> AttackOrder.NONE
             }
         }
 

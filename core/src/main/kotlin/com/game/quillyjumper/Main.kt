@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
+import com.badlogic.gdx.graphics.profiling.GLProfiler
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
@@ -24,16 +25,20 @@ import ktx.box2d.createWorld
 import ktx.box2d.earthGravity
 import ktx.freetype.generateFont
 import ktx.inject.Context
+import ktx.log.logger
 import ktx.scene2d.Scene2DSkin
 import ktx.style.button
 import ktx.style.label
 import ktx.style.skin
+
+private val LOG = logger<Main>()
 
 const val UNIT_SCALE = 1 / 32f
 const val FIXTURE_TYPE_FOOT_SENSOR = 2
 
 class Main : KtxGame<KtxScreen>() {
     private val ctx = Context()
+    private val profiler by lazy { GLProfiler(Gdx.graphics).apply { enable() } }
 
     override fun create() {
         // init Box2D - the next call avoids some issues with older devices where the box2d libraries were not loaded correctly
@@ -41,7 +46,7 @@ class Main : KtxGame<KtxScreen>() {
 
         // setup context and register stuff that should also be disposed at the end of the game lifecycle
         ctx.register {
-            bindSingleton(SpriteBatch())
+            bindSingleton(SpriteBatch(2048))
             bindSingleton(AssetManager().apply {
                 // we use tmx tiled maps created via the Tiled tool and therefore
                 // we use the TmxMapLoader for our assetmanager to be able to
@@ -105,7 +110,16 @@ class Main : KtxGame<KtxScreen>() {
         }
     }
 
+    override fun render() {
+        profiler.reset()
+        super.render()
+    }
+
     override fun dispose() {
+        LOG.debug { "Draw calls: ${profiler.drawCalls}" }
+        LOG.debug { "Texture bindings: ${profiler.textureBindings}" }
+        LOG.debug { "Sprites in batch: ${ctx.inject<SpriteBatch>().maxSpritesInBatch}" }
+
         // dispose all disposables which are part of our context
         ctx.dispose()
     }

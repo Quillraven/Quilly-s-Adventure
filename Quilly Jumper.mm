@@ -510,9 +510,10 @@
 <node COLOR="#111111" CREATED="1568919609060" ID="ID_89463930" MODIFIED="1568919625501" TEXT="should we rewrite the font.draw logic in the FloatingTextSystem to cache multiple font draw calls?"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1568918880833" ID="ID_588671581" MODIFIED="1568918893449" TEXT="add render performance analyzer">
+<node COLOR="#00b439" CREATED="1568918880833" FOLDED="true" ID="ID_588671581" MODIFIED="1569063522565" TEXT="add render performance analyzer">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1568918895403" ID="ID_991311196" MODIFIED="1569061192585" TEXT="analyze garbage of strings for damage texts via VisualVM">
 <font NAME="SansSerif" SIZE="14"/>
 <icon BUILTIN="button_ok"/>
