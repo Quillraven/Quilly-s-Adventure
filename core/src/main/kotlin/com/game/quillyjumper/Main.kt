@@ -34,7 +34,8 @@ import ktx.style.skin
 private val LOG = logger<Main>()
 
 const val UNIT_SCALE = 1 / 32f
-const val FIXTURE_TYPE_FOOT_SENSOR = 2
+const val FIXTURE_TYPE_FOOT_SENSOR = 1
+const val FIXTURE_TYPE_AGGRO_SENSOR = 2 shl 0
 
 class Main : KtxGame<KtxScreen>() {
     private val ctx = Context()

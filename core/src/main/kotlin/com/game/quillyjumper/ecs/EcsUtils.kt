@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.math.Polygon
@@ -14,6 +13,7 @@ import com.badlogic.gdx.math.Shape2D
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.StringBuilder
+import com.game.quillyjumper.FIXTURE_TYPE_AGGRO_SENSOR
 import com.game.quillyjumper.FIXTURE_TYPE_FOOT_SENSOR
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ai.DefaultState
@@ -32,6 +32,10 @@ import ktx.log.logger
 // float array to define the vertices of a loop shape for rectangle scenery objects
 private val TMP_FLOAT_ARRAY = FloatArray(8) { 0f }
 private val LOG = logger<Engine>()
+
+// helper function to check if an entity is removed. This is needed for box2d contact listener because
+// remove contact is triggered for entities that get removed and they should be ignored for the contacts events
+fun Entity.isRemoved() = this.components.size() == 0
 
 // helper functions to make multiple ?.let calls more readable at other locations
 fun <S : Component, T : Component> Entity.execute(
@@ -115,7 +119,6 @@ fun Engine.character(
     posX: Float,
     posY: Float,
     z: Int = 0,
-    initialState: State<Entity> = DefaultState.IDLE,
     compData: EngineEntity.() -> Unit = { Unit }
 ): Entity {
     return this.entity {
@@ -142,6 +145,7 @@ fun Engine.character(
                 // sensors do not detect collision correctly (body needs to be awake to trigger
                 // contact events)
                 allowSleep = false
+
                 // ground sensor to detect if entity can jump
                 box(
                     cfg.size.x * 0.5f,
@@ -150,6 +154,14 @@ fun Engine.character(
                 ) {
                     userData = FIXTURE_TYPE_FOOT_SENSOR
                     this.isSensor = true
+                }
+
+                if (cfg.aggroRange > 0f) {
+                    // character needs a sensor to detect if entities come within aggro range
+                    circle(cfg.aggroRange) {
+                        userData = FIXTURE_TYPE_AGGRO_SENSOR
+                        isSensor = true
+                    }
                 }
             }
         }
@@ -190,10 +202,17 @@ fun Engine.character(
                 this.life = cfg.life
             }
         }
+        // aggro
+        if (cfg.aggroRange > 0f) {
+            with<AggroComponent>()
+        }
+
         // state
-        with<StateComponent> {
-            stateMachine.owner = this@entity.entity
-            stateMachine.setInitialState(initialState)
+        if (cfg.defaultState != DefaultState.NONE) {
+            with<StateComponent> {
+                stateMachine.owner = this@entity.entity
+                stateMachine.setInitialState(cfg.defaultState)
+            }
         }
         // optional component data via lambda parameter
         this.compData()

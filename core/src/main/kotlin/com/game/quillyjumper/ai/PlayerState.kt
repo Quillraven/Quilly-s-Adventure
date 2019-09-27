@@ -1,13 +1,11 @@
 package com.game.quillyjumper.ai
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.ai.fsm.State
-import com.badlogic.gdx.ai.msg.Telegram
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.execute
 import ktx.ashley.get
 
-enum class PlayerState(private val aniType: AnimationType, private val loopAni: Boolean = true) : State<Entity> {
+enum class PlayerState(override val aniType: AnimationType, override val loopAni: Boolean = true) : EntityState {
     IDLE(AnimationType.IDLE) {
         override fun update(entity: Entity) {
             entity[StateComponent.mapper]?.let { state ->
@@ -89,19 +87,4 @@ enum class PlayerState(private val aniType: AnimationType, private val loopAni: 
             }
         }
     };
-
-    override fun enter(entity: Entity) {
-        entity.execute(AnimationComponent.mapper, StateComponent.mapper) { animation, state ->
-            animation.run {
-                this.animationType = aniType
-                this.loopAnimation = loopAni
-            }
-            state.stateTime = 0f
-        }
-    }
-
-    override fun exit(entity: Entity) {
-    }
-
-    override fun onMessage(entity: Entity, telegram: Telegram): Boolean = false
 }

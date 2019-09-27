@@ -2,39 +2,52 @@ package com.game.quillyjumper
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.physics.box2d.*
-import com.game.quillyjumper.ecs.component.CollisionComponent
 import com.game.quillyjumper.ecs.component.EntityType
-import com.game.quillyjumper.ecs.component.EntityTypeComponent
-import ktx.ashley.get
+import com.game.quillyjumper.ecs.component.aggroCmp
+import com.game.quillyjumper.ecs.component.collCmp
+import com.game.quillyjumper.ecs.component.typeCmp
+import com.game.quillyjumper.ecs.isRemoved
 
 class PhysicContactListener : ContactListener {
     /**
-     * @param fixture the fixture of the entity for which you want to update the collision data
-     * @param collCmp collision component of the entity for which you want to update the collision data
-     * @param entity the colliding entity from [beginContact] method
+     * @param srcFixture the fixture of the entity for which you want to update the collision data
+     * @param srcEntity the entity of the srcFixture
+     * @param collFixture the fixture of the colliding entity from [beginContact] method
+     * @param collEntity the colliding entity from [beginContact] method
      */
-    private fun addCollisionData(fixture: Fixture, collCmp: CollisionComponent, entity: Entity) {
-        if (fixture.userData == FIXTURE_TYPE_FOOT_SENSOR) {
-            if (entity[EntityTypeComponent.mapper]?.type == EntityType.SCENERY) {
-                collCmp.numGroundContacts++
+    private fun addCollisionData(srcFixture: Fixture, srcEntity: Entity, collFixture: Fixture, collEntity: Entity) {
+        if (!srcEntity.typeCmp.type.hasCollisionComponent()) return
+
+        val collEntityType = collEntity.typeCmp.type
+        when (srcFixture.userData) {
+            FIXTURE_TYPE_FOOT_SENSOR -> if (collEntityType == EntityType.SCENERY) srcEntity.collCmp.numGroundContacts++
+            FIXTURE_TYPE_AGGRO_SENSOR -> {
+                if (collEntityType == EntityType.PLAYER && !collFixture.isSensor) {
+                    srcEntity.aggroCmp.aggroEntities.add(collEntity)
+                }
             }
-        } else {
-            collCmp.entities.add(entity)
+            else -> if (!collFixture.isSensor) srcEntity.collCmp.entities.add(collEntity)
         }
     }
 
     /**
-     * @param fixture the fixture of the entity for which you want to update the collision data
-     * @param collCmp collision component of the entity for which you want to update the collision data
-     * @param entity the colliding entity from [endContact] method
+     * @param srcFixture the fixture of the entity for which you want to update the collision data
+     * @param srcEntity the entity of the srcFixture
+     * @param collFixture the fixture of the colliding entity from [endContact] method
+     * @param collEntity the colliding entity from [endContact] method
      */
-    private fun removeCollisionData(fixture: Fixture, collCmp: CollisionComponent, entity: Entity) {
-        if (fixture.userData == FIXTURE_TYPE_FOOT_SENSOR) {
-            if (entity[EntityTypeComponent.mapper]?.type == EntityType.SCENERY) {
-                collCmp.numGroundContacts--
+    private fun removeCollisionData(srcFixture: Fixture, srcEntity: Entity, collFixture: Fixture, collEntity: Entity) {
+        if (srcEntity.isRemoved() || !srcEntity.typeCmp.type.hasCollisionComponent() || collEntity.isRemoved()) return
+
+        val collEntityType = collEntity.typeCmp.type
+        when (srcFixture.userData) {
+            FIXTURE_TYPE_FOOT_SENSOR -> if (collEntityType == EntityType.SCENERY) srcEntity.collCmp.numGroundContacts--
+            FIXTURE_TYPE_AGGRO_SENSOR -> {
+                if (collEntityType == EntityType.PLAYER && !collFixture.isSensor) {
+                    srcEntity.aggroCmp.aggroEntities.removeValue(collEntity, true)
+                }
             }
-        } else {
-            collCmp.entities.removeValue(entity, true)
+            else -> if (!collFixture.isSensor) srcEntity.collCmp.entities.removeValue(collEntity, true)
         }
     }
 
@@ -44,8 +57,8 @@ class PhysicContactListener : ContactListener {
         val fixtureB = contact.fixtureB
         val entityB = fixtureB.body.userData as Entity
 
-        entityA[CollisionComponent.mapper]?.let { addCollisionData(fixtureA, it, entityB) }
-        entityB[CollisionComponent.mapper]?.let { addCollisionData(fixtureB, it, entityA) }
+        addCollisionData(fixtureA, entityA, fixtureB, entityB)
+        addCollisionData(fixtureB, entityB, fixtureA, entityA)
     }
 
     override fun endContact(contact: Contact) {
@@ -54,8 +67,8 @@ class PhysicContactListener : ContactListener {
         val fixtureB = contact.fixtureB
         val entityB = fixtureB.body.userData as Entity
 
-        entityA[CollisionComponent.mapper]?.let { removeCollisionData(fixtureA, it, entityB) }
-        entityB[CollisionComponent.mapper]?.let { removeCollisionData(fixtureB, it, entityA) }
+        removeCollisionData(fixtureA, entityA, fixtureB, entityB)
+        removeCollisionData(fixtureB, entityB, fixtureA, entityA)
     }
 
     override fun preSolve(contact: Contact?, oldManifold: Manifold?) {

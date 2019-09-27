@@ -523,6 +523,13 @@
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 </node>
+<node COLOR="#00b439" CREATED="1569605656352" ID="ID_792597135" MODIFIED="1569605680993" TEXT="refactor code with .cmp syntax (refer to collision component)">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1569605672192" ID="ID_1681490834" MODIFIED="1569605679746" TEXT="get rid of &quot;execute&quot; let calls">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+</node>
 <node COLOR="#00b439" CREATED="1567791159831" FOLDED="true" ID="ID_1358993190" MODIFIED="1567791252871" TEXT="Update Wikipedia page of project">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>

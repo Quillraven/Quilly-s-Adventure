@@ -1,7 +1,9 @@
 package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
+import ktx.ashley.get
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 import kotlin.math.roundToInt
@@ -24,3 +26,7 @@ class TransformComponent(
         val mapper = mapperFor<TransformComponent>()
     }
 }
+
+val Entity.transfCmp: TransformComponent
+    get() = this[TransformComponent.mapper]
+        ?: throw KotlinNullPointerException("Trying to access a transform component which is null")

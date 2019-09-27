@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
+import com.game.quillyjumper.ai.DefaultEnemyState
 import com.game.quillyjumper.ai.PlayerState
 import com.game.quillyjumper.configuration.*
 import com.game.quillyjumper.ecs.character
@@ -68,6 +69,7 @@ class GameScreen(
                 addSystem(DeathSystem())
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))
+                addSystem(AggroSystem())
                 addSystem(PlayerInputSystem(inputController))
                 addSystem(StateSystem())
                 addSystem(AnimationSystem(assets, audioManager))
@@ -81,8 +83,7 @@ class GameScreen(
                     world,
                     0f,
                     0f,
-                    1,
-                    PlayerState.IDLE
+                    1
                 ) {
                     with<PlayerComponent>()
                     with<CameraLockComponent>()
@@ -134,12 +135,15 @@ class GameScreen(
                 damage = 6f
                 life = 80f
                 armor = 2f
+                defaultState = PlayerState.IDLE
             }
             cfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
-                speed = 1f
+                speed = 0.3f
                 size(0.5f, 0.5f)
                 damage = 2f
                 life = 10f
+                defaultState = DefaultEnemyState.IDLE
+                aggroRange = 2.5f
             }
             cfg(Character.FLIPPY, EntityType.OTHER, ModelType.FLIPPY) {
                 speed = 0f

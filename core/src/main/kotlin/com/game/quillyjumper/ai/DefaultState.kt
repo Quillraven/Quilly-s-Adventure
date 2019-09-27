@@ -8,8 +8,9 @@ import com.game.quillyjumper.ecs.component.AnimationType
 import com.game.quillyjumper.ecs.component.StateComponent
 import com.game.quillyjumper.ecs.execute
 
-enum class DefaultState(private val aniType: AnimationType, private val loopAni: Boolean = true) : State<Entity> {
-    IDLE(AnimationType.IDLE);
+interface EntityState : State<Entity> {
+    val aniType: AnimationType
+    val loopAni: Boolean
 
     override fun enter(entity: Entity) {
         entity.execute(AnimationComponent.mapper, StateComponent.mapper) { animation, state ->
@@ -28,4 +29,8 @@ enum class DefaultState(private val aniType: AnimationType, private val loopAni:
     }
 
     override fun onMessage(entity: Entity, telegram: Telegram): Boolean = false
+}
+
+enum class DefaultState(override val aniType: AnimationType, override val loopAni: Boolean = true) : EntityState {
+    NONE(AnimationType.IDLE);
 }
