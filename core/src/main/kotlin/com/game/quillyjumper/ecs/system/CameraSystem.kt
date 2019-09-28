@@ -4,11 +4,10 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.game.quillyjumper.ecs.component.CameraLockComponent
-import com.game.quillyjumper.ecs.component.TransformComponent
+import com.game.quillyjumper.ecs.component.transfCmp
 import com.game.quillyjumper.map.Map
 import com.game.quillyjumper.map.MapChangeListener
 import ktx.ashley.allOf
-import ktx.ashley.get
 import ktx.log.logger
 import ktx.math.vec2
 import kotlin.math.max
@@ -27,20 +26,18 @@ class CameraSystem(engine: Engine, private val camera: OrthographicCamera) : Ent
                 LOG.error { "There are more than one entities that should lock the camera. Current camera entities ${cameraEntities.size()}" }
             }
 
-            val entityPos = cameraEntities[0][TransformComponent.mapper]?.interpolatedPosition
-            if (entityPos != null) {
-                val camW = camera.viewportWidth * 0.5f
-                val camH = camera.viewportHeight * 0.5f
-                camera.position.apply {
-                    if (maxCameraPosition.isZero) {
-                        // camera is not restricted to map boundaries
-                        x = entityPos.x
-                        y = entityPos.y
-                    } else {
-                        // restrict camera to map boundaries
-                        x = max(camW, min(entityPos.x, maxCameraPosition.x - camW))
-                        y = max(camH, min(entityPos.y, maxCameraPosition.y - camH))
-                    }
+            val entityPos = cameraEntities[0].transfCmp.interpolatedPosition
+            val camW = camera.viewportWidth * 0.5f
+            val camH = camera.viewportHeight * 0.5f
+            camera.position.apply {
+                if (maxCameraPosition.isZero) {
+                    // camera is not restricted to map boundaries
+                    x = entityPos.x
+                    y = entityPos.y
+                } else {
+                    // restrict camera to map boundaries
+                    x = max(camW, min(entityPos.x, maxCameraPosition.x - camW))
+                    y = max(camH, min(entityPos.y, maxCameraPosition.y - camH))
                 }
             }
         }

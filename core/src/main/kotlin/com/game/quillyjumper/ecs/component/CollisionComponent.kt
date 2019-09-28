@@ -3,15 +3,20 @@ package com.game.quillyjumper.ecs.component
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
 class CollisionComponent(
     val entities: Array<Entity> = Array(4),
     var numGroundContacts: Int = 0
-) : Component {
+) : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<CollisionComponent>()
+    }
+
+    override fun reset() {
+        entities.clear()
     }
 }
 

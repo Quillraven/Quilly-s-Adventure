@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Interpolation
 import com.game.quillyjumper.ecs.component.*
-import com.game.quillyjumper.ecs.execute
 import ktx.ashley.allOf
 import ktx.ashley.get
 import kotlin.math.min
@@ -16,26 +15,27 @@ class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicCompo
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        entity.execute(MoveComponent.mapper, PhysicComponent.mapper) { move, physic ->
-            move.moveTime = min(1f, move.moveTime + deltaTime)
+        val physic = entity.physicCmp
+        entity.moveCmp.run {
+            moveTime = min(1f, moveTime + deltaTime)
 
             val velocity = physic.body.linearVelocity.x
-            val speed = when (move.order) {
+            val speed = when (order) {
                 MoveOrder.NONE -> {
                     if (velocity >= -0.05f && velocity < 0.05f) {
                         // tolerance to stop entity immediately when it is below a certain speed
                         0f
                     } else {
-                        stopAlpha.apply(velocity, 0f, move.moveTime)
+                        stopAlpha.apply(velocity, 0f, moveTime)
                     }
                 }
                 MoveOrder.RIGHT -> {
-                    entity[FacingComponent.mapper]?.direction = FacingDirection.RIGHT
-                    moveAlpha.apply(0f, move.maxSpeed, move.moveTime)
+                    entity.facingCmp.direction = FacingDirection.RIGHT
+                    moveAlpha.apply(0f, maxSpeed, moveTime)
                 }
                 MoveOrder.LEFT -> {
-                    entity[FacingComponent.mapper]?.direction = FacingDirection.LEFT
-                    -moveAlpha.apply(0f, move.maxSpeed, move.moveTime)
+                    entity.facingCmp.direction = FacingDirection.LEFT
+                    -moveAlpha.apply(0f, maxSpeed, moveTime)
                 }
             }
 
@@ -43,10 +43,10 @@ class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicCompo
             physic.impulse.x = physic.body.mass * (speed - velocity)
 
             // in case the entity is rendered then flip its sprite according to the move direction
-            entity[RenderComponent.mapper]?.also { render ->
+            entity[RenderComponent.mapper]?.sprite?.run {
                 when {
-                    speed > 0f -> render.sprite.setFlip(false, render.sprite.isFlipY)
-                    speed < 0f -> render.sprite.setFlip(true, render.sprite.isFlipY)
+                    speed > 0f -> setFlip(false, isFlipY)
+                    speed < 0f -> setFlip(true, isFlipY)
                 }
             }
         }

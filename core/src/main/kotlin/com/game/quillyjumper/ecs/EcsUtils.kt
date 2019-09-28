@@ -1,7 +1,5 @@
 package com.game.quillyjumper.ecs
 
-import com.badlogic.ashley.core.Component
-import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
@@ -23,7 +21,6 @@ import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.map.MapType
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
-import ktx.ashley.get
 import ktx.box2d.BodyDefinition
 import ktx.box2d.FixtureDefinition
 import ktx.box2d.body
@@ -36,52 +33,6 @@ private val LOG = logger<Engine>()
 // helper function to check if an entity is removed. This is needed for box2d contact listener because
 // remove contact is triggered for entities that get removed and they should be ignored for the contacts events
 fun Entity.isRemoved() = this.components.size() == 0
-
-// helper functions to make multiple ?.let calls more readable at other locations
-fun <S : Component, T : Component> Entity.execute(
-    mapper1: ComponentMapper<S>,
-    mapper2: ComponentMapper<T>,
-    execute: (S, T) -> Unit
-) {
-    this[mapper1]?.let { comp1 ->
-        this[mapper2]?.let { comp2 ->
-            execute(comp1, comp2)
-        }
-    }
-}
-
-fun <S : Component, T : Component, U : Component> Entity.execute(
-    mapper1: ComponentMapper<S>,
-    mapper2: ComponentMapper<T>,
-    mapper3: ComponentMapper<U>,
-    execute: (S, T, U) -> Unit
-) {
-    this[mapper1]?.let { comp1 ->
-        this[mapper2]?.let { comp2 ->
-            this[mapper3]?.let { comp3 ->
-                execute(comp1, comp2, comp3)
-            }
-        }
-    }
-}
-
-fun <S : Component, T : Component, U : Component, V : Component> Entity.execute(
-    mapper1: ComponentMapper<S>,
-    mapper2: ComponentMapper<T>,
-    mapper3: ComponentMapper<U>,
-    mapper4: ComponentMapper<V>,
-    execute: (S, T, U, V) -> Unit
-) {
-    this[mapper1]?.let { comp1 ->
-        this[mapper2]?.let { comp2 ->
-            this[mapper3]?.let { comp3 ->
-                this[mapper4]?.let { comp4 ->
-                    execute(comp1, comp2, comp3, comp4)
-                }
-            }
-        }
-    }
-}
 
 fun Engine.floatingText(
     posX: Float,

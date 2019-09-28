@@ -519,13 +519,14 @@
 <icon BUILTIN="button_ok"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1568557549342" ID="ID_649335855" MODIFIED="1568557579803" TEXT="add blue slime AI so that it moves towards player and attacks him when in range">
+<node COLOR="#00b439" CREATED="1568557549342" ID="ID_649335855" MODIFIED="1569657646749" TEXT="add blue slime AI so that it moves towards player and attacks him when in range">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 </node>
-<node COLOR="#00b439" CREATED="1569605656352" ID="ID_792597135" MODIFIED="1569605680993" TEXT="refactor code with .cmp syntax (refer to collision component)">
+<node COLOR="#00b439" CREATED="1569605656352" FOLDED="true" ID="ID_792597135" MODIFIED="1569657638512" TEXT="refactor code with .cmp syntax (refer to collision component)">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1569605672192" ID="ID_1681490834" MODIFIED="1569605679746" TEXT="get rid of &quot;execute&quot; let calls">
 <font NAME="SansSerif" SIZE="14"/>
 </node>

@@ -15,7 +15,6 @@ import com.game.quillyjumper.assets.get
 import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.allOf
 import ktx.ashley.exclude
-import ktx.ashley.get
 import ktx.log.logger
 import java.util.*
 
@@ -62,7 +61,7 @@ class AnimationSystem(assets: AssetManager, private val audio: AudioManager) :
     override fun entityAdded(entity: Entity) {
         // set default value for lateinit animation of AnimationComponent
         // it defaults to the error animation
-        entity[AnimationComponent.mapper]?.animation = defaultAnimation
+        entity.aniCmp.animation = defaultAnimation
     }
 
     override fun entityRemoved(entity: Entity?) {}
@@ -118,43 +117,40 @@ class AnimationSystem(assets: AssetManager, private val audio: AudioManager) :
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        entity[AnimationComponent.mapper]?.let { aniCmp ->
-            // check if aniCmp has a valid model and if the animation has to be updated
-            if (aniCmp.modelType != ModelType.UNKNOWN && (aniCmp.animationType != aniCmp.animation.animationType || aniCmp.modelType != aniCmp.animation.modelType)) {
-                // animation update needed -> retrieve it from cache
-                // if it is not part of the cache yet then the cache will create it
-                aniCmp.animation = animationCache[aniCmp.modelType, aniCmp.animationType]
-                // start animation from the beginning
-                aniCmp.animationTime = 0f
-                // play sound of animation if needed
-                if (aniCmp.animation.sound != SoundAssets.UNKNOWN) {
-                    audio.play(aniCmp.animation.sound)
-                }
-            } else {
-                // increase animation time to play animation
-                aniCmp.animationTime += deltaTime
+        // check if aniCmp has a valid model and if the animation has to be updated
+        val aniCmp = entity.aniCmp
+        if (aniCmp.modelType != ModelType.UNKNOWN && (aniCmp.animationType != aniCmp.animation.animationType || aniCmp.modelType != aniCmp.animation.modelType)) {
+            // animation update needed -> retrieve it from cache
+            // if it is not part of the cache yet then the cache will create it
+            aniCmp.animation = animationCache[aniCmp.modelType, aniCmp.animationType]
+            // start animation from the beginning
+            aniCmp.animationTime = 0f
+            // play sound of animation if needed
+            if (aniCmp.animation.sound != SoundAssets.UNKNOWN) {
+                audio.play(aniCmp.animation.sound)
+            }
+        } else {
+            // increase animation time to play animation
+            aniCmp.animationTime += deltaTime
+        }
+
+        // update sprite information with animation like texture, texture region, size, ...
+        // the sprite will then be used for the rendering in the RenderSystem
+        entity.renderCmp.sprite.run {
+            var textureRegion = aniCmp.animation.getKeyFrame(aniCmp.animationTime, aniCmp.loopAnimation)
+            if (textureRegion == null) {
+                LOG.error { "Could not retrieve textureRegion for ${aniCmp.modelType}/${aniCmp.animationType} at time ${aniCmp.animationTime}" }
+                textureRegion = defaultRegion
             }
 
-            // update sprite information with animation like texture, texture region, size, ...
-            // the sprite will then be used for the rendering in the RenderSystem
-            entity[RenderComponent.mapper]?.let { render ->
-                render.sprite.apply {
-                    var textureRegion = aniCmp.animation.getKeyFrame(aniCmp.animationTime, aniCmp.loopAnimation)
-                    if (textureRegion == null) {
-                        LOG.error { "Could not retrieve textureRegion for ${aniCmp.modelType}/${aniCmp.animationType} at time ${aniCmp.animationTime}" }
-                        textureRegion = defaultRegion
-                    }
-
-                    texture = textureRegion.texture
-                    val flipX = isFlipX
-                    val flipY = isFlipY
-                    setRegion(textureRegion)
-                    // keep aspect ratio of original texture and scale it to fit into the world units
-                    setSize(textureRegion.regionWidth * UNIT_SCALE, textureRegion.regionHeight * UNIT_SCALE)
-                    setOriginCenter()
-                    setFlip(flipX, flipY)
-                }
-            }
+            texture = textureRegion.texture
+            val flipX = isFlipX
+            val flipY = isFlipY
+            setRegion(textureRegion)
+            // keep aspect ratio of original texture and scale it to fit into the world units
+            setSize(textureRegion.regionWidth * UNIT_SCALE, textureRegion.regionHeight * UNIT_SCALE)
+            setOriginCenter()
+            setFlip(flipX, flipY)
         }
     }
 }

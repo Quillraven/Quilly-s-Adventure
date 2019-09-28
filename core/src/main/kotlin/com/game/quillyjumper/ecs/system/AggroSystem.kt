@@ -5,7 +5,8 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.allOf
 
-class AggroSystem : IteratingSystem(allOf(AggroComponent::class).get()) {
+class AggroSystem :
+    IteratingSystem(allOf(AggroComponent::class, TransformComponent::class, MoveComponent::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val entities = entity.aggroCmp.aggroEntities
         if (entities.size > 0) {

@@ -1,9 +1,11 @@
 package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.utils.Pool
+import ktx.ashley.get
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 
@@ -24,3 +26,7 @@ class PhysicComponent(val impulse: Vector2 = vec2()) : Component, Pool.Poolable 
         body.userData = null
     }
 }
+
+val Entity.physicCmp: PhysicComponent
+    get() = this[PhysicComponent.mapper]
+        ?: throw KotlinNullPointerException("Trying to access a physic component which is null")

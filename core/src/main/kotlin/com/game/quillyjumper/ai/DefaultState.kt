@@ -3,23 +3,20 @@ package com.game.quillyjumper.ai
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.ai.msg.Telegram
-import com.game.quillyjumper.ecs.component.AnimationComponent
 import com.game.quillyjumper.ecs.component.AnimationType
-import com.game.quillyjumper.ecs.component.StateComponent
-import com.game.quillyjumper.ecs.execute
+import com.game.quillyjumper.ecs.component.aniCmp
+import com.game.quillyjumper.ecs.component.stateCmp
 
 interface EntityState : State<Entity> {
     val aniType: AnimationType
     val loopAni: Boolean
 
     override fun enter(entity: Entity) {
-        entity.execute(AnimationComponent.mapper, StateComponent.mapper) { animation, state ->
-            animation.run {
-                this.animationType = aniType
-                this.loopAnimation = loopAni
-            }
-            state.stateTime = 0f
+        entity.aniCmp.run {
+            this.animationType = aniType
+            this.loopAnimation = loopAni
         }
+        entity.stateCmp.stateTime = 0f
     }
 
     override fun exit(entity: Entity) {

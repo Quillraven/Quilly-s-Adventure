@@ -1,7 +1,9 @@
 package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.Entity
 import com.game.quillyjumper.map.MapType
+import ktx.ashley.get
 import ktx.ashley.mapperFor
 
 class PortalComponent(
@@ -13,3 +15,7 @@ class PortalComponent(
         val mapper = mapperFor<PortalComponent>()
     }
 }
+
+val Entity.portalCmp: PortalComponent
+    get() = this[PortalComponent.mapper]
+        ?: throw KotlinNullPointerException("Trying to access a portal component which is null")

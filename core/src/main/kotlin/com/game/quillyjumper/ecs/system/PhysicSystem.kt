@@ -5,7 +5,8 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.ecs.component.PhysicComponent
 import com.game.quillyjumper.ecs.component.TransformComponent
-import com.game.quillyjumper.ecs.execute
+import com.game.quillyjumper.ecs.component.physicCmp
+import com.game.quillyjumper.ecs.component.transfCmp
 import ktx.ashley.allOf
 import kotlin.math.min
 
@@ -21,20 +22,19 @@ class PhysicSystem(
         accumulator += min(0.25f, deltaTime)
         while (accumulator >= interval) {
             entities.forEach {
-                it.execute(TransformComponent.mapper, PhysicComponent.mapper) { transform, physic ->
-                    val body = physic.body
-
+                it.physicCmp.run {
                     // store position of physic bodies before the world gets updated to calculate
                     // and interpolated position for the rendering.
                     // This will smooth the graphics for the user and avoids "stuttering"
+                    val transform = it.transfCmp
                     transform.prevPosition.set(
                         body.position.x - transform.size.x * 0.5f,
                         body.position.y - transform.size.y * 0.5f
                     )
 
-                    if (body.linearVelocity.x != 0f || !physic.impulse.isZero) {
+                    if (body.linearVelocity.x != 0f || !impulse.isZero) {
                         // body is moving or impulse specified --> apply it
-                        body.applyLinearImpulse(physic.impulse, body.worldCenter, true)
+                        body.applyLinearImpulse(impulse, body.worldCenter, true)
                     }
                 }
             }
@@ -47,10 +47,11 @@ class PhysicSystem(
         // store position of physic bodies and calculate interpolated position for transform component
         val alpha = accumulator / interval
         entities.forEach {
-            it.execute(TransformComponent.mapper, PhysicComponent.mapper) { transform, physic ->
+            it.physicCmp.run {
+                val transform = it.transfCmp
                 transform.position.set(
-                    physic.body.position.x - transform.size.x * 0.5f,
-                    physic.body.position.y - transform.size.y * 0.5f
+                    body.position.x - transform.size.x * 0.5f,
+                    body.position.y - transform.size.y * 0.5f
                 )
                 transform.interpolatedPosition.set(transform.prevPosition.lerp(transform.position, alpha))
             }

@@ -12,14 +12,14 @@ import com.game.quillyjumper.configuration.CharacterConfigurations
 import com.game.quillyjumper.configuration.Item
 import com.game.quillyjumper.configuration.ItemConfigurations
 import com.game.quillyjumper.ecs.character
-import com.game.quillyjumper.ecs.component.PhysicComponent
-import com.game.quillyjumper.ecs.component.PlayerComponent
+import com.game.quillyjumper.ecs.component.EntityType
 import com.game.quillyjumper.ecs.component.RemoveComponent
+import com.game.quillyjumper.ecs.component.physicCmp
+import com.game.quillyjumper.ecs.component.typeCmp
 import com.game.quillyjumper.ecs.item
 import com.game.quillyjumper.ecs.portal
 import com.game.quillyjumper.ecs.scenery
 import com.game.quillyjumper.event.GameEventManager
-import ktx.ashley.get
 import ktx.log.logger
 import java.util.*
 
@@ -47,7 +47,7 @@ class MapManager(
 
             // remove all non-player entities of the current loaded map
             ecsEngine.entities.forEach { entity ->
-                if (entity[PlayerComponent.mapper] == null) {
+                if (entity.typeCmp.type != EntityType.PLAYER) {
                     // non player entity -> remove it
                     entity.add(ecsEngine.createComponent(RemoveComponent::class.java))
                 }
@@ -80,7 +80,7 @@ class MapManager(
             mapObjects.forEach { mapObj ->
                 // set player entity positions to first location of tiled map
                 playerEntities.forEach { player ->
-                    player[PhysicComponent.mapper]?.body?.setTransform(
+                    player.physicCmp.body.setTransform(
                         mapObj.x * UNIT_SCALE,
                         mapObj.y * UNIT_SCALE,
                         0f
@@ -174,7 +174,7 @@ class MapManager(
             if (mapObj.id == targetPortal) {
                 // found target portal by ID -> move player to that location
                 playerEntities.forEach { player ->
-                    player[PhysicComponent.mapper]?.body?.setTransform(
+                    player.physicCmp.body.setTransform(
                         mapObj.x * UNIT_SCALE + targetOffsetX,
                         mapObj.y * UNIT_SCALE,
                         0f

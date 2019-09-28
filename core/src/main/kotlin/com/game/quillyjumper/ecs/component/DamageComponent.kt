@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pool
+import ktx.ashley.get
 import ktx.ashley.mapperFor
 
 class DamageComponent(var damage: Float = 0f, var lifeSpan: Float = 0f, val damagedEntities: Array<Entity> = Array(4)) :
@@ -18,3 +19,7 @@ class DamageComponent(var damage: Float = 0f, var lifeSpan: Float = 0f, val dama
         damagedEntities.clear()
     }
 }
+
+val Entity.damageCmp: DamageComponent
+    get() = this[DamageComponent.mapper]
+        ?: throw KotlinNullPointerException("Trying to access a damage component which is null")

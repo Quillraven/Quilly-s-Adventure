@@ -3,14 +3,19 @@ package com.game.quillyjumper.ecs.component
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class AggroComponent : Component {
+class AggroComponent : Component, Pool.Poolable {
     val aggroEntities = Array<Entity>(4)
 
     companion object {
         val mapper = mapperFor<AggroComponent>()
+    }
+
+    override fun reset() {
+        aggroEntities.clear()
     }
 }
 

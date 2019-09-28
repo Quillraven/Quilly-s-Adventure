@@ -1,9 +1,11 @@
 package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Array
 import com.game.quillyjumper.assets.SoundAssets
+import ktx.ashley.get
 import ktx.ashley.mapperFor
 
 enum class ModelType {
@@ -40,3 +42,7 @@ class AnimationComponent(
         val mapper = mapperFor<AnimationComponent>()
     }
 }
+
+val Entity.aniCmp: AnimationComponent
+    get() = this[AnimationComponent.mapper]
+        ?: throw KotlinNullPointerException("Trying to access an animation component which is null")

@@ -11,16 +11,12 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.viewport.Viewport
-import com.game.quillyjumper.ecs.component.RemoveComponent
-import com.game.quillyjumper.ecs.component.RenderComponent
-import com.game.quillyjumper.ecs.component.TransformComponent
-import com.game.quillyjumper.ecs.execute
+import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.map.Map
 import com.game.quillyjumper.map.MapChangeListener
 import com.game.quillyjumper.map.TILED_LAYER_BACKGROUND_PREFIX
 import ktx.ashley.allOf
 import ktx.ashley.exclude
-import ktx.ashley.get
 import ktx.graphics.use
 import ktx.log.logger
 
@@ -34,7 +30,7 @@ class RenderSystem(
     private val box2DDebugRenderer: Box2DDebugRenderer
 ) : MapChangeListener, SortedIteratingSystem(
     allOf(RenderComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get(),
-    compareBy { entity -> entity[TransformComponent.mapper] }
+    compareBy { entity -> entity.transfCmp }
 ) {
     private val camera = gameViewPort.camera as OrthographicCamera
     private val mapBackgroundLayers = Array<TiledMapTileLayer>()
@@ -63,15 +59,16 @@ class RenderSystem(
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        entity.execute(RenderComponent.mapper, TransformComponent.mapper) { render, transform ->
-            // if the sprite does not have any texture then do not render it to avoid null pointer exceptions
-            render.sprite.run {
+        entity.renderCmp.run {
+            sprite.run {
+                // if the sprite does not have any texture then do not render it to avoid null pointer exceptions
                 if (texture == null) {
                     LOG.error { "Entity is without a texture for rendering" }
-                    return@execute
+                    return
                 }
 
                 // adjust sprite position to render image centered around the entity's position
+                val transform = entity.transfCmp
                 setPosition(
                     transform.interpolatedPosition.x - (width - transform.size.x) * 0.5f,
                     transform.interpolatedPosition.y - 0.01f
