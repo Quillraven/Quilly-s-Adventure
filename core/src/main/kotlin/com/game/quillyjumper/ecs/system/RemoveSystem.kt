@@ -28,9 +28,9 @@ class RemoveSystem(engine: Engine) : IteratingSystem(allOf(RemoveComponent::clas
 
     override fun entityRemoved(entity: Entity?) {
         // cleanup entity from any arrays where it is referenced
-        collisionEntities.forEach { it.collCmp.entities.removeValue(entity, true) }
-        damageEntities.forEach { it.damageCmp.damagedEntities.removeValue(entity, true) }
-        aggroEntities.forEach { it.aggroCmp.aggroEntities.removeValue(entity, true) }
+        collisionEntities.forEach { it.collCmp.entities.remove(entity) }
+        damageEntities.forEach { it.damageCmp.damagedEntities.remove(entity) }
+        aggroEntities.forEach { it.aggroCmp.aggroEntities.remove(entity) }
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {

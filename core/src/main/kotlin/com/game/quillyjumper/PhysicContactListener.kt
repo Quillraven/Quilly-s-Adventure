@@ -44,10 +44,10 @@ class PhysicContactListener : ContactListener {
             FIXTURE_TYPE_FOOT_SENSOR -> if (collEntityType == EntityType.SCENERY) srcEntity.collCmp.numGroundContacts--
             FIXTURE_TYPE_AGGRO_SENSOR -> {
                 if (collEntityType == EntityType.PLAYER && !collFixture.isSensor) {
-                    srcEntity.aggroCmp.aggroEntities.removeValue(collEntity, true)
+                    srcEntity.aggroCmp.aggroEntities.remove(collEntity)
                 }
             }
-            else -> if (!collFixture.isSensor) srcEntity.collCmp.entities.removeValue(collEntity, true)
+            else -> if (!collFixture.isSensor) srcEntity.collCmp.entities.remove(collEntity)
         }
     }
 

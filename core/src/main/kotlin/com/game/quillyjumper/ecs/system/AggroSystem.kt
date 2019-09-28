@@ -19,7 +19,7 @@ class AggroSystem :
             // entities are within aggro range -> move towards/attack the first entity
             val transform = entity.transfCmp
             val attack = entity.attackCmp
-            val aggroTransform = entities[0].transfCmp
+            val aggroTransform = entities.first().transfCmp
             if (attack.canAttack() && isWithinAttackRange(
                     transform.position,
                     transform.size,

@@ -88,10 +88,33 @@ fun Engine.character(
                 userData = this@entity.entity
                 // characters do not need to rotate
                 fixedRotation = true
-                box(cfg.size.x, cfg.size.y, cfg.collBodyOffset) {
-                    // characters should not stick on walls or other physic objects
+                // characters have a ground fixture with a high friction to avoid sliding
+                box(cfg.size.x * 0.8f, cfg.size.y, cfg.collBodyOffset) {
+                    friction = 1f
+                }
+                // In addition they have two additional fixtures on the right and left side
+                // with no friction to avoid sticking to walls
+                box(
+                    cfg.size.x * 0.1f,
+                    cfg.size.y,
+                    PhysicComponent.tmpVec2.set(
+                        cfg.collBodyOffset.x - cfg.size.x * 0.5f + cfg.size.x * 0.1f * 0.5f,
+                        cfg.collBodyOffset.y
+                    )
+                ) {
                     friction = 0f
                 }
+                box(
+                    cfg.size.x * 0.1f,
+                    cfg.size.y,
+                    PhysicComponent.tmpVec2.set(
+                        cfg.collBodyOffset.x + cfg.size.x * 0.5f - cfg.size.x * 0.1f * 0.5f,
+                        cfg.collBodyOffset.y
+                    )
+                ) {
+                    friction = 0f
+                }
+
                 // characters are not allowed to sleep because otherwise the damage emitter
                 // sensors do not detect collision correctly (body needs to be awake to trigger
                 // contact events)
