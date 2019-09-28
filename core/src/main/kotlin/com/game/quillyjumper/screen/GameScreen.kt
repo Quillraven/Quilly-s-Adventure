@@ -140,13 +140,14 @@ class GameScreen(
             cfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
                 speed = 0.3f
                 size(0.5f, 0.5f)
+                attackRange = 0.15f
+                attackCooldown = 2f
                 damage = 2f
                 life = 10f
                 defaultState = DefaultEnemyState.IDLE
                 aggroRange = 2.5f
             }
             cfg(Character.FLIPPY, EntityType.OTHER, ModelType.FLIPPY) {
-                speed = 0f
                 size(0.65f, 2f)
                 collisionBodyOffset(3f * UNIT_SCALE, 0f)
             }

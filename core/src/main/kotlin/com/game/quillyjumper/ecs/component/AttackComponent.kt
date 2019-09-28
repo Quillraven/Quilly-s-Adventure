@@ -16,6 +16,8 @@ class AttackComponent(
     companion object {
         val mapper = mapperFor<AttackComponent>()
     }
+
+    fun canAttack() = attackTime <= 0f
 }
 
 val Entity.attackCmp: AttackComponent

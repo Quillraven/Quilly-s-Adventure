@@ -519,9 +519,10 @@
 <icon BUILTIN="button_ok"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1568557549342" ID="ID_649335855" MODIFIED="1569657646749" TEXT="add blue slime AI so that it moves towards player and attacks him when in range">
+<node COLOR="#00b439" CREATED="1568557549342" ID="ID_649335855" MODIFIED="1569684377126" TEXT="add blue slime AI so that it moves towards player and attacks him when in range">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 </node>
 <node COLOR="#00b439" CREATED="1569605656352" FOLDED="true" ID="ID_792597135" MODIFIED="1569657638512" TEXT="refactor code with .cmp syntax (refer to collision component)">
 <edge STYLE="bezier" WIDTH="thin"/>
@@ -531,7 +532,7 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1567791159831" FOLDED="true" ID="ID_1358993190" MODIFIED="1567791252871" TEXT="Update Wikipedia page of project">
+<node COLOR="#00b439" CREATED="1567791159831" FOLDED="true" ID="ID_1358993190" MODIFIED="1569684386212" TEXT="Update Wikipedia page of project">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <node COLOR="#990000" CREATED="1567791166566" ID="ID_940234751" MODIFIED="1567791175621" TEXT="Gimp Sprite Gutter plugin for map">

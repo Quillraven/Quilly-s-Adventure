@@ -37,8 +37,9 @@ class DamageSystem(private val normalFont: BitmapFont) :
                         // let damage fluctuate within 10%
                         val stats = collEntity.statsCmp
                         val damageDealt = damage * MathUtils.random(0.9f, 1.1f)
-                        // formula : dealtDamage = damage of source - armor value of enemy
-                        val damageValue = max(damageDealt - stats.armor, 0f)
+                        // formula : dealtDamage = damage of source reduced by armor value
+                        // armor of 1 reduces the damage by 1%; armor 10 reduces by 10%, armor 100 reduces by 100%
+                        val damageValue = max(damageDealt * (1f - stats.armor * 0.01f), 0f)
                         stats.life -= damageValue
 
                         // create floating text to display damage number to player
