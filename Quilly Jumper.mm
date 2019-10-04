@@ -532,18 +532,76 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1567791159831" FOLDED="true" ID="ID_1358993190" MODIFIED="1569684386212" TEXT="Update Wikipedia page of project">
+<node COLOR="#00b439" CREATED="1569686298680" ID="ID_1828619623" MODIFIED="1570205779677" TEXT="box2d light">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1567791166566" ID="ID_940234751" MODIFIED="1567791175621" TEXT="Gimp Sprite Gutter plugin for map">
+<node COLOR="#990000" CREATED="1569686302364" ID="ID_1667020543" MODIFIED="1570210095673" TEXT="add sunshine for first level">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+</node>
+<node COLOR="#990000" CREATED="1570210107912" ID="ID_284181231" MODIFIED="1570210113467" TEXT="LightComponent">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1570210114368" ID="ID_1892171749" MODIFIED="1570210118976" TEXT="allows to add light to an entity"/>
+<node COLOR="#111111" CREATED="1570210120852" ID="ID_1389001070" MODIFIED="1570210130085" TEXT="make sun an entity which then solves our dispose issue"/>
+<node COLOR="#111111" CREATED="1570210133749" ID="ID_1980441133" MODIFIED="1570210147801" TEXT="add blue light to player entity"/>
+<node COLOR="#111111" CREATED="1570210331092" ID="ID_1175148355" MODIFIED="1570210332759" TEXT="code snippet">
+<node COLOR="#111111" CREATED="1570210334111" ID="ID_297319881" MODIFIED="1570210334112" TEXT="b2dCmp.light = new PointLight(rayHandler, 64, new Color(1, 1, 1, 0.7f), b2dCmp.lightDistance, spawnLocation.x, spawnLocation.y);"/>
+<node COLOR="#111111" CREATED="1570210334121" ID="ID_1218241308" MODIFIED="1570210334121" TEXT="b2dCmp.light.attachToBody(b2dCmp.body);"/>
+</node>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1569686265155" ID="ID_333118278" MODIFIED="1569686269955" TEXT="particle effects">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1569686271408" ID="ID_862537962" MODIFIED="1569686278997" TEXT="add bleeding effect when damage is dealt">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
-<node COLOR="#990000" CREATED="1567791177112" ID="ID_697657101" MODIFIED="1567791182129" TEXT="How to create a new Character">
+<node COLOR="#990000" CREATED="1569686280252" ID="ID_1088665243" MODIFIED="1569686287274" TEXT="add portal effect">
 <font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1569686291104" ID="ID_1246582068" MODIFIED="1569686295420" TEXT="create portal to second map"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1569686330330" ID="ID_1142535322" MODIFIED="1569686337912" TEXT="allow the player to cast a fireball">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+</node>
+<node COLOR="#00b439" CREATED="1569686357211" ID="ID_347199123" MODIFIED="1569686361028" TEXT="add experience system">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1569686362088" ID="ID_759569628" MODIFIED="1569686367709" TEXT="floating text for XP gained">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1569686372039" ID="ID_1978325461" MODIFIED="1569686382294" TEXT="UI to spend XP on skills">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1569686382920" ID="ID_926020434" MODIFIED="1569686386781" TEXT="first skill: fireball"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1569686394829" ID="ID_148760167" MODIFIED="1569686400483" TEXT="add item pickup logic">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1569686401292" ID="ID_134298280" MODIFIED="1569686408973" TEXT="when green potion in first level is picked up then">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1569686409295" ID="ID_602138810" MODIFIED="1569686412739" TEXT="heal player completely"/>
+<node COLOR="#111111" CREATED="1569686413835" ID="ID_405605156" MODIFIED="1569686421784" TEXT="increase maximum life by 10"/>
+<node COLOR="#111111" CREATED="1569686422665" ID="ID_1920707680" MODIFIED="1569686429652" TEXT="add floating text to visualize bonus effect"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1567791159831" FOLDED="true" ID="ID_1358993190" MODIFIED="1569777334432" TEXT="Update Wikipedia page of project">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1567791166566" ID="ID_940234751" MODIFIED="1569776086495" TEXT="Gimp Sprite Gutter plugin for map">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+</node>
+<node COLOR="#990000" CREATED="1567791177112" FOLDED="true" ID="ID_697657101" MODIFIED="1569740755971" TEXT="How to create a new Character">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1567791188651" ID="ID_393657603" MODIFIED="1567791191988" TEXT="collisionBodyOffset"/>
 </node>
-<node COLOR="#990000" CREATED="1567791183463" ID="ID_330887285" MODIFIED="1567791187608" TEXT="How to create a new Item">
+<node COLOR="#990000" CREATED="1567791183463" ID="ID_330887285" MODIFIED="1569776080322" TEXT="How to create a new Item">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 </node>
 <node COLOR="#990000" CREATED="1567791201700" ID="ID_148144328" MODIFIED="1567791206078" TEXT="How to setup a Tiled Map">
 <font NAME="SansSerif" SIZE="14"/>
@@ -552,7 +610,7 @@
 </node>
 </node>
 </node>
-<node COLOR="#0033ff" CREATED="1567791125419" FOLDED="true" ID="ID_519556287" MODIFIED="1567791254477" POSITION="right" TEXT="Information">
+<node COLOR="#0033ff" CREATED="1567791125419" FOLDED="true" ID="ID_519556287" MODIFIED="1569776072180" POSITION="right" TEXT="Information">
 <edge STYLE="sharp_bezier" WIDTH="8"/>
 <font NAME="SansSerif" SIZE="18"/>
 <icon BUILTIN="info"/>

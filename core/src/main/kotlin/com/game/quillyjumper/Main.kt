@@ -1,5 +1,6 @@
 package com.game.quillyjumper
 
+import box2dLight.RayHandler
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.InputProcessor
@@ -63,6 +64,7 @@ class Main : KtxGame<KtxScreen>() {
             bindSingleton(Stage(FitViewport(1280f, 720f), ctx.inject<SpriteBatch>()))
             bindSingleton(createSKin())
             bindSingleton(createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) })
+            bindSingleton(RayHandler(inject()))
             bindSingleton(Box2DDebugRenderer())
             bindSingleton(OrthogonalTiledMapRenderer(null, UNIT_SCALE, ctx.inject<SpriteBatch>()))
         }
@@ -84,6 +86,7 @@ class Main : KtxGame<KtxScreen>() {
                 ctx.inject(), // input controller
                 ctx.inject(), // audio manager
                 ctx.inject(), // physic world
+                ctx.inject(), // rayhandler
                 ctx.inject(), // sprite batch
                 ctx.inject(), // tiled map renderer
                 ctx.inject() // box2d debug renderer

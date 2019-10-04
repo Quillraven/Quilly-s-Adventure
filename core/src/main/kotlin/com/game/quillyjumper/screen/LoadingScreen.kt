@@ -1,5 +1,6 @@
 package com.game.quillyjumper.screen
 
+import box2dLight.RayHandler
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
@@ -21,6 +22,7 @@ class LoadingScreen(
     private val inputController: InputController,
     private val audioManager: AudioManager,
     private val world: World,
+    private val rayHandler: RayHandler,
     private val batch: SpriteBatch,
     private val mapRenderer: OrthogonalTiledMapRenderer,
     private val box2DDebugRenderer: Box2DDebugRenderer
@@ -49,6 +51,7 @@ class LoadingScreen(
                     inputController,
                     audioManager,
                     world,
+                    rayHandler,
                     batch,
                     mapRenderer,
                     box2DDebugRenderer,

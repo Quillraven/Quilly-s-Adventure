@@ -1,5 +1,6 @@
 package com.game.quillyjumper.screen
 
+import box2dLight.RayHandler
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -37,6 +38,7 @@ class GameScreen(
     private val inputController: InputController,
     private val audioManager: AudioManager,
     private val world: World,
+    private val rayHandler: RayHandler,
     private val batch: SpriteBatch,
     private val mapRenderer: OrthogonalTiledMapRenderer,
     private val box2DDebugRenderer: Box2DDebugRenderer,
@@ -75,6 +77,7 @@ class GameScreen(
                 addSystem(AnimationSystem(assets, audioManager))
                 addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
                 addSystem(RenderSystem(batch, viewport, world, mapRenderer, box2DDebugRenderer))
+                addSystem(LightSystem(rayHandler, viewport.camera as OrthographicCamera))
                 addSystem(FloatingTextSystem(batch, viewport, stage.viewport))
                 addSystem(RemoveSystem(this))
                 // create player entity
@@ -112,6 +115,8 @@ class GameScreen(
 
     override fun resize(width: Int, height: Int) {
         viewport.update(width, height, true)
+        rayHandler.resizeFBO(width / 4, height / 4)
+        rayHandler.useCustomViewport(viewport.screenX, viewport.screenY, viewport.screenWidth, viewport.screenHeight)
     }
 
     override fun render(delta: Float) {
