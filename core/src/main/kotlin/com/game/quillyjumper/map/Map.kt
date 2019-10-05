@@ -36,6 +36,9 @@ const val PROPERTY_ITEM = "Item"
 const val PROPERTY_TARGET_MAP = "TargetMap"
 const val PROPERTY_TARGET_OFFSET_X = "TargetOffsetX"
 const val PROPERTY_TARGET_PORTAL_ID = "TargetPortalID"
+const val PROPERTY_AMBIENT = "Ambient"
+const val PROPERTY_SHADOW_COLOR = "ShadowColor"
+const val PROPERTY_SHADOW_ANGLE = "ShadowAngle"
 
 // Map Types
 enum class MapType(val asset: MapAssets, val music: MusicAssets) {
@@ -67,19 +70,21 @@ val MapObject.x: Float
 val MapObject.y: Float
     get() = this.property(PROPERTY_Y, 0f)
 
-// extension method to access properties the Kotlin way for TiledMap
-inline fun <reified T> TiledMap.property(key: String, defaultValue: T): T =
-    this.properties[key, defaultValue, T::class.java]
-
 class Map(val type: MapType, val tiledMap: TiledMap) {
     val width: Float
-        get() = tiledMap.property(PROPERTY_WIDTH, 0f) * tiledMap.property(PROPERTY_TILE_WIDTH, 0f) * UNIT_SCALE
+        get() = property(PROPERTY_WIDTH, 0f) * property(PROPERTY_TILE_WIDTH, 0f) * UNIT_SCALE
     val height: Float
-        get() = tiledMap.property(PROPERTY_HEIGHT, 0f) * tiledMap.property(PROPERTY_TILE_HEIGHT, 0f) * UNIT_SCALE
+        get() = property(PROPERTY_HEIGHT, 0f) * property(PROPERTY_TILE_HEIGHT, 0f) * UNIT_SCALE
 
     companion object {
         val defaultLayer = MapLayer()
     }
+
+    // extension method to access properties the Kotlin way for TiledMap
+    inline fun <reified T> property(key: String, defaultValue: T): T =
+        tiledMap.properties[key, defaultValue, T::class.java]
+
+    fun containsProperty(key: String) = tiledMap.properties.containsKey(key)
 
     private fun layer(layerName: String): MapLayer {
         val layer = tiledMap.layers.get(layerName)

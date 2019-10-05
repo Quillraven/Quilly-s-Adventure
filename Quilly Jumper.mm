@@ -532,17 +532,21 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1569686298680" ID="ID_1828619623" MODIFIED="1570205779677" TEXT="box2d light">
+<node COLOR="#00b439" CREATED="1569686298680" FOLDED="true" ID="ID_1828619623" MODIFIED="1570283300038" TEXT="box2d light">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1569686302364" ID="ID_1667020543" MODIFIED="1570210095673" TEXT="add sunshine for first level">
 <font NAME="SansSerif" SIZE="14"/>
 <icon BUILTIN="button_ok"/>
 </node>
-<node COLOR="#990000" CREATED="1570210107912" ID="ID_284181231" MODIFIED="1570210113467" TEXT="LightComponent">
+<node COLOR="#990000" CREATED="1570210107912" ID="ID_284181231" MODIFIED="1570283296192" TEXT="LightComponent">
 <font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#111111" CREATED="1570210114368" ID="ID_1892171749" MODIFIED="1570210118976" TEXT="allows to add light to an entity"/>
-<node COLOR="#111111" CREATED="1570210120852" ID="ID_1389001070" MODIFIED="1570210130085" TEXT="make sun an entity which then solves our dispose issue"/>
+<node COLOR="#111111" CREATED="1570210120852" ID="ID_1389001070" MODIFIED="1570282879527" TEXT="make sun an entity which then solves our dispose issue">
+<icon BUILTIN="button_ok"/>
+</node>
 <node COLOR="#111111" CREATED="1570210133749" ID="ID_1980441133" MODIFIED="1570210147801" TEXT="add blue light to player entity"/>
 <node COLOR="#111111" CREATED="1570210331092" ID="ID_1175148355" MODIFIED="1570210332759" TEXT="code snippet">
 <node COLOR="#111111" CREATED="1570210334111" ID="ID_297319881" MODIFIED="1570210334112" TEXT="b2dCmp.light = new PointLight(rayHandler, 64, new Color(1, 1, 1, 0.7f), b2dCmp.lightDistance, spawnLocation.x, spawnLocation.y);"/>

@@ -1,5 +1,7 @@
 package com.game.quillyjumper.ecs
 
+import box2dLight.DirectionalLight
+import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
@@ -366,5 +368,24 @@ fun Engine.damageEmitter(
             this.lifeSpan = lifeSpan
             this.source = source
         }
+    }
+}
+
+fun Engine.globalLight(
+    rayHandler: RayHandler,
+    ambientColor: Color,
+    shadowColor: Color,
+    shadowAngle: Float
+): Entity {
+    // set ambient light in LightSystem
+    rayHandler.setBlurNum(3)
+    rayHandler.setAmbientLight(ambientColor)
+
+    // create global light entity
+    return this.entity {
+        // light
+        with<LightComponent> { light = DirectionalLight(rayHandler, 512, shadowColor, shadowAngle) }
+        // type
+        with<EntityTypeComponent> { type = EntityType.OTHER }
     }
 }

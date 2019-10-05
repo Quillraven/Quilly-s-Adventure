@@ -1,9 +1,11 @@
 package com.game.quillyjumper.map
 
+import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.assets.get
@@ -11,14 +13,11 @@ import com.game.quillyjumper.configuration.Character
 import com.game.quillyjumper.configuration.CharacterConfigurations
 import com.game.quillyjumper.configuration.Item
 import com.game.quillyjumper.configuration.ItemConfigurations
-import com.game.quillyjumper.ecs.character
+import com.game.quillyjumper.ecs.*
 import com.game.quillyjumper.ecs.component.EntityType
 import com.game.quillyjumper.ecs.component.RemoveComponent
 import com.game.quillyjumper.ecs.component.physicCmp
 import com.game.quillyjumper.ecs.component.typeCmp
-import com.game.quillyjumper.ecs.item
-import com.game.quillyjumper.ecs.portal
-import com.game.quillyjumper.ecs.scenery
 import com.game.quillyjumper.event.GameEventManager
 import ktx.log.logger
 import java.util.*
@@ -28,6 +27,7 @@ private val LOG = logger<MapManager>()
 class MapManager(
     private val assets: AssetManager,
     private val world: World,
+    private val rayHandler: RayHandler,
     private val ecsEngine: Engine,
     private val characterConfigurations: CharacterConfigurations,
     private val itemConfigurations: ItemConfigurations,
@@ -68,6 +68,7 @@ class MapManager(
             createEnemyEntities(this)
             createItemEntities(this)
             createPortalEntities(this)
+            updateAmbientLight(this)
             gameEventManager.dispatchMapChangeEvent(this)
         }
     }
@@ -187,5 +188,16 @@ class MapManager(
         // could not find portal -> move player to start location instead
         LOG.error { "Could not find portal $targetPortal for map ${map.type}" }
         movePlayerToStartLocation(map)
+    }
+
+    private fun updateAmbientLight(map: Map) {
+        if (!map.containsProperty(PROPERTY_AMBIENT) || !map.containsProperty(PROPERTY_SHADOW_COLOR)) return
+
+        ecsEngine.globalLight(
+            rayHandler,
+            map.property(PROPERTY_AMBIENT, Color.BLACK),
+            map.property(PROPERTY_SHADOW_COLOR, Color.WHITE),
+            map.property(PROPERTY_SHADOW_ANGLE, 0f)
+        )
     }
 }

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="96" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="25">
+ <properties>
+  <property name="Ambient" type="color" value="#e6000000"/>
+  <property name="ShadowAngle" type="float" value="225"/>
+  <property name="ShadowColor" type="color" value="#80ffffff"/>
+ </properties>
  <tileset firstgid="1" source="tilesets.tsx"/>
  <layer id="1" name="bgd1" width="96" height="26">
   <data encoding="base64" compression="zlib">

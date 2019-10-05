@@ -86,7 +86,7 @@ class Main : KtxGame<KtxScreen>() {
                 ctx.inject(), // input controller
                 ctx.inject(), // audio manager
                 ctx.inject(), // physic world
-                ctx.inject(), // rayhandler
+                ctx.inject(), // ray handler
                 ctx.inject(), // sprite batch
                 ctx.inject(), // tiled map renderer
                 ctx.inject() // box2d debug renderer

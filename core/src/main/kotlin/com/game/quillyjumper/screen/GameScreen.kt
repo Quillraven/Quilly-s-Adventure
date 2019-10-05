@@ -53,6 +53,7 @@ class GameScreen(
         MapManager(
             assets,
             world,
+            rayHandler,
             engine,
             characterCfgCache,
             itemCfgCache,
@@ -114,8 +115,10 @@ class GameScreen(
     }
 
     override fun resize(width: Int, height: Int) {
+        if (width != viewport.screenWidth || height != viewport.screenHeight) {
+            rayHandler.resizeFBO(width / 4, height / 4)
+        }
         viewport.update(width, height, true)
-        rayHandler.resizeFBO(width / 4, height / 4)
         rayHandler.useCustomViewport(viewport.screenX, viewport.screenY, viewport.screenWidth, viewport.screenHeight)
     }
 
