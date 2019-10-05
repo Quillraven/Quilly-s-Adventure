@@ -1,8 +1,10 @@
 package com.game.quillyjumper.assets
 
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.assets.loaders.ParticleEffectLoader
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
+import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.maps.tiled.TiledMap
 import ktx.assets.getAsset
@@ -44,3 +46,14 @@ enum class MapAssets(val filePath: String) {
 
 fun AssetManager.load(asset: MapAssets) = load<TiledMap>(asset.filePath)
 operator fun AssetManager.get(asset: MapAssets) = this.getAsset<TiledMap>(asset.filePath)
+
+// particle effects
+enum class ParticleAssets(val filePath: String, val scale: Float = 1f) {
+    BLOOD("assets/particles/blood.p", 0.5f),
+    PORTAL("assets/particles/portal.p")
+}
+
+fun AssetManager.load(asset: ParticleAssets, params: ParticleEffectLoader.ParticleEffectParameter) =
+    load(asset.filePath, ParticleEffect::class.java, params)
+
+operator fun AssetManager.get(asset: ParticleAssets) = this.getAsset<ParticleEffect>(asset.filePath)

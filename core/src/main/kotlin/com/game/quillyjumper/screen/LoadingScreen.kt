@@ -2,6 +2,7 @@ package com.game.quillyjumper.screen
 
 import box2dLight.RayHandler
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.assets.loaders.ParticleEffectLoader
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
@@ -33,6 +34,9 @@ class LoadingScreen(
         SoundAssets.values().forEach { if (it != SoundAssets.UNKNOWN) assets.load(it) }
         TextureAtlasAssets.values().forEach { assets.load(it) }
         MapAssets.values().forEach { assets.load(it) }
+        val particleParam = ParticleEffectLoader.ParticleEffectParameter()
+        particleParam.atlasFile = TextureAtlasAssets.GAME_OBJECTS.filePath
+        ParticleAssets.values().forEach { assets.load(it, particleParam) }
     }
 
     override fun resize(width: Int, height: Int) {

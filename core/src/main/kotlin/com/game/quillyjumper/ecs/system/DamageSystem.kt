@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.StringBuilder
+import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.floatingText
+import com.game.quillyjumper.ecs.particleEffect
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import kotlin.math.max
@@ -55,6 +57,11 @@ class DamageSystem(private val normalFont: BitmapFont) :
                             0f,
                             -1f,
                             1.25f
+                        )
+                        engine.particleEffect(
+                            transform.position.x + transform.size.x * 0.25f,
+                            transform.position.y + transform.size.y * 0.25f,
+                            ParticleAssets.BLOOD
                         )
 
                         // remember entities that got already damaged once to not

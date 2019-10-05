@@ -565,6 +565,10 @@
 <node COLOR="#111111" CREATED="1569686291104" ID="ID_1246582068" MODIFIED="1569686295420" TEXT="create portal to second map"/>
 </node>
 </node>
+<node COLOR="#00b439" CREATED="1570288970904" ID="ID_1286524936" MODIFIED="1570288985392" TEXT="check render performance because there seem to be a lot of texture bindings and draw calls">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+</node>
 <node COLOR="#00b439" CREATED="1569686330330" ID="ID_1142535322" MODIFIED="1569686337912" TEXT="allow the player to cast a fireball">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>

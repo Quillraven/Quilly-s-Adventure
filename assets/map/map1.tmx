@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="96" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="25">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-up" width="96" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="28">
  <properties>
   <property name="Ambient" type="color" value="#e6000000"/>
   <property name="ShadowAngle" type="float" value="225"/>
@@ -92,6 +92,15 @@
    <point/>
   </object>
  </objectgroup>
+ <objectgroup color="#0000ff" id="12" name="portal">
+  <object id="27" x="1510.25" y="211.75" width="24.5" height="101.5">
+   <properties>
+    <property name="TargetMap" value="TEST_MAP"/>
+    <property name="TargetOffsetX" type="int" value="1"/>
+    <property name="TargetPortalID" type="int" value="10"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="8" name="playerSpawnLocation">
   <object id="13" x="14" y="276">
    <point/>
@@ -104,7 +113,7 @@
    </properties>
    <point/>
   </object>
-  <object id="24" x="152" y="281.333">
+  <object id="24" x="225" y="282.333">
    <properties>
     <property name="Character" value="BLUE_SLIME"/>
    </properties>

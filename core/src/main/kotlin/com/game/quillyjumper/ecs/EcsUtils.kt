@@ -17,6 +17,7 @@ import com.game.quillyjumper.FIXTURE_TYPE_AGGRO_SENSOR
 import com.game.quillyjumper.FIXTURE_TYPE_FOOT_SENSOR
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ai.DefaultState
+import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
@@ -326,6 +327,15 @@ fun Engine.portal(world: World, shape: Shape2D, targetMap: MapType, targetPortal
         with<EntityTypeComponent> {
             this.type = EntityType.PORTAL
         }
+        // transform
+        val pos = this.entity.physicCmp.body.position
+        with<TransformComponent> {
+            position.set(pos.x, pos.y)
+            prevPosition.set(position)
+            interpolatedPosition.set(position)
+        }
+        // particle effect
+        with<ParticleComponent> { type = ParticleAssets.PORTAL }
         // portal information
         with<PortalComponent> {
             this.targetMap = targetMap
@@ -387,5 +397,24 @@ fun Engine.globalLight(
         with<LightComponent> { light = DirectionalLight(rayHandler, 512, shadowColor, shadowAngle) }
         // type
         with<EntityTypeComponent> { type = EntityType.OTHER }
+    }
+}
+
+fun Engine.particleEffect(
+    posX: Float,
+    posY: Float,
+    type: ParticleAssets
+): Entity {
+    return this.entity {
+        // transform
+        with<TransformComponent> {
+            position.set(posX, posY)
+            prevPosition.set(position)
+            interpolatedPosition.set(position)
+        }
+        // particle effect
+        with<ParticleComponent> { this.type = type }
+        // type
+        with<EntityTypeComponent> { this.type = EntityType.OTHER }
     }
 }

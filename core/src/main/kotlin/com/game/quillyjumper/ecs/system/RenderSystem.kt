@@ -1,7 +1,9 @@
 package com.game.quillyjumper.ecs.system
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.SortedIteratingSystem
+import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
@@ -23,6 +25,7 @@ import ktx.log.logger
 private val LOG = logger<RenderSystem>()
 
 class RenderSystem(
+    engine: Engine,
     private val batch: SpriteBatch,
     private val gameViewPort: Viewport,
     private val world: World,
@@ -35,6 +38,13 @@ class RenderSystem(
     private val camera = gameViewPort.camera as OrthographicCamera
     private val mapBackgroundLayers = Array<TiledMapTileLayer>()
     private val mapForegroundLayers = Array<TiledMapTileLayer>()
+    private val particleEffects =
+        engine.getEntitiesFor(
+            allOf(
+                ParticleComponent::class,
+                TransformComponent::class
+            ).exclude(RemoveComponent::class).get()
+        )
 
     override fun update(deltaTime: Float) {
         // Update animation timer for animated tiles
@@ -51,6 +61,9 @@ class RenderSystem(
             mapBackgroundLayers.forEach { mapRenderer.renderTileLayer(it) }
             // render entities
             super.update(deltaTime)
+            // render particle effects and reset blend state manually
+            particleEffects.forEach { entity -> entity.particleCmp.effect.draw(it, deltaTime) }
+            batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
             // render foreground of map
             mapForegroundLayers.forEach { mapRenderer.renderTileLayer(it) }
         }

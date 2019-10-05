@@ -256,23 +256,37 @@ PLAYER/RUN
   orig: 50, 37
   offset: 0, 0
   index: 5
-error
+bloodsplat
   rotate: false
   xy: 410, 70
-  size: 32, 32
-  orig: 32, 32
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
-potion_blue_plus
+error
   rotate: false
   xy: 478, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-potion_green_plus
+portal
   rotate: false
   xy: 546, 70
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+potion_blue_plus
+  rotate: false
+  xy: 614, 70
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+potion_green_plus
+  rotate: false
+  xy: 682, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
