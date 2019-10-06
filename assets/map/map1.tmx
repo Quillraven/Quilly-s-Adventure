@@ -3,7 +3,7 @@
  <properties>
   <property name="Ambient" type="color" value="#e6000000"/>
   <property name="ShadowAngle" type="float" value="225"/>
-  <property name="ShadowColor" type="color" value="#80ffffff"/>
+  <property name="SunColor" type="color" value="#80fdb813"/>
  </properties>
  <tileset firstgid="1" source="tilesets.tsx"/>
  <layer id="1" name="bgd1" width="96" height="26">

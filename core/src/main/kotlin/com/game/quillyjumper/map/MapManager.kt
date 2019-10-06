@@ -191,13 +191,20 @@ class MapManager(
     }
 
     private fun updateAmbientLight(map: Map) {
-        if (!map.containsProperty(PROPERTY_AMBIENT) || !map.containsProperty(PROPERTY_SHADOW_COLOR)) return
+        // set ambient light
+        rayHandler.setAmbientLight(map.property(PROPERTY_AMBIENT, Color.BLACK))
 
-        ecsEngine.globalLight(
-            rayHandler,
-            map.property(PROPERTY_AMBIENT, Color.BLACK),
-            map.property(PROPERTY_SHADOW_COLOR, Color.WHITE),
-            map.property(PROPERTY_SHADOW_ANGLE, 0f)
-        )
+        if (map.containsProperty(PROPERTY_SUN_COLOR)) {
+            rayHandler.setBlur(true)
+            rayHandler.setBlurNum(2)
+            // create point light entity
+            ecsEngine.globalLight(
+                rayHandler,
+                map.property(PROPERTY_SUN_COLOR, Color.WHITE),
+                map.property(PROPERTY_SHADOW_ANGLE, 0f)
+            )
+        } else {
+            rayHandler.setBlur(false)
+        }
     }
 }

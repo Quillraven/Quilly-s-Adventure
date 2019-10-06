@@ -13,9 +13,7 @@ import com.badlogic.gdx.math.Shape2D
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.StringBuilder
-import com.game.quillyjumper.FIXTURE_TYPE_AGGRO_SENSOR
-import com.game.quillyjumper.FIXTURE_TYPE_FOOT_SENSOR
-import com.game.quillyjumper.UNIT_SCALE
+import com.game.quillyjumper.*
 import com.game.quillyjumper.ai.DefaultState
 import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.configuration.CharacterCfg
@@ -94,6 +92,7 @@ fun Engine.character(
                 // characters have a ground fixture with a high friction to avoid sliding
                 box(cfg.size.x * 0.8f, cfg.size.y, cfg.collBodyOffset) {
                     friction = 1f
+                    filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
                 }
                 // In addition they have two additional fixtures on the right and left side
                 // with no friction to avoid sticking to walls
@@ -106,6 +105,7 @@ fun Engine.character(
                     )
                 ) {
                     friction = 0f
+                    filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
                 }
                 box(
                     cfg.size.x * 0.1f,
@@ -116,6 +116,7 @@ fun Engine.character(
                     )
                 ) {
                     friction = 0f
+                    filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
                 }
 
                 // characters are not allowed to sleep because otherwise the damage emitter
@@ -131,6 +132,7 @@ fun Engine.character(
                 ) {
                     userData = FIXTURE_TYPE_FOOT_SENSOR
                     this.isSensor = true
+                    filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
                 }
 
                 if (cfg.aggroRange > 0f) {
@@ -138,6 +140,7 @@ fun Engine.character(
                     circle(cfg.aggroRange) {
                         userData = FIXTURE_TYPE_AGGRO_SENSOR
                         isSensor = true
+                        filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
                     }
                 }
             }
@@ -215,6 +218,7 @@ fun Engine.item(cfg: ItemCfg, world: World, posX: Float, posY: Float): Entity {
                 fixedRotation = true
                 box(1f, 1f) {
                     isSensor = true
+                    filter.categoryBits = FILTER_CATEGORY_ITEM
                 }
             }
         }
@@ -300,7 +304,9 @@ fun Engine.scenery(world: World, shape: Shape2D): Entity {
                 fixedRotation = true
                 // create fixture according to given shape
                 // fixture gets scaled to world units
-                shape2D(shape)
+                shape2D(shape) {
+                    filter.categoryBits = FILTER_CATEGORY_SCENERY
+                }
             }
         }
         // type of entity
@@ -320,7 +326,10 @@ fun Engine.portal(world: World, shape: Shape2D, targetMap: MapType, targetPortal
                 fixedRotation = true
                 // create fixture according to given shape
                 // fixture gets scaled to world units
-                shape2D(shape) { isSensor = true }
+                shape2D(shape) {
+                    isSensor = true
+                    filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
+                }
             }
         }
         // type of entity
@@ -365,6 +374,7 @@ fun Engine.damageEmitter(
                 fixedRotation = true
                 box(sizeX, sizeY) {
                     isSensor = true
+                    filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
                 }
             }
         }
@@ -383,18 +393,17 @@ fun Engine.damageEmitter(
 
 fun Engine.globalLight(
     rayHandler: RayHandler,
-    ambientColor: Color,
-    shadowColor: Color,
+    sunColor: Color,
     shadowAngle: Float
 ): Entity {
-    // set ambient light in LightSystem
-    rayHandler.setBlurNum(3)
-    rayHandler.setAmbientLight(ambientColor)
-
-    // create global light entity
     return this.entity {
         // light
-        with<LightComponent> { light = DirectionalLight(rayHandler, 512, shadowColor, shadowAngle) }
+        with<LightComponent> {
+            light = DirectionalLight(rayHandler, 128, sunColor, shadowAngle).apply {
+                isSoft = false
+                isStaticLight = false
+            }
+        }
         // type
         with<EntityTypeComponent> { type = EntityType.OTHER }
     }

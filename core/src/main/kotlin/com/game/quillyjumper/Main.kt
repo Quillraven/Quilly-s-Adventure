@@ -1,5 +1,6 @@
 package com.game.quillyjumper
 
+import box2dLight.Light
 import box2dLight.RayHandler
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
@@ -37,6 +38,13 @@ private val LOG = logger<Main>()
 const val UNIT_SCALE = 1 / 32f
 const val FIXTURE_TYPE_FOOT_SENSOR = 1
 const val FIXTURE_TYPE_AGGRO_SENSOR = 2 shl 0
+// category = "I am a ..."
+const val FILTER_CATEGORY_SCENERY = 0x0001.toShort()
+const val FILTER_CATEGORY_GAME_OBJECT = 0x0002.toShort()
+const val FILTER_CATEGORY_ITEM = 0x0004.toShort()
+const val FILTER_CATEGORY_LIGHT = 0x0008.toShort()
+// mask = "I will collide with ..."
+const val FILTER_MASK_LIGHTS = FILTER_CATEGORY_SCENERY
 
 class Main : KtxGame<KtxScreen>() {
     private val ctx = Context()
@@ -75,6 +83,9 @@ class Main : KtxGame<KtxScreen>() {
         Gdx.input.inputProcessor = InputMultiplexer(ctx.inject(), ctx.inject<Stage>())
         // set our created skin as the default skin for scene2d stuff
         Scene2DSkin.defaultSkin = ctx.inject()
+
+        // box2d light should not create shadows for dynamic game objects
+        Light.setGlobalContactFilter(FILTER_CATEGORY_LIGHT, 0, FILTER_MASK_LIGHTS)
 
         // initial screen is the loading screen which is loading all assets for the game
         addScreen(

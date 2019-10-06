@@ -554,9 +554,10 @@
 </node>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1569686265155" ID="ID_333118278" MODIFIED="1569686269955" TEXT="particle effects">
+<node COLOR="#00b439" CREATED="1569686265155" FOLDED="true" ID="ID_333118278" MODIFIED="1570290446530" TEXT="particle effects">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1569686271408" ID="ID_862537962" MODIFIED="1569686278997" TEXT="add bleeding effect when damage is dealt">
 <font NAME="SansSerif" SIZE="14"/>
 </node>
@@ -565,9 +566,36 @@
 <node COLOR="#111111" CREATED="1569686291104" ID="ID_1246582068" MODIFIED="1569686295420" TEXT="create portal to second map"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1570288970904" ID="ID_1286524936" MODIFIED="1570288985392" TEXT="check render performance because there seem to be a lot of texture bindings and draw calls">
+<node COLOR="#00b439" CREATED="1570288970904" FOLDED="true" ID="ID_1286524936" MODIFIED="1570348849790" TEXT="check render performance because there seem to be a lot of texture bindings and draw calls">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1570290449691" ID="ID_1320323149" MODIFIED="1570290455377" TEXT="due to box2d light">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1570290456273" ID="ID_1330994154" MODIFIED="1570290459937" TEXT="need to ask for help in forum">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1570348725766" ID="ID_1805648451" MODIFIED="1570348733969" TEXT="normal behavior when adding blur effect">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#111111" CREATED="1570348796562" ID="ID_436566173" MODIFIED="1570348798399" TEXT="blur 3">
+<node COLOR="#111111" CREATED="1570348800536" ID="ID_1098848520" MODIFIED="1570348804519" TEXT="8 draw calls"/>
+<node COLOR="#111111" CREATED="1570348805712" ID="ID_1202714167" MODIFIED="1570348809932" TEXT="7 texture bindings"/>
+</node>
+<node COLOR="#111111" CREATED="1570348780214" ID="ID_764217695" MODIFIED="1570348782121" TEXT="blur 2">
+<node COLOR="#111111" CREATED="1570348783401" ID="ID_506509736" MODIFIED="1570348787121" TEXT="6 draw calls"/>
+<node COLOR="#111111" CREATED="1570348788786" ID="ID_1624975114" MODIFIED="1570348791771" TEXT="5 texture bindings"/>
+</node>
+<node COLOR="#111111" CREATED="1570348811343" ID="ID_13048577" MODIFIED="1570348812530" TEXT="blur 1">
+<node COLOR="#111111" CREATED="1570348815415" ID="ID_694287174" MODIFIED="1570348818509" TEXT="4 draw calls"/>
+<node COLOR="#111111" CREATED="1570348819582" ID="ID_1552078649" MODIFIED="1570348822442" TEXT="3 texture bindings"/>
+</node>
+<node COLOR="#111111" CREATED="1570348827506" ID="ID_266560872" MODIFIED="1570348828843" TEXT="no blur">
+<node COLOR="#111111" CREATED="1570348830548" ID="ID_1505407544" MODIFIED="1570348832806" TEXT="2 draw calls"/>
+<node COLOR="#111111" CREATED="1570348833752" ID="ID_1466509466" MODIFIED="1570348837359" TEXT="1 texture binding"/>
+</node>
+</node>
 </node>
 <node COLOR="#00b439" CREATED="1569686330330" ID="ID_1142535322" MODIFIED="1569686337912" TEXT="allow the player to cast a fireball">
 <edge STYLE="bezier" WIDTH="thin"/>
@@ -593,6 +621,14 @@
 <node COLOR="#111111" CREATED="1569686413835" ID="ID_405605156" MODIFIED="1569686421784" TEXT="increase maximum life by 10"/>
 <node COLOR="#111111" CREATED="1569686422665" ID="ID_1920707680" MODIFIED="1569686429652" TEXT="add floating text to visualize bonus effect"/>
 </node>
+</node>
+<node COLOR="#00b439" CREATED="1570290471802" ID="ID_118953818" MODIFIED="1570290478709" TEXT="play death animation before removing characters">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+</node>
+<node COLOR="#00b439" CREATED="1570349910906" ID="ID_946019197" MODIFIED="1570349936599" TEXT="respawn at start location when falling outside map and reduce life by 5">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
 </node>
 <node COLOR="#00b439" CREATED="1567791159831" FOLDED="true" ID="ID_1358993190" MODIFIED="1569777334432" TEXT="Update Wikipedia page of project">
 <edge STYLE="bezier" WIDTH="thin"/>

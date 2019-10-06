@@ -37,7 +37,7 @@ const val PROPERTY_TARGET_MAP = "TargetMap"
 const val PROPERTY_TARGET_OFFSET_X = "TargetOffsetX"
 const val PROPERTY_TARGET_PORTAL_ID = "TargetPortalID"
 const val PROPERTY_AMBIENT = "Ambient"
-const val PROPERTY_SHADOW_COLOR = "ShadowColor"
+const val PROPERTY_SUN_COLOR = "SunColor"
 const val PROPERTY_SHADOW_ANGLE = "ShadowAngle"
 
 // Map Types
