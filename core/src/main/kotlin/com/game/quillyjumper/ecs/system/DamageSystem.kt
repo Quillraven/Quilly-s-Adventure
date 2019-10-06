@@ -49,8 +49,8 @@ class DamageSystem(private val normalFont: BitmapFont) :
                         stringBuilder.clear()
                         stringBuilder.append(damageValue.toInt())
                         engine.floatingText(
-                            transform.position.x + transform.size.x * 0.25f,
-                            transform.position.y + transform.size.y,
+                            transform.position.x + transform.size.x * 0.5f,
+                            transform.position.y + transform.size.y * 0.25f,
                             normalFont,
                             stringBuilder,
                             Color.RED,
