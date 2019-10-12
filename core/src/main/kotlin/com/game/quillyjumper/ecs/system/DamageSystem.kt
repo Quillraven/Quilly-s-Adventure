@@ -15,7 +15,7 @@ import ktx.ashley.exclude
 import kotlin.math.max
 
 class DamageSystem(private val normalFont: BitmapFont) :
-    IteratingSystem(allOf(DamageComponent::class, CollisionComponent::class).exclude(RemoveComponent::class).get()) {
+        IteratingSystem(allOf(DamageComponent::class, CollisionComponent::class).exclude(RemoveComponent::class).get()) {
     private val stringBuilder = StringBuilder(4)
 
     private fun isEnemy(sourceType: EntityType, collType: EntityType): Boolean {
@@ -49,19 +49,19 @@ class DamageSystem(private val normalFont: BitmapFont) :
                         stringBuilder.clear()
                         stringBuilder.append(damageValue.toInt())
                         engine.floatingText(
-                            transform.position.x + transform.size.x * 0.5f,
-                            transform.position.y + transform.size.y * 0.25f,
-                            normalFont,
-                            stringBuilder,
-                            Color.RED,
-                            0f,
-                            -1f,
-                            1.25f
+                                transform.position.x + transform.size.x * 0.5f,
+                                transform.position.y + transform.size.y,
+                                normalFont,
+                                stringBuilder,
+                                Color.RED,
+                                0f,
+                                -1f,
+                                1.25f
                         )
                         engine.particleEffect(
-                            transform.position.x + transform.size.x * 0.25f,
-                            transform.position.y + transform.size.y * 0.25f,
-                            ParticleAssets.BLOOD
+                                transform.position.x + transform.size.x * 0.25f,
+                                transform.position.y + transform.size.y * 0.25f,
+                                ParticleAssets.BLOOD
                         )
 
                         // remember entities that got already damaged once to not
