@@ -138,7 +138,7 @@ fun Engine.character(
 
                 if (cfg.aggroRange > 0f) {
                     // character needs a sensor to detect if entities come within aggro range
-                    circle(cfg.aggroRange) {
+                    box(2 * cfg.aggroRange, cfg.size.y) {
                         userData = FIXTURE_TYPE_AGGRO_SENSOR
                         isSensor = true
                         filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
