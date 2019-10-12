@@ -12,12 +12,12 @@ import ktx.graphics.use
 import ktx.math.vec2
 
 class FloatingTextSystem(
-        private val batch: SpriteBatch,
-        private val gameViewport: Viewport,
-        private val uiViewport: Viewport
+    private val batch: SpriteBatch,
+    private val gameViewport: Viewport,
+    private val uiViewport: Viewport
 ) : SortedIteratingSystem(
-        allOf(FloatingTextComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get(),
-        compareBy { entity -> entity.transfCmp }
+    allOf(FloatingTextComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get(),
+    compareBy { entity -> entity.transfCmp }
 ) {
     private val camera = uiViewport.camera as OrthographicCamera
     private val projectionVector = vec2()
@@ -45,8 +45,8 @@ class FloatingTextSystem(
             // 2) move floating text according to speed
             val transform = entity.transfCmp
             transform.position.set(
-                    transform.position.x + speed.x * deltaTime,
-                    transform.position.y - speed.y * deltaTime
+                transform.position.x + speed.x * deltaTime,
+                transform.position.y - speed.y * deltaTime
             )
 
             // 3) render text

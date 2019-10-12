@@ -37,14 +37,14 @@ private val LOG = logger<Engine>()
 fun Entity.isRemoved() = this.components.size() == 0
 
 fun Engine.floatingText(
-        posX: Float,
-        posY: Float,
-        font: BitmapFont,
-        text: StringBuilder,
-        color: Color,
-        speedX: Float,
-        speedY: Float,
-        lifeSpan: Float
+    posX: Float,
+    posY: Float,
+    font: BitmapFont,
+    text: StringBuilder,
+    color: Color,
+    speedX: Float,
+    speedY: Float,
+    lifeSpan: Float
 ): Entity {
     return this.entity {
         // transform
@@ -67,12 +67,12 @@ fun Engine.floatingText(
 }
 
 fun Engine.character(
-        cfg: CharacterCfg,
-        world: World,
-        posX: Float,
-        posY: Float,
-        z: Int = 0,
-        compData: EngineEntity.() -> Unit = { Unit }
+    cfg: CharacterCfg,
+    world: World,
+    posX: Float,
+    posY: Float,
+    z: Int = 0,
+    compData: EngineEntity.() -> Unit = { Unit }
 ): Entity {
     return this.entity {
         // transform
@@ -98,23 +98,23 @@ fun Engine.character(
                 // In addition they have two additional fixtures on the right and left side
                 // with no friction to avoid sticking to walls
                 box(
-                        cfg.size.x * 0.1f,
-                        cfg.size.y,
-                        PhysicComponent.tmpVec2.set(
-                                cfg.collBodyOffset.x - cfg.size.x * 0.5f + cfg.size.x * 0.1f * 0.5f,
-                                cfg.collBodyOffset.y
-                        )
+                    cfg.size.x * 0.1f,
+                    cfg.size.y,
+                    PhysicComponent.tmpVec2.set(
+                        cfg.collBodyOffset.x - cfg.size.x * 0.5f + cfg.size.x * 0.1f * 0.5f,
+                        cfg.collBodyOffset.y
+                    )
                 ) {
                     friction = 0f
                     filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
                 }
                 box(
-                        cfg.size.x * 0.1f,
-                        cfg.size.y,
-                        PhysicComponent.tmpVec2.set(
-                                cfg.collBodyOffset.x + cfg.size.x * 0.5f - cfg.size.x * 0.1f * 0.5f,
-                                cfg.collBodyOffset.y
-                        )
+                    cfg.size.x * 0.1f,
+                    cfg.size.y,
+                    PhysicComponent.tmpVec2.set(
+                        cfg.collBodyOffset.x + cfg.size.x * 0.5f - cfg.size.x * 0.1f * 0.5f,
+                        cfg.collBodyOffset.y
+                    )
                 ) {
                     friction = 0f
                     filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
@@ -127,9 +127,9 @@ fun Engine.character(
 
                 // ground sensor to detect if entity can jump
                 box(
-                        cfg.size.x * 0.5f,
-                        0.25f,
-                        PhysicComponent.tmpVec2.set(0f + cfg.collBodyOffset.x, -cfg.size.y * 0.5f + cfg.collBodyOffset.y)
+                    cfg.size.x * 0.5f,
+                    0.25f,
+                    PhysicComponent.tmpVec2.set(0f + cfg.collBodyOffset.x, -cfg.size.y * 0.5f + cfg.collBodyOffset.y)
                 ) {
                     userData = FIXTURE_TYPE_FOOT_SENSOR
                     this.isSensor = true
@@ -359,14 +359,14 @@ fun Engine.portal(world: World, shape: Shape2D, targetMap: MapType, targetPortal
 }
 
 fun Engine.damageEmitter(
-        world: World,
-        posX: Float,
-        posY: Float,
-        sizeX: Float,
-        sizeY: Float,
-        damage: Float,
-        lifeSpan: Float,
-        source: Entity
+    world: World,
+    posX: Float,
+    posY: Float,
+    sizeX: Float,
+    sizeY: Float,
+    damage: Float,
+    lifeSpan: Float,
+    source: Entity
 ): Entity {
     return this.entity {
         // physic
@@ -396,9 +396,9 @@ fun Engine.damageEmitter(
 }
 
 fun Engine.globalLight(
-        rayHandler: RayHandler,
-        sunColor: Color,
-        shadowAngle: Float
+    rayHandler: RayHandler,
+    sunColor: Color,
+    shadowAngle: Float
 ): Entity {
     return this.entity {
         // light
@@ -414,9 +414,9 @@ fun Engine.globalLight(
 }
 
 fun Engine.particleEffect(
-        posX: Float,
-        posY: Float,
-        type: ParticleAssets
+    posX: Float,
+    posY: Float,
+    type: ParticleAssets
 ): Entity {
     return this.entity {
         // transform
