@@ -3,9 +3,7 @@ package com.game.quillyjumper.ai
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.ai.msg.Telegram
-import com.game.quillyjumper.ecs.component.AnimationType
-import com.game.quillyjumper.ecs.component.aniCmp
-import com.game.quillyjumper.ecs.component.stateCmp
+import com.game.quillyjumper.ecs.component.*
 
 interface EntityState : State<Entity> {
     val aniType: AnimationType
@@ -13,8 +11,9 @@ interface EntityState : State<Entity> {
 
     override fun enter(entity: Entity) {
         entity.aniCmp.run {
-            this.animationType = aniType
-            this.loopAnimation = loopAni
+            animationType = aniType
+            loopAnimation = loopAni
+            animationTime = 0f
         }
         entity.stateCmp.stateTime = 0f
     }
@@ -29,5 +28,19 @@ interface EntityState : State<Entity> {
 }
 
 enum class DefaultState(override val aniType: AnimationType, override val loopAni: Boolean = true) : EntityState {
-    NONE(AnimationType.IDLE);
+    NONE(AnimationType.IDLE),
+    DEATH(AnimationType.DEATH, false) {
+        override fun enter(entity: Entity) {
+            super.enter(entity)
+            entity.moveCmp.order = MoveOrder.NONE
+            entity.jumpCmp.order = JumpOrder.NONE
+            entity.attackCmp.order = AttackOrder.NONE
+        }
+
+        override fun update(entity: Entity) {
+            if (entity.aniCmp.isAnimationFinished()) {
+                entity.statsCmp.alive = false
+            }
+        }
+    };
 }

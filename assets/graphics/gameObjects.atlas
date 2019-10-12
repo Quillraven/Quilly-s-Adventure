@@ -1,6 +1,6 @@
 
 gameObjects.png
-size: 2048,256
+size: 2048,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -13,280 +13,651 @@ BLUE_SLIME/ATTACK
   index: 0
 BLUE_SLIME/ATTACK
   rotate: false
-  xy: 70, 2
+  xy: 102, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 1
 BLUE_SLIME/ATTACK
   rotate: false
-  xy: 138, 2
+  xy: 202, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 2
 BLUE_SLIME/ATTACK
   rotate: false
-  xy: 206, 2
+  xy: 302, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 3
 BLUE_SLIME/ATTACK
   rotate: false
-  xy: 274, 2
+  xy: 402, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 4
+BLUE_SLIME/DEATH
+  rotate: false
+  xy: 502, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 0
+BLUE_SLIME/DEATH
+  rotate: false
+  xy: 602, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 1
+BLUE_SLIME/DEATH
+  rotate: false
+  xy: 702, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 2
+BLUE_SLIME/DEATH
+  rotate: false
+  xy: 802, 2
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 3
 BLUE_SLIME/IDLE
   rotate: false
-  xy: 342, 2
+  xy: 902, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 0
 BLUE_SLIME/IDLE
   rotate: false
-  xy: 410, 2
+  xy: 1002, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 1
 BLUE_SLIME/IDLE
   rotate: false
-  xy: 478, 2
+  xy: 1102, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 2
 BLUE_SLIME/IDLE
   rotate: false
-  xy: 546, 2
+  xy: 1202, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 3
 BLUE_SLIME/RUN
   rotate: false
-  xy: 614, 2
+  xy: 1302, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 0
 BLUE_SLIME/RUN
   rotate: false
-  xy: 682, 2
+  xy: 1402, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 1
 BLUE_SLIME/RUN
   rotate: false
-  xy: 750, 2
+  xy: 1502, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 2
 BLUE_SLIME/RUN
   rotate: false
-  xy: 818, 2
+  xy: 1602, 2
   size: 32, 25
   orig: 32, 25
   offset: 0, 0
   index: 3
 FLIPPY/IDLE
-  rotate: false
-  xy: 886, 2
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 0
-FLIPPY/IDLE
-  rotate: false
-  xy: 954, 2
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
-PLAYER/ATTACK
-  rotate: false
-  xy: 1022, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 0
-PLAYER/ATTACK
-  rotate: false
-  xy: 1090, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 1
-PLAYER/ATTACK
-  rotate: false
-  xy: 1158, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 2
-PLAYER/ATTACK
-  rotate: false
-  xy: 1226, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 3
-PLAYER/ATTACK
-  rotate: false
-  xy: 1294, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 4
-PLAYER/FALL
-  rotate: false
-  xy: 1362, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 0
-PLAYER/FALL
-  rotate: false
-  xy: 1430, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 1
-PLAYER/IDLE
-  rotate: false
-  xy: 1498, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 0
-PLAYER/IDLE
-  rotate: false
-  xy: 1566, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 1
-PLAYER/IDLE
-  rotate: false
-  xy: 1634, 2
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 2
-PLAYER/IDLE
   rotate: false
   xy: 1702, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 0
+FLIPPY/IDLE
+  rotate: false
+  xy: 1802, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 1
+MINOTAUR/ATTACK
+  rotate: false
+  xy: 1902, 2
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 0
+MINOTAUR/ATTACK
+  rotate: false
+  xy: 2, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 1
+MINOTAUR/ATTACK
+  rotate: false
+  xy: 102, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 2
+MINOTAUR/ATTACK
+  rotate: false
+  xy: 202, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 3
+MINOTAUR/ATTACK
+  rotate: false
+  xy: 302, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 4
+MINOTAUR/ATTACK
+  rotate: false
+  xy: 402, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 5
+MINOTAUR/ATTACK
+  rotate: false
+  xy: 502, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 6
+MINOTAUR/ATTACK
+  rotate: false
+  xy: 602, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 7
+MINOTAUR/ATTACK
+  rotate: false
+  xy: 702, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 8
+MINOTAUR/ATTACK3
+  rotate: false
+  xy: 702, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 0
+MINOTAUR/IDLE
+  rotate: false
+  xy: 702, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 1
+MINOTAUR/ATTACK2
+  rotate: false
+  xy: 802, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 0
+MINOTAUR/ATTACK2
+  rotate: false
+  xy: 902, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 1
+MINOTAUR/ATTACK2
+  rotate: false
+  xy: 1002, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 2
+MINOTAUR/ATTACK2
+  rotate: false
+  xy: 1102, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 3
+MINOTAUR/ATTACK2
+  rotate: false
+  xy: 1202, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 4
+MINOTAUR/ATTACK2
+  rotate: false
+  xy: 1302, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 5
+MINOTAUR/ATTACK2
+  rotate: false
+  xy: 1402, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 6
+MINOTAUR/ATTACK2
+  rotate: false
+  xy: 1502, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 7
+MINOTAUR/ATTACK2
+  rotate: false
+  xy: 1602, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 8
+MINOTAUR/ATTACK3
+  rotate: false
+  xy: 1702, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 1
+MINOTAUR/ATTACK3
+  rotate: false
+  xy: 1802, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 2
+MINOTAUR/ATTACK3
+  rotate: false
+  xy: 1902, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 3
+MINOTAUR/ATTACK3
+  rotate: false
+  xy: 2, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 4
+MINOTAUR/DEATH
+  rotate: false
+  xy: 102, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 0
+MINOTAUR/DEATH
+  rotate: false
+  xy: 202, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 1
+MINOTAUR/DEATH
+  rotate: false
+  xy: 302, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 2
+MINOTAUR/DEATH
+  rotate: false
+  xy: 402, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 3
+MINOTAUR/DEATH
+  rotate: false
+  xy: 502, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 4
+MINOTAUR/DEATH
+  rotate: false
+  xy: 602, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 5
+MINOTAUR/IDLE
+  rotate: false
+  xy: 702, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 0
+MINOTAUR/IDLE
+  rotate: false
+  xy: 802, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 2
+MINOTAUR/IDLE
+  rotate: false
+  xy: 902, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 3
+MINOTAUR/IDLE
+  rotate: false
+  xy: 1002, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 4
+MINOTAUR/RUN
+  rotate: false
+  xy: 1102, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 0
+MINOTAUR/RUN
+  rotate: false
+  xy: 1202, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 1
+MINOTAUR/RUN
+  rotate: false
+  xy: 1302, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 2
+MINOTAUR/RUN
+  rotate: false
+  xy: 1402, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 3
+MINOTAUR/RUN
+  rotate: false
+  xy: 1502, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 4
+MINOTAUR/RUN
+  rotate: false
+  xy: 1602, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 5
+MINOTAUR/RUN
+  rotate: false
+  xy: 1702, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 6
+MINOTAUR/RUN
+  rotate: false
+  xy: 1802, 202
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 7
+PLAYER/ATTACK
+  rotate: false
+  xy: 1902, 202
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+PLAYER/ATTACK
+  rotate: false
+  xy: 2, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+PLAYER/ATTACK
+  rotate: false
+  xy: 102, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+PLAYER/ATTACK
+  rotate: false
+  xy: 202, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+PLAYER/ATTACK
+  rotate: false
+  xy: 302, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 4
+PLAYER/DEATH
+  rotate: false
+  xy: 402, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+PLAYER/DEATH
+  rotate: false
+  xy: 502, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+PLAYER/DEATH
+  rotate: false
+  xy: 602, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+PLAYER/DEATH
+  rotate: false
+  xy: 702, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+PLAYER/DEATH
+  rotate: false
+  xy: 802, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 4
+PLAYER/DEATH
+  rotate: false
+  xy: 802, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 6
+PLAYER/DEATH
+  rotate: false
+  xy: 902, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 5
+PLAYER/FALL
+  rotate: false
+  xy: 1002, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+PLAYER/FALL
+  rotate: false
+  xy: 1102, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+PLAYER/IDLE
+  rotate: false
+  xy: 1202, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+PLAYER/IDLE
+  rotate: false
+  xy: 1302, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+PLAYER/IDLE
+  rotate: false
+  xy: 1402, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+PLAYER/IDLE
+  rotate: false
+  xy: 1502, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
 PLAYER/JUMP
   rotate: false
-  xy: 1770, 2
+  xy: 1602, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
 PLAYER/JUMP
   rotate: false
-  xy: 1838, 2
+  xy: 1702, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
 PLAYER/JUMP
   rotate: false
-  xy: 1906, 2
+  xy: 1802, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
 PLAYER/JUMP
   rotate: false
-  xy: 1974, 2
+  xy: 1902, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
 PLAYER/RUN
   rotate: false
-  xy: 2, 70
+  xy: 2, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
 PLAYER/RUN
   rotate: false
-  xy: 70, 70
+  xy: 102, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
 PLAYER/RUN
   rotate: false
-  xy: 138, 70
+  xy: 202, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
 PLAYER/RUN
   rotate: false
-  xy: 206, 70
+  xy: 302, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
 PLAYER/RUN
   rotate: false
-  xy: 274, 70
+  xy: 402, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 4
 PLAYER/RUN
   rotate: false
-  xy: 342, 70
+  xy: 502, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 5
 bloodsplat
   rotate: false
-  xy: 410, 70
+  xy: 602, 402
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 error
   rotate: false
-  xy: 478, 70
+  xy: 702, 402
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 portal
   rotate: false
-  xy: 546, 70
+  xy: 802, 402
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 potion_blue_plus
   rotate: false
-  xy: 614, 70
+  xy: 902, 402
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 potion_green_plus
   rotate: false
-  xy: 682, 70
+  xy: 1002, 402
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

@@ -10,8 +10,8 @@ import ktx.ashley.exclude
 
 class DeathSystem : IteratingSystem(allOf(StatsComponent::class).exclude(RemoveComponent::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        if (entity.statsCmp.life <= 0f) {
-            // entity dies because it has no more life
+        if (!entity.statsCmp.alive) {
+            // entity is dead (life <=0) and death animation is finished
             entity.add(engine.createComponent(RemoveComponent::class.java))
         }
     }

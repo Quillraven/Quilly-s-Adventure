@@ -622,9 +622,10 @@
 <node COLOR="#111111" CREATED="1569686422665" ID="ID_1920707680" MODIFIED="1569686429652" TEXT="add floating text to visualize bonus effect"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1570290471802" ID="ID_118953818" MODIFIED="1570290478709" TEXT="play death animation before removing characters">
+<node COLOR="#00b439" CREATED="1570290471802" ID="ID_118953818" MODIFIED="1570904659474" TEXT="play death animation before removing characters">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 </node>
 <node COLOR="#00b439" CREATED="1570349910906" ID="ID_946019197" MODIFIED="1570349936599" TEXT="respawn at start location when falling outside map and reduce life by 5">
 <edge STYLE="bezier" WIDTH="thin"/>

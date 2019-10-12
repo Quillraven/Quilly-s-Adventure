@@ -5,7 +5,11 @@ import com.badlogic.ashley.core.Entity
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class StatsComponent(var damage: Float = 0f, var life: Float = 1f, var armor: Float = 0f) : Component {
+class StatsComponent(var damage: Float = 0f,
+                     var life: Float = 1f,
+                     var armor: Float = 0f,
+                     var alive: Boolean = true
+) : Component {
     companion object {
         val mapper = mapperFor<StatsComponent>()
     }
@@ -13,4 +17,4 @@ class StatsComponent(var damage: Float = 0f, var life: Float = 1f, var armor: Fl
 
 val Entity.statsCmp: StatsComponent
     get() = this[StatsComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a stats component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a stats component which is null")
