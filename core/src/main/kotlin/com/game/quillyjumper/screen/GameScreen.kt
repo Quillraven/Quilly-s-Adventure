@@ -118,6 +118,7 @@ class GameScreen(
     }
 
     override fun resize(width: Int, height: Int) {
+        stage.viewport.update(width, height, true)
         if (width != viewport.screenWidth || height != viewport.screenHeight) {
             rayHandler.resizeFBO(width / 4, height / 4)
         }

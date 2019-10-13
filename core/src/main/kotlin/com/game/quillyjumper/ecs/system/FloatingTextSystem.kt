@@ -56,7 +56,7 @@ class FloatingTextSystem(
             // transform screen to UI coordinates
             uiViewport.unproject(projectionVector)
             font.color = color
-            font.draw(batch, stringBuilder, projectionVector.x, uiViewport.screenHeight - projectionVector.y)
+            font.draw(batch, stringBuilder, projectionVector.x, uiViewport.worldHeight - projectionVector.y)
         }
     }
 }
