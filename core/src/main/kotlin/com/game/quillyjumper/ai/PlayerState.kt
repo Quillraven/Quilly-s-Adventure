@@ -72,9 +72,15 @@ enum class PlayerState(override val aniType: AnimationType, override val loopAni
     },
     CAST(AnimationType.CAST, false) {
         override fun update(entity: Entity) {
-            if (entity.aniCmp.isAnimationFinished()) {
-                entity.abilityCmp.order = CastOrder.CAST
-                entity.stateCmp.stateMachine.changeState(IDLE)
+            entity.stateCmp.let { state ->
+                with(entity.abilityCmp) {
+                    if (state.stateTime >= 0.2f && order == CastOrder.BEGIN_CAST) {
+                        order = CastOrder.CAST
+                    }
+                }
+                if (entity.aniCmp.isAnimationFinished()) {
+                    state.stateMachine.changeState(IDLE)
+                }
             }
         }
     };

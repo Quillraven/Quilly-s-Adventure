@@ -8,7 +8,7 @@ import com.game.quillyjumper.ecs.component.transfCmp
 import com.game.quillyjumper.ecs.missile
 
 class Fireball(owner: Entity, world: World, engine: Engine) : Ability(owner, world, engine) {
-    override val cost = 0
+    override val cost = 5
     override fun getCooldownTime() = 2f
 
     override fun cast() {
