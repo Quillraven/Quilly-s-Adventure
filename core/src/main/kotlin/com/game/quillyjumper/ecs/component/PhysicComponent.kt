@@ -24,6 +24,7 @@ class PhysicComponent(val impulse: Vector2 = vec2()) : Component, Pool.Poolable 
         // collision listener which then fails with a NPE
         // in case the userData is not an entity
         body.userData = null
+        impulse.set(0f, 0f)
     }
 }
 
