@@ -597,9 +597,10 @@
 </node>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1569686330330" ID="ID_1142535322" MODIFIED="1569686337912" TEXT="allow the player to cast a fireball">
+<node COLOR="#00b439" CREATED="1569686330330" ID="ID_1142535322" MODIFIED="1570989411890" TEXT="allow the player to cast a fireball">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 </node>
 <node COLOR="#00b439" CREATED="1569686357211" ID="ID_347199123" MODIFIED="1569686361028" TEXT="add experience system">
 <edge STYLE="bezier" WIDTH="thin"/>

@@ -1,6 +1,7 @@
 package com.game.quillyjumper.input
 
 import com.game.quillyjumper.ecs.component.AttackOrder
+import com.game.quillyjumper.ecs.component.CastOrder
 import com.game.quillyjumper.ecs.component.JumpOrder
 import com.game.quillyjumper.ecs.component.MoveOrder
 
@@ -8,7 +9,8 @@ enum class InputKey {
     KEY_LEFT,
     KEY_RIGHT,
     KEY_JUMP,
-    KEY_ATTACK
+    KEY_ATTACK,
+    KEY_CAST
 }
 
 private operator fun BooleanArray.get(inputKey: InputKey) = this[inputKey.ordinal]
@@ -31,5 +33,9 @@ class InputController : InputListener {
 
     override fun attack(order: AttackOrder) {
         keyState[InputKey.KEY_ATTACK] = order != AttackOrder.NONE
+    }
+
+    override fun cast(order: CastOrder) {
+        keyState[InputKey.KEY_CAST] = order != CastOrder.NONE
     }
 }

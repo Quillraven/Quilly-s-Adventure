@@ -193,90 +193,90 @@ MINOTAUR/ATTACK
   orig: 96, 96
   offset: 0, 0
   index: 7
-MINOTAUR/ATTACK
-  rotate: false
-  xy: 702, 102
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 8
-MINOTAUR/ATTACK3
+MINOTAUR/ATTACK2
   rotate: false
   xy: 702, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 0
-MINOTAUR/IDLE
-  rotate: false
-  xy: 702, 102
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 1
 MINOTAUR/ATTACK2
   rotate: false
   xy: 802, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 0
+  index: 1
 MINOTAUR/ATTACK2
   rotate: false
   xy: 902, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 1
+  index: 2
 MINOTAUR/ATTACK2
   rotate: false
   xy: 1002, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 2
+  index: 3
 MINOTAUR/ATTACK2
   rotate: false
   xy: 1102, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 3
+  index: 4
 MINOTAUR/ATTACK2
   rotate: false
   xy: 1202, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 4
+  index: 5
 MINOTAUR/ATTACK2
   rotate: false
   xy: 1302, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 5
+  index: 6
 MINOTAUR/ATTACK2
   rotate: false
   xy: 1402, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 6
+  index: 7
 MINOTAUR/ATTACK2
   rotate: false
   xy: 1502, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 7
-MINOTAUR/ATTACK2
+  index: 8
+MINOTAUR/ATTACK3
+  rotate: false
+  xy: 1602, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 0
+MINOTAUR/ATTACK
   rotate: false
   xy: 1602, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 8
+MINOTAUR/IDLE
+  rotate: false
+  xy: 1602, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 1
 MINOTAUR/ATTACK3
   rotate: false
   xy: 1702, 102
@@ -466,198 +466,261 @@ PLAYER/ATTACK
   orig: 50, 37
   offset: 0, 0
   index: 4
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 402, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 502, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 602, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 702, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 802, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 4
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 802, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 6
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 902, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 5
-PLAYER/FALL
+PLAYER/CAST
+  rotate: false
+  xy: 902, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 7
+PLAYER/DEATH
   rotate: false
   xy: 1002, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
-PLAYER/FALL
+PLAYER/DEATH
   rotate: false
   xy: 1102, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
-PLAYER/IDLE
+PLAYER/DEATH
   rotate: false
   xy: 1202, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
-PLAYER/IDLE
+  index: 2
+PLAYER/DEATH
   rotate: false
   xy: 1302, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-PLAYER/IDLE
+  index: 3
+PLAYER/DEATH
   rotate: false
   xy: 1402, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
-PLAYER/IDLE
+  index: 4
+PLAYER/DEATH
+  rotate: false
+  xy: 1402, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 6
+PLAYER/DEATH
   rotate: false
   xy: 1502, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-PLAYER/JUMP
+  index: 5
+PLAYER/FALL
   rotate: false
   xy: 1602, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
-PLAYER/JUMP
+PLAYER/FALL
   rotate: false
   xy: 1702, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
-PLAYER/JUMP
+PLAYER/IDLE
   rotate: false
   xy: 1802, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+PLAYER/IDLE
+  rotate: false
+  xy: 1902, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+PLAYER/IDLE
+  rotate: false
+  xy: 2, 402
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+PLAYER/IDLE
+  rotate: false
+  xy: 102, 402
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+PLAYER/JUMP
+  rotate: false
+  xy: 202, 402
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+PLAYER/JUMP
+  rotate: false
+  xy: 302, 402
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+PLAYER/JUMP
+  rotate: false
+  xy: 402, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
 PLAYER/JUMP
   rotate: false
-  xy: 1902, 302
+  xy: 502, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
 PLAYER/RUN
   rotate: false
-  xy: 2, 402
+  xy: 602, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
 PLAYER/RUN
   rotate: false
-  xy: 102, 402
+  xy: 702, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
 PLAYER/RUN
   rotate: false
-  xy: 202, 402
+  xy: 802, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
 PLAYER/RUN
   rotate: false
-  xy: 302, 402
+  xy: 902, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
 PLAYER/RUN
   rotate: false
-  xy: 402, 402
+  xy: 1002, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 4
 PLAYER/RUN
   rotate: false
-  xy: 502, 402
+  xy: 1102, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 5
 bloodsplat
   rotate: false
-  xy: 602, 402
+  xy: 1202, 402
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 error
   rotate: false
-  xy: 702, 402
+  xy: 1302, 402
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+fireball
+  rotate: false
+  xy: 1402, 402
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 portal
   rotate: false
-  xy: 802, 402
+  xy: 1502, 402
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 potion_blue_plus
   rotate: false
-  xy: 902, 402
+  xy: 1602, 402
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 potion_green_plus
   rotate: false
-  xy: 1002, 402
+  xy: 1702, 402
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

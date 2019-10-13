@@ -12,14 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
+import com.game.quillyjumper.ability.Fireball
 import com.game.quillyjumper.ai.DefaultEnemyState
 import com.game.quillyjumper.ai.PlayerState
 import com.game.quillyjumper.configuration.*
 import com.game.quillyjumper.ecs.character
-import com.game.quillyjumper.ecs.component.CameraLockComponent
-import com.game.quillyjumper.ecs.component.EntityType
-import com.game.quillyjumper.ecs.component.ModelType
-import com.game.quillyjumper.ecs.component.PlayerComponent
+import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.input.InputController
@@ -67,6 +65,7 @@ class GameScreen(
             engine.apply {
                 addSystem(PhysicMoveSystem())
                 addSystem(PhysicJumpSystem())
+                addSystem(AbilitySystem())
                 addSystem(AttackSystem(world))
                 addSystem(DamageSystem(Scene2DSkin.defaultSkin.getFont("defaultFont")))
                 addSystem(DeathSystem())
@@ -92,6 +91,9 @@ class GameScreen(
                 ) {
                     with<PlayerComponent>()
                     with<CameraLockComponent>()
+                    with<AbilityComponent> {
+                        abilities.add(Fireball(this@character.entity, world, this@character.engine))
+                    }
                 }
             }
         }
@@ -143,6 +145,7 @@ class GameScreen(
                 attackCooldown = 1f
                 damage = 6f
                 life = 80f
+                mana = 20f
                 armor = 2f
                 defaultState = PlayerState.IDLE
             }

@@ -3,6 +3,7 @@ package com.game.quillyjumper.input
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.game.quillyjumper.ecs.component.AttackOrder
+import com.game.quillyjumper.ecs.component.CastOrder
 import com.game.quillyjumper.ecs.component.JumpOrder
 import com.game.quillyjumper.ecs.component.MoveOrder
 import com.game.quillyjumper.event.GameEventManager
@@ -16,6 +17,7 @@ class KeyboardEventDispatcher(private val gameEventManager: GameEventManager) : 
             Input.Keys.SPACE -> gameEventManager.dispatchInputJumpEvent(JumpOrder.JUMP)
             Input.Keys.ESCAPE -> gameEventManager.dispatchInputExitEvent()
             Input.Keys.CONTROL_LEFT -> gameEventManager.dispatchInputAttackEvent(AttackOrder.ATTACK_ONCE)
+            Input.Keys.SHIFT_LEFT -> gameEventManager.dispatchInputCastEvent(CastOrder.BEGIN_CAST)
         }
         return true
     }
@@ -26,6 +28,7 @@ class KeyboardEventDispatcher(private val gameEventManager: GameEventManager) : 
             Input.Keys.D -> gameEventManager.dispatchInputMoveEvent(if (Gdx.input.isKeyPressed(Input.Keys.A)) MoveOrder.LEFT else MoveOrder.NONE)
             Input.Keys.SPACE -> gameEventManager.dispatchInputJumpEvent(JumpOrder.NONE)
             Input.Keys.CONTROL_LEFT -> gameEventManager.dispatchInputAttackEvent(AttackOrder.NONE)
+            Input.Keys.SHIFT_LEFT -> gameEventManager.dispatchInputCastEvent(CastOrder.NONE)
         }
         return true
     }

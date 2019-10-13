@@ -9,6 +9,16 @@ import ktx.ashley.allOf
 
 class PlayerInputSystem(private val input: InputController) : IteratingSystem(allOf(PlayerComponent::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
+        with(entity.abilityCmp) {
+            order = when {
+                input.isPressed(InputKey.KEY_CAST) -> {
+                    abilityToCastIdx = abilities.size - 1
+                    CastOrder.BEGIN_CAST
+                }
+                else -> CastOrder.NONE
+            }
+        }
+
         entity.attackCmp.run {
             order = when {
                 input.isPressed(InputKey.KEY_ATTACK) && attackTime <= 0f -> AttackOrder.START

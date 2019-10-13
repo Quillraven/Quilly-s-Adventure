@@ -2,6 +2,7 @@ package com.game.quillyjumper.event
 
 import com.badlogic.gdx.utils.Array
 import com.game.quillyjumper.ecs.component.AttackOrder
+import com.game.quillyjumper.ecs.component.CastOrder
 import com.game.quillyjumper.ecs.component.JumpOrder
 import com.game.quillyjumper.ecs.component.MoveOrder
 import com.game.quillyjumper.input.InputListener
@@ -21,6 +22,8 @@ class GameEventManager {
     fun dispatchInputJumpEvent(order: JumpOrder) = inputListener.forEach { it.jump(order) }
 
     fun dispatchInputAttackEvent(order: AttackOrder) = inputListener.forEach { it.attack(order) }
+
+    fun dispatchInputCastEvent(order: CastOrder) = inputListener.forEach { it.cast(order) }
 
     fun dispatchInputExitEvent() = inputListener.forEach { it.exit() }
 

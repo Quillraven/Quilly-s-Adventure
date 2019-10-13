@@ -56,7 +56,7 @@ class ParticleSystem(private val assets: AssetManager) :
         // update effect position with real entity position
         val pos = entity.transfCmp.position
         entity.particleCmp.run {
-            effect.setPosition(pos.x, pos.y)
+            effect.setPosition(pos.x + offsetX, pos.y + offsetY)
             if (effect.isComplete) {
                 entity.add(engine.createComponent(RemoveComponent::class.java))
             }

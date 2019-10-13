@@ -50,7 +50,8 @@ operator fun AssetManager.get(asset: MapAssets) = this.getAsset<TiledMap>(asset.
 // particle effects
 enum class ParticleAssets(val filePath: String, val scale: Float = 1f) {
     BLOOD("assets/particles/blood.p", 0.5f),
-    PORTAL("assets/particles/portal.p")
+    PORTAL("assets/particles/portal.p"),
+    FIREBALL("assets/particles/fireball.p", 0.3f)
 }
 
 fun AssetManager.load(asset: ParticleAssets, params: ParticleEffectLoader.ParticleEffectParameter) =

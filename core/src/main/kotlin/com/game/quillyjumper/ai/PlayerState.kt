@@ -11,6 +11,7 @@ enum class PlayerState(override val aniType: AnimationType, override val loopAni
                     entity.jumpCmp.order == JumpOrder.JUMP -> stateMachine.changeState(JUMP)
                     entity.moveCmp.order != MoveOrder.NONE -> stateMachine.changeState(RUN)
                     entity.attackCmp.order == AttackOrder.START -> stateMachine.changeState(ATTACK)
+                    entity.abilityCmp.order == CastOrder.BEGIN_CAST -> stateMachine.changeState(CAST)
                 }
             }
         }
@@ -22,6 +23,7 @@ enum class PlayerState(override val aniType: AnimationType, override val loopAni
                     entity.jumpCmp.order == JumpOrder.JUMP -> stateMachine.changeState(JUMP)
                     entity.physicCmp.body.linearVelocity?.x == 0f -> stateMachine.changeState(IDLE)
                     entity.attackCmp.order == AttackOrder.START -> stateMachine.changeState(ATTACK)
+                    entity.abilityCmp.order == CastOrder.BEGIN_CAST -> stateMachine.changeState(CAST)
                 }
             }
         }
@@ -65,6 +67,14 @@ enum class PlayerState(override val aniType: AnimationType, override val loopAni
             if (entity.aniCmp.isAnimationFinished()) {
                 entity.attackCmp.order = AttackOrder.NONE
                 entity.stateCmp.stateMachine.changeState(if (entity.physicCmp.body.linearVelocity.x != 0f) RUN else IDLE)
+            }
+        }
+    },
+    CAST(AnimationType.CAST, false) {
+        override fun update(entity: Entity) {
+            if (entity.aniCmp.isAnimationFinished()) {
+                entity.abilityCmp.order = CastOrder.CAST
+                entity.stateCmp.stateMachine.changeState(IDLE)
             }
         }
     };

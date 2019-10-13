@@ -25,6 +25,7 @@ class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
     var attackCooldown = 0f
     var damage = 0f
     var life = 0f
+    var mana = 0f
     var armor = 0f
     var defaultState: EntityState = DefaultState.NONE
     var aggroRange = 0f

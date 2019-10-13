@@ -16,7 +16,7 @@ enum class ModelType {
 }
 
 enum class AnimationType {
-    IDLE, RUN, JUMP, FALL, ATTACK, DEATH
+    IDLE, RUN, JUMP, FALL, ATTACK, DEATH, CAST
 }
 
 class Animation(

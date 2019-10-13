@@ -181,6 +181,7 @@ fun Engine.character(
                 this.armor = cfg.armor
                 this.damage = cfg.damage
                 this.life = cfg.life
+                this.mana = cfg.mana
             }
         }
         // aggro
@@ -429,5 +430,59 @@ fun Engine.particleEffect(
         with<ParticleComponent> { this.type = type }
         // type
         with<EntityTypeComponent> { this.type = EntityType.OTHER }
+    }
+}
+
+fun Engine.missile(
+    owner: Entity,
+    world: World,
+    spawnX: Float,
+    spawnY: Float,
+    width: Float,
+    height: Float,
+    speed: Float,
+    lifeSpan: Float,
+    damage: Float,
+    particleEffect: ParticleAssets
+): Entity {
+    return this.entity {
+        // physic
+        with<PhysicComponent> {
+            body = world.body(BodyDef.BodyType.DynamicBody) {
+                position.set(spawnX + width * 0.5f, spawnY + height * 0.5f)
+                userData = this@entity.entity
+                // do not apply gravity to missiles
+                gravityScale = 0f
+                // damage emitters do not need to rotate
+                fixedRotation = true
+                box(width, height) {
+                    isSensor = true
+                    filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
+                }
+                linearVelocity.x = speed
+            }
+        }
+        // transform
+        with<TransformComponent> {
+            position.set(spawnX, spawnY)
+            prevPosition.set(position)
+            interpolatedPosition.set(position)
+        }
+        // particle effect
+        with<ParticleComponent> {
+            this.type = particleEffect
+            offsetX = width
+            offsetY = height
+        }
+        // collision
+        with<CollisionComponent>()
+        // type
+        with<EntityTypeComponent> { type = EntityType.DAMAGE_EMITTER }
+        // damage
+        with<DamageComponent> {
+            this.damage = damage
+            this.lifeSpan = lifeSpan
+            this.source = owner
+        }
     }
 }
