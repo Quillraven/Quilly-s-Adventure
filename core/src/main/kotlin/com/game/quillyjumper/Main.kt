@@ -4,7 +4,6 @@ import box2dLight.Light
 import box2dLight.RayHandler
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
-import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
@@ -18,8 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.event.GameEventManager
-import com.game.quillyjumper.input.InputController
-import com.game.quillyjumper.input.KeyboardEventDispatcher
 import com.game.quillyjumper.screen.LoadingScreen
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
@@ -65,10 +62,6 @@ class Main : KtxGame<KtxScreen>() {
             })
             bindSingleton(AudioManager(ctx.inject()))
             bindSingleton(GameEventManager())
-            // register keyboard event dispatcher after we initiate the game event manager
-            // because the event dispatcher is using the game event manager to dispatch input events
-            bindSingleton<InputProcessor>(KeyboardEventDispatcher(ctx.inject()))
-            bindSingleton(InputController().apply { ctx.inject<GameEventManager>().addInputListener(this) })
             bindSingleton(Stage(FitViewport(1280f, 720f), ctx.inject<SpriteBatch>()))
             bindSingleton(createSKin())
             bindSingleton(createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) })
@@ -79,8 +72,8 @@ class Main : KtxGame<KtxScreen>() {
 
         // we need a multiplexer to react on the following input events
         // UI widget --> Stage
-        // keyboard --> InputProcessor (KeyboardEventDispatcher)
-        Gdx.input.inputProcessor = InputMultiplexer(ctx.inject(), ctx.inject<Stage>())
+        // keyboard --> InputProcessor (GameEventManager)
+        Gdx.input.inputProcessor = InputMultiplexer(ctx.inject<GameEventManager>(), ctx.inject<Stage>())
         // set our created skin as the default skin for scene2d stuff
         Scene2DSkin.defaultSkin = ctx.inject()
 
@@ -94,7 +87,6 @@ class Main : KtxGame<KtxScreen>() {
                 ctx.inject(), // stage
                 ctx.inject(), // assets
                 ctx.inject(), // game event manager
-                ctx.inject(), // input controller
                 ctx.inject(), // audio manager
                 ctx.inject(), // physic world
                 ctx.inject(), // ray handler

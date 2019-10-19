@@ -1,40 +1,63 @@
 package com.game.quillyjumper.ecs.system
 
-import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.systems.IteratingSystem
+import com.badlogic.ashley.core.Engine
+import com.badlogic.ashley.core.EntitySystem
 import com.game.quillyjumper.ecs.component.*
-import com.game.quillyjumper.input.InputController
-import com.game.quillyjumper.input.InputKey
+import com.game.quillyjumper.event.GameEventManager
+import com.game.quillyjumper.event.Key
+import com.game.quillyjumper.input.InputListener
 import ktx.ashley.allOf
 
-class PlayerInputSystem(private val input: InputController) : IteratingSystem(allOf(PlayerComponent::class).get()) {
-    override fun processEntity(entity: Entity, deltaTime: Float) {
-        with(entity.abilityCmp) {
-            order = when {
-                input.isPressed(InputKey.KEY_CAST) -> {
+class PlayerInputSystem(private val gameEventManager: GameEventManager, engine: Engine) :
+    EntitySystem(), InputListener {
+    private val entities = engine.getEntitiesFor(allOf(PlayerComponent::class).get())
+
+    override fun addedToEngine(engine: Engine?) {
+        gameEventManager.addInputListener(this)
+        super.addedToEngine(engine)
+    }
+
+    override fun removedFromEngine(engine: Engine?) {
+        gameEventManager.removeInputListener(this)
+        super.removedFromEngine(engine)
+    }
+
+    override fun move(percX: Float, percY: Float) {
+        when {
+            percX > 0 -> entities.forEach { it.moveCmp.order = MoveOrder.RIGHT }
+            percX < 0 -> entities.forEach { it.moveCmp.order = MoveOrder.LEFT }
+            else -> entities.forEach { it.moveCmp.order = MoveOrder.NONE }
+        }
+    }
+
+    override fun keyPressed(key: Key) {
+        when (key) {
+            Key.CAST -> entities.forEach {
+                with(it.abilityCmp) {
                     abilityToCastIdx = abilities.size - 1
-                    CastOrder.BEGIN_CAST
+                    order = CastOrder.BEGIN_CAST
                 }
-                else -> CastOrder.NONE
+            }
+            Key.ATTACK -> entities.forEach {
+                with(it.attackCmp) {
+                    if (attackTime <= 0f) {
+                        order = AttackOrder.START
+                    }
+                }
+            }
+            Key.JUMP -> entities.forEach { it.jumpCmp.order = JumpOrder.JUMP }
+            else -> {
             }
         }
+    }
 
-        entity.attackCmp.run {
-            order = when {
-                input.isPressed(InputKey.KEY_ATTACK) && attackTime <= 0f -> AttackOrder.START
-                else -> AttackOrder.NONE
+    override fun keyReleased(key: Key) {
+        when (key) {
+            Key.CAST -> entities.forEach { it.abilityCmp.order = CastOrder.NONE }
+            Key.ATTACK -> entities.forEach { it.attackCmp.order = AttackOrder.NONE }
+            Key.JUMP -> entities.forEach { it.jumpCmp.order = JumpOrder.NONE }
+            else -> {
             }
-        }
-
-        entity.moveCmp.order = when {
-            input.isPressed(InputKey.KEY_LEFT) -> MoveOrder.LEFT
-            input.isPressed(InputKey.KEY_RIGHT) -> MoveOrder.RIGHT
-            else -> MoveOrder.NONE
-        }
-
-        entity.jumpCmp.order = when {
-            input.isPressed(InputKey.KEY_JUMP) -> JumpOrder.JUMP
-            else -> JumpOrder.NONE
         }
     }
 }

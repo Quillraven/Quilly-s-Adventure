@@ -20,7 +20,7 @@ import com.game.quillyjumper.ecs.character
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
-import com.game.quillyjumper.input.InputController
+import com.game.quillyjumper.event.Key
 import com.game.quillyjumper.input.InputListener
 import com.game.quillyjumper.map.MapManager
 import com.game.quillyjumper.map.MapType
@@ -33,7 +33,6 @@ class GameScreen(
     private val game: KtxGame<KtxScreen>,
     private val assets: AssetManager,
     private val gameEventManager: GameEventManager,
-    private val inputController: InputController,
     private val audioManager: AudioManager,
     private val world: World,
     private val rayHandler: RayHandler,
@@ -72,7 +71,7 @@ class GameScreen(
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))
                 addSystem(AggroSystem())
-                addSystem(PlayerInputSystem(inputController))
+                addSystem(PlayerInputSystem(gameEventManager, this))
                 addSystem(StateSystem())
                 addSystem(AnimationSystem(assets, audioManager))
                 addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
@@ -119,7 +118,7 @@ class GameScreen(
 
     override fun resize(width: Int, height: Int) {
         stage.viewport.update(width, height, true)
-        if (width != viewport.screenWidth || height != viewport.screenHeight) {
+        if (width != stage.viewport.screenWidth || height != stage.viewport.screenHeight) {
             rayHandler.resizeFBO(width / 4, height / 4)
         }
         viewport.update(width, height, true)
@@ -131,11 +130,12 @@ class GameScreen(
         engine.update(delta)
     }
 
-    override fun exit() {
-        // player pressed exit key -> go back to menu
-        game.setScreen<MenuScreen>()
+    override fun keyPressed(key: Key) {
+        if (key == Key.EXIT) {
+            // player pressed exit key -> go back to menu
+            game.setScreen<MenuScreen>()
+        }
     }
-
 
     private fun initCharacterConfigurations(): CharacterConfigurations {
         return characterConfigurations {

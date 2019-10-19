@@ -1,18 +1,11 @@
 package com.game.quillyjumper.input
 
-import com.game.quillyjumper.ecs.component.AttackOrder
-import com.game.quillyjumper.ecs.component.CastOrder
-import com.game.quillyjumper.ecs.component.JumpOrder
-import com.game.quillyjumper.ecs.component.MoveOrder
+import com.game.quillyjumper.event.Key
 
 interface InputListener {
-    fun move(order: MoveOrder) {}
+    fun move(percX: Float, percY: Float) {}
 
-    fun jump(order: JumpOrder) {}
+    fun keyPressed(key: Key) {}
 
-    fun attack(order: AttackOrder) {}
-
-    fun cast(order: CastOrder) {}
-
-    fun exit() {}
+    fun keyReleased(key: Key) {}
 }

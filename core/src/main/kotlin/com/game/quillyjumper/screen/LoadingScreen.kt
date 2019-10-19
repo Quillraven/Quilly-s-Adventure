@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.assets.*
 import com.game.quillyjumper.event.GameEventManager
-import com.game.quillyjumper.input.InputController
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 
@@ -20,7 +19,6 @@ class LoadingScreen(
     private val stage: Stage,
     private val assets: AssetManager,
     private val gameEventManager: GameEventManager,
-    private val inputController: InputController,
     private val audioManager: AudioManager,
     private val world: World,
     private val rayHandler: RayHandler,
@@ -52,7 +50,6 @@ class LoadingScreen(
                     game,
                     assets,
                     gameEventManager,
-                    inputController,
                     audioManager,
                     world,
                     rayHandler,

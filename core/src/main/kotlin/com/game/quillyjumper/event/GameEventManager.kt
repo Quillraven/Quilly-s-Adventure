@@ -1,38 +1,57 @@
 package com.game.quillyjumper.event
 
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.utils.Array
-import com.game.quillyjumper.ecs.component.AttackOrder
-import com.game.quillyjumper.ecs.component.CastOrder
-import com.game.quillyjumper.ecs.component.JumpOrder
-import com.game.quillyjumper.ecs.component.MoveOrder
 import com.game.quillyjumper.input.InputListener
 import com.game.quillyjumper.map.Map
 import com.game.quillyjumper.map.MapChangeListener
+import ktx.app.KtxInputAdapter
 
-class GameEventManager {
+enum class Key {
+    JUMP, ATTACK, CAST, EXIT
+}
+
+class GameEventManager : KtxInputAdapter {
     // input event related stuff
-    private val inputListener = Array<InputListener>()
+    private val inputListeners = Array<InputListener>()
 
-    fun addInputListener(listener: InputListener) = inputListener.add(listener)
+    fun addInputListener(listener: InputListener) = inputListeners.add(listener)
 
-    fun removeInputListener(listener: InputListener) = inputListener.removeValue(listener, true)
+    fun removeInputListener(listener: InputListener) = inputListeners.removeValue(listener, true)
 
-    fun dispatchInputMoveEvent(order: MoveOrder) = inputListener.forEach { it.move(order) }
+    fun dispatchInputMoveEvent(percX: Float, percY: Float) {
+        inputListeners.forEach { it.move(percX, percY) }
+    }
 
-    fun dispatchInputJumpEvent(order: JumpOrder) = inputListener.forEach { it.jump(order) }
+    override fun keyDown(keycode: Int): Boolean {
+        when (keycode) {
+            Input.Keys.A -> dispatchInputMoveEvent(-1f, 0f)
+            Input.Keys.D -> dispatchInputMoveEvent(1f, 0f)
+            Input.Keys.SPACE -> inputListeners.forEach { it.keyPressed(Key.JUMP) }
+            Input.Keys.CONTROL_LEFT -> inputListeners.forEach { it.keyPressed(Key.ATTACK) }
+            Input.Keys.SHIFT_LEFT -> inputListeners.forEach { it.keyPressed(Key.CAST) }
+            Input.Keys.ESCAPE -> inputListeners.forEach { it.keyPressed(Key.EXIT) }
+        }
+        return true
+    }
 
-    fun dispatchInputAttackEvent(order: AttackOrder) = inputListener.forEach { it.attack(order) }
-
-    fun dispatchInputCastEvent(order: CastOrder) = inputListener.forEach { it.cast(order) }
-
-    fun dispatchInputExitEvent() = inputListener.forEach { it.exit() }
+    override fun keyUp(keycode: Int): Boolean {
+        when (keycode) {
+            Input.Keys.A, Input.Keys.D -> dispatchInputMoveEvent(0f, 0f)
+            Input.Keys.SPACE -> inputListeners.forEach { it.keyReleased(Key.JUMP) }
+            Input.Keys.CONTROL_LEFT -> inputListeners.forEach { it.keyReleased(Key.ATTACK) }
+            Input.Keys.SHIFT_LEFT -> inputListeners.forEach { it.keyReleased(Key.CAST) }
+            Input.Keys.ESCAPE -> inputListeners.forEach { it.keyReleased(Key.EXIT) }
+        }
+        return true
+    }
 
     // map related stuff
-    private val mapListener = Array<MapChangeListener>()
+    private val mapListeners = Array<MapChangeListener>()
 
-    fun addMapChangeListener(listener: MapChangeListener) = mapListener.add(listener)
+    fun addMapChangeListener(listener: MapChangeListener) = mapListeners.add(listener)
 
-    fun removeMapChangeListener(listener: MapChangeListener) = mapListener.removeValue(listener, true)
+    fun removeMapChangeListener(listener: MapChangeListener) = mapListeners.removeValue(listener, true)
 
-    fun dispatchMapChangeEvent(newMap: Map) = mapListener.forEach { it.mapChange(newMap) }
+    fun dispatchMapChangeEvent(newMap: Map) = mapListeners.forEach { it.mapChange(newMap) }
 }
