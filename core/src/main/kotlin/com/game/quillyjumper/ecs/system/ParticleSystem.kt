@@ -6,15 +6,17 @@ import com.badlogic.ashley.core.EntityListener
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool
+import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.assets.ParticleAssets
+import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.assets.get
 import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import java.util.*
 
-class ParticleSystem(private val assets: AssetManager) :
+class ParticleSystem(private val assets: AssetManager, private val audioManager: AudioManager) :
     IteratingSystem(allOf(ParticleComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get()),
     EntityListener {
     private val effectPools = EnumMap<ParticleAssets, ParticleEffectPool>(ParticleAssets::class.java)
@@ -47,8 +49,11 @@ class ParticleSystem(private val assets: AssetManager) :
 
     override fun entityAdded(entity: Entity) {
         // create particle effect
-        entity.particleCmp.run {
+        with(entity.particleCmp) {
             effect = effectPools.computeIfAbsent(type) { ParticleEffectPool(assets[type], 1, 2) }.obtain()
+            if (type.sound != SoundAssets.UNKNOWN) {
+                audioManager.play(type.sound)
+            }
         }
     }
 

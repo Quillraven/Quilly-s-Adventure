@@ -24,7 +24,8 @@ operator fun AssetManager.get(asset: MusicAssets) = this.getAsset<Music>(asset.f
 enum class SoundAssets(val filePath: String, val volumeScale: Float = 1f) {
     UNKNOWN(""),
     PLAYER_JUMP("sounds/jump.ogg"),
-    SWING("sounds/swing.ogg")
+    SWING("sounds/swing.ogg"),
+    FIRE_BALL("sounds/fire_ball.ogg")
 }
 
 fun AssetManager.load(asset: SoundAssets) = load<Sound>(asset.filePath)
@@ -48,10 +49,10 @@ fun AssetManager.load(asset: MapAssets) = load<TiledMap>(asset.filePath)
 operator fun AssetManager.get(asset: MapAssets) = this.getAsset<TiledMap>(asset.filePath)
 
 // particle effects
-enum class ParticleAssets(val filePath: String, val scale: Float = 1f) {
+enum class ParticleAssets(val filePath: String, val scale: Float = 1f, val sound: SoundAssets = SoundAssets.UNKNOWN) {
     BLOOD("assets/particles/blood.p", 0.5f),
     PORTAL("assets/particles/portal.p"),
-    FIREBALL("assets/particles/fireball.p", 0.3f)
+    FIREBALL("assets/particles/fireball.p", 0.3f, SoundAssets.FIRE_BALL)
 }
 
 fun AssetManager.load(asset: ParticleAssets, params: ParticleEffectLoader.ParticleEffectParameter) =

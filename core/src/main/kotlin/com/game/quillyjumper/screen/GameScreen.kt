@@ -75,7 +75,7 @@ class GameScreen(
                 addSystem(StateSystem())
                 addSystem(AnimationSystem(assets, audioManager))
                 addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
-                addSystem(ParticleSystem(assets))
+                addSystem(ParticleSystem(assets, audioManager))
                 addSystem(RenderSystem(this, batch, viewport, world, mapRenderer, box2DDebugRenderer))
                 addSystem(LightSystem(rayHandler, viewport.camera as OrthographicCamera))
                 addSystem(FloatingTextSystem(batch, viewport, stage.viewport))
