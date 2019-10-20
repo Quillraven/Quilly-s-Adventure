@@ -2,6 +2,8 @@ package com.game.quillyjumper.screen
 
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.PooledEngine
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -27,7 +29,6 @@ import com.game.quillyjumper.map.MapType
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.allOf
-import ktx.scene2d.Scene2DSkin
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
@@ -64,7 +65,7 @@ class GameScreen(
             engine.apply {
                 addSystem(PhysicMoveSystem())
                 addSystem(PhysicJumpSystem())
-                addSystem(AbilitySystem())
+                addSystem(AbilitySystem(world))
                 addSystem(AttackSystem(world))
                 addSystem(DamageSystem())
                 addSystem(DeathSystem())
@@ -90,9 +91,9 @@ class GameScreen(
                 ) {
                     with<PlayerComponent>()
                     with<CameraLockComponent>()
-                    with<AbilityComponent> {
-                        abilities.add(Fireball(this@character.entity, world, this@character.engine))
-                    }
+                    with<AbilityComponent>()
+                    // TODO -> remove ability test stuff
+                    getSystem(AbilitySystem::class.java).addAbility<Fireball>(this.entity)
                 }
             }
         }
@@ -126,6 +127,10 @@ class GameScreen(
     }
 
     override fun render(delta: Float) {
+        if(Gdx.input.isKeyPressed(Input.Keys.I)){
+            playerEntities.forEach { it.add(engine.createComponent(RemoveComponent::class.java)) }
+        }
+
         // update all ecs engine systems including the render system which draws stuff on the screen
         engine.update(delta)
     }

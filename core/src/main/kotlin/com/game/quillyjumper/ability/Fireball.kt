@@ -1,27 +1,27 @@
 package com.game.quillyjumper.ability
 
-import com.badlogic.ashley.core.Engine
-import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.physics.box2d.World
 import com.game.quillyjumper.assets.ParticleAssets
+import com.game.quillyjumper.ecs.component.FacingDirection
+import com.game.quillyjumper.ecs.component.facingCmp
 import com.game.quillyjumper.ecs.component.transfCmp
 import com.game.quillyjumper.ecs.missile
 
-class Fireball(owner: Entity, world: World, engine: Engine) : Ability(owner, world, engine) {
+class Fireball : Ability() {
     override val cost = 5
     override fun getCooldownTime() = 2f
 
     override fun cast() {
         super.cast()
         with(owner.transfCmp) {
+            val facing = owner.facingCmp.direction
             engine.missile(
                 owner,
                 world,
-                position.x + size.x,
+                if (facing == FacingDirection.RIGHT) position.x + size.x else position.x,
                 position.y + size.y * 0.25f,
                 0.5f,
                 0.5f,
-                4f,
+                if (facing == FacingDirection.RIGHT) 4f else -4f,
                 1f,
                 5f,
                 ParticleAssets.FIREBALL

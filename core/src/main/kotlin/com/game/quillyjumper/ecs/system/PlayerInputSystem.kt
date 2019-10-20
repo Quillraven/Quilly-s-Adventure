@@ -34,8 +34,7 @@ class PlayerInputSystem(private val gameEventManager: GameEventManager, engine: 
         when (key) {
             Key.CAST -> entities.forEach {
                 with(it.abilityCmp) {
-                    abilityToCastIdx = abilities.size - 1
-                    if (abilities[abilityToCastIdx].canCast()) {
+                    if (canCast()) {
                         order = CastOrder.BEGIN_CAST
                     }
                 }

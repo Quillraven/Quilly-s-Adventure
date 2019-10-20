@@ -21,6 +21,8 @@ class AbilityComponent : Component, Pool.Poolable {
         val mapper = mapperFor<AbilityComponent>()
     }
 
+    fun canCast() = abilityToCastIdx >= 0 && abilityToCastIdx < abilities.size && abilities[abilityToCastIdx].canCast()
+
     override fun reset() {
         abilities.clear()
     }
