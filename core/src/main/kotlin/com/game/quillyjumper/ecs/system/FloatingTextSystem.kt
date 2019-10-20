@@ -3,6 +3,7 @@ package com.game.quillyjumper.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.SortedIteratingSystem
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.game.quillyjumper.ecs.component.*
@@ -10,6 +11,12 @@ import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.graphics.use
 import ktx.math.vec2
+import ktx.scene2d.Scene2DSkin
+import java.util.*
+
+enum class FontType(val skinKey: String) {
+    DEFAULT("defaultFont")
+}
 
 class FloatingTextSystem(
     private val batch: SpriteBatch,
@@ -21,6 +28,7 @@ class FloatingTextSystem(
 ) {
     private val camera = uiViewport.camera as OrthographicCamera
     private val projectionVector = vec2()
+    private val fonts = EnumMap<FontType, BitmapFont>(FontType::class.java)
 
     override fun update(deltaTime: Float) {
         // always sort entities before rendering
@@ -55,6 +63,7 @@ class FloatingTextSystem(
             gameViewport.project(projectionVector)
             // transform screen to UI coordinates
             uiViewport.unproject(projectionVector)
+            val font = fonts.computeIfAbsent(fontType) { Scene2DSkin.defaultSkin.getFont(fontType.skinKey) }
             font.color = color
             font.draw(batch, stringBuilder, projectionVector.x, uiViewport.worldHeight - projectionVector.y)
         }

@@ -66,7 +66,7 @@ class GameScreen(
                 addSystem(PhysicJumpSystem())
                 addSystem(AbilitySystem())
                 addSystem(AttackSystem(world))
-                addSystem(DamageSystem(Scene2DSkin.defaultSkin.getFont("defaultFont")))
+                addSystem(DamageSystem())
                 addSystem(DeathSystem())
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))

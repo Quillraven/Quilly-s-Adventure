@@ -3,7 +3,6 @@ package com.game.quillyjumper.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.StringBuilder
 import com.game.quillyjumper.assets.ParticleAssets
@@ -14,7 +13,7 @@ import ktx.ashley.allOf
 import ktx.ashley.exclude
 import kotlin.math.max
 
-class DamageSystem(private val normalFont: BitmapFont) :
+class DamageSystem() :
     IteratingSystem(allOf(DamageComponent::class, CollisionComponent::class).exclude(RemoveComponent::class).get()) {
     private val stringBuilder = StringBuilder(4)
 
@@ -51,7 +50,7 @@ class DamageSystem(private val normalFont: BitmapFont) :
                         engine.floatingText(
                             transform.position.x + transform.size.x * 0.5f,
                             transform.position.y + transform.size.y,
-                            normalFont,
+                            FontType.DEFAULT,
                             stringBuilder,
                             Color.RED,
                             0f,

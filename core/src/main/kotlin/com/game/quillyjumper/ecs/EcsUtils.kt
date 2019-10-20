@@ -5,7 +5,6 @@ import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.math.Polygon
 import com.badlogic.gdx.math.Polyline
 import com.badlogic.gdx.math.Rectangle
@@ -20,6 +19,7 @@ import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.ecs.system.FontType
 import com.game.quillyjumper.map.MapType
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
@@ -39,7 +39,7 @@ fun Entity.isRemoved() = this.components.size() == 0
 fun Engine.floatingText(
     posX: Float,
     posY: Float,
-    font: BitmapFont,
+    fontType: FontType,
     text: StringBuilder,
     color: Color,
     speedX: Float,
@@ -55,7 +55,7 @@ fun Engine.floatingText(
         with<FloatingTextComponent> {
             stringBuilder.append(text)
             speed.set(speedX, speedY)
-            this.font = font
+            this.fontType = fontType
             this.lifeSpan = lifeSpan
             this.color = color
         }
