@@ -443,7 +443,8 @@ fun Engine.missile(
     speed: Float,
     lifeSpan: Float,
     damage: Float,
-    particleEffect: ParticleAssets
+    particleEffect: ParticleAssets,
+    flipBy180Deg: Boolean = false
 ): Entity {
     return this.entity {
         // physic
@@ -473,6 +474,7 @@ fun Engine.missile(
             this.type = particleEffect
             offsetX = width
             offsetY = height
+            this.flipBy180Deg = flipBy180Deg
         }
         // collision
         with<CollisionComponent>()

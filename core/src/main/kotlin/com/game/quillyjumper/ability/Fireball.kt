@@ -24,7 +24,8 @@ class Fireball : Ability() {
                 if (facing == FacingDirection.RIGHT) 4f else -4f,
                 1f,
                 5f,
-                ParticleAssets.FIREBALL
+                ParticleAssets.FIREBALL,
+                facing != FacingDirection.RIGHT
             )
         }
     }

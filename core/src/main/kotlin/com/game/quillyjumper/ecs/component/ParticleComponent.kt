@@ -15,7 +15,8 @@ class ParticleComponent(
     // transform component is the bottom left corner but we want to render of course
     // in the center of the box2d body
     var offsetX: Float = 0f,
-    var offsetY: Float = 0f
+    var offsetY: Float = 0f,
+    var flipBy180Deg: Boolean = false
 ) : Component, Pool.Poolable {
     lateinit var effect: ParticleEffectPool.PooledEffect
 
@@ -26,6 +27,16 @@ class ParticleComponent(
     override fun reset() {
         offsetX = 0f
         offsetY = 0f
+        if (flipBy180Deg) {
+            // reset angles to original values
+            // change all angles by 180 degrees
+            effect.emitters.forEach {
+                with(it.angle) {
+                    setHigh(highMin - 180f, highMax - 180f)
+                    setLow(lowMin - 180f, lowMax - 180f)
+                }
+            }
+        }
         effect.free()
     }
 }

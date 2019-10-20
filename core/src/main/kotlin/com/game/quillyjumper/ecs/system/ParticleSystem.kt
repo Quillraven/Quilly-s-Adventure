@@ -51,6 +51,15 @@ class ParticleSystem(private val assets: AssetManager, private val audioManager:
         // create particle effect
         with(entity.particleCmp) {
             effect = effectPools.computeIfAbsent(type) { ParticleEffectPool(assets[type], 1, 2) }.obtain()
+            if (flipBy180Deg) {
+                // change all angles by 180 degrees
+                effect.emitters.forEach {
+                    with(it.angle) {
+                        setHigh(highMin + 180f, highMax + 180f)
+                        setLow(lowMin + 180f, lowMax + 180f)
+                    }
+                }
+            }
             if (type.sound != SoundAssets.UNKNOWN) {
                 audioManager.play(type.sound)
             }
