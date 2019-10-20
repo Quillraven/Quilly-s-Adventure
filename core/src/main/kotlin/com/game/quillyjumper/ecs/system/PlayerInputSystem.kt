@@ -35,17 +35,23 @@ class PlayerInputSystem(private val gameEventManager: GameEventManager, engine: 
             Key.CAST -> entities.forEach {
                 with(it.abilityCmp) {
                     abilityToCastIdx = abilities.size - 1
-                    order = CastOrder.BEGIN_CAST
+                    if (abilities[abilityToCastIdx].canCast()) {
+                        order = CastOrder.BEGIN_CAST
+                    }
                 }
             }
             Key.ATTACK -> entities.forEach {
                 with(it.attackCmp) {
-                    if (attackTime <= 0f) {
+                    if (canAttack()) {
                         order = AttackOrder.START
                     }
                 }
             }
-            Key.JUMP -> entities.forEach { it.jumpCmp.order = JumpOrder.JUMP }
+            Key.JUMP -> entities.forEach {
+                if (it.collCmp.numGroundContacts > 0) {
+                    it.jumpCmp.order = JumpOrder.JUMP
+                }
+            }
             else -> {
             }
         }

@@ -11,7 +11,8 @@ enum class MoveOrder {
 
 class MoveComponent(
     var moveTime: Float = 0f,
-    var maxSpeed: Float = 1f
+    var maxSpeed: Float = 1f,
+    var lockMovement: Boolean = false
 ) : Component {
     var order: MoveOrder = MoveOrder.NONE
         set(value) {

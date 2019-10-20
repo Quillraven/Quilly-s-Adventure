@@ -20,22 +20,27 @@ class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicCompo
             moveTime = min(1f, moveTime + deltaTime)
 
             val velocity = physic.body.linearVelocity.x
-            val speed = when (order) {
-                MoveOrder.NONE -> {
+            val facing = entity.facingCmp
+            val speed = when {
+                lockMovement -> {
+                    moveTime = 0f
+                    0f
+                }
+                order == MoveOrder.RIGHT -> {
+                    facing.direction = FacingDirection.RIGHT
+                    moveAlpha.apply(0f, maxSpeed, moveTime)
+                }
+                order == MoveOrder.LEFT -> {
+                    facing.direction = FacingDirection.LEFT
+                    -moveAlpha.apply(0f, maxSpeed, moveTime)
+                }
+                else -> {
                     if (velocity >= -0.05f && velocity < 0.05f) {
                         // tolerance to stop entity immediately when it is below a certain speed
                         0f
                     } else {
                         stopAlpha.apply(velocity, 0f, moveTime)
                     }
-                }
-                MoveOrder.RIGHT -> {
-                    entity.facingCmp.direction = FacingDirection.RIGHT
-                    moveAlpha.apply(0f, maxSpeed, moveTime)
-                }
-                MoveOrder.LEFT -> {
-                    entity.facingCmp.direction = FacingDirection.LEFT
-                    -moveAlpha.apply(0f, maxSpeed, moveTime)
                 }
             }
 
@@ -44,9 +49,9 @@ class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicCompo
 
             // in case the entity is rendered then flip its sprite according to the move direction
             entity[RenderComponent.mapper]?.sprite?.run {
-                when {
-                    speed > 0f -> setFlip(false, isFlipY)
-                    speed < 0f -> setFlip(true, isFlipY)
+                when (facing.direction) {
+                    FacingDirection.RIGHT -> setFlip(false, isFlipY)
+                    FacingDirection.LEFT -> setFlip(true, isFlipY)
                 }
             }
         }
