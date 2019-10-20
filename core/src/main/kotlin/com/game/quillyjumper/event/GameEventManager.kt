@@ -1,5 +1,6 @@
 package com.game.quillyjumper.event
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.utils.Array
 import com.game.quillyjumper.input.InputListener
@@ -37,7 +38,8 @@ class GameEventManager : KtxInputAdapter {
 
     override fun keyUp(keycode: Int): Boolean {
         when (keycode) {
-            Input.Keys.A, Input.Keys.D -> dispatchInputMoveEvent(0f, 0f)
+            Input.Keys.A -> dispatchInputMoveEvent(if (Gdx.input.isKeyPressed(Input.Keys.D)) 1f else 0f, 0f)
+            Input.Keys.D -> dispatchInputMoveEvent(if (Gdx.input.isKeyPressed(Input.Keys.A)) -1f else 0f, 0f)
             Input.Keys.SPACE -> inputListeners.forEach { it.keyReleased(Key.JUMP) }
             Input.Keys.CONTROL_LEFT -> inputListeners.forEach { it.keyReleased(Key.ATTACK) }
             Input.Keys.SHIFT_LEFT -> inputListeners.forEach { it.keyReleased(Key.CAST) }
