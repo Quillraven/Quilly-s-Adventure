@@ -11,7 +11,8 @@ enum class JumpOrder {
 
 class JumpComponent(
     var order: JumpOrder = JumpOrder.NONE,
-    var jumpTime: Float = 0f
+    var jumpTime: Float = 0f,
+    var maxJumpTime: Float = 1f
 ) : Component {
     companion object {
         val mapper = mapperFor<JumpComponent>()

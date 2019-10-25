@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-up" width="96" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="37">
+<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-up" width="96" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="38">
  <properties>
   <property name="Ambient" type="color" value="#e6000000"/>
   <property name="ShadowAngle" type="float" value="225"/>
@@ -88,36 +88,6 @@
   <object id="23" x="224" y="66">
    <properties>
     <property name="Item" value="POTION_GAIN_LIFE"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="32" x="62" y="278">
-   <properties>
-    <property name="Item" value="POTION_GAIN_LIFE"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="33" x="81.3333" y="280">
-   <properties>
-    <property name="Item" value="POTION_GAIN_LIFE"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="34" x="98.6667" y="279.333">
-   <properties>
-    <property name="Item" value="POTION_GAIN_LIFE"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="35" x="144" y="279.333">
-   <properties>
-    <property name="Item" value="POTION_GAIN_MANA"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="36" x="158.667" y="278.667">
-   <properties>
-    <property name="Item" value="POTION_GAIN_MANA"/>
    </properties>
    <point/>
   </object>

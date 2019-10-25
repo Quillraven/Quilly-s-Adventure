@@ -36,7 +36,7 @@ enum class PlayerState(override val aniType: AnimationType, override val loopAni
             val physic = entity.physicCmp
             val collision = entity.collCmp
             with(entity.stateCmp) {
-                if ((physic.body.linearVelocity.y <= 0f && collision.numGroundContacts == 0) || stateTime > 0.8f) {
+                if ((physic.body.linearVelocity.y <= 0f && collision.numGroundContacts == 0) || stateTime >= entity.jumpCmp.maxJumpTime) {
                     // player is in mid-air and falling down OR player exceeds maximum jump time
                     stateMachine.changeState(FALL)
                 } else if (collision.numGroundContacts > 0 && entity.jumpCmp.order == JumpOrder.NONE) {
