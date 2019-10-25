@@ -165,7 +165,7 @@ class GameScreen(
                 defaultState = DefaultEnemyState.IDLE
                 aggroRange = 2.5f
             }
-            cfg(Character.FLIPPY, EntityType.OTHER, ModelType.FLIPPY) {
+            cfg(Character.FLIPPY, EntityType.NPC, ModelType.FLIPPY) {
                 size(0.65f, 2f)
                 collisionBodyOffset(3f * UNIT_SCALE, 0f)
             }

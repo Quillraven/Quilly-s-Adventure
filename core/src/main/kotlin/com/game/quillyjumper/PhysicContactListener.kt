@@ -2,11 +2,9 @@ package com.game.quillyjumper
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.physics.box2d.*
-import com.game.quillyjumper.ecs.component.EntityType
-import com.game.quillyjumper.ecs.component.aggroCmp
-import com.game.quillyjumper.ecs.component.collCmp
-import com.game.quillyjumper.ecs.component.typeCmp
+import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.isRemoved
+import ktx.ashley.get
 
 class PhysicContactListener : ContactListener {
     /**
@@ -16,7 +14,7 @@ class PhysicContactListener : ContactListener {
      * @param collEntity the colliding entity from [beginContact] method
      */
     private fun addCollisionData(srcFixture: Fixture, srcEntity: Entity, collFixture: Fixture, collEntity: Entity) {
-        if (!srcEntity.typeCmp.type.hasCollisionComponent()) return
+        if (srcEntity[CollisionComponent.mapper] == null) return
 
         val collEntityType = collEntity.typeCmp.type
         when (srcFixture.userData) {
@@ -26,9 +24,11 @@ class PhysicContactListener : ContactListener {
                     srcEntity.aggroCmp.aggroEntities.add(collEntity)
                 }
             }
-            else -> if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM) srcEntity.collCmp.entities.add(
-                collEntity
-            )
+            else -> {
+                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM) {
+                    srcEntity.collCmp.entities.add(collEntity)
+                }
+            }
         }
     }
 
@@ -39,7 +39,7 @@ class PhysicContactListener : ContactListener {
      * @param collEntity the colliding entity from [endContact] method
      */
     private fun removeCollisionData(srcFixture: Fixture, srcEntity: Entity, collFixture: Fixture, collEntity: Entity) {
-        if (srcEntity.isRemoved() || !srcEntity.typeCmp.type.hasCollisionComponent() || collEntity.isRemoved()) return
+        if (srcEntity.isRemoved() || collEntity.isRemoved() || srcEntity[CollisionComponent.mapper] == null) return
 
         val collEntityType = collEntity.typeCmp.type
         when (srcFixture.userData) {
@@ -49,9 +49,11 @@ class PhysicContactListener : ContactListener {
                     srcEntity.aggroCmp.aggroEntities.remove(collEntity)
                 }
             }
-            else -> if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM) srcEntity.collCmp.entities.remove(
-                collEntity
-            )
+            else -> {
+                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM) {
+                    srcEntity.collCmp.entities.remove(collEntity)
+                }
+            }
         }
     }
 
@@ -75,7 +77,32 @@ class PhysicContactListener : ContactListener {
         removeCollisionData(fixtureB, entityB, fixtureA, entityA)
     }
 
-    override fun preSolve(contact: Contact?, oldManifold: Manifold?) {
+    /**
+     * Certain objects should not really collide with each other but they should still trigger
+     * contact events for [beginContact] and [endContact].
+     *
+     * E.g. the player can move through enemies and NPCs but he should still trigger contacts
+     * in order for the enemies to attack him or for the NPC to show him the message dialog.
+     *
+     * Following objects do not physically collide:
+     * * Player and Enemies
+     * * Enemies with each other
+     * * Player and NPCs
+     */
+    override fun preSolve(contact: Contact, oldManifold: Manifold) {
+        val fixtureA = contact.fixtureA
+        val typeA = (fixtureA.body.userData as Entity).typeCmp.type
+        val fixtureB = contact.fixtureB
+        val typeB = (fixtureB.body.userData as Entity).typeCmp.type
+
+        contact.isEnabled = when {
+            typeA == EntityType.PLAYER && typeB == EntityType.ENEMY -> false
+            typeA == EntityType.ENEMY && typeB == EntityType.PLAYER -> false
+            typeA == EntityType.ENEMY && typeB == EntityType.ENEMY -> false
+            typeA == EntityType.PLAYER && typeB == EntityType.NPC -> false
+            typeA == EntityType.NPC && typeB == EntityType.PLAYER -> false
+            else -> true
+        }
     }
 
     override fun postSolve(contact: Contact?, impulse: ContactImpulse?) {

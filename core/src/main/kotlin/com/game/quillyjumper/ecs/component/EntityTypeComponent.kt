@@ -9,13 +9,11 @@ enum class EntityType {
     PLAYER,
     SCENERY,
     ENEMY,
+    NPC,
     ITEM,
     PORTAL,
     DAMAGE_EMITTER,
     OTHER;
-
-    // helper method for box2d contact listener to know if the entity is interested in collision events
-    fun hasCollisionComponent() = this == PLAYER || this == ENEMY || this == DAMAGE_EMITTER
 }
 
 class EntityTypeComponent(var type: EntityType = EntityType.OTHER) : Component {
