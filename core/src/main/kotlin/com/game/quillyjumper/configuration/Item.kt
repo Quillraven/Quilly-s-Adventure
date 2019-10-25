@@ -14,7 +14,10 @@ enum class Item {
     POTION_GAIN_MANA
 }
 
-class ItemCfg(val region: TextureAtlas.AtlasRegion)
+class ItemCfg(val region: TextureAtlas.AtlasRegion) {
+    var lifeBonus = 0
+    var manaBonus = 0
+}
 
 class ItemConfigurations(assets: AssetManager) : EnumMap<Item, ItemCfg>(Item::class.java) {
     private val atlas = assets[TextureAtlasAssets.GAME_OBJECTS]

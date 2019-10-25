@@ -7,7 +7,7 @@ import com.game.quillyjumper.ecs.component.transfCmp
 import com.game.quillyjumper.ecs.missile
 
 class Fireball : Ability() {
-    override val cost = 5
+    override val cost = 3
     override fun getCooldownTime() = 2f
 
     override fun cast() {

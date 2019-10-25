@@ -26,7 +26,7 @@ class PhysicContactListener : ContactListener {
                     srcEntity.aggroCmp.aggroEntities.add(collEntity)
                 }
             }
-            else -> if (!collFixture.isSensor || collEntityType == EntityType.PORTAL) srcEntity.collCmp.entities.add(
+            else -> if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM) srcEntity.collCmp.entities.add(
                 collEntity
             )
         }
@@ -49,7 +49,7 @@ class PhysicContactListener : ContactListener {
                     srcEntity.aggroCmp.aggroEntities.remove(collEntity)
                 }
             }
-            else -> if (!collFixture.isSensor || collEntityType == EntityType.PORTAL) srcEntity.collCmp.entities.remove(
+            else -> if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM) srcEntity.collCmp.entities.remove(
                 collEntity
             )
         }

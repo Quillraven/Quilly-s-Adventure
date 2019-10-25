@@ -127,7 +127,7 @@ class GameScreen(
     }
 
     override fun render(delta: Float) {
-        if(Gdx.input.isKeyPressed(Input.Keys.I)){
+        if (Gdx.input.isKeyPressed(Input.Keys.I)) {
             playerEntities.forEach { it.add(engine.createComponent(RemoveComponent::class.java)) }
         }
 
@@ -150,8 +150,8 @@ class GameScreen(
                 attackRange = 0.4f
                 attackCooldown = 1f
                 damage = 6f
-                life = 80f
-                mana = 20f
+                life = 40f
+                mana = 10f
                 armor = 2f
                 defaultState = PlayerState.IDLE
             }
@@ -174,8 +174,12 @@ class GameScreen(
 
     private fun initItemConfigurations(assets: AssetManager): ItemConfigurations {
         return itemConfigurations(assets) {
-            cfg(Item.POTION_GAIN_LIFE, "potion_green_plus")
-            cfg(Item.POTION_GAIN_MANA, "potion_blue_plus")
+            cfg(Item.POTION_GAIN_LIFE, "potion_green_plus") {
+                lifeBonus = 10
+            }
+            cfg(Item.POTION_GAIN_MANA, "potion_blue_plus") {
+                manaBonus = 3
+            }
         }
     }
 }

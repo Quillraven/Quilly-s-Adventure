@@ -177,11 +177,16 @@ fun Engine.character(
         }
         // stats
         if (cfg.life > 0) {
+            // this check is useful so that special NPCs like "Flippy" do not get
+            // a StatsComponent that they do not need
+            // this is useful for characters which do not fight
             with<StatsComponent> {
                 this.armor = cfg.armor
                 this.damage = cfg.damage
                 this.life = cfg.life
+                this.maxLife = this.life
                 this.mana = cfg.mana
+                this.maxMana = this.mana
             }
         }
         // aggro
@@ -237,6 +242,11 @@ fun Engine.item(cfg: ItemCfg, world: World, posX: Float, posY: Float): Entity {
                 setSize(region.regionWidth * UNIT_SCALE, region.regionHeight * UNIT_SCALE)
                 setOriginCenter()
             }
+        }
+        // stats component to store the bonus
+        with<StatsComponent> {
+            life = cfg.lifeBonus.toFloat()
+            mana = cfg.manaBonus.toFloat()
         }
         // type of entity
         with<EntityTypeComponent> {

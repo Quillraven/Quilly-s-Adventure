@@ -8,7 +8,9 @@ import ktx.ashley.mapperFor
 class StatsComponent(
     var damage: Float = 0f,
     var life: Float = 1f,
+    var maxLife: Float = 1f,
     var mana: Float = 0f,
+    var maxMana: Float = 0f,
     var armor: Float = 0f,
     var alive: Boolean = true
 ) : Component {

@@ -19,10 +19,8 @@ abstract class Ability : Pool.Poolable {
     fun canCast() = owner.statsCmp.mana >= cost && cooldown <= 0f
 
     open fun cast() {
-        with(owner.statsCmp) {
-            mana -= cost
-            cooldown = getCooldownTime()
-        }
+        owner.statsCmp.mana -= cost
+        cooldown = getCooldownTime()
     }
 
     open fun update(deltaTime: Float) {

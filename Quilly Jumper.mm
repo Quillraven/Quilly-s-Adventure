@@ -602,20 +602,10 @@
 <font NAME="SansSerif" SIZE="16"/>
 <icon BUILTIN="button_ok"/>
 </node>
-<node COLOR="#00b439" CREATED="1569686357211" ID="ID_347199123" MODIFIED="1569686361028" TEXT="add experience system">
+<node COLOR="#00b439" CREATED="1569686394829" FOLDED="true" ID="ID_148760167" MODIFIED="1572022799257" TEXT="add item pickup logic">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
-<node COLOR="#990000" CREATED="1569686362088" ID="ID_759569628" MODIFIED="1569686367709" TEXT="floating text for XP gained">
-<font NAME="SansSerif" SIZE="14"/>
-</node>
-<node COLOR="#990000" CREATED="1569686372039" ID="ID_1978325461" MODIFIED="1569686382294" TEXT="UI to spend XP on skills">
-<font NAME="SansSerif" SIZE="14"/>
-<node COLOR="#111111" CREATED="1569686382920" ID="ID_926020434" MODIFIED="1569686386781" TEXT="first skill: fireball"/>
-</node>
-</node>
-<node COLOR="#00b439" CREATED="1569686394829" ID="ID_148760167" MODIFIED="1569686400483" TEXT="add item pickup logic">
-<edge STYLE="bezier" WIDTH="thin"/>
-<font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1569686401292" ID="ID_134298280" MODIFIED="1569686408973" TEXT="when green potion in first level is picked up then">
 <font NAME="SansSerif" SIZE="14"/>
 <node COLOR="#111111" CREATED="1569686409295" ID="ID_602138810" MODIFIED="1569686412739" TEXT="heal player completely"/>
@@ -627,6 +617,17 @@
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
 <icon BUILTIN="button_ok"/>
+</node>
+<node COLOR="#00b439" CREATED="1569686357211" ID="ID_347199123" MODIFIED="1572022806474" TEXT="add experience system">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1569686362088" ID="ID_759569628" MODIFIED="1569686367709" TEXT="floating text for XP gained">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1569686372039" ID="ID_1978325461" MODIFIED="1569686382294" TEXT="UI to spend XP on skills">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1569686382920" ID="ID_926020434" MODIFIED="1569686386781" TEXT="first skill: fireball"/>
+</node>
 </node>
 <node COLOR="#00b439" CREATED="1570349910906" ID="ID_946019197" MODIFIED="1570349936599" TEXT="respawn at start location when falling outside map and reduce life by 5">
 <edge STYLE="bezier" WIDTH="thin"/>

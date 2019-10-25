@@ -13,7 +13,7 @@ import ktx.ashley.allOf
 import ktx.ashley.exclude
 import kotlin.math.max
 
-class DamageSystem() :
+class DamageSystem :
     IteratingSystem(allOf(DamageComponent::class, CollisionComponent::class).exclude(RemoveComponent::class).get()) {
     private val stringBuilder = StringBuilder(4)
 
