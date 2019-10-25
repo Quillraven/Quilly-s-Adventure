@@ -20,7 +20,7 @@ class AggroSystem :
             val transform = entity.transfCmp
             val attack = entity.attackCmp
             val aggroTransform = entities.first().transfCmp
-            if (attack.canAttack() && isWithinAttackRange(
+            if (isWithinAttackRange(
                     transform.position,
                     transform.size,
                     aggroTransform.position,
@@ -29,14 +29,22 @@ class AggroSystem :
                 )
             ) {
                 // aggro entity is within attack range
-                attack.order = AttackOrder.START
-            }
-
-            if (aggroTransform.position.x < transform.position.x) {
-                // aggro entity is on the left side
+                // stop movement and set correct facing
+                entity.moveCmp.order = MoveOrder.NONE
+                if (aggroTransform.position.x < transform.position.x) {
+                    entity.facingCmp.direction = FacingDirection.LEFT
+                } else {
+                    entity.facingCmp.direction = FacingDirection.RIGHT
+                }
+                // attack if possible
+                if (attack.canAttack()) {
+                    attack.order = AttackOrder.START
+                }
+            } else if (aggroTransform.position.x + aggroTransform.size.x < transform.position.x) {
+                // aggro entity is on the left side and not in attack range
                 entity.moveCmp.order = MoveOrder.LEFT
             } else {
-                // aggro entity is on the right side
+                // aggro entity is on the right side and not in attack range
                 entity.moveCmp.order = MoveOrder.RIGHT
             }
         } else {
