@@ -39,6 +39,7 @@ const val PROPERTY_TARGET_PORTAL_ID = "TargetPortalID"
 const val PROPERTY_AMBIENT = "Ambient"
 const val PROPERTY_SUN_COLOR = "SunColor"
 const val PROPERTY_SHADOW_ANGLE = "ShadowAngle"
+const val PROPERTY_PARALLAX_VALUE = "parallaxValue"
 
 // Map Types
 enum class MapType(val asset: MapAssets, val music: MusicAssets) {
@@ -48,6 +49,9 @@ enum class MapType(val asset: MapAssets, val music: MusicAssets) {
 
 // extension method to access properties the Kotlin way ;)
 inline fun <reified T> MapObject.property(key: String, defaultValue: T): T =
+    this.properties[key, defaultValue, T::class.java]
+
+inline fun <reified T> MapLayer.property(key: String, defaultValue: T): T =
     this.properties[key, defaultValue, T::class.java]
 
 // extension property to access shape of a MapObject

@@ -12,11 +12,11 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.FloatArray
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.map.*
 import com.game.quillyjumper.map.Map
-import com.game.quillyjumper.map.MapChangeListener
-import com.game.quillyjumper.map.TILED_LAYER_BACKGROUND_PREFIX
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.graphics.use
@@ -36,8 +36,11 @@ class RenderSystem(
     compareBy { entity -> entity.transfCmp }
 ) {
     private val camera = gameViewPort.camera as OrthographicCamera
+
     private val mapBackgroundLayers = Array<TiledMapTileLayer>()
     private val mapForegroundLayers = Array<TiledMapTileLayer>()
+    private val mapParallaxValues = FloatArray()
+
     private val particleEffects =
         engine.getEntitiesFor(
             allOf(
@@ -58,17 +61,45 @@ class RenderSystem(
             // which is used to correctly render not map related stuff like our entities
             mapRenderer.setView(camera)
             // render background of map
-            mapBackgroundLayers.forEach { mapRenderer.renderTileLayer(it) }
+            val numBgdLayers = mapBackgroundLayers.size
+            val parallaxMinWidth = camera.viewportWidth * 0.5f
+            for (i in 0 until numBgdLayers) {
+                renderTileLayer(mapBackgroundLayers[i], i, parallaxMinWidth)
+            }
             // render entities
             super.update(deltaTime)
             // render particle effects and reset blend state manually
             particleEffects.forEach { entity -> entity.particleCmp.effect.draw(it, deltaTime) }
             batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
             // render foreground of map
-            mapForegroundLayers.forEach { mapRenderer.renderTileLayer(it) }
+            for (i in 0 until mapForegroundLayers.size) {
+                renderTileLayer(mapForegroundLayers[i], i + numBgdLayers, parallaxMinWidth)
+            }
         }
         // debug render box2d
         box2DDebugRenderer.render(world, gameViewPort.camera.combined)
+    }
+
+    private fun renderTileLayer(layer: TiledMapTileLayer, parallaxIndex: Int, minWidth: Float) {
+        val parallaxValue = mapParallaxValues[parallaxIndex]
+        val camPos = camera.position
+        if (parallaxValue == 0f || camPos.x <= minWidth) {
+            // tile layer has no parallax value or minimum width is not yet reached to trigger
+            // the parallax effect
+            mapRenderer.renderTileLayer(layer)
+        } else {
+            // make parallax effect by drawing the layer offset to its original value and
+            // therefore creating a sort of "move" effect for the user
+            val origVal = camPos.x
+            camPos.x += (minWidth - camPos.x) * parallaxValue
+            camera.update()
+            mapRenderer.setView(camera)
+            mapRenderer.renderTileLayer(layer)
+            // reset the camera to its original position to draw remaining stuff with original values
+            camPos.x = origVal
+            camera.update()
+            mapRenderer.setView(camera)
+        }
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
@@ -96,6 +127,7 @@ class RenderSystem(
         // retrieve background and foreground tiled map layers for rendering
         mapBackgroundLayers.clear()
         mapForegroundLayers.clear()
+        mapParallaxValues.clear()
         mapRenderer.map.layers.forEach { layer ->
             if (layer is TiledMapTileLayer && layer.isVisible) {
                 // tiled map layer which is visible for rendering
@@ -105,6 +137,7 @@ class RenderSystem(
                 } else {
                     mapForegroundLayers.add(layer)
                 }
+                mapParallaxValues.add(layer.property(PROPERTY_PARALLAX_VALUE, 0f))
             }
         }
     }
