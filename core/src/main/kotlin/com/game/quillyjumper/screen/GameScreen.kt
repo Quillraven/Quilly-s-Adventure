@@ -71,7 +71,6 @@ class GameScreen(
                 addSystem(DeathSystem())
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))
-                addSystem(AggroSystem())
                 addSystem(PlayerInputSystem(gameEventManager, this))
                 addSystem(StateSystem())
                 addSystem(AnimationSystem(assets, audioManager))

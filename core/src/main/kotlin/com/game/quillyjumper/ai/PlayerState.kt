@@ -66,7 +66,6 @@ enum class PlayerState(override val aniType: AnimationType, override val loopAni
         }
 
         override fun update(entity: Entity) {
-
             if (entity.aniCmp.isAnimationFinished()) {
                 entity.attackCmp.order = AttackOrder.NONE
                 entity.stateCmp.stateMachine.changeState(IDLE)
