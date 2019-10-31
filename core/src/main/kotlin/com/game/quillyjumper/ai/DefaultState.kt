@@ -32,7 +32,10 @@ enum class DefaultState(override val aniType: AnimationType, override val loopAn
     DEATH(AnimationType.DEATH, false) {
         override fun enter(entity: Entity) {
             super.enter(entity)
-            entity.moveCmp.order = MoveOrder.NONE
+            with(entity.moveCmp) {
+                order = MoveOrder.NONE
+                lockMovement = true
+            }
             entity.jumpCmp.order = JumpOrder.NONE
             entity.attackCmp.order = AttackOrder.NONE
         }
