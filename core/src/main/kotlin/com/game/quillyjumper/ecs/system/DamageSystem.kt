@@ -25,8 +25,13 @@ class DamageSystem :
             } else {
                 val sourceType = source.typeCmp.type
                 entity.collCmp.entities.forEach { collEntity ->
-                    val stats = collEntity.statsCmp
-                    if (sourceType.isEnemy(collEntity.typeCmp.type) && !damagedEntities.contains(collEntity) && stats.life > 0) {
+                    if (sourceType.isEnemy(collEntity.typeCmp.type) && !damagedEntities.contains(collEntity)) {
+                        val stats = collEntity.statsCmp
+                        if (stats.life <= 0) {
+                            // entity is already dead -> no need to deal damage
+                            return@forEach
+                        }
+
                         // entity was not damaged yet and it is still alive -> deal damage to it
                         // let damage fluctuate within 10%
                         val damageDealt = damage * MathUtils.random(0.9f, 1.1f)

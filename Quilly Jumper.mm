@@ -618,15 +618,12 @@
 <font NAME="SansSerif" SIZE="16"/>
 <icon BUILTIN="button_ok"/>
 </node>
-<node COLOR="#00b439" CREATED="1569686357211" ID="ID_347199123" MODIFIED="1572022806474" TEXT="add experience system">
+<node COLOR="#00b439" CREATED="1569686357211" FOLDED="true" ID="ID_347199123" MODIFIED="1572539397031" TEXT="add experience system">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 <node COLOR="#990000" CREATED="1569686362088" ID="ID_759569628" MODIFIED="1569686367709" TEXT="floating text for XP gained">
 <font NAME="SansSerif" SIZE="14"/>
-</node>
-<node COLOR="#990000" CREATED="1569686372039" ID="ID_1978325461" MODIFIED="1569686382294" TEXT="UI to spend XP on skills">
-<font NAME="SansSerif" SIZE="14"/>
-<node COLOR="#111111" CREATED="1569686382920" ID="ID_926020434" MODIFIED="1569686386781" TEXT="first skill: fireball"/>
 </node>
 </node>
 <node COLOR="#00b439" CREATED="1570349910906" ID="ID_946019197" MODIFIED="1570349936599" TEXT="respawn at start location when falling outside map and reduce life by 5">
@@ -654,6 +651,14 @@
 <font NAME="SansSerif" SIZE="14"/>
 <node COLOR="#111111" CREATED="1567791206426" ID="ID_522019661" MODIFIED="1567791209441" TEXT="layer name conventions"/>
 <node COLOR="#111111" CREATED="1567791210342" ID="ID_1345078008" MODIFIED="1567791222126" TEXT="supported map Objects for enemies, items and scenery"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1572539388321" ID="ID_201936167" MODIFIED="1572539390008" TEXT="add UI">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<node COLOR="#990000" CREATED="1569686372039" ID="ID_1978325461" MODIFIED="1569686382294" TEXT="UI to spend XP on skills">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1569686382920" ID="ID_926020434" MODIFIED="1569686386781" TEXT="first skill: fireball"/>
 </node>
 </node>
 </node>
