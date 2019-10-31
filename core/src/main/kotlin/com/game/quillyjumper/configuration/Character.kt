@@ -29,6 +29,7 @@ class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
     var armor = 0f
     var defaultState: EntityState = DefaultState.NONE
     var aggroRange = 0f
+    var xp = 0
 
     fun size(width: Float, height: Float): Vector2 = size.set(width, height)
 

@@ -163,6 +163,7 @@ class GameScreen(
                 life = 10f
                 defaultState = DefaultEnemyState.IDLE
                 aggroRange = 2.5f
+                xp = 50
             }
             cfg(Character.FLIPPY, EntityType.NPC, ModelType.FLIPPY) {
                 size(0.65f, 2f)

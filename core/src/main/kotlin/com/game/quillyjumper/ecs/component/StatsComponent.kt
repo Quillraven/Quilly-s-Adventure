@@ -12,6 +12,8 @@ class StatsComponent(
     var mana: Float = 0f,
     var maxMana: Float = 0f,
     var armor: Float = 0f,
+    var level: Int = 1,
+    var xp: Int = 0,
     var alive: Boolean = true
 ) : Component {
     companion object {

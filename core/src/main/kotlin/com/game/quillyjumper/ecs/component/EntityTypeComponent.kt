@@ -14,6 +14,14 @@ enum class EntityType {
     PORTAL,
     DAMAGE_EMITTER,
     OTHER;
+
+    fun isEnemy(typeToCheck: EntityType): Boolean {
+        return when (this) {
+            PLAYER -> typeToCheck == ENEMY
+            ENEMY -> typeToCheck == PLAYER
+            else -> false
+        }
+    }
 }
 
 class EntityTypeComponent(var type: EntityType = EntityType.OTHER) : Component {

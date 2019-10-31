@@ -17,14 +17,6 @@ class DamageSystem :
     IteratingSystem(allOf(DamageComponent::class, CollisionComponent::class).exclude(RemoveComponent::class).get()) {
     private val stringBuilder = StringBuilder(4)
 
-    private fun isEnemy(sourceType: EntityType, collType: EntityType): Boolean {
-        return when (sourceType) {
-            EntityType.PLAYER -> collType == EntityType.ENEMY
-            EntityType.ENEMY -> collType == EntityType.PLAYER
-            else -> false
-        }
-    }
-
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity.damageCmp.run {
             lifeSpan -= deltaTime
@@ -33,15 +25,20 @@ class DamageSystem :
             } else {
                 val sourceType = source.typeCmp.type
                 entity.collCmp.entities.forEach { collEntity ->
-                    if (isEnemy(sourceType, collEntity.typeCmp.type) && !damagedEntities.contains(collEntity)) {
-                        // entity was not damaged yet -> deal damage to it
+                    val stats = collEntity.statsCmp
+                    if (sourceType.isEnemy(collEntity.typeCmp.type) && !damagedEntities.contains(collEntity) && stats.life > 0) {
+                        // entity was not damaged yet and it is still alive -> deal damage to it
                         // let damage fluctuate within 10%
-                        val stats = collEntity.statsCmp
                         val damageDealt = damage * MathUtils.random(0.9f, 1.1f)
                         // formula : dealtDamage = damage of source reduced by armor value
                         // armor of 1 reduces the damage by 1%; armor 10 reduces by 10%, armor 100 reduces by 100%
                         val damageValue = max(damageDealt * (1f - stats.armor * 0.01f), 0f)
                         stats.life -= damageValue
+
+                        // TODO dispatch damage taken / death event so that abilities can react and maybe prevent the death
+                        // after that step if the life is still <= 0 then the entity is really dead
+                        // store killer entity to give it experience for the killing blow
+                        collEntity.add(engine.createComponent(KillerComponent::class.java).apply { killer = source })
 
                         // create floating text to display damage number to player
                         val transform = collEntity.transfCmp

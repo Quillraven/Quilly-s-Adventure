@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.game.quillyjumper.ecs.system.FontType
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.screen.LoadingScreen
 import ktx.app.KtxGame
@@ -102,16 +103,18 @@ class Main : KtxGame<KtxScreen>() {
         // generate fonts for the skin
         val generator = FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"))
         val defaultFont = generator.generateFont { size = 24 }
+        val largeFont = generator.generateFont { size = 32 }
         // dispose font generator after creating all .ttf fonts that we need
         generator.dispose()
 
         // generate skin
         return skin { skin ->
             // add generated fonts as resources to the skin to correctly dispose them
-            add("defaultFont", defaultFont)
+            add(FontType.DEFAULT.skinKey, defaultFont)
+            add(FontType.LARGE.skinKey, largeFont)
 
             // default label style
-            label { font = skin.getFont("defaultFont") }
+            label { font = skin.getFont(FontType.DEFAULT.skinKey) }
             // default button style
             button { }
         }

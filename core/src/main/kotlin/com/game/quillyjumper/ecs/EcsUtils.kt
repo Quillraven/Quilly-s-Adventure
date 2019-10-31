@@ -187,6 +187,7 @@ fun Engine.character(
                 this.maxLife = this.life
                 this.mana = cfg.mana
                 this.maxMana = this.mana
+                this.xp = cfg.xp
             }
         }
         // aggro

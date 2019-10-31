@@ -15,7 +15,8 @@ import ktx.scene2d.Scene2DSkin
 import java.util.*
 
 enum class FontType(val skinKey: String) {
-    DEFAULT("defaultFont")
+    DEFAULT("defaultFont"),
+    LARGE("largeFont")
 }
 
 class FloatingTextSystem(
