@@ -10,7 +10,7 @@ import ktx.ashley.get
 
 class RemoveSystem(engine: Engine) : IteratingSystem(allOf(RemoveComponent::class).get()), EntityListener {
     private val collisionEntities = engine.getEntitiesFor(allOf(CollisionComponent::class).get())
-    private val damageEntities = engine.getEntitiesFor(allOf(DamageComponent::class).get())
+    private val damageEntities = engine.getEntitiesFor(allOf(DealDamageComponent::class).get())
     private val aggroEntities = engine.getEntitiesFor(allOf(AggroComponent::class).get())
 
     override fun addedToEngine(engine: Engine) {
@@ -30,7 +30,7 @@ class RemoveSystem(engine: Engine) : IteratingSystem(allOf(RemoveComponent::clas
     override fun entityRemoved(entity: Entity) {
         // cleanup entity from any arrays where it is referenced
         collisionEntities.forEach { it.collCmp.entities.remove(entity) }
-        damageEntities.forEach { it.damageCmp.damagedEntities.remove(entity) }
+        damageEntities.forEach { it.dealDamageCmp.damagedEntities.remove(entity) }
         aggroEntities.forEach { it.aggroCmp.aggroEntities.remove(entity) }
         // free abilities of entity and return them back to their reflection pool
         engine.getSystem(AbilitySystem::class.java)?.let { abiSys ->

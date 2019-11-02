@@ -13,6 +13,7 @@ import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.assets.MapAssets
 import com.game.quillyjumper.assets.MusicAssets
 import ktx.log.logger
+import ktx.math.vec2
 
 private val LOG = logger<Map>()
 
@@ -79,9 +80,21 @@ class Map(val type: MapType, val tiledMap: TiledMap) {
         get() = property(PROPERTY_WIDTH, 0f) * property(PROPERTY_TILE_WIDTH, 0f) * UNIT_SCALE
     val height: Float
         get() = property(PROPERTY_HEIGHT, 0f) * property(PROPERTY_TILE_HEIGHT, 0f) * UNIT_SCALE
+    val startLocation = vec2()
 
     companion object {
         val defaultLayer = MapLayer()
+    }
+
+    init {
+        // parse player start location and store it because it is used in several locations
+        // like e.g. MapManager.changeMap or OutOfBoundsSystem
+        val mapObjects = mapObjects(LAYER_PLAYER_SPAWN_LOCATION)
+        if (mapObjects.count != 1) {
+            LOG.error { "There is not exactly one player start location defined for map ${type}. Amount: ${mapObjects.count}" }
+        } else {
+            with(mapObjects.first()) { startLocation.set(x * UNIT_SCALE, y * UNIT_SCALE) }
+        }
     }
 
     // extension method to access properties the Kotlin way for TiledMap

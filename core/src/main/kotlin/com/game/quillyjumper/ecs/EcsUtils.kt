@@ -189,6 +189,9 @@ fun Engine.character(
                 this.maxMana = this.mana
                 this.xp = cfg.xp
             }
+
+            // characters can take damage from damage emitter entities
+            with<TakeDamageComponent>()
         }
         // aggro
         if (cfg.aggroRange > 0f) {
@@ -399,7 +402,7 @@ fun Engine.damageEmitter(
         // type
         with<EntityTypeComponent> { type = EntityType.DAMAGE_EMITTER }
         // damage
-        with<DamageComponent> {
+        with<DealDamageComponent> {
             this.damage = damage
             this.lifeSpan = lifeSpan
             this.source = source
@@ -492,7 +495,7 @@ fun Engine.missile(
         // type
         with<EntityTypeComponent> { type = EntityType.DAMAGE_EMITTER }
         // damage
-        with<DamageComponent> {
+        with<DealDamageComponent> {
             this.damage = damage
             this.lifeSpan = lifeSpan
             this.source = owner

@@ -74,21 +74,8 @@ class MapManager(
     }
 
     private fun movePlayerToStartLocation(map: Map) {
-        val mapObjects = map.mapObjects(LAYER_PLAYER_SPAWN_LOCATION)
-        if (mapObjects.count != 1) {
-            LOG.error { "There is not exactly one player start location defined for map ${map.type}. Amount: ${mapObjects.count}" }
-        } else {
-            mapObjects.forEach { mapObj ->
-                // set player entity positions to first location of tiled map
-                playerEntities.forEach { player ->
-                    player.physicCmp.body.setTransform(
-                        mapObj.x * UNIT_SCALE,
-                        mapObj.y * UNIT_SCALE,
-                        0f
-                    )
-                }
-                return
-            }
+        playerEntities.forEach { player ->
+            player.physicCmp.body.setTransform(map.startLocation, 0f)
         }
     }
 

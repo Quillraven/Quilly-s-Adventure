@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class DamageComponent(
+class DealDamageComponent(
     var damage: Float = 0f,
     var lifeSpan: Float = 0f,
     val damagedEntities: ObjectSet<Entity> = ObjectSet(4)
@@ -16,7 +16,7 @@ class DamageComponent(
     lateinit var source: Entity
 
     companion object {
-        val mapper = mapperFor<DamageComponent>()
+        val mapper = mapperFor<DealDamageComponent>()
     }
 
     override fun reset() {
@@ -24,6 +24,6 @@ class DamageComponent(
     }
 }
 
-val Entity.damageCmp: DamageComponent
-    get() = this[DamageComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a damage component which is null")
+val Entity.dealDamageCmp: DealDamageComponent
+    get() = this[DealDamageComponent.mapper]
+        ?: throw KotlinNullPointerException("Trying to access a deal damage component which is null")

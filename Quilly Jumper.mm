@@ -626,9 +626,10 @@
 <font NAME="SansSerif" SIZE="14"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1570349910906" ID="ID_946019197" MODIFIED="1570349936599" TEXT="respawn at start location when falling outside map and reduce life by 5">
+<node COLOR="#00b439" CREATED="1570349910906" ID="ID_946019197" MODIFIED="1572709836226" TEXT="respawn at start location when falling outside map and reduce life by 5">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
 </node>
 <node COLOR="#00b439" CREATED="1567791159831" FOLDED="true" ID="ID_1358993190" MODIFIED="1569777334432" TEXT="Update Wikipedia page of project">
 <edge STYLE="bezier" WIDTH="thin"/>

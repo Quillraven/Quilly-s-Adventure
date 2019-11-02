@@ -67,8 +67,10 @@ class GameScreen(
                 addSystem(PhysicJumpSystem())
                 addSystem(AbilitySystem(world))
                 addSystem(AttackSystem(world))
-                addSystem(DamageSystem())
+                addSystem(DealDamageSystem())
+                addSystem(TakeDamageSystem())
                 addSystem(DeathSystem())
+                addSystem(OutOfBoundsSystem())
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))
                 addSystem(PlayerInputSystem(gameEventManager, this))
@@ -105,6 +107,8 @@ class GameScreen(
         gameEventManager.addMapChangeListener(engine.getSystem(CameraSystem::class.java))
         // add AudioManager as MapChangeListener to play the music of the map whenever it gets changed
         gameEventManager.addMapChangeListener(audioManager)
+        // add OutOfBoundsSystem as MapChangeListener to update the boundaries of the world whenver the map changes
+        gameEventManager.addMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
         // set map
         mapManager.setMap(MapType.MAP1)
     }
@@ -114,6 +118,7 @@ class GameScreen(
         gameEventManager.removeMapChangeListener(engine.getSystem(RenderSystem::class.java))
         gameEventManager.removeMapChangeListener(engine.getSystem(CameraSystem::class.java))
         gameEventManager.removeMapChangeListener(audioManager)
+        gameEventManager.removeMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
     }
 
     override fun resize(width: Int, height: Int) {
