@@ -4,13 +4,16 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.StringBuilder
+import com.game.quillyjumper.AudioManager
+import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.floatingText
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.ashley.get
 
-class DeathSystem : IteratingSystem(allOf(StatsComponent::class).exclude(RemoveComponent::class).get()) {
+class DeathSystem(private val audioManager: AudioManager) :
+    IteratingSystem(allOf(StatsComponent::class).exclude(RemoveComponent::class).get()) {
     private val xpInfoBuilder = StringBuilder(8)
 
     private fun canLevelUp(currentLevel: Int, currentXP: Int): Boolean {
@@ -43,6 +46,8 @@ class DeathSystem : IteratingSystem(allOf(StatsComponent::class).exclude(RemoveC
                 }
 
                 if (showLevelUpInfo) {
+                    audioManager.play(SoundAssets.LEVEL_UP)
+
                     // show level up information to player
                     xpInfoBuilder.clear()
                     xpInfoBuilder.append("New Level: ")

@@ -14,6 +14,7 @@ private val LOG = logger<CharacterConfigurations>()
 enum class Character {
     PLAYER,
     BLUE_SLIME,
+    ORANGE_SLIME,
     FLIPPY,
     SAVE_POINT
 }

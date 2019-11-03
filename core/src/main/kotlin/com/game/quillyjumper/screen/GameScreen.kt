@@ -69,13 +69,13 @@ class GameScreen(
                 addSystem(AttackSystem(world))
                 addSystem(DealDamageSystem())
                 addSystem(TakeDamageSystem())
-                addSystem(DeathSystem())
+                addSystem(DeathSystem(audioManager))
                 // out of bounds system must be before PhysicSystem because it deals damage to the player
                 // and in order for the TakeDamageSystem to show the damage indicator at the correct location
                 // we need to run through the PhysicSystem once to update the TransformComponent accordingly
-                addSystem(OutOfBoundsSystem())
+                addSystem(OutOfBoundsSystem(gameEventManager))
                 addSystem(PhysicSystem(world, this))
-                addSystem(PlayerCollisionSystem(mapManager))
+                addSystem(PlayerCollisionSystem(mapManager, audioManager, gameEventManager))
                 addSystem(PlayerInputSystem(gameEventManager, this))
                 addSystem(StateSystem())
                 addSystem(AnimationSystem(assets, audioManager))
@@ -172,6 +172,17 @@ class GameScreen(
                 defaultState = DefaultEnemyState.IDLE
                 aggroRange = 2.5f
                 xp = 10
+            }
+            cfg(Character.ORANGE_SLIME, EntityType.ENEMY, ModelType.ORANGE_SLIME) {
+                speed = 1f
+                size(0.75f, 0.75f)
+                attackRange = 0.1f
+                attackCooldown = 1.5f
+                damage = 3f
+                life = 8f
+                defaultState = DefaultEnemyState.IDLE
+                aggroRange = 3f
+                xp = 15
             }
             cfg(Character.FLIPPY, EntityType.NPC, ModelType.FLIPPY) {
                 size(0.65f, 2f)

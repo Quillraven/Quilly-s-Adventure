@@ -4,17 +4,25 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.StringBuilder
+import com.game.quillyjumper.AudioManager
+import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.floatingText
+import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.map.MapManager
 import ktx.ashley.allOf
 import ktx.log.logger
 
 private val LOG = logger<PlayerCollisionSystem>()
 
-class PlayerCollisionSystem(private val mapManager: MapManager) :
+class PlayerCollisionSystem(
+    private val mapManager: MapManager,
+    private val audioManager: AudioManager,
+    private val gameEventManager: GameEventManager
+) :
     IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()) {
     private val itemInfoBuilder = StringBuilder(64)
+    private var lastSavepoint: Entity? = null
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity.collCmp.run {
@@ -31,6 +39,13 @@ class PlayerCollisionSystem(private val mapManager: MapManager) :
                         // player is colliding wiht an item -> add powerup to player
                         itemCollision(entity, collidingEntity)
                     }
+                    EntityType.SAVE_POINT -> {
+                        if (collidingEntity.flags == ENTITY_FLAG_SAVE_POINT_NOT_ACTIVE) {
+                            lastSavepoint?.flags = ENTITY_FLAG_SAVE_POINT_NOT_ACTIVE
+                            collidingEntity.flags = ENTITY_FLAG_SAVE_POINT_ACTIVE
+                            activateSavePoint(collidingEntity)
+                        }
+                    }
                     else -> {
                         // do nothing
                     }
@@ -40,6 +55,7 @@ class PlayerCollisionSystem(private val mapManager: MapManager) :
     }
 
     private fun itemCollision(player: Entity, item: Entity) {
+        audioManager.play(SoundAssets.POWER_UP_0)
         itemInfoBuilder.clear()
 
         // apply item bonus stats to player stats
@@ -79,5 +95,11 @@ class PlayerCollisionSystem(private val mapManager: MapManager) :
 
         // remove the item from the game
         item.add(engine.createComponent(RemoveComponent::class.java))
+    }
+
+    private fun activateSavePoint(savepoint: Entity) {
+        lastSavepoint = savepoint
+        audioManager.play(SoundAssets.CHECK_POINT)
+        gameEventManager.dispatchGameActivateSavepointEvent(savepoint)
     }
 }

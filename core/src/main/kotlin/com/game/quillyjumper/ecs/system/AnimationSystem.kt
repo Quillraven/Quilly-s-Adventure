@@ -88,6 +88,14 @@ class AnimationSystem(assets: AssetManager, private val audio: AudioManager) :
                 AnimationType.JUMP -> SoundAssets.PLAYER_JUMP
                 else -> SoundAssets.UNKNOWN
             }
+            ModelType.ORANGE_SLIME -> when (animationType) {
+                AnimationType.DEATH -> SoundAssets.SLIME_DEATH
+                else -> SoundAssets.UNKNOWN
+            }
+            ModelType.BLUE_SLIME -> when (animationType) {
+                AnimationType.DEATH -> SoundAssets.SLIME_DEATH
+                else -> SoundAssets.UNKNOWN
+            }
             else -> SoundAssets.UNKNOWN
         }
     }

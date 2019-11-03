@@ -1,5 +1,6 @@
 package com.game.quillyjumper.event
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.utils.Array
@@ -56,4 +57,14 @@ class GameEventManager : KtxInputAdapter {
     fun removeMapChangeListener(listener: MapChangeListener) = mapListeners.removeValue(listener, true)
 
     fun dispatchMapChangeEvent(newMap: Map) = mapListeners.forEach { it.mapChange(newMap) }
+
+    // game event related stuff
+    private val gameEventListeners = Array<GameEventListener>()
+
+    fun addGameEventListener(listener: GameEventListener) = gameEventListeners.add(listener)
+
+    fun removeGameEventListener(listener: GameEventListener) = gameEventListeners.removeValue(listener, true)
+
+    fun dispatchGameActivateSavepointEvent(savepoint: Entity) =
+        gameEventListeners.forEach { it.activateSavepoint(savepoint) }
 }

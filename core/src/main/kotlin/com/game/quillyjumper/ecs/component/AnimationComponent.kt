@@ -13,6 +13,7 @@ enum class ModelType {
     UNKNOWN,
     PLAYER,
     BLUE_SLIME,
+    ORANGE_SLIME,
     FLIPPY,
     EYE_MONSTER
 }

@@ -25,7 +25,11 @@ enum class SoundAssets(val filePath: String, val volumeScale: Float = 1f) {
     UNKNOWN(""),
     PLAYER_JUMP("sounds/jump.ogg"),
     SWING("sounds/swing.ogg"),
-    FIRE_BALL("sounds/fire_ball.ogg")
+    FIRE_BALL("sounds/fire_ball.ogg"),
+    LEVEL_UP("sounds/level_up.ogg"),
+    CHECK_POINT("sounds/save_point.ogg"),
+    SLIME_DEATH("sounds/slime_death.ogg", 0.25f),
+    POWER_UP_0("sounds/power_up_0.ogg")
 }
 
 fun AssetManager.load(asset: SoundAssets) = load<Sound>(asset.filePath)
