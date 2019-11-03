@@ -2,6 +2,7 @@ package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Array
 import com.game.quillyjumper.assets.SoundAssets
@@ -12,7 +13,8 @@ enum class ModelType {
     UNKNOWN,
     PLAYER,
     BLUE_SLIME,
-    FLIPPY
+    FLIPPY,
+    EYE_MONSTER
 }
 
 enum class AnimationType {
@@ -31,7 +33,7 @@ class AnimationComponent(
     var modelType: ModelType = ModelType.UNKNOWN,
     var animationType: AnimationType = AnimationType.IDLE,
     var animationTime: Float = 0f,
-    var loopAnimation: Boolean = true
+    var mode: PlayMode = PlayMode.LOOP
 ) : Component {
     // animation gets initialized in AnimationSystem
     lateinit var animation: Animation

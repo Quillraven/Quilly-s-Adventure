@@ -137,7 +137,8 @@ class AnimationSystem(assets: AssetManager, private val audio: AudioManager) :
         // update sprite information with animation like texture, texture region, size, ...
         // the sprite will then be used for the rendering in the RenderSystem
         entity.renderCmp.sprite.run {
-            var textureRegion = aniCmp.animation.getKeyFrame(aniCmp.animationTime, aniCmp.loopAnimation)
+            aniCmp.animation.playMode = aniCmp.mode
+            var textureRegion = aniCmp.animation.getKeyFrame(aniCmp.animationTime)
             if (textureRegion == null) {
                 LOG.error { "Could not retrieve textureRegion for ${aniCmp.modelType}/${aniCmp.animationType} at time ${aniCmp.animationTime}" }
                 textureRegion = defaultRegion

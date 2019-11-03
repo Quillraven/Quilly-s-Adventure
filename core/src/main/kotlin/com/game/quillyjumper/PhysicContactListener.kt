@@ -101,6 +101,8 @@ class PhysicContactListener : ContactListener {
             typeA == EntityType.ENEMY && typeB == EntityType.ENEMY -> false
             typeA == EntityType.PLAYER && typeB == EntityType.NPC -> false
             typeA == EntityType.NPC && typeB == EntityType.PLAYER -> false
+            typeA == EntityType.PLAYER && typeB == EntityType.SAVE_POINT -> false
+            typeA == EntityType.SAVE_POINT && typeB == EntityType.PLAYER -> false
             else -> true
         }
     }

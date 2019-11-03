@@ -1,10 +1,14 @@
 package com.game.quillyjumper.ai
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.graphics.g2d.Animation
 import com.game.quillyjumper.ecs.component.*
 import kotlin.math.abs
 
-enum class PlayerState(override val aniType: AnimationType, override val loopAni: Boolean = true) : EntityState {
+enum class PlayerState(
+    override val aniType: AnimationType,
+    override val aniMode: Animation.PlayMode = Animation.PlayMode.LOOP
+) : EntityState {
     IDLE(AnimationType.IDLE) {
         override fun update(entity: Entity) {
             with(entity.stateCmp.stateMachine) {
@@ -31,7 +35,7 @@ enum class PlayerState(override val aniType: AnimationType, override val loopAni
             }
         }
     },
-    JUMP(AnimationType.JUMP, false) {
+    JUMP(AnimationType.JUMP, Animation.PlayMode.NORMAL) {
         override fun update(entity: Entity) {
             val physic = entity.physicCmp
             val collision = entity.collCmp
@@ -58,7 +62,7 @@ enum class PlayerState(override val aniType: AnimationType, override val loopAni
             }
         }
     },
-    ATTACK(AnimationType.ATTACK, false) {
+    ATTACK(AnimationType.ATTACK, Animation.PlayMode.NORMAL) {
         override fun enter(entity: Entity) {
             entity.attackCmp.order = AttackOrder.ATTACK_ONCE
             entity.moveCmp.lockMovement = true
@@ -76,7 +80,7 @@ enum class PlayerState(override val aniType: AnimationType, override val loopAni
             entity.moveCmp.lockMovement = false
         }
     },
-    CAST(AnimationType.CAST, false) {
+    CAST(AnimationType.CAST, Animation.PlayMode.NORMAL) {
 
         override fun enter(entity: Entity) {
             entity.moveCmp.lockMovement = true

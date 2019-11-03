@@ -1,6 +1,6 @@
 
 gameObjects.png
-size: 2048,512
+size: 2048,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -123,546 +123,546 @@ BLUE_SLIME/RUN
   orig: 32, 25
   offset: 0, 0
   index: 3
-FLIPPY/IDLE
+EYE_MONSTER/IDLE
   rotate: false
   xy: 1702, 2
+  size: 38, 28
+  orig: 38, 28
+  offset: 0, 0
+  index: 0
+EYE_MONSTER/IDLE
+  rotate: false
+  xy: 1802, 2
+  size: 38, 28
+  orig: 38, 28
+  offset: 0, 0
+  index: 1
+EYE_MONSTER/IDLE
+  rotate: false
+  xy: 1902, 2
+  size: 38, 28
+  orig: 38, 28
+  offset: 0, 0
+  index: 2
+EYE_MONSTER/IDLE
+  rotate: false
+  xy: 2, 102
+  size: 38, 28
+  orig: 38, 28
+  offset: 0, 0
+  index: 3
+FLIPPY/IDLE
+  rotate: false
+  xy: 102, 102
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 0
 FLIPPY/IDLE
   rotate: false
-  xy: 1802, 2
+  xy: 202, 102
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
-MINOTAUR/ATTACK
-  rotate: false
-  xy: 1902, 2
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 0
-MINOTAUR/ATTACK
-  rotate: false
-  xy: 2, 102
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 1
-MINOTAUR/ATTACK
-  rotate: false
-  xy: 102, 102
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 2
-MINOTAUR/ATTACK
-  rotate: false
-  xy: 202, 102
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 3
 MINOTAUR/ATTACK
   rotate: false
   xy: 302, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 4
+  index: 0
 MINOTAUR/ATTACK
   rotate: false
   xy: 402, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 5
+  index: 1
 MINOTAUR/ATTACK
   rotate: false
   xy: 502, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 6
+  index: 2
 MINOTAUR/ATTACK
   rotate: false
   xy: 602, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 7
-MINOTAUR/ATTACK2
+  index: 3
+MINOTAUR/ATTACK
   rotate: false
   xy: 702, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 0
-MINOTAUR/ATTACK2
+  index: 4
+MINOTAUR/ATTACK
   rotate: false
   xy: 802, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 1
-MINOTAUR/ATTACK2
+  index: 5
+MINOTAUR/ATTACK
   rotate: false
   xy: 902, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 2
-MINOTAUR/ATTACK2
+  index: 6
+MINOTAUR/ATTACK
   rotate: false
   xy: 1002, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 3
-MINOTAUR/ATTACK2
+  index: 7
+MINOTAUR/ATTACK
   rotate: false
   xy: 1102, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 4
+  index: 8
+MINOTAUR/ATTACK3
+  rotate: false
+  xy: 1102, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 0
+MINOTAUR/IDLE
+  rotate: false
+  xy: 1102, 102
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 1
 MINOTAUR/ATTACK2
   rotate: false
   xy: 1202, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 5
+  index: 0
 MINOTAUR/ATTACK2
   rotate: false
   xy: 1302, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 6
+  index: 1
 MINOTAUR/ATTACK2
   rotate: false
   xy: 1402, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 7
+  index: 2
 MINOTAUR/ATTACK2
   rotate: false
   xy: 1502, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 8
-MINOTAUR/ATTACK3
+  index: 3
+MINOTAUR/ATTACK2
   rotate: false
   xy: 1602, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 0
-MINOTAUR/ATTACK
-  rotate: false
-  xy: 1602, 102
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 8
-MINOTAUR/IDLE
-  rotate: false
-  xy: 1602, 102
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 1
-MINOTAUR/ATTACK3
+  index: 4
+MINOTAUR/ATTACK2
   rotate: false
   xy: 1702, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 1
-MINOTAUR/ATTACK3
+  index: 5
+MINOTAUR/ATTACK2
   rotate: false
   xy: 1802, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 2
-MINOTAUR/ATTACK3
+  index: 6
+MINOTAUR/ATTACK2
   rotate: false
   xy: 1902, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 3
-MINOTAUR/ATTACK3
+  index: 7
+MINOTAUR/ATTACK2
   rotate: false
   xy: 2, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 4
-MINOTAUR/DEATH
+  index: 8
+MINOTAUR/ATTACK3
   rotate: false
   xy: 102, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 0
-MINOTAUR/DEATH
+  index: 1
+MINOTAUR/ATTACK3
   rotate: false
   xy: 202, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 1
-MINOTAUR/DEATH
+  index: 2
+MINOTAUR/ATTACK3
   rotate: false
   xy: 302, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 2
-MINOTAUR/DEATH
+  index: 3
+MINOTAUR/ATTACK3
   rotate: false
   xy: 402, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 3
+  index: 4
 MINOTAUR/DEATH
   rotate: false
   xy: 502, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 4
+  index: 0
 MINOTAUR/DEATH
   rotate: false
   xy: 602, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 5
-MINOTAUR/IDLE
+  index: 1
+MINOTAUR/DEATH
   rotate: false
   xy: 702, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 0
-MINOTAUR/IDLE
+  index: 2
+MINOTAUR/DEATH
   rotate: false
   xy: 802, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 2
-MINOTAUR/IDLE
+  index: 3
+MINOTAUR/DEATH
   rotate: false
   xy: 902, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 3
-MINOTAUR/IDLE
+  index: 4
+MINOTAUR/DEATH
   rotate: false
   xy: 1002, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 4
-MINOTAUR/RUN
+  index: 5
+MINOTAUR/IDLE
   rotate: false
   xy: 1102, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 0
-MINOTAUR/RUN
+MINOTAUR/IDLE
   rotate: false
   xy: 1202, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 1
-MINOTAUR/RUN
+  index: 2
+MINOTAUR/IDLE
   rotate: false
   xy: 1302, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 2
-MINOTAUR/RUN
+  index: 3
+MINOTAUR/IDLE
   rotate: false
   xy: 1402, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 3
+  index: 4
 MINOTAUR/RUN
   rotate: false
   xy: 1502, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 4
+  index: 0
 MINOTAUR/RUN
   rotate: false
   xy: 1602, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 5
+  index: 1
 MINOTAUR/RUN
   rotate: false
   xy: 1702, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 6
+  index: 2
 MINOTAUR/RUN
   rotate: false
   xy: 1802, 202
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 7
-PLAYER/ATTACK
+  index: 3
+MINOTAUR/RUN
   rotate: false
   xy: 1902, 202
-  size: 50, 37
-  orig: 50, 37
+  size: 96, 96
+  orig: 96, 96
   offset: 0, 0
-  index: 0
-PLAYER/ATTACK
+  index: 4
+MINOTAUR/RUN
   rotate: false
   xy: 2, 302
-  size: 50, 37
-  orig: 50, 37
+  size: 96, 96
+  orig: 96, 96
   offset: 0, 0
-  index: 1
-PLAYER/ATTACK
+  index: 5
+MINOTAUR/RUN
   rotate: false
   xy: 102, 302
-  size: 50, 37
-  orig: 50, 37
+  size: 96, 96
+  orig: 96, 96
   offset: 0, 0
-  index: 2
-PLAYER/ATTACK
+  index: 6
+MINOTAUR/RUN
   rotate: false
   xy: 202, 302
-  size: 50, 37
-  orig: 50, 37
+  size: 96, 96
+  orig: 96, 96
   offset: 0, 0
-  index: 3
+  index: 7
 PLAYER/ATTACK
   rotate: false
   xy: 302, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
+  index: 0
+PLAYER/ATTACK
+  rotate: false
+  xy: 402, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+PLAYER/ATTACK
+  rotate: false
+  xy: 502, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+PLAYER/ATTACK
+  rotate: false
+  xy: 602, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+PLAYER/ATTACK
+  rotate: false
+  xy: 702, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
   index: 4
 PLAYER/CAST
   rotate: false
-  xy: 402, 302
+  xy: 802, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
 PLAYER/CAST
   rotate: false
-  xy: 502, 302
+  xy: 902, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
 PLAYER/CAST
   rotate: false
-  xy: 602, 302
+  xy: 1002, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
 PLAYER/CAST
   rotate: false
-  xy: 702, 302
+  xy: 1102, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
 PLAYER/CAST
   rotate: false
-  xy: 802, 302
+  xy: 1202, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 4
 PLAYER/CAST
   rotate: false
-  xy: 802, 302
+  xy: 1202, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 6
 PLAYER/CAST
   rotate: false
-  xy: 902, 302
+  xy: 1302, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 5
 PLAYER/CAST
   rotate: false
-  xy: 902, 302
+  xy: 1302, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 7
 PLAYER/DEATH
   rotate: false
-  xy: 1002, 302
+  xy: 1402, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
-PLAYER/DEATH
-  rotate: false
-  xy: 1102, 302
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 1
-PLAYER/DEATH
-  rotate: false
-  xy: 1202, 302
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 2
-PLAYER/DEATH
-  rotate: false
-  xy: 1302, 302
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 3
-PLAYER/DEATH
-  rotate: false
-  xy: 1402, 302
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 4
-PLAYER/DEATH
-  rotate: false
-  xy: 1402, 302
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 6
 PLAYER/DEATH
   rotate: false
   xy: 1502, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 5
-PLAYER/FALL
+  index: 1
+PLAYER/DEATH
   rotate: false
   xy: 1602, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
-PLAYER/FALL
+  index: 2
+PLAYER/DEATH
   rotate: false
   xy: 1702, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-PLAYER/IDLE
+  index: 3
+PLAYER/DEATH
   rotate: false
   xy: 1802, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
-PLAYER/IDLE
+  index: 4
+PLAYER/DEATH
+  rotate: false
+  xy: 1802, 302
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 6
+PLAYER/DEATH
   rotate: false
   xy: 1902, 302
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-PLAYER/IDLE
+  index: 5
+PLAYER/FALL
   rotate: false
   xy: 2, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
-PLAYER/IDLE
+  index: 0
+PLAYER/FALL
   rotate: false
   xy: 102, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-PLAYER/JUMP
+  index: 1
+PLAYER/IDLE
   rotate: false
   xy: 202, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
-PLAYER/JUMP
+PLAYER/IDLE
   rotate: false
   xy: 302, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
-PLAYER/JUMP
+PLAYER/IDLE
   rotate: false
   xy: 402, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
-PLAYER/JUMP
+PLAYER/IDLE
   rotate: false
   xy: 502, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
-PLAYER/RUN
+PLAYER/JUMP
   rotate: false
   xy: 602, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
-PLAYER/RUN
+PLAYER/JUMP
   rotate: false
   xy: 702, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
-PLAYER/RUN
+PLAYER/JUMP
   rotate: false
   xy: 802, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
-PLAYER/RUN
+PLAYER/JUMP
   rotate: false
   xy: 902, 402
   size: 50, 37
@@ -675,52 +675,80 @@ PLAYER/RUN
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 4
+  index: 0
 PLAYER/RUN
   rotate: false
   xy: 1102, 402
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
+  index: 1
+PLAYER/RUN
+  rotate: false
+  xy: 1202, 402
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+PLAYER/RUN
+  rotate: false
+  xy: 1302, 402
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+PLAYER/RUN
+  rotate: false
+  xy: 1402, 402
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 4
+PLAYER/RUN
+  rotate: false
+  xy: 1502, 402
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
   index: 5
 bloodsplat
   rotate: false
-  xy: 1202, 402
+  xy: 1602, 402
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 error
   rotate: false
-  xy: 1302, 402
+  xy: 1702, 402
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 fireball
   rotate: false
-  xy: 1402, 402
+  xy: 1802, 402
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 portal
   rotate: false
-  xy: 1502, 402
+  xy: 1902, 402
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 potion_blue_plus
   rotate: false
-  xy: 1602, 402
+  xy: 2, 502
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 potion_green_plus
   rotate: false
-  xy: 1702, 402
+  xy: 102, 502
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

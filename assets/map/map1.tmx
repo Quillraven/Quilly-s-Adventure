@@ -126,9 +126,9 @@
   </object>
  </objectgroup>
  <objectgroup color="#0000ff" id="9" name="enemy">
-  <object id="14" x="488" y="278">
+  <object id="14" x="664" y="280">
    <properties>
-    <property name="Character" value="FLIPPY"/>
+    <property name="Character" value="SAVE_POINT"/>
    </properties>
    <point/>
   </object>

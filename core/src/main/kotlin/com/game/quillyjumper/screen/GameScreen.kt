@@ -70,6 +70,9 @@ class GameScreen(
                 addSystem(DealDamageSystem())
                 addSystem(TakeDamageSystem())
                 addSystem(DeathSystem())
+                // out of bounds system must be before PhysicSystem because it deals damage to the player
+                // and in order for the TakeDamageSystem to show the damage indicator at the correct location
+                // we need to run through the PhysicSystem once to update the TransformComponent accordingly
                 addSystem(OutOfBoundsSystem())
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerCollisionSystem(mapManager))
@@ -168,12 +171,13 @@ class GameScreen(
                 life = 10f
                 defaultState = DefaultEnemyState.IDLE
                 aggroRange = 2.5f
-                xp = 50
+                xp = 10
             }
             cfg(Character.FLIPPY, EntityType.NPC, ModelType.FLIPPY) {
                 size(0.65f, 2f)
                 collisionBodyOffset(3f * UNIT_SCALE, 0f)
             }
+            cfg(Character.SAVE_POINT, EntityType.SAVE_POINT, ModelType.EYE_MONSTER)
         }
     }
 

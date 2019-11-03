@@ -1,9 +1,13 @@
 package com.game.quillyjumper.ai
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.graphics.g2d.Animation
 import com.game.quillyjumper.ecs.component.*
 
-enum class DefaultEnemyState(override val aniType: AnimationType, override val loopAni: Boolean = true) : EntityState {
+enum class DefaultEnemyState(
+    override val aniType: AnimationType,
+    override val aniMode: Animation.PlayMode = Animation.PlayMode.LOOP
+) : EntityState {
     IDLE(AnimationType.IDLE) {
         override fun update(entity: Entity) {
             val aggroEntities = entity.aggroCmp.aggroEntities
@@ -58,7 +62,7 @@ enum class DefaultEnemyState(override val aniType: AnimationType, override val l
             entity.moveCmp.order = MoveOrder.NONE
         }
     },
-    ATTACK(AnimationType.ATTACK, false) {
+    ATTACK(AnimationType.ATTACK, Animation.PlayMode.NORMAL) {
         override fun enter(entity: Entity) {
             entity.attackCmp.order = AttackOrder.ATTACK_ONCE
             entity.moveCmp.lockMovement = true

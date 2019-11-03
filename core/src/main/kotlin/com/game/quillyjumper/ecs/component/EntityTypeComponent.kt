@@ -11,6 +11,7 @@ enum class EntityType {
     ENEMY,
     NPC,
     ITEM,
+    SAVE_POINT,
     PORTAL,
     DAMAGE_EMITTER,
     OTHER;

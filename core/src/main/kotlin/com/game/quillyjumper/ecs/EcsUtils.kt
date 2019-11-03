@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.StringBuilder
 import com.game.quillyjumper.*
 import com.game.quillyjumper.ai.DefaultGlobalState
-import com.game.quillyjumper.ai.DefaultState
 import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
@@ -199,15 +198,14 @@ fun Engine.character(
         }
 
         // state
-        if (cfg.defaultState != DefaultState.NONE) {
-            with<StateComponent> {
-                with(stateMachine) {
-                    owner = this@entity.entity
-                    setInitialState(cfg.defaultState)
+        with<StateComponent> {
+            with(stateMachine) {
+                owner = this@entity.entity
+                if (cfg.life > 0) {
                     globalState = DefaultGlobalState.CHECK_ALIVE
                 }
             }
-        }
+        }.stateMachine.changeState(cfg.defaultState)
         // optional component data via lambda parameter
         this.compData()
     }
