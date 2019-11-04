@@ -20,6 +20,8 @@ private val LOG = logger<Map>()
 const val LAYER_PLAYER_SPAWN_LOCATION = "playerSpawnLocation"
 const val LAYER_COLLISION = "collision"
 const val LAYER_ENEMY = "enemy"
+const val LAYER_SAVE_POINT = "savePoint"
+const val LAYER_NPC = "npc"
 const val LAYER_ITEM = "item"
 const val LAYER_PORTAL = "portal"
 

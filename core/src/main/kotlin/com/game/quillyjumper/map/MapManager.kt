@@ -66,6 +66,8 @@ class MapManager(
             }
             createSceneryEntities(this)
             createEnemyEntities(this)
+            createSavepoints(this)
+            createNPCs(this)
             createItemEntities(this)
             createPortalEntities(this)
             updateAmbientLight(this)
@@ -88,8 +90,8 @@ class MapManager(
         }
     }
 
-    private fun createEnemyEntities(map: Map) {
-        map.mapObjects(LAYER_ENEMY).forEach { mapObj ->
+    private fun createCharacterEntities(map: Map, layer: String) {
+        map.mapObjects(layer).forEach { mapObj ->
             try {
                 val charKey = Character.valueOf(mapObj.property(PROPERTY_CHARACTER, ""))
                 ecsEngine.character(
@@ -100,13 +102,19 @@ class MapManager(
                 )
             } catch (e: IllegalArgumentException) {
                 if (!mapObj.properties.containsKey(PROPERTY_CHARACTER)) {
-                    LOG.error { "Missing character property for object with ID ${mapObj.id} for map ${map.type}" }
+                    LOG.error { "Missing character property for object with ID ${mapObj.id} for map ${map.type} in layer $layer" }
                 } else {
-                    LOG.error(e) { "Invalid character property specified for object with ID ${mapObj.id} for map ${map.type}" }
+                    LOG.error(e) { "Invalid character property specified for object with ID ${mapObj.id} for map ${map.type} in layer $layer" }
                 }
             }
         }
     }
+
+    private fun createEnemyEntities(map: Map) = createCharacterEntities(map, LAYER_ENEMY)
+
+    private fun createSavepoints(map: Map) = createCharacterEntities(map, LAYER_SAVE_POINT)
+
+    private fun createNPCs(map: Map) = createCharacterEntities(map, LAYER_NPC)
 
     private fun createItemEntities(map: Map) {
         map.mapObjects(LAYER_ITEM).forEach { mapObj ->
