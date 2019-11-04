@@ -174,12 +174,12 @@ class GameScreen(
                 xp = 10
             }
             cfg(Character.ORANGE_SLIME, EntityType.ENEMY, ModelType.ORANGE_SLIME) {
-                speed = 1f
-                size(0.75f, 0.75f)
+                speed = 0.5f
+                size(0.4f, 0.4f)
                 attackRange = 0.1f
                 attackCooldown = 1.5f
                 damage = 3f
-                life = 8f
+                life = 5f
                 defaultState = DefaultEnemyState.IDLE
                 aggroRange = 3f
                 xp = 15
