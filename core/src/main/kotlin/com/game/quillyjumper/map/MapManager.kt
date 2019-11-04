@@ -153,7 +153,14 @@ class MapManager(
                 }
 
                 // create portal entity
-                ecsEngine.portal(world, mapObj.shape, targetMap, targetPortal, targetOffsetX)
+                ecsEngine.portal(
+                    world,
+                    mapObj.shape,
+                    targetMap,
+                    targetPortal,
+                    targetOffsetX,
+                    mapObj.property(PROPERTY_FLIP_PARTICLE_FX, false)
+                )
             } catch (e: IllegalArgumentException) {
                 if (!mapObj.properties.containsKey(PROPERTY_TARGET_MAP)) {
                     LOG.error { "Missing target map property for object with ID ${mapObj.id} for map ${map.type}" }

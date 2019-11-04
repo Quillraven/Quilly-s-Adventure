@@ -43,10 +43,12 @@ const val PROPERTY_AMBIENT = "Ambient"
 const val PROPERTY_SUN_COLOR = "SunColor"
 const val PROPERTY_SHADOW_ANGLE = "ShadowAngle"
 const val PROPERTY_PARALLAX_VALUE = "parallaxValue"
+const val PROPERTY_FLIP_PARTICLE_FX = "flipParticleFX"
 
 // Map Types
 enum class MapType(val asset: MapAssets, val music: MusicAssets) {
     MAP1(MapAssets.MAP_1, MusicAssets.LEVEL_1_REMASTERED),
+    MAP2(MapAssets.MAP_2, MusicAssets.LEVEL_2),
     TEST_MAP(MapAssets.TEST_MAP, MusicAssets.LEVEL_1)
 }
 

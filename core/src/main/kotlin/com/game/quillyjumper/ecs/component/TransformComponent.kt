@@ -3,6 +3,7 @@ package com.game.quillyjumper.ecs.component
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 import ktx.math.vec2
@@ -13,8 +14,8 @@ class TransformComponent(
     var z: Int = 0,
     var prevPosition: Vector2 = vec2(0f, 0f),
     var interpolatedPosition: Vector2 = vec2(0f, 0f),
-    var size: Vector2 = vec2(1f, 1f)
-) : Component, Comparable<TransformComponent> {
+    var size: Vector2 = vec2(0f, 0f)
+) : Component, Comparable<TransformComponent>, Pool.Poolable {
     // entities are sorted first by their z index (background/foreground) and then by their
     // y-coordinate of their position on the current layer (=z index)
     override fun compareTo(other: TransformComponent): Int {
@@ -24,6 +25,13 @@ class TransformComponent(
 
     companion object {
         val mapper = mapperFor<TransformComponent>()
+    }
+
+    override fun reset() {
+        position.set(0f, 0f)
+        prevPosition.set(position)
+        interpolatedPosition.set(position)
+        size.set(0f, 0f)
     }
 }
 

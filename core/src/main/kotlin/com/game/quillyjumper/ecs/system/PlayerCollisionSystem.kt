@@ -8,6 +8,7 @@ import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.floatingText
+import com.game.quillyjumper.ecs.isRemoved
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.map.MapManager
 import ktx.ashley.allOf
@@ -28,6 +29,11 @@ class PlayerCollisionSystem(
         entity.collCmp.run {
             // loop through all colliding entities
             entities.forEach { collidingEntity ->
+                if (collidingEntity.isRemoved()) {
+                    // ignore entities that are getting removed at the end of the frame
+                    return@forEach
+                }
+
                 when (collidingEntity.typeCmp.type) {
                     EntityType.PORTAL -> {
                         // player collides with a portal -> move player to new location/map

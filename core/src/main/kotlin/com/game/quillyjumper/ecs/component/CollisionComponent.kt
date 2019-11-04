@@ -17,6 +17,7 @@ class CollisionComponent(
 
     override fun reset() {
         entities.clear()
+        numGroundContacts = 0
     }
 }
 

@@ -2,6 +2,7 @@ package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
@@ -13,9 +14,14 @@ class JumpComponent(
     var order: JumpOrder = JumpOrder.NONE,
     var jumpTime: Float = 0f,
     var maxJumpTime: Float = 1f
-) : Component {
+) : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<JumpComponent>()
+    }
+
+    override fun reset() {
+        order = JumpOrder.NONE
+        jumpTime = 0f
     }
 }
 

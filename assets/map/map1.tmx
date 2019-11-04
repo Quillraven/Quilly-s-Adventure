@@ -112,11 +112,11 @@
   </object>
  </objectgroup>
  <objectgroup color="#0000ff" id="12" name="portal">
-  <object id="27" x="1510.25" y="211.75" width="24.5" height="101.5">
+  <object id="27" x="1518.25" y="211.75" width="16.5" height="101.5">
    <properties>
-    <property name="TargetMap" value="TEST_MAP"/>
+    <property name="TargetMap" value="MAP2"/>
     <property name="TargetOffsetX" type="int" value="1"/>
-    <property name="TargetPortalID" type="int" value="10"/>
+    <property name="TargetPortalID" type="int" value="27"/>
    </properties>
   </object>
  </objectgroup>
@@ -171,12 +171,5 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup color="#ff5500" id="16" name="npc">
-  <object id="41" x="619" y="278">
-   <properties>
-    <property name="Character" value="FLIPPY"/>
-   </properties>
-   <point/>
-  </object>
- </objectgroup>
+ <objectgroup color="#ff5500" id="16" name="npc"/>
 </map>

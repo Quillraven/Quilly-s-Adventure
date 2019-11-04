@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.MathUtils
 import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.ecs.isRemoved
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import kotlin.math.max
@@ -23,6 +24,11 @@ class DealDamageSystem :
             } else {
                 val sourceType = source.typeCmp.type
                 entity.collCmp.entities.forEach { collEntity ->
+                    if (collEntity.isRemoved()) {
+                        // ignore entities that get removed at the end of the frame
+                        return@forEach
+                    }
+
                     if (sourceType.isEnemy(collEntity.typeCmp.type) && !damagedEntities.contains(collEntity)) {
                         val stats = collEntity.statsCmp
                         if (stats.life <= 0) {

@@ -2,14 +2,19 @@ package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class TakeDamageComponent(var damage: Float = 0f) : Component {
+class TakeDamageComponent(var damage: Float = 0f) : Component, Pool.Poolable {
     lateinit var source: Entity
 
     companion object {
         val mapper = mapperFor<TakeDamageComponent>()
+    }
+
+    override fun reset() {
+        damage = 0f
     }
 }
 

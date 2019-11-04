@@ -21,6 +21,8 @@ class DealDamageComponent(
 
     override fun reset() {
         damagedEntities.clear()
+        damage = 0f
+        lifeSpan = 0f
     }
 }
 

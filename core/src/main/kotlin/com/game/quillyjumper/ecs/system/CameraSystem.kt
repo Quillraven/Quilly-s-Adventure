@@ -46,7 +46,7 @@ class CameraSystem(engine: Engine, private val camera: OrthographicCamera) : Ent
     override fun mapChange(newMap: Map) {
         val newWidth = newMap.width
         val newHeight = newMap.height
-        if (newWidth > camera.viewportWidth && newHeight > camera.viewportHeight) {
+        if (newWidth >= camera.viewportWidth && newHeight >= camera.viewportHeight) {
             // lock camera to map boundaries
             maxCameraPosition.set(newWidth, newHeight)
         } else {

@@ -2,6 +2,7 @@ package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
@@ -12,12 +13,17 @@ class AttackComponent(
     var cooldown: Float = 1f,
     var attackTime: Float = 0f,
     var order: AttackOrder = AttackOrder.NONE
-) : Component {
+) : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<AttackComponent>()
     }
 
     fun canAttack() = attackTime <= 0f
+
+    override fun reset() {
+        attackTime = 0f
+        order = AttackOrder.NONE
+    }
 }
 
 val Entity.attackCmp: AttackComponent

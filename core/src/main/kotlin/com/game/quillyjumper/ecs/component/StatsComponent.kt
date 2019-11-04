@@ -2,6 +2,7 @@ package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
@@ -15,9 +16,13 @@ class StatsComponent(
     var level: Int = 1,
     var xp: Int = 0,
     var alive: Boolean = true
-) : Component {
+) : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<StatsComponent>()
+    }
+
+    override fun reset() {
+        alive = true
     }
 }
 

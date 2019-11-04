@@ -2,8 +2,6 @@ package com.game.quillyjumper.screen
 
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.PooledEngine
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -11,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.utils.viewport.ExtendViewport
+import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ability.Fireball
@@ -44,7 +42,7 @@ class GameScreen(
 ) : KtxScreen, InputListener {
     private val characterCfgCache = initCharacterConfigurations()
     private val itemCfgCache = initItemConfigurations(assets)
-    private val viewport = ExtendViewport(16f, 9f, 0f, 9f)
+    private val viewport = FitViewport(16f, 9f)
     private val engine = PooledEngine()
     private val playerEntities = engine.getEntitiesFor(allOf(PlayerComponent::class).get())
     private val mapManager =
@@ -74,8 +72,11 @@ class GameScreen(
                 // and in order for the TakeDamageSystem to show the damage indicator at the correct location
                 // we need to run through the PhysicSystem once to update the TransformComponent accordingly
                 addSystem(OutOfBoundsSystem(gameEventManager))
-                addSystem(PhysicSystem(world, this))
+                // player collision system must be before PhysicSystem because whenever the player collides
+                // with a portal then its body location gets transformed and we need the physic system
+                // to correctly update the TransformComponent which is e.g. used in the OutOfBoundsSystem
                 addSystem(PlayerCollisionSystem(mapManager, audioManager, gameEventManager))
+                addSystem(PhysicSystem(world, this))
                 addSystem(PlayerInputSystem(gameEventManager, this))
                 addSystem(StateSystem())
                 addSystem(AnimationSystem(assets, audioManager))
@@ -112,7 +113,7 @@ class GameScreen(
         gameEventManager.addMapChangeListener(audioManager)
         // add OutOfBoundsSystem as MapChangeListener to update the boundaries of the world whenver the map changes
         gameEventManager.addMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
-        // set map
+        // set initial map
         mapManager.setMap(MapType.MAP1)
     }
 
@@ -134,10 +135,6 @@ class GameScreen(
     }
 
     override fun render(delta: Float) {
-        if (Gdx.input.isKeyPressed(Input.Keys.I)) {
-            playerEntities.forEach { it.add(engine.createComponent(RemoveComponent::class.java)) }
-        }
-
         // update all ecs engine systems including the render system which draws stuff on the screen
         engine.update(delta)
     }

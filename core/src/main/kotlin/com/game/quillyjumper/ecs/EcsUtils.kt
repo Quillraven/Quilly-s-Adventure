@@ -333,7 +333,14 @@ fun Engine.scenery(world: World, shape: Shape2D): Entity {
     }
 }
 
-fun Engine.portal(world: World, shape: Shape2D, targetMap: MapType, targetPortal: Int, targetOffsetX: Int): Entity {
+fun Engine.portal(
+    world: World,
+    shape: Shape2D,
+    targetMap: MapType,
+    targetPortal: Int,
+    targetOffsetX: Int,
+    flipParticleFX: Boolean
+): Entity {
     return this.entity {
         // physic
         with<PhysicComponent> {
@@ -361,7 +368,10 @@ fun Engine.portal(world: World, shape: Shape2D, targetMap: MapType, targetPortal
             interpolatedPosition.set(position)
         }
         // particle effect
-        with<ParticleComponent> { type = ParticleAssets.PORTAL }
+        with<ParticleComponent> {
+            type = ParticleAssets.PORTAL
+            flipBy180Deg = flipParticleFX
+        }
         // portal information
         with<PortalComponent> {
             this.targetMap = targetMap
@@ -480,12 +490,13 @@ fun Engine.missile(
             position.set(spawnX, spawnY)
             prevPosition.set(position)
             interpolatedPosition.set(position)
+            size.set(width, height)
         }
         // particle effect
         with<ParticleComponent> {
             this.type = particleEffect
-            offsetX = width
-            offsetY = height
+            offsetX = width * 0.5f
+            offsetY = height * 0.5f
             this.flipBy180Deg = flipBy180Deg
         }
         // collision

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-up" width="32" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="33" nextobjectid="56">
+ <tileset firstgid="1" source="tilesets.tsx"/>
+ <layer id="28" name="bgd0" width="32" height="96">
+  <data encoding="base64" compression="zlib">
+   eJzt0bcRwlAARMEfSU2ALBUibIV4atJVQCYNwe7Miy+4Uv7DtiqlSW3qUp+GNKZdtfz+PhtTOqRjOqVzuqTrCvu3bNzTIz3TK73TJ31X2N/U+SA1qU1d6tOQxnr5fQAAAAAAAAAAAAAAfpsBElQMyQ==
+  </data>
+ </layer>
+ <layer id="29" name="bgd1" width="32" height="96">
+  <data encoding="base64" compression="zlib">
+   eJztllsOgjAQReHTGBVwifJag4lxXb725uWDBJsOAi1TlHuS8yecaWmEKJrGdWtXC7Pla4YDTGAKM3j80je7rv0cFrCEFax7+rb1XnZu/Ru8wwd8wpfwO6nj2t/HeAYwgSnMYrlja7n2T+jlsIAlrIS+1HLtj8G2B2vq23oh+9KZ1Oxr0zZDrL3bDdFuqDefsj8/5847T6vfNE199IecX1u3Za6+tF7f9PU1kPZeq9/OMLbv839vCevvO38afRONsz+kr0Godyf77Eus7ZuGffZtMxBCCCGEkGXD79Z174GPvsvcU/uuc5vXj72Hr+cWut/ea8o1v35uf7lvzkAIIYQQskRCfzOxz/6a+//AGwHyeQ8=
+  </data>
+ </layer>
+ <layer id="30" name="bgd2" width="32" height="96">
+  <data encoding="base64" compression="zlib">
+   eJzt2MtS2zAYhmEv7cRJmOnQ7sqCU3pT7RTootALoDlwCJcEw2nRwg2QxIHA5fR1wYOjsSCWZAcmPzPPIo7Rxy9LlkS35nldA/2K5w0wRISHilk7aa2q57XRQRd72K9q7g/4Pnj+fEh+D0cWf0efrAGGiDDCrSY/InuUyh+Te2/ZDyuh561iDeto4ks4Xf2xAz4fBub5v8lqoY1OnIs9Xb7Pd/7ktTuyxxb5N2T1McAQEUaa/IjskZJvW/9y/AywijWso/nS7yh9YFv/bvwM0EIbnVfuV/vAtn4jqXFoW7+J9Dzs0RdHfrn56frvyX4oOT+pfya1x57mwCxq/19/Mgcy3odFS69XyXPQrlcFyLNeFSHXeuVQED72fa71ylFuBV/xLcy3Xun8ZMxsY+eFsavmHuMkNFivMvwh9y+ulPwac6qOBhb8ydzknni9+hA8mma9yvKR9j5hUdk3bZC5iS388Cdz0/l51sssO7T7K6PtMzLPcYHLp/daUuu0z20aV2RfZ+SHtFtDHY3gOTuhe26m/a9e/067G9jElpLtck4lfRj/pK+fcu0M57go8L2uq7/KeAxRQ93B2SZvfllcjOH3XL9u/pdFN//L8hlLM8rOkut/AAWY1z1Vouw9lcrFnsqGiz2VDRd7GiGEEEIIMR/k7CRnJ5Ozk6txY3p2cjVuTM9OMm7kzC1nbiGEEEK8dXLWkz277Nllz27rH4nzcFg=
+  </data>
+ </layer>
+ <layer id="31" name="bgd3" width="32" height="96">
+  <data encoding="base64" compression="zlib">
+   eJztmtdO3EAUhs0VLLYpyy4EUMoDJQFCiVIUiRIggAIoCe+TQkcpN5RQFhRAKe+TEJaSb7RjMUy8bPUayXOkT25r/3PmnDkzXtmyKm9rNZa1Dhs1IYhjvx3L+gNHTjj6TsyyXKiLhaN/F7/vwf2Q/H+L7jt4fw36P0EOxjWS0AwtAeWnmn8v0BjRGINxmAhIX/V/B40tjRTswl5A+mr8m2jDI7aP4Qk8hQTnktAsx8cr2vEa3sBMGdqk5v8oGh/ZfoLP8EXEhHNjMC71v6P5A37CrzLoq/3fjV6PbIdgR5KCXal/k+0tuA13SqgZL9GZhCmYhiGetcB2UeoLn5tqMyQgWVu6r6p9Q2cfDuBQ6qt+qz7nY5PEYgqm84zJDdeyWqEN2t2MfpPMtWJ83kf3AA5z6Ot+98FD6b+ea4VYK/e0QXuOe0W8Pb+F5jLHK1JfH2ul2BZ9t630n1+8BRbtqHJL03fp8zqohwZZtxtttnamdotrfvEW9LLfV6L+AM8fhCF4Luv2MNojdqZ2i2tH7P+1L3T9KNbqY5cRdVvUcm88qQgdNecK1X+mzdOqrsM1FxrlWBr1qed6zh3TJ2m7cP91nwX9PHMAhhV/9Xqu51wH5zqd//VnOZ6DeZ92Ca0RUSedy/qrHK/BJvvbso6t+/S/mnMf+P2sj/4xx2k4ydIvW9yzLWNhM84ccKEOGiAua7c4t8YzBmAwS96NyrlftQ7u64SuLDWwkfbH3fxq1mos0wbRFxuxTP94W6+fUgXEf9Pn3qvmCr/+0fspIf28Ku6eNfjcm2uusPOcS3LFPWjLFfeo2Fw1OQALsAhLsAwr1ZXRT6NzAqdwBudClzFaVaH35E50uuABdEMP9EJfgPrq/DuLzhzMwwIswhIsB6ifpJ42Qwsco5OGEziFMzgX2mUel97aRaxbxtAdhwltjvXeC4Iwb+0i1i2q/6p57wVBmPf/z9cr/A/S1PevFLq7sBeSfjnX38Xol/L+Uaz1K2uTMPxX9aPof9jxj3r+G/8v9LPNP5XSj/r8E3b8w85/k39m/RPl/A97/WPGn6n/Ucv/qPtv3n+iHX+z/jL+G//N/G/qn/Hf+B+9/7/D9v86xd/Mf+HOf8V8d1gO876NCepby1zmfRvzD2wsEww=
+  </data>
+ </layer>
+ <layer id="32" name="bgd4" width="32" height="96">
+  <data encoding="base64" compression="zlib">
+   eJztz7ENACAMA8G0GQB2BPbvyRQgxJ3k3h8BwM9GRszayttPzmvV3D/sBgAAAAAAAAAAAN60AYENAZc=
+  </data>
+ </layer>
+ <objectgroup color="#ff0000" id="7" name="collision">
+  <object id="42" x="0.333333" y="111.333" width="116.667" height="65"/>
+  <object id="43" x="155.667" y="154.5" width="42.0003" height="25.3333"/>
+  <object id="44" x="251.917" y="217.917" width="25.7276" height="25.3333"/>
+  <object id="45" x="52.6665" y="368" width="39.0003" height="24.3333"/>
+  <object id="46" x="19.4999" y="431.833" width="39.0003" height="24.3333"/>
+  <object id="47" x="63.4998" y="495.833" width="82.667" height="57.3333"/>
+  <object id="48" x="240.667" y="288.333" width="125.5" height="25.3333"/>
+  <object id="49" x="104.667" y="336.667" width="39.6667" height="25.3333"/>
+  <object id="50" x="140.667" y="336.667">
+   <polyline points="0,0 93.3333,-47 100.333,-48.3333"/>
+  </object>
+  <object id="52" x="108.667" y="176.333">
+   <polyline points="0,0 -16,15 -45.3333,20.6667 -47.3333,34 -65,47.6667 -78.6667,48.3333 -77.3333,143 -92.6667,159.667 -92,335.667 -77.6667,352.667 -78,1327.67 -93.3333,1343 -109,1344"/>
+  </object>
+  <object id="54" x="481" y="5">
+   <polyline points="0,0 -0.5,169.5 -113.5,286.5 -112,380 -98.5,395.5 15,395 29.5,379"/>
+  </object>
+  <object id="55" x="510" y="560.5">
+   <polyline points="0,0 -30.5,0.5 -39,5 -38.5,9.5 -30.5,15 -29.5,943 -15,958 1.5,960"/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ffff00" id="11" name="item">
+  <object id="23" x="83.5" y="488">
+   <properties>
+    <property name="Item" value="POTION_GAIN_LIFE"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#0000ff" id="12" name="portal">
+  <object id="27" x="1.91667" y="6.91667" width="12" height="101.5">
+   <properties>
+    <property name="TargetMap" value="MAP1"/>
+    <property name="TargetOffsetX" type="int" value="-1"/>
+    <property name="TargetPortalID" type="int" value="27"/>
+    <property name="flipParticleFX" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="playerSpawnLocation">
+  <object id="13" x="71.5" y="106.667">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#0000ff" id="9" name="enemy">
+  <object id="28" x="34.3333" y="426.667">
+   <properties>
+    <property name="Character" value="BLUE_SLIME"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#55ff00" id="15" name="savePoint">
+  <object id="40" x="131.167" y="491">
+   <properties>
+    <property name="Character" value="SAVE_POINT"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ff5500" id="16" name="npc">
+  <object id="41" x="70.8333" y="363.167">
+   <properties>
+    <property name="Character" value="FLIPPY"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+</map>

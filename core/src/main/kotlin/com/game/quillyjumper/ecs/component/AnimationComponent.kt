@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Pool
 import com.game.quillyjumper.assets.SoundAssets
 import ktx.ashley.get
 import ktx.ashley.mapperFor
@@ -35,11 +36,17 @@ class AnimationComponent(
     var animationType: AnimationType = AnimationType.IDLE,
     var animationTime: Float = 0f,
     var mode: PlayMode = PlayMode.LOOP
-) : Component {
+) : Component, Pool.Poolable {
     // animation gets initialized in AnimationSystem
     lateinit var animation: Animation
 
     fun isAnimationFinished() = animation.isAnimationFinished(animationTime)
+
+    override fun reset() {
+        modelType = ModelType.UNKNOWN
+        animationType = AnimationType.IDLE
+        mode = PlayMode.LOOP
+    }
 
     companion object {
         val mapper = mapperFor<AnimationComponent>()
