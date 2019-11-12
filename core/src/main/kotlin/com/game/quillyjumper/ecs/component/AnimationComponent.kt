@@ -16,7 +16,8 @@ enum class ModelType {
     BLUE_SLIME,
     ORANGE_SLIME,
     FLIPPY,
-    EYE_MONSTER
+    EYE_MONSTER,
+    MINOTAUR
 }
 
 enum class AnimationType {

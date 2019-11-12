@@ -114,7 +114,7 @@ class GameScreen(
         // add OutOfBoundsSystem as MapChangeListener to update the boundaries of the world whenver the map changes
         gameEventManager.addMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
         // set initial map
-        mapManager.setMap(MapType.MAP1)
+        mapManager.setMap(MapType.MAP2)
     }
 
     override fun hide() {
@@ -186,6 +186,17 @@ class GameScreen(
                 collisionBodyOffset(3f * UNIT_SCALE, 0f)
             }
             cfg(Character.SAVE_POINT, EntityType.SAVE_POINT, ModelType.EYE_MONSTER)
+            cfg(Character.MINOTAUR, EntityType.ENEMY, ModelType.MINOTAUR) {
+                speed = 0.5f
+                size(0.7f, 1.2f)
+                attackRange = 0.4f
+                attackCooldown = 2.5f
+                damage = 5f
+                life = 40f
+                defaultState = DefaultEnemyState.IDLE
+                aggroRange = 10f
+                xp = 100
+            }
         }
     }
 

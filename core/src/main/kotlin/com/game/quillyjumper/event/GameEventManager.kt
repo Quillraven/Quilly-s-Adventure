@@ -21,6 +21,7 @@ class GameEventManager : KtxInputAdapter {
 
     fun removeInputListener(listener: InputListener) = inputListeners.removeValue(listener, true)
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun dispatchInputMoveEvent(percX: Float, percY: Float) {
         inputListeners.forEach { it.move(percX, percY) }
     }

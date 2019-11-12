@@ -16,7 +16,8 @@ enum class Character {
     BLUE_SLIME,
     ORANGE_SLIME,
     FLIPPY,
-    SAVE_POINT
+    SAVE_POINT,
+    MINOTAUR
 }
 
 class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {

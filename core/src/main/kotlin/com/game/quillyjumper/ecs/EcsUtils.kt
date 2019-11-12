@@ -127,8 +127,8 @@ fun Engine.character(
                 // ground sensor to detect if entity can jump
                 box(
                     cfg.size.x * 0.5f,
-                    0.25f,
-                    PhysicComponent.tmpVec2.set(0f + cfg.collBodyOffset.x, -cfg.size.y * 0.5f + cfg.collBodyOffset.y)
+                    0.35f,
+                    PhysicComponent.tmpVec2.set(0f + cfg.collBodyOffset.x, -cfg.size.y * 0.6f + cfg.collBodyOffset.y)
                 ) {
                     userData = FIXTURE_TYPE_FOOT_SENSOR
                     this.isSensor = true
