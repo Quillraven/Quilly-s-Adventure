@@ -18,6 +18,7 @@ import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.ecs.system.AbilitySystem
 import com.game.quillyjumper.ecs.system.FontType
 import com.game.quillyjumper.map.MapType
 import ktx.ashley.EngineEntity
@@ -172,6 +173,14 @@ fun Engine.character(
             with<AttackComponent> {
                 range = cfg.attackRange
                 cooldown = cfg.attackCooldown
+                damageDelay = cfg.damageDelay
+            }
+        }
+        // ability
+        if (cfg.abilities.size > 0) {
+            with<AbilityComponent>()
+            for (ability in cfg.abilities) {
+                this@character.getSystem(AbilitySystem::class.java).addAbility(this@entity.entity, ability)
             }
         }
         // stats
@@ -389,7 +398,8 @@ fun Engine.damageEmitter(
     sizeY: Float,
     damage: Float,
     lifeSpan: Float,
-    source: Entity
+    source: Entity,
+    damageDelay: Float = 0f
 ): Entity {
     return this.entity {
         // physic
@@ -412,8 +422,9 @@ fun Engine.damageEmitter(
         // damage
         with<DealDamageComponent> {
             this.damage = damage
-            this.lifeSpan = lifeSpan
+            this.lifeSpan = lifeSpan + damageDelay
             this.source = source
+            this.damageDelay = damageDelay
         }
     }
 }

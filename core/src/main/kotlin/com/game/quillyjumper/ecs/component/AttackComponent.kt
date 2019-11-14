@@ -12,7 +12,8 @@ class AttackComponent(
     var range: Float = 1f,
     var cooldown: Float = 1f,
     var attackTime: Float = 0f,
-    var order: AttackOrder = AttackOrder.NONE
+    var order: AttackOrder = AttackOrder.NONE,
+    var damageDelay: Float = 0f
 ) : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<AttackComponent>()
@@ -23,6 +24,7 @@ class AttackComponent(
     override fun reset() {
         attackTime = 0f
         order = AttackOrder.NONE
+        damageDelay = 0f
     }
 }
 

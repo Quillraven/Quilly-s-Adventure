@@ -10,7 +10,8 @@ import ktx.ashley.mapperFor
 class DealDamageComponent(
     var damage: Float = 0f,
     var lifeSpan: Float = 0f,
-    val damagedEntities: ObjectSet<Entity> = ObjectSet(4)
+    val damagedEntities: ObjectSet<Entity> = ObjectSet(4),
+    var damageDelay: Float = 0f
 ) :
     Component, Pool.Poolable {
     lateinit var source: Entity
@@ -23,6 +24,7 @@ class DealDamageComponent(
         damagedEntities.clear()
         damage = 0f
         lifeSpan = 0f
+        damageDelay = 0f
     }
 }
 

@@ -17,11 +17,12 @@ enum class ModelType {
     ORANGE_SLIME,
     FLIPPY,
     EYE_MONSTER,
-    MINOTAUR
+    MINOTAUR,
+    SKELETAL
 }
 
 enum class AnimationType {
-    IDLE, RUN, JUMP, FALL, ATTACK, DEATH, CAST
+    IDLE, RUN, JUMP, FALL, ATTACK, ATTACK2, ATTACK3, DEATH, CAST
 }
 
 class Animation(

@@ -36,7 +36,8 @@ class AttackSystem(private val world: World) : IteratingSystem(
                     transform.size.y,
                     entity.statsCmp.damage,
                     0.25f,
-                    entity
+                    entity,
+                    damageDelay
                 )
             }
             attackTime -= deltaTime

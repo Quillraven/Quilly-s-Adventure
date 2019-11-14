@@ -1,6 +1,8 @@
 package com.game.quillyjumper.configuration
 
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.Array
+import com.game.quillyjumper.ability.Ability
 import com.game.quillyjumper.ai.DefaultState
 import com.game.quillyjumper.ai.EntityState
 import com.game.quillyjumper.ecs.component.EntityType
@@ -8,6 +10,7 @@ import com.game.quillyjumper.ecs.component.ModelType
 import ktx.log.logger
 import ktx.math.vec2
 import java.util.*
+import kotlin.reflect.KClass
 
 private val LOG = logger<CharacterConfigurations>()
 
@@ -17,7 +20,8 @@ enum class Character {
     ORANGE_SLIME,
     FLIPPY,
     SAVE_POINT,
-    MINOTAUR
+    MINOTAUR,
+    SKELETAL
 }
 
 class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
@@ -27,12 +31,14 @@ class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
     var attackRange = 0f
     var attackCooldown = 0f
     var damage = 0f
+    var damageDelay = 0f
     var life = 0f
     var mana = 0f
     var armor = 0f
     var defaultState: EntityState = DefaultState.NONE
     var aggroRange = 0f
     var xp = 0
+    val abilities = Array<KClass<out Ability>>(0)
 
     fun size(width: Float, height: Float): Vector2 = size.set(width, height)
 

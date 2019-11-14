@@ -19,36 +19,40 @@ class DealDamageSystem :
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity.dealDamageCmp.run {
             lifeSpan -= deltaTime
-            if (lifeSpan <= 0f) {
-                entity.add(engine.createComponent(RemoveComponent::class.java))
-            } else {
-                val sourceType = source.typeCmp.type
-                entity.collCmp.entities.forEach { collEntity ->
-                    if (collEntity.isRemoved()) {
-                        // ignore entities that get removed at the end of the frame
-                        return@forEach
-                    }
+            damageDelay -= deltaTime
 
-                    if (sourceType.isEnemy(collEntity.typeCmp.type) && !damagedEntities.contains(collEntity)) {
-                        val stats = collEntity.statsCmp
-                        if (stats.life <= 0) {
-                            // entity is already dead -> no need to deal damage
+            when {
+                damageDelay > 0f -> return // nothing to do yet
+                lifeSpan <= 0f -> entity.add(engine.createComponent(RemoveComponent::class.java))
+                else -> {
+                    val sourceType = source.typeCmp.type
+                    entity.collCmp.entities.forEach { collEntity ->
+                        if (collEntity.isRemoved()) {
+                            // ignore entities that get removed at the end of the frame
                             return@forEach
                         }
 
-                        // entity was not damaged yet and it is still alive -> deal damage to it
-                        // let damage fluctuate within 10%
-                        val damageDealt = damage * MathUtils.random(0.9f, 1.1f)
-                        // formula : dealtDamage = damage of source reduced by armor value
-                        // armor of 1 reduces the damage by 1%; armor 10 reduces by 10%, armor 100 reduces by 100%
-                        collEntity.takeDamageCmp.also {
-                            it.damage += max(damageDealt * (1f - stats.armor * 0.01f), 0f)
-                            it.source = this.source
-                        }
+                        if (sourceType.isEnemy(collEntity.typeCmp.type) && !damagedEntities.contains(collEntity)) {
+                            val stats = collEntity.statsCmp
+                            if (stats.life <= 0) {
+                                // entity is already dead -> no need to deal damage
+                                return@forEach
+                            }
 
-                        // remember entities that got already damaged once to not
-                        // damage them every frame
-                        damagedEntities.add(collEntity)
+                            // entity was not damaged yet and it is still alive -> deal damage to it
+                            // let damage fluctuate within 10%
+                            val damageDealt = damage * MathUtils.random(0.9f, 1.1f)
+                            // formula : dealtDamage = damage of source reduced by armor value
+                            // armor of 1 reduces the damage by 1%; armor 10 reduces by 10%, armor 100 reduces by 100%
+                            collEntity.takeDamageCmp.also {
+                                it.damage += max(damageDealt * (1f - stats.armor * 0.01f), 0f)
+                                it.source = this.source
+                            }
+
+                            // remember entities that got already damaged once to not
+                            // damage them every frame
+                            damagedEntities.add(collEntity)
+                        }
                     }
                 }
             }

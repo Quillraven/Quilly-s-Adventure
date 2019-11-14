@@ -17,9 +17,6 @@ private val LOG = logger<AbilitySystem>()
 class AbilitySystem(private val world: World) :
     IteratingSystem(allOf(AbilityComponent::class, StatsComponent::class).exclude(RemoveComponent::class).get()) {
 
-    inline fun <reified T : Ability> addAbility(entity: Entity, makeAbilityActive: Boolean = true) =
-        addAbility(entity, T::class, makeAbilityActive)
-
     fun addAbility(entity: Entity, abilityType: KClass<out Ability>, makeAbilityActive: Boolean = true) {
         with(entity.abilityCmp) {
             abilities.add(Pools.get(abilityType.java).obtain().apply {

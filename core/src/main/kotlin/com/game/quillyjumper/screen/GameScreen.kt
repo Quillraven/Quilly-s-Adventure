@@ -13,11 +13,16 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ability.Fireball
+import com.game.quillyjumper.ability.SpinAttack
 import com.game.quillyjumper.ai.DefaultEnemyState
+import com.game.quillyjumper.ai.MinotaurState
 import com.game.quillyjumper.ai.PlayerState
 import com.game.quillyjumper.configuration.*
 import com.game.quillyjumper.ecs.character
-import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.ecs.component.CameraLockComponent
+import com.game.quillyjumper.ecs.component.EntityType
+import com.game.quillyjumper.ecs.component.ModelType
+import com.game.quillyjumper.ecs.component.PlayerComponent
 import com.game.quillyjumper.ecs.system.*
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.event.Key
@@ -96,9 +101,6 @@ class GameScreen(
                 ) {
                     with<PlayerComponent>()
                     with<CameraLockComponent>()
-                    with<AbilityComponent>()
-                    // TODO -> remove ability test stuff
-                    getSystem(AbilitySystem::class.java).addAbility<Fireball>(this.entity)
                 }
             }
         }
@@ -158,6 +160,7 @@ class GameScreen(
                 mana = 10f
                 armor = 2f
                 defaultState = PlayerState.IDLE
+                abilities.add(Fireball::class)
             }
             cfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
                 speed = 0.3f
@@ -187,15 +190,30 @@ class GameScreen(
             }
             cfg(Character.SAVE_POINT, EntityType.SAVE_POINT, ModelType.EYE_MONSTER)
             cfg(Character.MINOTAUR, EntityType.ENEMY, ModelType.MINOTAUR) {
-                speed = 0.5f
+                speed = 0.90f
                 size(0.7f, 1.2f)
-                attackRange = 0.4f
-                attackCooldown = 2.5f
+                attackRange = 0.7f
+                damageDelay = 0.3f
+                attackCooldown = 5f
                 damage = 5f
-                life = 40f
-                defaultState = DefaultEnemyState.IDLE
+                life = 50f
+                defaultState = MinotaurState.IDLE
                 aggroRange = 10f
                 xp = 100
+                abilities.add(SpinAttack::class)
+            }
+            cfg(Character.SKELETAL, EntityType.ENEMY, ModelType.SKELETAL) {
+                speed = 0.6f
+                size(0.4f, 0.8f)
+                collisionBodyOffset(-3f * UNIT_SCALE, 0f)
+                attackRange = 0.6f
+                attackCooldown = 3.5f
+                damage = 4f
+                damageDelay = 0.7f
+                life = 23f
+                defaultState = DefaultEnemyState.IDLE
+                aggroRange = 10f
+                xp = 40
             }
         }
     }
