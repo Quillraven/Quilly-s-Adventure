@@ -166,6 +166,7 @@ class GameScreen(
                 speed = 0.3f
                 size(0.5f, 0.5f)
                 attackRange = 0.15f
+                damageDelay = 0.25f
                 attackCooldown = 2f
                 damage = 2f
                 life = 10f
