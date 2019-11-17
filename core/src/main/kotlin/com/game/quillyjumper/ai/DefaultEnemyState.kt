@@ -15,7 +15,7 @@ enum class DefaultEnemyState(
                 // there are player units within aggro range
                 // move towards the first unit or attack it if it is within range
                 val attackCmp = entity.attackCmp
-                if (inAttackRange(entity.transfCmp, attackCmp, aggroEntities.first().transfCmp)) {
+                if (attackCmp.inAttackRange(entity.transfCmp, aggroEntities.first().transfCmp)) {
                     // aggro entity is within attack range
                     // if enemy can attack then do it
                     // otherwise remain in current position and wait for attack to be ready
@@ -39,7 +39,7 @@ enum class DefaultEnemyState(
                 val attackCmp = entity.attackCmp
                 val transform = entity.transfCmp
                 val aggroTransform = aggroEntities.first().transfCmp
-                if (inAttackRange(transform, attackCmp, aggroTransform)) {
+                if (attackCmp.inAttackRange(transform, aggroTransform)) {
                     // aggro entity is within attack range -> stop movement and attack it if possible
                     entity.moveCmp.order = MoveOrder.NONE
                     if (attackCmp.canAttack()) {
@@ -66,15 +66,7 @@ enum class DefaultEnemyState(
         override fun enter(entity: Entity) {
             entity.attackCmp.order = AttackOrder.ATTACK_ONCE
             entity.moveCmp.lockMovement = true
-
-            if (entity.aggroCmp.aggroEntities.first().transfCmp.position.x < entity.transfCmp.position.x) {
-                // aggro entity is on the left side -> attack to the left
-                entity.facingCmp.direction = FacingDirection.LEFT
-            } else {
-                // otherwise attack to the right
-                entity.facingCmp.direction = FacingDirection.RIGHT
-            }
-
+            updateFacingForAttack(entity)
             super.enter(entity)
         }
 
@@ -91,15 +83,12 @@ enum class DefaultEnemyState(
     };
 }
 
-fun inAttackRange(
-    transformCmp: TransformComponent,
-    attackCmp: AttackComponent,
-    aggroTransformCmp: TransformComponent
-): Boolean {
-    val posA = transformCmp.position
-    val sizeA = transformCmp.size
-    val posB = aggroTransformCmp.position
-    val sizeB = aggroTransformCmp.size
-    return (posA.x - attackCmp.range <= posB.x + sizeB.x && posA.x >= posB.x + sizeB.x) // aggro entity is within left attack range
-            || (posA.x + sizeA.x <= posB.x && posA.x + sizeA.x + attackCmp.range >= posB.x) // aggro entity is within right attack range
+fun updateFacingForAttack(entity: Entity) {
+    val transformA = entity.transfCmp
+    val transformB = entity.aggroCmp.aggroEntities.first().transfCmp
+
+    entity.facingCmp.direction = when {
+        transformA.position.x + transformA.size.x * 0.5f > transformB.position.x + transformB.size.x * 0.5f -> FacingDirection.LEFT
+        else -> FacingDirection.RIGHT
+    }
 }

@@ -18,10 +18,10 @@ class DeathSystem(private val audioManager: AudioManager) :
 
     private fun canLevelUp(currentLevel: Int, currentXP: Int): Boolean {
         return when {
-            currentLevel == 1 && currentXP >= 60f -> true
-            currentLevel == 2 && currentXP >= 100f -> true
-            currentLevel == 3 && currentXP >= 150f -> true
-            currentLevel == 4 && currentXP >= 250f -> true
+            currentLevel == 1 && currentXP >= 70f -> true
+            currentLevel == 2 && currentXP >= 190f -> true
+            currentLevel == 3 && currentXP >= 300f -> true
+            currentLevel == 4 && currentXP >= 600f -> true
             else -> false
         }
     }

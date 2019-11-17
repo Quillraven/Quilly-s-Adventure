@@ -18,7 +18,8 @@ enum class ModelType {
     FLIPPY,
     EYE_MONSTER,
     MINOTAUR,
-    SKELETAL
+    SKELETAL,
+    DWARF
 }
 
 enum class AnimationType {

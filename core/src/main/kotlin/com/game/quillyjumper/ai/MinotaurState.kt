@@ -16,7 +16,7 @@ enum class MinotaurState(
                 // there are player units within aggro range
                 // move towards the first unit or attack it if it is within range
                 val attackCmp = entity.attackCmp
-                if (inAttackRange(entity.transfCmp, attackCmp, aggroEntities.first().transfCmp)) {
+                if (attackCmp.inAttackRange(entity.transfCmp, aggroEntities.first().transfCmp)) {
                     // aggro entity is within attack range
                     // if enemy can attack then do it
                     // otherwise remain in current position and wait for attack to be ready
@@ -40,7 +40,7 @@ enum class MinotaurState(
                 val attackCmp = entity.attackCmp
                 val transform = entity.transfCmp
                 val aggroTransform = aggroEntities.first().transfCmp
-                if (inAttackRange(transform, attackCmp, aggroTransform)) {
+                if (attackCmp.inAttackRange(transform, aggroTransform)) {
                     // aggro entity is within attack range -> stop movement and attack it if possible
                     entity.moveCmp.order = MoveOrder.NONE
                     if (attackCmp.canAttack()) {
@@ -69,15 +69,7 @@ enum class MinotaurState(
             entity.attackCmp.order = AttackOrder.ATTACK_ONCE
             entity.moveCmp.lockMovement = true
             entity.statsCmp.damage = 7f
-
-            if (entity.aggroCmp.aggroEntities.first().transfCmp.position.x < entity.transfCmp.position.x) {
-                // aggro entity is on the left side -> attack to the left
-                entity.facingCmp.direction = FacingDirection.LEFT
-            } else {
-                // otherwise attack to the right
-                entity.facingCmp.direction = FacingDirection.RIGHT
-            }
-
+            updateFacingForAttack(entity)
             super.enter(entity)
         }
 
@@ -122,15 +114,7 @@ enum class MinotaurState(
             attack.order = AttackOrder.ATTACK_ONCE
             setPokeAttackValues(attack, entity.statsCmp)
             entity.moveCmp.lockMovement = true
-
-            if (entity.aggroCmp.aggroEntities.first().transfCmp.position.x < entity.transfCmp.position.x) {
-                // aggro entity is on the left side -> attack to the left
-                entity.facingCmp.direction = FacingDirection.LEFT
-            } else {
-                // otherwise attack to the right
-                entity.facingCmp.direction = FacingDirection.RIGHT
-            }
-
+            updateFacingForAttack(entity)
             super.enter(entity)
         }
 

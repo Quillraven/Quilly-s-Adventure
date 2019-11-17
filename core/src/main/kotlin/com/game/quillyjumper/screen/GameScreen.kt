@@ -116,7 +116,7 @@ class GameScreen(
         // add OutOfBoundsSystem as MapChangeListener to update the boundaries of the world whenver the map changes
         gameEventManager.addMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
         // set initial map
-        mapManager.setMap(MapType.MAP2)
+        mapManager.setMap(MapType.MAP1)
     }
 
     override fun hide() {
@@ -183,6 +183,18 @@ class GameScreen(
                 defaultState = DefaultEnemyState.IDLE
                 aggroRange = 3f
                 xp = 15
+            }
+            cfg(Character.DWARF, EntityType.ENEMY, ModelType.DWARF) {
+                speed = 0.6f
+                size(0.5f, 0.6f)
+                attackRange = 0.2f
+                damageDelay = 0.45f
+                attackCooldown = 1.5f
+                damage = 3f
+                life = 10f
+                defaultState = DefaultEnemyState.IDLE
+                aggroRange = 3f
+                xp = 20
             }
             cfg(Character.FLIPPY, EntityType.NPC, ModelType.FLIPPY) {
                 size(0.65f, 2f)

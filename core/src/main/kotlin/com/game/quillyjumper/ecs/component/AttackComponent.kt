@@ -2,6 +2,7 @@ package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
@@ -17,9 +18,28 @@ class AttackComponent(
 ) : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<AttackComponent>()
+        val attackBoundingArea = Rectangle()
+        val entityBoundingArea = Rectangle()
     }
 
     fun canAttack() = attackTime <= 0f
+
+    fun inAttackRange(transformA: TransformComponent, transformB: TransformComponent): Boolean {
+        attackBoundingArea.set(
+            transformA.position.x - range,
+            transformA.position.y,
+            transformA.size.x + 2 * range,
+            transformA.size.y
+        )
+        entityBoundingArea.set(
+            transformB.position.x,
+            transformB.position.y,
+            transformB.size.x,
+            transformB.size.y
+        )
+
+        return attackBoundingArea.overlaps(entityBoundingArea)
+    }
 
     override fun reset() {
         attackTime = 0f
