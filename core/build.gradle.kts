@@ -1,13 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-plugins {
-    kotlin("jvm")
-}
 val gdxVersion = project.ext["gdxVersion"] as String
 val aiVersion = project.ext["aiVersion"] as String
 val ashleyVersion = project.ext["ashleyVersion"] as String
 val ktxVersion = project.ext["ktxVersion"] as String
 val box2DLightsVersion = project.ext["box2DLightsVersion"] as String
+
+plugins {
+    kotlin("jvm")
+}
 
 dependencies {
     implementation(kotlin("stdlib"))
