@@ -23,7 +23,8 @@ class DealDamageSystem :
 
             when {
                 damageDelay > 0f -> return // nothing to do yet
-                lifeSpan <= 0f -> entity.add(engine.createComponent(RemoveComponent::class.java))
+                // check if life came to an end or if the damage source got already removed -> if yes remove the deal damage entity
+                lifeSpan <= 0f || source.isRemoved() -> entity.add(engine.createComponent(RemoveComponent::class.java))
                 else -> {
                     val sourceType = source.typeCmp.type
                     entity.collCmp.entities.forEach { collEntity ->
