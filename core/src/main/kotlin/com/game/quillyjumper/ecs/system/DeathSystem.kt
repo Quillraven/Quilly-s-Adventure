@@ -8,11 +8,15 @@ import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.floatingText
+import com.game.quillyjumper.event.GameEventManager
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.ashley.get
 
-class DeathSystem(private val audioManager: AudioManager) :
+class DeathSystem(
+    private val audioManager: AudioManager,
+    private val gameEventManager: GameEventManager
+) :
     IteratingSystem(allOf(StatsComponent::class).exclude(RemoveComponent::class).get()) {
     private val xpInfoBuilder = StringBuilder(8)
 
@@ -28,6 +32,8 @@ class DeathSystem(private val audioManager: AudioManager) :
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         if (!entity.statsCmp.alive) {
+            gameEventManager.dispatchCharacterDeath(entity)
+
             // entity is dead (life <=0) and death animation is finished
             entity[KillerComponent.mapper]?.let { killerCmp ->
                 // there is a killing entity specified -> grant XP for killing blow

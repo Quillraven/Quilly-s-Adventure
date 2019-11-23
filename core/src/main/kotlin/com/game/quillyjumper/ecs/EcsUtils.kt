@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Shape2D
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.StringBuilder
+import com.badlogic.gdx.utils.reflect.ClassReflection
+import com.badlogic.gdx.utils.reflect.ReflectionException
 import com.game.quillyjumper.*
 import com.game.quillyjumper.ai.DefaultGlobalState
 import com.game.quillyjumper.assets.ParticleAssets
@@ -20,7 +22,9 @@ import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.system.AbilitySystem
 import com.game.quillyjumper.ecs.system.FontType
+import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.map.MapType
+import com.game.quillyjumper.trigger.Trigger
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
 import ktx.box2d.BodyDefinition
@@ -519,6 +523,46 @@ fun Engine.missile(
             this.damage = damage
             this.lifeSpan = lifeSpan
             this.source = owner
+        }
+    }
+}
+
+fun Engine.trigger(
+    triggerClassStr: String,
+    reactOnCollision: Boolean,
+    gameEventManager: GameEventManager,
+    audioManager: AudioManager,
+    world: World,
+    shape: Shape2D
+): Entity {
+    return this.entity {
+        with<EntityTypeComponent> { type = EntityType.TRIGGER }
+        // trigger component uses reflection which might fail if Tiled map object settings
+        // are not correct (e.g. wrong classname or wrong package name)
+        try {
+            val triggerInstance = ClassReflection.forName(triggerClassStr).getConstructor(
+                GameEventManager::class.java,
+                AudioManager::class.java,
+                Engine::class.java,
+                World::class.java
+            ).newInstance(gameEventManager, audioManager, this@trigger, world)
+            with<TriggerComponent> { trigger = triggerInstance as Trigger }
+        } catch (e: ReflectionException) {
+            LOG.error { "Could not create trigger for class name $triggerClassStr" }
+        }
+
+        if (reactOnCollision) {
+            with<PhysicComponent> {
+                body = world.body(BodyDef.BodyType.StaticBody) {
+                    userData = this@entity.entity
+                    fixedRotation = true
+                    shape2D(shape) {
+                        isSensor = true
+                        filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
+                    }
+                }
+            }
+            with<CollisionComponent>()
         }
     }
 }

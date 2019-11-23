@@ -24,6 +24,7 @@ const val LAYER_SAVE_POINT = "savePoint"
 const val LAYER_NPC = "npc"
 const val LAYER_ITEM = "item"
 const val LAYER_PORTAL = "portal"
+const val LAYER_TRIGGER = "trigger"
 
 const val TILED_LAYER_BACKGROUND_PREFIX = "bgd"
 
@@ -44,6 +45,8 @@ const val PROPERTY_SUN_COLOR = "SunColor"
 const val PROPERTY_SHADOW_ANGLE = "ShadowAngle"
 const val PROPERTY_PARALLAX_VALUE = "parallaxValue"
 const val PROPERTY_FLIP_PARTICLE_FX = "flipParticleFX"
+const val PROPERTY_TRIGGER_CLASS = "TriggerClass"
+const val PROPERTY_TRIGGER_REACT_ON_COLLISION = "TriggerReactOnCollision"
 
 // Map Types
 @Suppress("unused")
@@ -96,7 +99,7 @@ class Map(val type: MapType, val tiledMap: TiledMap) {
         // like e.g. MapManager.changeMap or OutOfBoundsSystem
         val mapObjects = mapObjects(LAYER_PLAYER_SPAWN_LOCATION)
         if (mapObjects.count != 1) {
-            LOG.error { "There is not exactly one player start location defined for map ${type}. Amount: ${mapObjects.count}" }
+            LOG.error { "There is not exactly one player start location defined for map $type. Amount: ${mapObjects.count}" }
         } else {
             with(mapObjects.first()) { startLocation.set(x * UNIT_SCALE, y * UNIT_SCALE) }
         }

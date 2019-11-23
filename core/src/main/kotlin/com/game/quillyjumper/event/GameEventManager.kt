@@ -14,6 +14,12 @@ enum class Key {
 }
 
 class GameEventManager : KtxInputAdapter {
+    fun removeFromAllListeners(listener: Any) {
+        if (listener is InputListener) removeInputListener(listener)
+        if (listener is MapChangeListener) removeMapChangeListener(listener)
+        if (listener is GameEventListener) removeGameEventListener(listener)
+    }
+
     // input event related stuff
     private val inputListeners = Array<InputListener>()
 
@@ -68,4 +74,11 @@ class GameEventManager : KtxInputAdapter {
 
     fun dispatchGameActivateSavepointEvent(savepoint: Entity) =
         gameEventListeners.forEach { it.activateSavepoint(savepoint) }
+
+    fun dispatchPlayerTriggerContact(player: Entity, trigger: Entity) =
+        gameEventListeners.forEach { it.playerTriggerContact(player, trigger) }
+
+    fun dispatchCharacterDeath(character: Entity) =
+        gameEventListeners.forEach { it.characterDeath(character) }
+
 }

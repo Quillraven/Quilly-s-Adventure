@@ -15,6 +15,7 @@ enum class EntityType {
     SAVE_POINT,
     PORTAL,
     DAMAGE_EMITTER,
+    TRIGGER,
     OTHER;
 
     fun isEnemy(typeToCheck: EntityType): Boolean {

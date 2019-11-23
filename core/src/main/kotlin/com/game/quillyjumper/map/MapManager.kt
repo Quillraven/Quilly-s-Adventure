@@ -7,6 +7,7 @@ import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.physics.box2d.World
+import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.assets.get
 import com.game.quillyjumper.configuration.Character
@@ -32,7 +33,8 @@ class MapManager(
     private val characterConfigurations: CharacterConfigurations,
     private val itemConfigurations: ItemConfigurations,
     private val playerEntities: ImmutableArray<Entity>,
-    private val gameEventManager: GameEventManager
+    private val gameEventManager: GameEventManager,
+    private val audioManager: AudioManager
 ) {
     private var currentMapType = MapType.TEST_MAP
     private val mapCache = EnumMap<MapType, Map>(MapType::class.java)
@@ -70,10 +72,12 @@ class MapManager(
             createNPCs(this)
             createItemEntities(this)
             createPortalEntities(this)
+            createTriggers(this)
             updateAmbientLight(this)
             gameEventManager.dispatchMapChangeEvent(this)
         }
     }
+
 
     private fun movePlayerToStartLocation(map: Map) {
         playerEntities.forEach { player ->
@@ -190,6 +194,25 @@ class MapManager(
         // could not find portal -> move player to start location instead
         LOG.error { "Could not find portal $targetPortal for map ${map.type}" }
         movePlayerToStartLocation(map)
+    }
+
+    private fun createTriggers(map: Map) {
+        map.mapObjects(LAYER_TRIGGER).forEach { mapObj ->
+            val triggerClassStr = mapObj.property(PROPERTY_TRIGGER_CLASS, "")
+            if (triggerClassStr.isBlank()) {
+                LOG.error { "There is no trigger class defined for trigger ${mapObj.id} in map ${map.type}" }
+                return@forEach
+            }
+
+            ecsEngine.trigger(
+                triggerClassStr,
+                mapObj.property(PROPERTY_TRIGGER_REACT_ON_COLLISION, false),
+                gameEventManager,
+                audioManager,
+                world,
+                mapObj.shape
+            )
+        }
     }
 
     private fun updateAmbientLight(map: Map) {

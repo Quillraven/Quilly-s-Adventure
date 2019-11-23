@@ -25,7 +25,7 @@ class PhysicContactListener : ContactListener {
                 }
             }
             else -> {
-                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM) {
+                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM || collEntityType == EntityType.TRIGGER) {
                     srcEntity.collCmp.entities.add(collEntity)
                 }
             }
@@ -50,7 +50,7 @@ class PhysicContactListener : ContactListener {
                 }
             }
             else -> {
-                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM) {
+                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM || collEntityType == EntityType.TRIGGER) {
                     srcEntity.collCmp.entities.remove(collEntity)
                 }
             }

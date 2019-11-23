@@ -654,6 +654,47 @@
 <node COLOR="#111111" CREATED="1567791210342" ID="ID_1345078008" MODIFIED="1567791222126" TEXT="supported map Objects for enemies, items and scenery"/>
 </node>
 </node>
+<node COLOR="#00b439" CREATED="1573995048908" FOLDED="true" ID="ID_1930760030" MODIFIED="1574533519038" TEXT="add TriggerSystem">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="SansSerif" SIZE="16"/>
+<icon BUILTIN="button_ok"/>
+<node COLOR="#990000" CREATED="1573995054837" ID="ID_1001056222" MODIFIED="1573995073459" TEXT="when map gets loaded, MapManager parses &quot;trigger layer&quot; and creates TriggerClassInstances via reflection">
+<font NAME="SansSerif" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1573995074827" ID="ID_841172244" MODIFIED="1573995082396" TEXT="Tiled contains trigger layer with trigger objects">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1573995082745" ID="ID_306827276" MODIFIED="1573995087193" TEXT="one property: TRIGGER_CLASS"/>
+<node COLOR="#111111" CREATED="1573995088090" ID="ID_128256071" MODIFIED="1573995088876" TEXT="string"/>
+<node COLOR="#111111" CREATED="1573995089777" ID="ID_1829617056" MODIFIED="1573995095398" TEXT="name of TriggerClass"/>
+</node>
+<node COLOR="#990000" CREATED="1573995096828" ID="ID_1151860612" MODIFIED="1573995179589" TEXT="Trigger has following parameters">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1573995117341" ID="ID_136956716" MODIFIED="1573995119676" TEXT="world"/>
+<node COLOR="#111111" CREATED="1573995120517" ID="ID_299596342" MODIFIED="1573995123471" TEXT="ecsEngine"/>
+<node COLOR="#111111" CREATED="1573995124383" ID="ID_597996633" MODIFIED="1573995127183" TEXT="gameEventManager"/>
+<node COLOR="#111111" CREATED="1573995167034" ID="ID_1255564465" MODIFIED="1573995169234" TEXT="audioManager"/>
+</node>
+<node COLOR="#990000" CREATED="1573995184083" ID="ID_527355663" MODIFIED="1574533515798" TEXT="Map contains array of triggerClassed (string)">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="stop-sign"/>
+</node>
+<node COLOR="#990000" CREATED="1573995358294" ID="ID_421459560" MODIFIED="1573995368188" TEXT="trigger is an abstract class">
+<font NAME="SansSerif" SIZE="14"/>
+<node COLOR="#111111" CREATED="1573995371572" ID="ID_181866804" MODIFIED="1573995376517" TEXT="method &quot;deactivate&quot;">
+<node COLOR="#111111" CREATED="1573995376886" ID="ID_1050486296" MODIFIED="1573995386409" TEXT="triggers game event &quot;deactivateTrigger&quot;"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1573995418015" ID="ID_1712567083" MODIFIED="1574533511232" TEXT="map is a listener for triggerEvents">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="stop-sign"/>
+<node COLOR="#111111" CREATED="1573995424424" ID="ID_562003042" MODIFIED="1573995434422" TEXT="when trigger gets deactivated then remove it from triggerClass array"/>
+</node>
+<node COLOR="#990000" CREATED="1573995454071" ID="ID_1827095927" MODIFIED="1574533508418" TEXT="make trigger poolable">
+<font NAME="SansSerif" SIZE="14"/>
+<icon BUILTIN="stop-sign"/>
+<node COLOR="#111111" CREATED="1574533491437" ID="ID_1792751933" MODIFIED="1574533502298" TEXT="does not work because each trigger is a subclass of trigger and that cannot be pooled"/>
+</node>
+</node>
 <node COLOR="#00b439" CREATED="1572539388321" ID="ID_201936167" MODIFIED="1572539390008" TEXT="add UI">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="SansSerif" SIZE="16"/>

@@ -24,6 +24,7 @@ class PlayerCollisionSystem(
     IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()) {
     private val itemInfoBuilder = StringBuilder(64)
     private var lastSavepoint: Entity? = null
+    private var lastTrigger: Entity? = null
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity.collCmp.run {
@@ -42,7 +43,7 @@ class PlayerCollisionSystem(
                         return
                     }
                     EntityType.ITEM -> {
-                        // player is colliding wiht an item -> add powerup to player
+                        // player is colliding with an item -> add powerup to player
                         itemCollision(entity, collidingEntity)
                     }
                     EntityType.SAVE_POINT -> {
@@ -50,6 +51,12 @@ class PlayerCollisionSystem(
                             lastSavepoint?.flags = ENTITY_FLAG_SAVE_POINT_NOT_ACTIVE
                             collidingEntity.flags = ENTITY_FLAG_SAVE_POINT_ACTIVE
                             activateSavePoint(collidingEntity)
+                        }
+                    }
+                    EntityType.TRIGGER -> {
+                        if (lastTrigger != entity) {
+                            lastTrigger = entity
+                            gameEventManager.dispatchPlayerTriggerContact(entity, collidingEntity)
                         }
                     }
                     else -> {

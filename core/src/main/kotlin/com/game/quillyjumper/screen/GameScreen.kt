@@ -59,7 +59,8 @@ class GameScreen(
             characterCfgCache,
             itemCfgCache,
             playerEntities,
-            gameEventManager
+            gameEventManager,
+            audioManager
         )
 
     override fun show() {
@@ -72,7 +73,7 @@ class GameScreen(
                 addSystem(AttackSystem(world))
                 addSystem(DealDamageSystem())
                 addSystem(TakeDamageSystem())
-                addSystem(DeathSystem(audioManager))
+                addSystem(DeathSystem(audioManager, gameEventManager))
                 // out of bounds system must be before PhysicSystem because it deals damage to the player
                 // and in order for the TakeDamageSystem to show the damage indicator at the correct location
                 // we need to run through the PhysicSystem once to update the TransformComponent accordingly
