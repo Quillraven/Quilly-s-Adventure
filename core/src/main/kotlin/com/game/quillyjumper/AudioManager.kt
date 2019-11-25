@@ -17,15 +17,17 @@ class AudioManager(private val assets: AssetManager) : MapChangeListener {
     private val soundCache = EnumMap<SoundAssets, Sound>(SoundAssets::class.java)
     private val musicCache = EnumMap<MusicAssets, Music>(MusicAssets::class.java)
 
-    fun play(type: MusicAssets) {
+    fun play(type: MusicAssets, loop: Boolean = true): Music {
         // stop current music
         music?.stop()
         // play new music
-        music = musicCache.computeIfAbsent(type) { assets[type] }.apply {
+        val newMusic = musicCache.computeIfAbsent(type) { assets[type] }.apply {
             volume = (musicVolume * type.volumeScale)
-            isLooping = true
+            isLooping = loop
             play()
         }
+        music = newMusic
+        return newMusic
     }
 
     fun play(type: SoundAssets) {
