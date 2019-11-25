@@ -2,17 +2,27 @@ package com.game.quillyjumper.ecs.component
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.utils.Pool
 import com.game.quillyjumper.map.MapType
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
 class PortalComponent(
+    var portalID: Int = -1,
+    var active: Boolean = true,
     var targetMap: MapType = MapType.TEST_MAP,
     var targetPortal: Int = 0,
     var targetOffsetX: Int = 0
-) : Component {
+) : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<PortalComponent>()
+    }
+
+    override fun reset() {
+        portalID = -1
+        active = true
+        targetMap = MapType.TEST_MAP
+        targetPortal = 0
     }
 }
 

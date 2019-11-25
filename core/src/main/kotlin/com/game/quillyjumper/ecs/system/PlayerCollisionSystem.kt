@@ -1,5 +1,6 @@
 package com.game.quillyjumper.ecs.system
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.Color
@@ -7,9 +8,12 @@ import com.badlogic.gdx.utils.StringBuilder
 import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.ecs.findPortal
 import com.game.quillyjumper.ecs.floatingText
 import com.game.quillyjumper.ecs.isRemoved
 import com.game.quillyjumper.event.GameEventManager
+import com.game.quillyjumper.map.Map
+import com.game.quillyjumper.map.MapChangeListener
 import com.game.quillyjumper.map.MapManager
 import ktx.ashley.allOf
 import ktx.log.logger
@@ -21,10 +25,20 @@ class PlayerCollisionSystem(
     private val audioManager: AudioManager,
     private val gameEventManager: GameEventManager
 ) :
-    IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()) {
+    IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()), MapChangeListener {
     private val itemInfoBuilder = StringBuilder(64)
     private var lastSavepoint: Entity? = null
     private var lastTrigger: Entity? = null
+
+    override fun addedToEngine(engine: Engine?) {
+        gameEventManager.addMapChangeListener(this)
+        super.addedToEngine(engine)
+    }
+
+    override fun removedFromEngine(engine: Engine?) {
+        gameEventManager.removeMapChangeListener(this)
+        super.removedFromEngine(engine)
+    }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity.collCmp.run {
@@ -37,10 +51,20 @@ class PlayerCollisionSystem(
 
                 when (collidingEntity.typeCmp.type) {
                     EntityType.PORTAL -> {
-                        // player collides with a portal -> move player to new location/map
-                        collidingEntity.portalCmp.run { mapManager.setMap(targetMap, targetPortal, targetOffsetX) }
-                        // ignore any other collisions for that frame because the player got moved to a new map
-                        return
+                        // player collides with a portal -> move player to new location/map if portal is active
+                        collidingEntity.portalCmp.run {
+                            if (active) {
+                                if (targetMap == mapManager.currentMap()) {
+                                    engine.findPortal(targetPortal) {
+                                        entity.physicCmp.body.setTransform(it.transfCmp.position, 0f)
+                                    }
+                                } else {
+                                    mapManager.setMap(targetMap, targetPortal, targetOffsetX)
+                                }
+                                // ignore any other collisions for that frame because the player got moved to a new map
+                                return
+                            }
+                        }
                     }
                     EntityType.ITEM -> {
                         // player is colliding with an item -> add powerup to player
@@ -114,5 +138,10 @@ class PlayerCollisionSystem(
         lastSavepoint = savepoint
         audioManager.play(SoundAssets.CHECK_POINT)
         gameEventManager.dispatchGameActivateSavepointEvent(savepoint)
+    }
+
+    override fun mapChange(newMap: Map) {
+        lastTrigger = null
+        lastSavepoint = null
     }
 }
