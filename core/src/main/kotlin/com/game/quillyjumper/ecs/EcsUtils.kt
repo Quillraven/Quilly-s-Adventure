@@ -16,8 +16,10 @@ import com.badlogic.gdx.utils.reflect.ClassReflection
 import com.badlogic.gdx.utils.reflect.ReflectionException
 import com.game.quillyjumper.*
 import com.game.quillyjumper.ai.DefaultGlobalState
+import com.game.quillyjumper.ai.DefaultState
 import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.configuration.CharacterCfg
+import com.game.quillyjumper.configuration.CharacterConfigurations
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.system.AbilitySystem
@@ -27,6 +29,7 @@ import com.game.quillyjumper.map.MapType
 import com.game.quillyjumper.trigger.Trigger
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
+import ktx.ashley.get
 import ktx.box2d.BodyDefinition
 import ktx.box2d.FixtureDefinition
 import ktx.box2d.body
@@ -211,14 +214,16 @@ fun Engine.character(
         }
 
         // state
-        with<StateComponent> {
-            with(stateMachine) {
-                owner = this@entity.entity
-                if (cfg.life > 0) {
-                    globalState = DefaultGlobalState.CHECK_ALIVE
+        if (cfg.defaultState != DefaultState.NONE) {
+            with<StateComponent> {
+                with(stateMachine) {
+                    owner = this@entity.entity
+                    if (cfg.life > 0) {
+                        globalState = DefaultGlobalState.CHECK_ALIVE
+                    }
                 }
-            }
-        }.stateMachine.changeState(cfg.defaultState)
+            }.stateMachine.changeState(cfg.defaultState)
+        }
         // optional component data via lambda parameter
         this.compData()
     }
@@ -346,9 +351,31 @@ fun Engine.scenery(world: World, shape: Shape2D): Entity {
     }
 }
 
+fun Engine.portalTarget(
+    posX: Float,
+    posY: Float,
+    portalID: Int
+): Entity {
+    return this.entity {
+        with<EntityTypeComponent> {
+            this.type = EntityType.PORTAL
+        }
+        with<TransformComponent> {
+            position.set(posX, posY)
+            prevPosition.set(position)
+            interpolatedPosition.set(position)
+        }
+        with<PortalComponent> {
+            this.portalID = portalID
+        }
+    }
+}
+
 fun Engine.portal(
     world: World,
     shape: Shape2D,
+    portalID: Int,
+    active: Boolean,
     targetMap: MapType,
     targetPortal: Int,
     targetOffsetX: Int,
@@ -380,13 +407,17 @@ fun Engine.portal(
             prevPosition.set(position)
             interpolatedPosition.set(position)
         }
-        // particle effect
-        with<ParticleComponent> {
-            type = ParticleAssets.PORTAL
-            flipBy180Deg = flipParticleFX
+        if (active) {
+            // particle effect
+            with<ParticleComponent> {
+                type = ParticleAssets.PORTAL
+                flipBy180Deg = flipParticleFX
+            }
         }
         // portal information
         with<PortalComponent> {
+            this.portalID = portalID
+            this.active = active
             this.targetMap = targetMap
             this.targetOffsetX = targetOffsetX
             this.targetPortal = targetPortal
@@ -533,7 +564,8 @@ fun Engine.trigger(
     gameEventManager: GameEventManager,
     audioManager: AudioManager,
     world: World,
-    shape: Shape2D
+    shape: Shape2D,
+    characterCfgs: CharacterConfigurations
 ): Entity {
     return this.entity {
         with<EntityTypeComponent> { type = EntityType.TRIGGER }
@@ -541,11 +573,13 @@ fun Engine.trigger(
         // are not correct (e.g. wrong classname or wrong package name)
         try {
             val triggerInstance = ClassReflection.forName(triggerClassStr).getConstructor(
+                Entity::class.java,
                 GameEventManager::class.java,
                 AudioManager::class.java,
                 Engine::class.java,
-                World::class.java
-            ).newInstance(gameEventManager, audioManager, this@trigger, world)
+                World::class.java,
+                CharacterConfigurations::class.java
+            ).newInstance(this.entity, gameEventManager, audioManager, this@trigger, world, characterCfgs)
             with<TriggerComponent> { trigger = triggerInstance as Trigger }
         } catch (e: ReflectionException) {
             LOG.error { "Could not create trigger for class name $triggerClassStr" }
@@ -563,6 +597,16 @@ fun Engine.trigger(
                 }
             }
             with<CollisionComponent>()
+        }
+    }
+}
+
+fun Engine.findPortal(portalID: Int, lambda: (Entity) -> Unit) {
+    this.entities.forEach {
+        it[PortalComponent.mapper]?.let { portal ->
+            if (portal.portalID == portalID) {
+                lambda(it)
+            }
         }
     }
 }
