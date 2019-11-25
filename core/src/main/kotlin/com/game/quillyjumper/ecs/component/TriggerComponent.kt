@@ -13,6 +13,6 @@ class TriggerComponent : Component, Pool.Poolable {
     }
 
     override fun reset() {
-        trigger.destroy()
+        trigger.cleanup()
     }
 }
