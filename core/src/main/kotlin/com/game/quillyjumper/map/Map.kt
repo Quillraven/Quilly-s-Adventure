@@ -47,6 +47,8 @@ const val PROPERTY_PARALLAX_VALUE = "parallaxValue"
 const val PROPERTY_FLIP_PARTICLE_FX = "flipParticleFX"
 const val PROPERTY_TRIGGER_CLASS = "TriggerClass"
 const val PROPERTY_TRIGGER_REACT_ON_COLLISION = "TriggerReactOnCollision"
+const val PROPERTY_PORTAL_ACTIVE = "Active"
+const val PROPERTY_PORTAL_TARGET = "PortalTarget"
 
 // Map Types
 @Suppress("unused")

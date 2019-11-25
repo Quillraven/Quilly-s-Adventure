@@ -39,6 +39,8 @@ class MapManager(
     private var currentMapType = MapType.TEST_MAP
     private val mapCache = EnumMap<MapType, Map>(MapType::class.java)
 
+    fun currentMap() = currentMapType
+
     fun setMap(mapType: MapType, targetPortal: Int = -1, targetOffsetX: Int = -1) {
         val currentMap = mapCache[currentMapType]
         if (currentMap != null) {
@@ -144,27 +146,34 @@ class MapManager(
         map.mapObjects(LAYER_PORTAL).forEach { mapObj ->
             try {
                 // retrieve and validate portal properties
-                val targetMap = MapType.valueOf(mapObj.property(PROPERTY_TARGET_MAP, ""))
-                val targetPortal = mapObj.property(PROPERTY_TARGET_PORTAL_ID, -1)
-                if (targetPortal == -1) {
-                    LOG.error { "Target portal ID not specified for object with ID ${mapObj.id} for map ${map.type}" }
-                    return@forEach
-                }
-                val targetOffsetX = mapObj.property(PROPERTY_TARGET_OFFSET_X, 0)
-                if (targetOffsetX == 0) {
-                    LOG.error { "Target offset X not specified for object with ID ${mapObj.id} for map ${map.type}" }
-                    return@forEach
-                }
+                val portalTarget = mapObj.property(PROPERTY_PORTAL_TARGET, false)
+                if (portalTarget) {
+                    ecsEngine.portalTarget(mapObj.x * UNIT_SCALE, mapObj.y * UNIT_SCALE, mapObj.id)
+                } else {
+                    val targetMap = MapType.valueOf(mapObj.property(PROPERTY_TARGET_MAP, ""))
+                    val targetPortal = mapObj.property(PROPERTY_TARGET_PORTAL_ID, -1)
+                    if (targetPortal == -1) {
+                        LOG.error { "Target portal ID not specified for object with ID ${mapObj.id} for map ${map.type}" }
+                        return@forEach
+                    }
+                    val targetOffsetX = mapObj.property(PROPERTY_TARGET_OFFSET_X, 0)
+                    if (targetOffsetX == 0 && map.type != targetMap) {
+                        LOG.error { "Target offset X not specified for object with ID ${mapObj.id} for map ${map.type}" }
+                        return@forEach
+                    }
 
-                // create portal entity
-                ecsEngine.portal(
-                    world,
-                    mapObj.shape,
-                    targetMap,
-                    targetPortal,
-                    targetOffsetX,
-                    mapObj.property(PROPERTY_FLIP_PARTICLE_FX, false)
-                )
+                    // create portal entity
+                    ecsEngine.portal(
+                        world,
+                        mapObj.shape,
+                        mapObj.id,
+                        mapObj.property(PROPERTY_PORTAL_ACTIVE, true),
+                        targetMap,
+                        targetPortal,
+                        targetOffsetX,
+                        mapObj.property(PROPERTY_FLIP_PARTICLE_FX, false)
+                    )
+                }
             } catch (e: IllegalArgumentException) {
                 if (!mapObj.properties.containsKey(PROPERTY_TARGET_MAP)) {
                     LOG.error { "Missing target map property for object with ID ${mapObj.id} for map ${map.type}" }
@@ -210,7 +219,8 @@ class MapManager(
                 gameEventManager,
                 audioManager,
                 world,
-                mapObj.shape
+                mapObj.shape,
+                characterConfigurations
             )
         }
     }
