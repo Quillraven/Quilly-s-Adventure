@@ -22,6 +22,7 @@ class GameEventManager : KtxInputAdapter {
 
     // input event related stuff
     private val inputListeners = Array<InputListener>()
+    private var ignoreInput = false
 
     fun addInputListener(listener: InputListener) = inputListeners.add(listener)
 
@@ -29,10 +30,12 @@ class GameEventManager : KtxInputAdapter {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun dispatchInputMoveEvent(percX: Float, percY: Float) {
+        if (ignoreInput) return
         inputListeners.forEach { it.move(percX, percY) }
     }
 
     override fun keyDown(keycode: Int): Boolean {
+        if (ignoreInput) return true
         when (keycode) {
             Input.Keys.A -> dispatchInputMoveEvent(-1f, 0f)
             Input.Keys.D -> dispatchInputMoveEvent(1f, 0f)
@@ -45,6 +48,7 @@ class GameEventManager : KtxInputAdapter {
     }
 
     override fun keyUp(keycode: Int): Boolean {
+        if (ignoreInput) return true
         when (keycode) {
             Input.Keys.A -> dispatchInputMoveEvent(if (Gdx.input.isKeyPressed(Input.Keys.D)) 1f else 0f, 0f)
             Input.Keys.D -> dispatchInputMoveEvent(if (Gdx.input.isKeyPressed(Input.Keys.A)) -1f else 0f, 0f)
@@ -54,6 +58,18 @@ class GameEventManager : KtxInputAdapter {
             Input.Keys.ESCAPE -> inputListeners.forEach { it.keyReleased(Key.EXIT) }
         }
         return true
+    }
+
+    fun disablePlayerInput() {
+        ignoreInput = true
+        inputListeners.forEach {
+            it.move(0f, 0f)
+            it.keyReleased(Key.JUMP)
+        }
+    }
+
+    fun enablePlayerInput() {
+        ignoreInput = false
     }
 
     // map related stuff
@@ -80,5 +96,4 @@ class GameEventManager : KtxInputAdapter {
 
     fun dispatchCharacterDeath(character: Entity) =
         gameEventListeners.forEach { it.characterDeath(character) }
-
 }
