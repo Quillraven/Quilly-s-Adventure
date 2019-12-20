@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.3.60" apply false //root project does not need kotlin it's just here to inherit version
+    kotlin("jvm") version "1.3.61" apply false //root project does not need kotlin it's just here to inherit version
 }
 
 group = "com.game"
@@ -18,7 +18,7 @@ allprojects {
         set("ashleyVersion", "1.7.3")
         set("aiVersion", "1.8.2")
         set("ktxVersion", "1.9.10-b2")
-        set("kotlinVersion", "1.3.60")
+        set("kotlinVersion", "1.3.61")
     }
 
     repositories {
