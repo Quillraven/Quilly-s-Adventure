@@ -22,6 +22,7 @@ dependencies {
     api("io.github.libktx:ktx-app:$ktxVersion")
     api("io.github.libktx:ktx-ashley:$ktxVersion")
     api("io.github.libktx:ktx-box2d:$ktxVersion")
+    api("io.github.libktx:ktx-collections:$ktxVersion")
     api("io.github.libktx:ktx-freetype:$ktxVersion")
     api("io.github.libktx:ktx-graphics:$ktxVersion")
     api("io.github.libktx:ktx-inject:$ktxVersion")

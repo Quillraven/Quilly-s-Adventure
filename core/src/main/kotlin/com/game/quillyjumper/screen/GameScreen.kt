@@ -141,6 +141,8 @@ class GameScreen(
     override fun render(delta: Float) {
         // update all ecs engine systems including the render system which draws stuff on the screen
         engine.update(delta)
+        // update audio manager to play any queued sound effects
+        audioManager.update()
     }
 
     override fun keyPressed(key: Key) {
