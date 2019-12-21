@@ -10,13 +10,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
-import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ability.Fireball
 import com.game.quillyjumper.ability.SpinAttack
 import com.game.quillyjumper.ai.DefaultEnemyState
 import com.game.quillyjumper.ai.MinotaurState
 import com.game.quillyjumper.ai.PlayerState
+import com.game.quillyjumper.audio.AudioService
 import com.game.quillyjumper.configuration.*
 import com.game.quillyjumper.ecs.character
 import com.game.quillyjumper.ecs.component.CameraLockComponent
@@ -37,7 +37,7 @@ class GameScreen(
     private val game: KtxGame<KtxScreen>,
     private val assets: AssetManager,
     private val gameEventManager: GameEventManager,
-    private val audioManager: AudioManager,
+    private val audioService: AudioService,
     private val world: World,
     private val rayHandler: RayHandler,
     private val batch: SpriteBatch,
@@ -59,8 +59,7 @@ class GameScreen(
             characterCfgCache,
             itemCfgCache,
             playerEntities,
-            gameEventManager,
-            audioManager
+            gameEventManager
         )
 
     override fun show() {
@@ -73,7 +72,7 @@ class GameScreen(
                 addSystem(AttackSystem(world))
                 addSystem(DealDamageSystem())
                 addSystem(TakeDamageSystem())
-                addSystem(DeathSystem(audioManager, gameEventManager))
+                addSystem(DeathSystem(audioService, gameEventManager))
                 // out of bounds system must be before PhysicSystem because it deals damage to the player
                 // and in order for the TakeDamageSystem to show the damage indicator at the correct location
                 // we need to run through the PhysicSystem once to update the TransformComponent accordingly
@@ -81,13 +80,13 @@ class GameScreen(
                 // player collision system must be before PhysicSystem because whenever the player collides
                 // with a portal then its body location gets transformed and we need the physic system
                 // to correctly update the TransformComponent which is e.g. used in the OutOfBoundsSystem
-                addSystem(PlayerCollisionSystem(mapManager, audioManager, gameEventManager))
+                addSystem(PlayerCollisionSystem(mapManager, audioService, gameEventManager))
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerInputSystem(gameEventManager, this))
                 addSystem(StateSystem())
-                addSystem(AnimationSystem(assets, audioManager))
+                addSystem(AnimationSystem(assets, audioService))
                 addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
-                addSystem(ParticleSystem(assets, audioManager))
+                addSystem(ParticleSystem(assets, audioService))
                 addSystem(FadeSystem())
                 addSystem(RenderSystem(this, batch, viewport, world, mapRenderer, box2DDebugRenderer))
                 addSystem(LightSystem(rayHandler, viewport.camera as OrthographicCamera))
@@ -113,8 +112,8 @@ class GameScreen(
         gameEventManager.addMapChangeListener(engine.getSystem(RenderSystem::class.java))
         // add CameraSystem as MapChangeListener to update the camera boundaries whenever the map changes
         gameEventManager.addMapChangeListener(engine.getSystem(CameraSystem::class.java))
-        // add AudioManager as MapChangeListener to play the music of the map whenever it gets changed
-        gameEventManager.addMapChangeListener(audioManager)
+        // add AudioService as MapChangeListener to play the music of the map whenever it gets changed
+        gameEventManager.addMapChangeListener(audioService)
         // add OutOfBoundsSystem as MapChangeListener to update the boundaries of the world whenver the map changes
         gameEventManager.addMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
         // set initial map
@@ -125,7 +124,7 @@ class GameScreen(
         gameEventManager.removeInputListener(this)
         gameEventManager.removeMapChangeListener(engine.getSystem(RenderSystem::class.java))
         gameEventManager.removeMapChangeListener(engine.getSystem(CameraSystem::class.java))
-        gameEventManager.removeMapChangeListener(audioManager)
+        gameEventManager.removeMapChangeListener(audioService)
         gameEventManager.removeMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
     }
 
@@ -142,7 +141,7 @@ class GameScreen(
         // update all ecs engine systems including the render system which draws stuff on the screen
         engine.update(delta)
         // update audio manager to play any queued sound effects
-        audioManager.update()
+        audioService.update()
     }
 
     override fun keyPressed(key: Key) {

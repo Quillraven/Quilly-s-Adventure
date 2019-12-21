@@ -562,7 +562,6 @@ fun Engine.trigger(
     triggerClassStr: String,
     reactOnCollision: Boolean,
     gameEventManager: GameEventManager,
-    audioManager: AudioManager,
     world: World,
     shape: Shape2D,
     characterCfgs: CharacterConfigurations
@@ -575,11 +574,10 @@ fun Engine.trigger(
             val triggerInstance = ClassReflection.forName(triggerClassStr).getConstructor(
                 Entity::class.java,
                 GameEventManager::class.java,
-                AudioManager::class.java,
                 Engine::class.java,
                 World::class.java,
                 CharacterConfigurations::class.java
-            ).newInstance(this.entity, gameEventManager, audioManager, this@trigger, world, characterCfgs)
+            ).newInstance(this.entity, gameEventManager, this@trigger, world, characterCfgs)
             with<TriggerComponent> { trigger = triggerInstance as Trigger }
         } catch (e: ReflectionException) {
             LOG.error { "Could not create trigger for class name $triggerClassStr" }

@@ -7,11 +7,11 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Array
-import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.assets.TextureAtlasAssets
 import com.game.quillyjumper.assets.get
+import com.game.quillyjumper.audio.AudioService
 import com.game.quillyjumper.ecs.component.*
 import ktx.ashley.allOf
 import ktx.ashley.exclude
@@ -32,7 +32,7 @@ private const val DEFAULT_REGION_KEY = "error"
  * Example for a player idle animation with two frames would be PLAYER/IDLE_0 and PLAYER/IDLE_1
  * as keys for the regions of the atlas.
  */
-class AnimationSystem(assets: AssetManager, private val audio: AudioManager) :
+class AnimationSystem(assets: AssetManager, private val audioService: AudioService) :
     IteratingSystem(allOf(AnimationComponent::class, RenderComponent::class).exclude(RemoveComponent::class).get()),
     EntityListener {
     private val animationFamily = allOf(AnimationComponent::class).get()
@@ -135,7 +135,7 @@ class AnimationSystem(assets: AssetManager, private val audio: AudioManager) :
             aniCmp.animationTime = 0f
             // play sound of animation if needed
             if (aniCmp.animation.sound != SoundAssets.UNKNOWN) {
-                audio.play(aniCmp.animation.sound)
+                audioService.play(aniCmp.animation.sound)
             }
         } else {
             // increase animation time to play animation

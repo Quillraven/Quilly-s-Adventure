@@ -4,8 +4,8 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.StringBuilder
-import com.game.quillyjumper.AudioManager
 import com.game.quillyjumper.assets.SoundAssets
+import com.game.quillyjumper.audio.AudioService
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.floatingText
 import com.game.quillyjumper.event.GameEventManager
@@ -14,7 +14,7 @@ import ktx.ashley.exclude
 import ktx.ashley.get
 
 class DeathSystem(
-    private val audioManager: AudioManager,
+    private val audioService: AudioService,
     private val gameEventManager: GameEventManager
 ) :
     IteratingSystem(allOf(StatsComponent::class).exclude(RemoveComponent::class).get()) {
@@ -52,7 +52,7 @@ class DeathSystem(
                 }
 
                 if (showLevelUpInfo) {
-                    audioManager.play(SoundAssets.LEVEL_UP)
+                    audioService.play(SoundAssets.LEVEL_UP)
 
                     // show level up information to player
                     xpInfoBuilder.clear()

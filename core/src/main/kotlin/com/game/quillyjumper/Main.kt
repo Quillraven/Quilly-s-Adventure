@@ -2,6 +2,7 @@ package com.game.quillyjumper
 
 import box2dLight.Light
 import box2dLight.RayHandler
+import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.assets.AssetManager
@@ -16,6 +17,8 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.game.quillyjumper.audio.DefaultAudioService
+import com.game.quillyjumper.audio.NullAudioService
 import com.game.quillyjumper.ecs.system.FontType
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.screen.LoadingScreen
@@ -44,9 +47,18 @@ const val FILTER_CATEGORY_LIGHT = 0x0008.toShort()
 // mask = "I will collide with ..."
 const val FILTER_MASK_LIGHTS = FILTER_CATEGORY_SCENERY
 
-class Main : KtxGame<KtxScreen>() {
+fun Application.getAudioService() = (this.applicationListener as Main).audioService
+
+class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
     private val ctx = Context()
     private val profiler by lazy { GLProfiler(Gdx.graphics).apply { enable() } }
+    val audioService by lazy {
+        if (disableAudio) {
+            NullAudioService()
+        } else {
+            DefaultAudioService(ctx.inject())
+        }
+    }
 
     override fun create() {
         // init Box2D - the next call avoids some issues with older devices where the box2d libraries were not loaded correctly
@@ -61,7 +73,6 @@ class Main : KtxGame<KtxScreen>() {
                 // load/unload .tmx files
                 setLoader(TiledMap::class.java, TmxMapLoader(fileHandleResolver))
             })
-            bindSingleton(AudioManager(ctx.inject()))
             bindSingleton(GameEventManager())
             bindSingleton(Stage(FitViewport(1280f, 720f), ctx.inject<SpriteBatch>()))
             bindSingleton(createSKin())
@@ -88,7 +99,7 @@ class Main : KtxGame<KtxScreen>() {
                 ctx.inject(), // stage
                 ctx.inject(), // assets
                 ctx.inject(), // game event manager
-                ctx.inject(), // audio manager
+                audioService,
                 ctx.inject(), // physic world
                 ctx.inject(), // ray handler
                 ctx.inject(), // sprite batch
