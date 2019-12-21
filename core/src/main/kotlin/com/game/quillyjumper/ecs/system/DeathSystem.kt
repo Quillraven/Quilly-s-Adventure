@@ -8,6 +8,7 @@ import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.audio.AudioService
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.floatingText
+import com.game.quillyjumper.ecs.isRemoved
 import com.game.quillyjumper.event.GameEventManager
 import ktx.ashley.allOf
 import ktx.ashley.exclude
@@ -38,6 +39,11 @@ class DeathSystem(
             entity[KillerComponent.mapper]?.let { killerCmp ->
                 // there is a killing entity specified -> grant XP for killing blow
                 val killer = killerCmp.killer
+                if (killer.isRemoved()) {
+                    // killer was already removed from ECS -> do nothing
+                    return@let
+                }
+
                 val xpGained = entity.statsCmp.xp
                 val stats = killer.statsCmp
                 val transform = killer.transfCmp
