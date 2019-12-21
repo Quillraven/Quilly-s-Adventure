@@ -10,5 +10,5 @@ fun main() {
         width = 1280
         height = 720
     }
-    LwjglApplication(Main(), config).logLevel = Application.LOG_DEBUG
+    LwjglApplication(Main(disableAudio = false), config).logLevel = Application.LOG_DEBUG
 }
