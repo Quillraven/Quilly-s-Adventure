@@ -1,11 +1,10 @@
-package com.game.quillyjumper.desktop
+package com.game.quillyjumper
 
 import com.badlogic.gdx.Application
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
-import com.game.quillyjumper.Main
 
-fun main() {
+fun main(args: Array<String>) {
     val config = LwjglApplicationConfiguration().apply {
         width = 1280
         height = 720

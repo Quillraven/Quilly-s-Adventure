@@ -122,3 +122,4 @@ Thumbs.db
 ## Out folders due to new project setup
 /core/out/
 /desktop/out/
+/buildSrc/build/

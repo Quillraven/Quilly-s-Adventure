@@ -48,9 +48,9 @@ operator fun AssetManager.get(asset: TextureAtlasAssets) = this.getAsset<Texture
 
 // tiled map
 enum class MapAssets(val filePath: String) {
-    MAP_1("assets/map/map1.tmx"),
-    MAP_2("assets/map/map2.tmx"),
-    TEST_MAP("assets/map/testmap.tmx")
+    MAP_1("map/map1.tmx"),
+    MAP_2("map/map2.tmx"),
+    TEST_MAP("map/testmap.tmx")
 }
 
 fun AssetManager.load(asset: MapAssets) = load<TiledMap>(asset.filePath)
@@ -58,9 +58,9 @@ operator fun AssetManager.get(asset: MapAssets) = this.getAsset<TiledMap>(asset.
 
 // particle effects
 enum class ParticleAssets(val filePath: String, val scale: Float = 1f, val sound: SoundAssets = SoundAssets.UNKNOWN) {
-    BLOOD("assets/particles/blood.p", 0.5f),
-    PORTAL("assets/particles/portal.p"),
-    FIREBALL("assets/particles/fireball.p", 0.3f, SoundAssets.FIRE_BALL)
+    BLOOD("particles/blood.p", 0.5f),
+    PORTAL("particles/portal.p"),
+    FIREBALL("particles/fireball.p", 0.3f, SoundAssets.FIRE_BALL)
 }
 
 fun AssetManager.load(asset: ParticleAssets, params: ParticleEffectLoader.ParticleEffectParameter) =

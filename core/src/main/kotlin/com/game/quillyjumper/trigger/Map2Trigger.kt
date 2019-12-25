@@ -16,6 +16,7 @@ import com.game.quillyjumper.ecs.findPortal
 import com.game.quillyjumper.event.GameEventListener
 import com.game.quillyjumper.event.GameEventManager
 
+@Suppress("unused")
 class Map2TriggerEnter(
     triggerEntity: Entity,
     gameEventManager: GameEventManager,
@@ -30,6 +31,7 @@ class Map2TriggerEnter(
     }
 }
 
+@Suppress("unused")
 class Map2TriggerBoss(
     triggerEntity: Entity,
     gameEventManager: GameEventManager,
