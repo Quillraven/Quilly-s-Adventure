@@ -8,5 +8,3 @@ allprojects {
     }
 }
 
-group = Versions.packageName
-version = Versions.version
