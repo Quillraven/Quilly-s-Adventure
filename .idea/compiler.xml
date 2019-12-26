@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="QuillyJumper4.android.app.main" target="12" />
+      <module name="QuillyJumper4.android.app.test" target="12" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
