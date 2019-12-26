@@ -18,17 +18,9 @@ dependencies {
     implementation("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-desktop")
 }
 
-// set resource directory to android assets folder
-sourceSets {
-    main {
-        resources.srcDirs("../android/assets")
-        java.srcDirs("src/main/kotlin")
-    }
-}
-
 configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks.withType<KotlinCompile> {
