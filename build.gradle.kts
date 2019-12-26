@@ -1,28 +1,12 @@
-group = Versions.packageName
-version = Versions.version
+plugins {
+    kotlin("jvm") version Versions.kotlin apply false // root project does not need Kotlin plugin since it does not contain any source
+}
 
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
-        classpath("com.android.tools.build:gradle:${Versions.androidGradlePlugin}")
-    }
-
+allprojects {
     repositories {
-        google()
-        mavenCentral()
         jcenter()
     }
 }
 
-allprojects {
-    group = project.group
-    version = project.version
-
-    repositories {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-        }
-    }
-}
+group = Versions.packageName
+version = Versions.version

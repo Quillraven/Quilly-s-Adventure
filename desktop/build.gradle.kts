@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     application
     kotlin("jvm")
+    id("com.github.johnrengelman.shadow") version "5.2.0"
 }
 
 application {
@@ -16,6 +17,13 @@ dependencies {
     implementation("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-desktop")
     implementation("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-desktop")
     implementation("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-desktop")
+}
+
+tasks {
+    jar {
+        dependsOn("shadowJar") // also build fat jar when building jar
+        archiveClassifier.set("original")
+    }
 }
 
 configure<JavaPluginConvention> {
