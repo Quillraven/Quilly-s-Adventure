@@ -1,7 +1,7 @@
 package com.game.quillyjumper.screen
 
 import box2dLight.RayHandler
-import com.badlogic.ashley.core.PooledEngine
+import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -11,8 +11,8 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.UNIT_SCALE
-import com.game.quillyjumper.ability.Fireball
-import com.game.quillyjumper.ability.SpinAttack
+import com.game.quillyjumper.ability.FireballEffect
+import com.game.quillyjumper.ability.SpinEffect
 import com.game.quillyjumper.ai.DefaultEnemyState
 import com.game.quillyjumper.ai.MinotaurState
 import com.game.quillyjumper.ai.PlayerState
@@ -39,6 +39,7 @@ class GameScreen(
     private val gameEventManager: GameEventManager,
     private val audioService: AudioService,
     private val world: World,
+    private val engine: Engine,
     private val rayHandler: RayHandler,
     private val batch: SpriteBatch,
     private val mapRenderer: OrthogonalTiledMapRenderer,
@@ -48,7 +49,6 @@ class GameScreen(
     private val characterCfgCache = initCharacterConfigurations()
     private val itemCfgCache = initItemConfigurations(assets)
     private val viewport = FitViewport(16f, 9f)
-    private val engine = PooledEngine()
     private val playerEntities = engine.getEntitiesFor(allOf(PlayerComponent::class).get())
     private val mapManager =
         MapManager(
@@ -68,7 +68,7 @@ class GameScreen(
             engine.apply {
                 addSystem(PhysicMoveSystem())
                 addSystem(PhysicJumpSystem())
-                addSystem(AbilitySystem(world))
+                addSystem(AbilitySystem())
                 addSystem(AttackSystem(world))
                 addSystem(DealDamageSystem())
                 addSystem(TakeDamageSystem())
@@ -163,7 +163,7 @@ class GameScreen(
                 mana = 10f
                 armor = 2f
                 defaultState = PlayerState.IDLE
-                abilities.add(Fireball::class)
+                abilities.add(FireballEffect)
             }
             cfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
                 speed = 0.3f
@@ -216,7 +216,7 @@ class GameScreen(
                 defaultState = MinotaurState.IDLE
                 aggroRange = 10f
                 xp = 100
-                abilities.add(SpinAttack::class)
+                abilities.add(SpinEffect)
             }
             cfg(Character.SKELETAL, EntityType.ENEMY, ModelType.SKELETAL) {
                 speed = 0.6f

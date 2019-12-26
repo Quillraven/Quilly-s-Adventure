@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pool
 import com.game.quillyjumper.ability.Ability
+import com.game.quillyjumper.ability.AbilityEffect
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
@@ -23,7 +24,21 @@ class AbilityComponent : Component, Pool.Poolable {
 
     fun canCast() = abilityToCastIdx >= 0 && abilityToCastIdx < abilities.size && abilities[abilityToCastIdx].canCast()
 
+    fun addAbility(entity: Entity, abilityEffect: AbilityEffect) {
+        abilities.add(Ability.pool.obtain().apply {
+            owner = entity
+            effect = abilityEffect
+        })
+        if (abilityToCastIdx == -1) {
+            // no active ability yet -> make the first ability active
+            abilityToCastIdx = 0
+        }
+    }
+
     override fun reset() {
+        abilities.forEach {
+            Ability.pool.free(it)
+        }
         abilities.clear()
     }
 }
