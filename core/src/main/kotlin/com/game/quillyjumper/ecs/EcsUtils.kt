@@ -22,7 +22,6 @@ import com.game.quillyjumper.configuration.CharacterCfg
 import com.game.quillyjumper.configuration.CharacterConfigurations
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
-import com.game.quillyjumper.ecs.system.AbilitySystem
 import com.game.quillyjumper.ecs.system.FontType
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.map.MapType
@@ -185,9 +184,10 @@ fun Engine.character(
         }
         // ability
         if (cfg.abilities.size > 0) {
-            with<AbilityComponent>()
-            for (ability in cfg.abilities) {
-                this@character.getSystem(AbilitySystem::class.java).addAbility(this@entity.entity, ability)
+            with<AbilityComponent> {
+                for (ability in cfg.abilities) {
+                    addAbility(this@entity.entity, ability)
+                }
             }
         }
         // stats

@@ -2,6 +2,8 @@ package com.game.quillyjumper
 
 import box2dLight.Light
 import box2dLight.RayHandler
+import com.badlogic.ashley.core.Engine
+import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
@@ -14,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2D
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
+import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.FitViewport
@@ -48,6 +51,10 @@ const val FILTER_CATEGORY_LIGHT = 0x0008.toShort()
 const val FILTER_MASK_LIGHTS = FILTER_CATEGORY_SCENERY
 
 fun Application.getAudioService() = (this.applicationListener as Main).audioService
+val Application.world: World
+    get() = (this.applicationListener as Main).world
+val Application.ecsEngine: Engine
+    get() = (this.applicationListener as Main).ecsEngine
 
 class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
     private val ctx = Context()
@@ -59,6 +66,8 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
             DefaultAudioService(ctx.inject())
         }
     }
+    val world by lazy { createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) } }
+    val ecsEngine by lazy { PooledEngine() }
 
     override fun create() {
         // init Box2D - the next call avoids some issues with older devices where the box2d libraries were not loaded correctly
@@ -76,8 +85,7 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
             bindSingleton(GameEventManager())
             bindSingleton(Stage(FitViewport(1280f, 720f), ctx.inject<SpriteBatch>()))
             bindSingleton(createSKin())
-            bindSingleton(createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) })
-            bindSingleton(RayHandler(inject()))
+            bindSingleton(RayHandler(world))
             bindSingleton(Box2DDebugRenderer())
             bindSingleton(OrthogonalTiledMapRenderer(null, UNIT_SCALE, ctx.inject<SpriteBatch>()))
         }
@@ -100,7 +108,8 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
                 ctx.inject(), // assets
                 ctx.inject(), // game event manager
                 audioService,
-                ctx.inject(), // physic world
+                world, // physic world
+                ecsEngine, // entity component engine
                 ctx.inject(), // ray handler
                 ctx.inject(), // sprite batch
                 ctx.inject(), // tiled map renderer
@@ -141,7 +150,8 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
         LOG.debug { "Texture bindings: ${profiler.textureBindings}" }
         LOG.debug { "Sprites in batch: ${ctx.inject<SpriteBatch>().maxSpritesInBatch}" }
 
-        // dispose all disposables which are part of our context
+        // dispose all disposables which are mostly part of our context
+        world.dispose()
         ctx.dispose()
     }
 }
