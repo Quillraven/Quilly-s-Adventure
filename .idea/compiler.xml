@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="QuillyJumper4.android.app.main" target="12" />
       <module name="QuillyJumper4.android.app.test" target="12" />
+      <module name="QuillyJumper4.buildSrc.main" target="12" />
+      <module name="QuillyJumper4.buildSrc.test" target="12" />
     </bytecodeTargetLevel>
   </component>
 </project>

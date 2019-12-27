@@ -6,17 +6,19 @@ plugins {
     id("com.github.johnrengelman.shadow") version "5.2.0"
 }
 
+val versions = rootProject.ext
+
 application {
-    mainClassName = "${Versions.packageName}.DesktopLauncherKt"
+    mainClassName = "${versions["packageName"]}.DesktopLauncherKt"
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}")
     implementation(project(":core"))
-    implementation("com.badlogicgames.gdx:gdx-backend-lwjgl:${Versions.gdx}")
-    implementation("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-desktop")
+    implementation(kotlin("stdlib-jdk8"))
+    implementation("com.badlogicgames.gdx:gdx-backend-lwjgl:${versions["gdx"]}")
+    implementation("com.badlogicgames.gdx:gdx-freetype-platform:${versions["gdx"]}:natives-desktop")
+    implementation("com.badlogicgames.gdx:gdx-platform:${versions["gdx"]}:natives-desktop")
+    implementation("com.badlogicgames.gdx:gdx-box2d-platform:${versions["gdx"]}:natives-desktop")
 }
 
 tasks {
@@ -32,5 +34,5 @@ configure<JavaPluginConvention> {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = Versions.jvmTarget
+    kotlinOptions.jvmTarget = versions["jvmTarget"] as String
 }
