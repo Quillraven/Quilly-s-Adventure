@@ -8,32 +8,32 @@ val copyAndroidNatives by tasks.registering(Task::class)
 
 dependencies {
     implementation(project(":core"))
-    api("com.badlogicgames.gdx:gdx-backend-android:${rootProject.extra["gdxVersion"]}")
-    natives("com.badlogicgames.gdx:gdx-platform:${rootProject.extra["gdxVersion"]}:natives-armeabi")
-    natives("com.badlogicgames.gdx:gdx-platform:${rootProject.extra["gdxVersion"]}:natives-armeabi-v7a")
-    natives("com.badlogicgames.gdx:gdx-platform:${rootProject.extra["gdxVersion"]}:natives-arm64-v8a")
-    natives("com.badlogicgames.gdx:gdx-platform:${rootProject.extra["gdxVersion"]}:natives-x86")
-    natives("com.badlogicgames.gdx:gdx-platform:${rootProject.extra["gdxVersion"]}:natives-x86_64")
-    api("com.badlogicgames.gdx:gdx-box2d:${rootProject.extra["gdxVersion"]}")
-    natives("com.badlogicgames.gdx:gdx-box2d-platform:${rootProject.extra["gdxVersion"]}:natives-armeabi")
-    natives("com.badlogicgames.gdx:gdx-box2d-platform:${rootProject.extra["gdxVersion"]}:natives-armeabi-v7a")
-    natives("com.badlogicgames.gdx:gdx-box2d-platform:${rootProject.extra["gdxVersion"]}:natives-arm64-v8a")
-    natives("com.badlogicgames.gdx:gdx-box2d-platform:${rootProject.extra["gdxVersion"]}:natives-x86")
-    natives("com.badlogicgames.gdx:gdx-box2d-platform:${rootProject.extra["gdxVersion"]}:natives-x86_64")
-    api("com.badlogicgames.gdx:gdx-freetype:${rootProject.extra["gdxVersion"]}")
-    natives("com.badlogicgames.gdx:gdx-freetype-platform:${rootProject.extra["gdxVersion"]}:natives-armeabi")
-    natives("com.badlogicgames.gdx:gdx-freetype-platform:${rootProject.extra["gdxVersion"]}:natives-armeabi-v7a")
-    natives("com.badlogicgames.gdx:gdx-freetype-platform:${rootProject.extra["gdxVersion"]}:natives-arm64-v8a")
-    natives("com.badlogicgames.gdx:gdx-freetype-platform:${rootProject.extra["gdxVersion"]}:natives-x86")
-    natives("com.badlogicgames.gdx:gdx-freetype-platform:${rootProject.extra["gdxVersion"]}:natives-x86_64")
-    api("com.badlogicgames.box2dlights:box2dlights:${rootProject.extra["box2DLightsVersion"]}")
-    api("com.badlogicgames.ashley:ashley:${rootProject.extra["ashleyVersion"]}")
-    api("com.badlogicgames.gdx:gdx-ai:${rootProject.extra["aiVersion"]}")
-    api("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlinVersion"]}")
+    api("com.badlogicgames.gdx:gdx-backend-android:${Versions.gdx}")
+    natives("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-armeabi")
+    natives("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-armeabi-v7a")
+    natives("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-arm64-v8a")
+    natives("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-x86")
+    natives("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-x86_64")
+    api("com.badlogicgames.gdx:gdx-box2d:${Versions.gdx}")
+    natives("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-armeabi")
+    natives("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-armeabi-v7a")
+    natives("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-arm64-v8a")
+    natives("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-x86")
+    natives("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-x86_64")
+    api("com.badlogicgames.gdx:gdx-freetype:${Versions.gdx}")
+    natives("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-armeabi")
+    natives("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-armeabi-v7a")
+    natives("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-arm64-v8a")
+    natives("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-x86")
+    natives("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-x86_64")
+    api("com.badlogicgames.box2dlights:box2dlights:${Versions.box2DLight}")
+    api("com.badlogicgames.ashley:ashley:${Versions.ashley}")
+    api("com.badlogicgames.gdx:gdx-ai:${Versions.gdxAI}")
+    api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
 }
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(Apps.compileSdk)
     sourceSets {
         getByName("main") {
             manifest.srcFile("AndroidManifest.xml")
@@ -47,11 +47,11 @@ android {
 
     }
     defaultConfig {
-        applicationId = "com.game.quillyjumper"
-        minSdkVersion(14)
-        targetSdkVersion(29)
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Apps.packageName
+        minSdkVersion(Apps.minSdk)
+        targetSdkVersion(Apps.targetSdk)
+        versionCode = Apps.versionCode
+        versionName = Apps.versionName
     }
     buildTypes {
         getByName("release") {

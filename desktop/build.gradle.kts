@@ -2,7 +2,7 @@ plugins {
     application
     kotlin("jvm")
     // use shadow/shadowJar task to create executable jar file of the game
-    id("com.github.johnrengelman.shadow") version "5.2.0"
+    id("com.github.johnrengelman.shadow") version Versions.shadowJar
 }
 
 application {
@@ -11,11 +11,11 @@ application {
 
 dependencies {
     implementation(project(":core"))
-    api("com.badlogicgames.gdx:gdx-backend-lwjgl:${rootProject.extra["gdxVersion"]}")
-    api("com.badlogicgames.gdx:gdx-platform:${rootProject.extra["gdxVersion"]}:natives-desktop")
-    api("com.badlogicgames.gdx:gdx-box2d-platform:${rootProject.extra["gdxVersion"]}:natives-desktop")
-    api("com.badlogicgames.gdx:gdx-freetype-platform:${rootProject.extra["gdxVersion"]}:natives-desktop")
-    api("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlinVersion"]}")
+    api("com.badlogicgames.gdx:gdx-backend-lwjgl:${Versions.gdx}")
+    api("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-desktop")
+    api("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-desktop")
+    api("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-desktop")
+    api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
 }
 
 configure<JavaPluginConvention> {
@@ -26,5 +26,13 @@ sourceSets {
     main {
         java.srcDirs("src/main/kotlin")
         resources.srcDirs("../android/assets")
+    }
+}
+
+tasks {
+    shadowJar {
+        archiveBaseName.set(Apps.name)
+        archiveVersion.set(Apps.versionName)
+        archiveClassifier.set("")
     }
 }
