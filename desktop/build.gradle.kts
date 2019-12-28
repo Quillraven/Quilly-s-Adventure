@@ -1,5 +1,12 @@
 plugins {
+    application
     kotlin("jvm")
+    // use shadow/shadowJar task to create executable jar file of the game
+    id("com.github.johnrengelman.shadow") version "5.2.0"
+}
+
+application {
+    mainClassName = "com.game.quillyjumper.DesktopLauncherKt"
 }
 
 dependencies {
@@ -11,7 +18,7 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlinVersion"]}")
 }
 
-java {
+configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_7
 }
 
@@ -20,35 +27,4 @@ sourceSets {
         java.srcDirs("src/main/kotlin")
         resources.srcDirs("../android/assets")
     }
-}
-
-project.ext.set("mainClassName", "com.game.quillyjumper.DesktopLauncherKt")
-project.ext.set("assetsDir", File("../android/assets"))
-
-task("run", JavaExec::class) {
-    dependsOn("classes")
-    main = project.ext["mainClassName"] as String
-    classpath = sourceSets.getByName("main").runtimeClasspath
-    standardInput = System.`in`
-    workingDir = project.ext["assetsDir"] as File
-    isIgnoreExitValue = true
-}
-
-task("debug", JavaExec::class) {
-    dependsOn("classes")
-    main = project.ext["mainClassName"] as String
-    classpath = sourceSets.getByName("main").runtimeClasspath
-    standardInput = System.`in`
-    workingDir = project.ext["assetsDir"] as File
-    isIgnoreExitValue = true
-    debug = true
-}
-
-task("dist", Jar::class) {
-    dependsOn("classes")
-    manifest {
-        attributes["Main-Class"] = project.ext["mainClassName"] as String
-    }
-    from(configurations.compileClasspath.map { if ((it as File).isDirectory) it else zipTree(it) })
-    // with(jar) <- TODO how to convert this to kotlin dsl
 }

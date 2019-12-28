@@ -1,11 +1,10 @@
-import java.util.*
-
 plugins {
     id("com.android.application")
     kotlin("android")
 }
 
 val natives by configurations.register("natives")
+val copyAndroidNatives by tasks.registering(Task::class)
 
 dependencies {
     implementation(project(":core"))
@@ -34,10 +33,9 @@ dependencies {
 }
 
 android {
-    buildToolsVersion("29.0.2")
     compileSdkVersion(29)
     sourceSets {
-        getByName("main").apply {
+        getByName("main") {
             manifest.srcFile("AndroidManifest.xml")
             java.srcDirs("src")
             aidl.srcDirs("src")
@@ -47,9 +45,6 @@ android {
             jniLibs.srcDirs("libs")
         }
 
-    }
-    packagingOptions {
-        exclude("META-INF/robovm/ios/robovm.xml")
     }
     defaultConfig {
         applicationId = "com.game.quillyjumper"
@@ -66,67 +61,40 @@ android {
     }
 }
 
-
-// called every time gradle gets executed, takes the native dependencies of
-// the natives configuration, and extracts them to the proper libs/ folders
-// so they get packed with the APK.
-task("copyAndroidNatives") {
-    doFirst {
-        file("libs/armeabi/").mkdirs()
-        file("libs/armeabi-v7a/").mkdirs()
-        file("libs/arm64-v8a/").mkdirs()
-        file("libs/x86_64/").mkdirs()
-        file("libs/x86/").mkdirs()
-
-        natives.files.forEach { jar ->
-            var outputDir: File? = null
-            if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
-            if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
-            if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
-            if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
-            if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
-            if (outputDir != null) {
-                copy {
-                    from(zipTree(jar))
-                    into(outputDir) {
+tasks {
+    // called every time gradle gets executed, takes the native dependencies of
+    // the natives configuration, and extracts them to the proper libs/ folders
+    // so they get packed with the APK.
+    copyAndroidNatives {
+        doFirst {
+            file("libs/armeabi/").mkdirs()
+            file("libs/armeabi-v7a/").mkdirs()
+            file("libs/arm64-v8a/").mkdirs()
+            file("libs/x86_64/").mkdirs()
+            file("libs/x86/").mkdirs()
+            natives.files.forEach { jar ->
+                val outputDir = when {
+                    jar.name.endsWith("natives-arm64-v8a.jar") -> file("libs/arm64-v8a")
+                    jar.name.endsWith("natives-armeabi-v7a.jar") -> file("libs/armeabi-v7a")
+                    jar.name.endsWith("natives-armeabi.jar") -> file("libs/armeabi")
+                    jar.name.endsWith("natives-x86_64.jar") -> file("libs/x86_64")
+                    jar.name.endsWith("natives-x86.jar") -> file("libs/x86")
+                    else -> null
+                }
+                if (outputDir != null) {
+                    copy {
+                        from(zipTree(jar))
+                        into(outputDir)
                         include("*.so")
                     }
                 }
             }
         }
     }
-}
 
-tasks.whenTaskAdded {
-    if (name.contains("package")) {
-        dependsOn("copyAndroidNatives")
-    }
-}
-
-task("run") {
-    val localProperties = project.file("../local.properties")
-    val properties = Properties()
-    val path = if (localProperties.exists()) {
-        properties.load(localProperties.inputStream())
-        val sdkDir = properties.getProperty("sdk.dir")
-        if (!sdkDir.isBlank()) {
-            sdkDir
-        } else {
-            "\$System.env.ANDROID_HOME"
+    whenTaskAdded {
+        if ("package" in this.name) {
+            dependsOn(copyAndroidNatives)
         }
-    } else {
-        "\$System.env.ANDROID_HOME"
     }
-
-    val adb = "$path/platform-tools/adb"
-    Runtime.getRuntime().exec(
-        arrayOf(
-            adb,
-            "shell",
-            "am",
-            "start",
-            "-n",
-            "com.game.quillyjumper/com.game.quillyjumper.AndroidLauncher"
-        )
-    )
 }
