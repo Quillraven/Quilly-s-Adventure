@@ -22,6 +22,7 @@ dependencies {
     api("io.github.libktx:ktx-math:${Versions.ktx}")
     api("io.github.libktx:ktx-scene2d:${Versions.ktx}")
     api("io.github.libktx:ktx-style:${Versions.ktx}")
+    api("io.github.libktx:ktx-tiled:${Versions.ktx}")
 }
 
 tasks.withType<JavaCompile> {

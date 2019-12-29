@@ -20,6 +20,7 @@ import com.game.quillyjumper.ecs.component.physicCmp
 import com.game.quillyjumper.ecs.component.typeCmp
 import com.game.quillyjumper.event.GameEventManager
 import ktx.log.logger
+import ktx.tiled.*
 import java.util.*
 
 private val LOG = logger<MapManager>()
@@ -86,7 +87,7 @@ class MapManager(
     }
 
     private fun createSceneryEntities(map: Map) {
-        map.mapObjects(LAYER_COLLISION).forEach { mapObj ->
+        map.forEachMapObject(LAYER_COLLISION) { mapObj ->
             // loop through all map objects of that layer and
             // create the scenery entity according to the shape
             // of the map object.
@@ -95,7 +96,7 @@ class MapManager(
     }
 
     private fun createCharacterEntities(map: Map, layer: String) {
-        map.mapObjects(layer).forEach { mapObj ->
+        map.forEachMapObject(layer) { mapObj ->
             try {
                 val charKey = Character.valueOf(mapObj.property(PROPERTY_CHARACTER, ""))
                 ecsEngine.character(
@@ -121,7 +122,7 @@ class MapManager(
     private fun createNPCs(map: Map) = createCharacterEntities(map, LAYER_NPC)
 
     private fun createItemEntities(map: Map) {
-        map.mapObjects(LAYER_ITEM).forEach { mapObj ->
+        map.forEachMapObject(LAYER_ITEM) { mapObj ->
             try {
                 val itemKey = Item.valueOf(mapObj.property(PROPERTY_ITEM, ""))
                 ecsEngine.item(
@@ -141,7 +142,7 @@ class MapManager(
     }
 
     private fun createPortalEntities(map: Map) {
-        map.mapObjects(LAYER_PORTAL).forEach { mapObj ->
+        map.forEachMapObject(LAYER_PORTAL) { mapObj ->
             try {
                 // retrieve and validate portal properties
                 val portalTarget = mapObj.property(PROPERTY_PORTAL_TARGET, false)
@@ -152,12 +153,12 @@ class MapManager(
                     val targetPortal = mapObj.property(PROPERTY_TARGET_PORTAL_ID, -1)
                     if (targetPortal == -1) {
                         LOG.error { "Target portal ID not specified for object with ID ${mapObj.id} for map ${map.type}" }
-                        return@forEach
+                        return@forEachMapObject
                     }
                     val targetOffsetX = mapObj.property(PROPERTY_TARGET_OFFSET_X, 0)
                     if (targetOffsetX == 0 && map.type != targetMap) {
                         LOG.error { "Target offset X not specified for object with ID ${mapObj.id} for map ${map.type}" }
-                        return@forEach
+                        return@forEachMapObject
                     }
 
                     // create portal entity
@@ -184,7 +185,7 @@ class MapManager(
 
 
     private fun movePlayerToPortal(map: Map, targetPortal: Int, targetOffsetX: Int) {
-        map.mapObjects(LAYER_PORTAL).forEach { mapObj ->
+        map.forEachMapObject(LAYER_PORTAL) { mapObj ->
             if (mapObj.id == targetPortal) {
                 // found target portal by ID -> move player to that location
                 playerEntities.forEach { player ->
@@ -204,11 +205,11 @@ class MapManager(
     }
 
     private fun createTriggers(map: Map) {
-        map.mapObjects(LAYER_TRIGGER).forEach { mapObj ->
+        map.forEachMapObject(LAYER_TRIGGER) { mapObj ->
             val triggerClassStr = mapObj.property(PROPERTY_TRIGGER_CLASS, "")
             if (triggerClassStr.isBlank()) {
                 LOG.error { "There is no trigger class defined for trigger ${mapObj.id} in map ${map.type}" }
-                return@forEach
+                return@forEachMapObject
             }
 
             ecsEngine.trigger(

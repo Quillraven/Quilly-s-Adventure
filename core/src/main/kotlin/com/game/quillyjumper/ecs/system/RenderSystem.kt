@@ -9,18 +9,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
-import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.FloatArray
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.game.quillyjumper.ecs.component.*
-import com.game.quillyjumper.map.*
 import com.game.quillyjumper.map.Map
+import com.game.quillyjumper.map.MapChangeListener
+import com.game.quillyjumper.map.PROPERTY_PARALLAX_VALUE
+import com.game.quillyjumper.map.TILED_LAYER_BACKGROUND_PREFIX
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.graphics.use
 import ktx.log.logger
+import ktx.tiled.property
 
 private val LOG = logger<RenderSystem>()
 
@@ -28,9 +29,7 @@ class RenderSystem(
     engine: Engine,
     private val batch: SpriteBatch,
     private val gameViewPort: Viewport,
-    private val world: World,
-    private val mapRenderer: OrthogonalTiledMapRenderer,
-    private val box2DDebugRenderer: Box2DDebugRenderer
+    private val mapRenderer: OrthogonalTiledMapRenderer
 ) : MapChangeListener, SortedIteratingSystem(
     allOf(RenderComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get(),
     compareBy { entity -> entity.transfCmp }
@@ -76,8 +75,6 @@ class RenderSystem(
                 renderTileLayer(mapForegroundLayers[i], i + numBgdLayers, parallaxMinWidth)
             }
         }
-        // debug render box2d
-        box2DDebugRenderer.render(world, gameViewPort.camera.combined)
     }
 
     private fun renderTileLayer(layer: TiledMapTileLayer, parallaxIndex: Int, minWidth: Float) {
