@@ -4,14 +4,13 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.physics.box2d.World
+import com.game.quillyjumper.ai.DefaultState
 import com.game.quillyjumper.assets.MusicAssets
 import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.configuration.Character
 import com.game.quillyjumper.configuration.CharacterConfigurations
 import com.game.quillyjumper.ecs.character
-import com.game.quillyjumper.ecs.component.FadeInComponent
-import com.game.quillyjumper.ecs.component.ParticleComponent
-import com.game.quillyjumper.ecs.component.portalCmp
+import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.findPortal
 import com.game.quillyjumper.event.GameEventListener
 import com.game.quillyjumper.event.GameEventManager
@@ -43,6 +42,7 @@ class Map2TriggerBoss(
     private lateinit var minotaur: Entity
     private lateinit var skeletal: Entity
     private var killCounter = -1
+    private var elapsedTime = 0f
 
     init {
         gameEventManager.addGameEventListener(this)
@@ -59,12 +59,29 @@ class Map2TriggerBoss(
             8f,
             2.5f
         ) { with<FadeInComponent> { maxFadeTime = 2f } }
-        skeletal = engine.character(
-            characterCfgs[Character.SKELETAL],
-            world,
-            8f,
-            2.3f
-        ) { with<FadeInComponent> { maxFadeTime = 2f } }
+
+        // disable player input until boss dialog is over
+        gameEventManager.disablePlayerInput()
+        minotaur.stateCmp.stateMachine.changeState(DefaultState.NONE)
+        trigger.triggerCmp.triggerUpdate = true
+    }
+
+    override fun update(deltaTime: Float) {
+        elapsedTime += deltaTime
+        if (elapsedTime >= 2f) {
+            // delay actual trigger stuff until minotaur is faded in
+            gameEventManager.enablePlayerInput()
+            triggerEntity.triggerCmp.triggerUpdate = false
+            with(minotaur.stateCmp.stateMachine) {
+                changeState(previousState)
+            }
+            skeletal = engine.character(
+                characterCfgs[Character.SKELETAL],
+                world,
+                8f,
+                2.3f
+            ) { with<FadeInComponent> { maxFadeTime = 2f } }
+        }
     }
 
     override fun characterDeath(character: Entity) {

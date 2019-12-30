@@ -18,6 +18,8 @@ abstract class Trigger(
     val characterCfgs: CharacterConfigurations,
     val audioService: AudioService = Gdx.app.getAudioService()
 ) {
+    open fun update(deltaTime: Float) {}
+
     fun destroy() {
         triggerEntity.add(engine.createComponent(RemoveComponent::class.java))
     }

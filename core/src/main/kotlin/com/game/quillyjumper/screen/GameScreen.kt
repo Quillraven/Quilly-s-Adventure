@@ -66,6 +66,7 @@ class GameScreen(
         if (engine.systems.size() == 0) {
             // initialize engine
             engine.apply {
+                addSystem(TriggerSystem())
                 addSystem(PhysicMoveSystem())
                 addSystem(PhysicJumpSystem())
                 addSystem(AbilitySystem())
