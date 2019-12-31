@@ -224,6 +224,9 @@ class GameScreen(
                 collisionBodyOffset(3f * UNIT_SCALE, 0f)
             }
             cfg(Character.SAVE_POINT, EntityType.SAVE_POINT, ModelType.EYE_MONSTER)
+            cfg(Character.GIRL, EntityType.NPC, ModelType.GIRL) {
+                size(0.5f, 0.6f)
+            }
             cfg(Character.MINOTAUR, EntityType.ENEMY, ModelType.MINOTAUR) {
                 speed = 0.90f
                 size(0.7f, 1.2f)

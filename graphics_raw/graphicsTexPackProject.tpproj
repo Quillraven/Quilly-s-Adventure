@@ -1,6 +1,6 @@
 name=gameObjects
 filename=
-output=../assets/graphics
+output=../android/assets/graphics
 
 alias=true
 alphaThreshold=0
@@ -39,7 +39,7 @@ inputFiles=[{path:gameObjects,type:Input,dirFilePrefix:null,recursive:true,flatt
 
 name=tilesets
 filename=
-output=../assets/graphics
+output=../android/assets/map
 
 alias=true
 alphaThreshold=0

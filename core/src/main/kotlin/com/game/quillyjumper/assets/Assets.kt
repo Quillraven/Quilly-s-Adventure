@@ -48,6 +48,7 @@ operator fun AssetManager.get(asset: TextureAtlasAssets) = this.getAsset<Texture
 
 // tiled map
 enum class MapAssets(val filePath: String) {
+    INTRO("map/intro.tmx"),
     MAP_1("map/map1.tmx"),
     MAP_2("map/map2.tmx"),
     TEST_MAP("map/testmap.tmx")

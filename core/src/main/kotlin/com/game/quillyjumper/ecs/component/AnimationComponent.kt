@@ -19,7 +19,8 @@ enum class ModelType {
     EYE_MONSTER,
     MINOTAUR,
     SKELETAL,
-    DWARF
+    DWARF,
+    GIRL
 }
 
 enum class AnimationType {

@@ -40,6 +40,7 @@ const val PROPERTY_PORTAL_TARGET = "PortalTarget"
 // Map Types
 @Suppress("unused")
 enum class MapType(val asset: MapAssets, val music: MusicAssets) {
+    INTRO(MapAssets.INTRO, MusicAssets.LEVEL_1_REMASTERED),
     MAP1(MapAssets.MAP_1, MusicAssets.LEVEL_1_REMASTERED),
     MAP2(MapAssets.MAP_2, MusicAssets.LEVEL_2),
     TEST_MAP(MapAssets.TEST_MAP, MusicAssets.LEVEL_1)

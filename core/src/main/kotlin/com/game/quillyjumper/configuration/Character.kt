@@ -21,7 +21,8 @@ enum class Character {
     SAVE_POINT,
     MINOTAUR,
     SKELETAL,
-    DWARF
+    DWARF,
+    GIRL
 }
 
 class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
