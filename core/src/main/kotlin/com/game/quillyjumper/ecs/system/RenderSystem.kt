@@ -12,6 +12,8 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.FloatArray
 import com.badlogic.gdx.utils.viewport.Viewport
+import com.game.quillyjumper.ShaderPrograms
+import com.game.quillyjumper.ShaderType
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.map.Map
 import com.game.quillyjumper.map.MapChangeListener
@@ -21,6 +23,7 @@ import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.graphics.use
 import ktx.log.logger
+import ktx.math.vec2
 import ktx.tiled.property
 
 private val LOG = logger<RenderSystem>()
@@ -29,11 +32,16 @@ class RenderSystem(
     engine: Engine,
     private val batch: SpriteBatch,
     private val gameViewPort: Viewport,
-    private val mapRenderer: OrthogonalTiledMapRenderer
+    private val mapRenderer: OrthogonalTiledMapRenderer,
+    private val shaderPrograms: ShaderPrograms
 ) : MapChangeListener, SortedIteratingSystem(
     allOf(RenderComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get(),
     compareBy { entity -> entity.transfCmp }
 ) {
+    private var vignetteActive = false
+    private val resolutionVector = vec2()
+    private var sepiaVignetteRadius = 0.1f
+
     private val camera = gameViewPort.camera as OrthographicCamera
 
     private val mapBackgroundLayers = Array<TiledMapTileLayer>()
@@ -56,6 +64,13 @@ class RenderSystem(
         // update camera to set the correct matrix for rendering later on
         gameViewPort.apply()
         batch.use {
+            if (vignetteActive) {
+                // set mandatory uniforms for vignette effect
+                resolutionVector.set(gameViewPort.screenWidth.toFloat(), gameViewPort.screenHeight.toFloat())
+                batch.shader.setUniformf("resolution", resolutionVector)
+                batch.shader.setUniformf("radius", sepiaVignetteRadius)
+            }
+
             // set view of map renderer. Internally sets the projection matrix of the sprite batch
             // which is used to correctly render not map related stuff like our entities
             mapRenderer.setView(camera)
@@ -137,5 +152,21 @@ class RenderSystem(
                 mapParallaxValues.add(layer.property(PROPERTY_PARALLAX_VALUE, 0f))
             }
         }
+    }
+
+    fun setGrayScale() {
+        batch.shader = shaderPrograms[ShaderType.GRAYSCALE]
+        vignetteActive = false
+    }
+
+    fun setSepia(vignetteRadius: Float = 0.1f) {
+        batch.shader = shaderPrograms[ShaderType.SEPIA]
+        vignetteActive = true
+        this.sepiaVignetteRadius = vignetteRadius
+    }
+
+    fun setNormalColor() {
+        batch.shader = shaderPrograms[ShaderType.DEFAULT]
+        vignetteActive = false
     }
 }

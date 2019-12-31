@@ -2,6 +2,8 @@ package com.game.quillyjumper.screen
 
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -10,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.game.quillyjumper.ShaderPrograms
 import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ability.FireballEffect
 import com.game.quillyjumper.ability.SpinEffect
@@ -41,6 +44,7 @@ class GameScreen(
     private val world: World,
     private val engine: Engine,
     private val rayHandler: RayHandler,
+    private val shaderPrograms: ShaderPrograms,
     private val batch: SpriteBatch,
     private val mapRenderer: OrthogonalTiledMapRenderer,
     private val box2DDebugRenderer: Box2DDebugRenderer,
@@ -89,7 +93,7 @@ class GameScreen(
                 addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
                 addSystem(ParticleSystem(assets, audioService))
                 addSystem(FadeSystem())
-                addSystem(RenderSystem(this, batch, viewport, mapRenderer))
+                addSystem(RenderSystem(this, batch, viewport, mapRenderer, shaderPrograms))
                 addSystem(RenderPhysicDebugSystem(world, viewport, box2DDebugRenderer))
                 addSystem(LightSystem(rayHandler, viewport.camera as OrthographicCamera))
                 addSystem(FloatingTextSystem(batch, viewport, stage.viewport))
@@ -140,6 +144,19 @@ class GameScreen(
     }
 
     override fun render(delta: Float) {
+        // TODO remove debug stuff
+        when {
+            Gdx.input.isKeyJustPressed(Input.Keys.NUM_1) -> {
+                engine.getSystem(RenderSystem::class.java).setNormalColor()
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.NUM_2) -> {
+                engine.getSystem(RenderSystem::class.java).setGrayScale()
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.NUM_3) -> {
+                engine.getSystem(RenderSystem::class.java).setSepia()
+            }
+        }
+
         // update all ecs engine systems including the render system which draws stuff on the screen
         engine.update(delta)
         // update audio manager to play any queued sound effects

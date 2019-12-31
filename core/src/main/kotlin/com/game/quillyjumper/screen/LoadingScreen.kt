@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.game.quillyjumper.ShaderPrograms
 import com.game.quillyjumper.assets.*
 import com.game.quillyjumper.audio.AudioService
 import com.game.quillyjumper.event.GameEventManager
@@ -24,6 +25,7 @@ class LoadingScreen(
     private val world: World,
     private val ecsEngine: Engine,
     private val rayHandler: RayHandler,
+    private val shaderPrograms: ShaderPrograms,
     private val batch: SpriteBatch,
     private val mapRenderer: OrthogonalTiledMapRenderer,
     private val box2DDebugRenderer: Box2DDebugRenderer
@@ -56,6 +58,7 @@ class LoadingScreen(
                     world,
                     ecsEngine,
                     rayHandler,
+                    shaderPrograms,
                     batch,
                     mapRenderer,
                     box2DDebugRenderer,

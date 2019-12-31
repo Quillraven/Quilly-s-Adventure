@@ -75,6 +75,7 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
 
         // setup context and register stuff that should also be disposed at the end of the game lifecycle
         ctx.register {
+            bindSingleton(ShaderPrograms())
             bindSingleton(SpriteBatch(2048))
             bindSingleton(AssetManager().apply {
                 // we use tmx tiled maps created via the Tiled tool and therefore
@@ -111,6 +112,7 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
                 world, // physic world
                 ecsEngine, // entity component engine
                 ctx.inject(), // ray handler
+                ctx.inject(), // shaders
                 ctx.inject(), // sprite batch
                 ctx.inject(), // tiled map renderer
                 ctx.inject() // box2d debug renderer
