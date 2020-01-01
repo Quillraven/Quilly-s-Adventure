@@ -8,6 +8,8 @@ fun main() {
     val config = LwjglApplicationConfiguration().apply {
         width = 1280
         height = 720
+        pauseWhenBackground = true
+        title = "Quilly Jumper"
     }
     LwjglApplication(Main(disableAudio = false), config).logLevel = Application.LOG_DEBUG
 }
