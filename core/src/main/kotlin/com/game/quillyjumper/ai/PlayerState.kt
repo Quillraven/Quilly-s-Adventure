@@ -17,6 +17,8 @@ enum class PlayerState(
                     entity.attackCmp.order == AttackOrder.START -> changeState(ATTACK)
                     entity.jumpCmp.order == JumpOrder.JUMP -> changeState(JUMP)
                     entity.moveCmp.order != MoveOrder.NONE -> changeState(RUN)
+                    entity.physicCmp.body.linearVelocity.y <= 0f && entity.collCmp.numGroundContacts == 0 ->
+                        changeState(FALL)
                 }
             }
         }
