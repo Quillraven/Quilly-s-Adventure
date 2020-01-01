@@ -22,20 +22,16 @@ const val LAYER_TRIGGER = "trigger"
 
 const val TILED_LAYER_BACKGROUND_PREFIX = "bgd"
 
-const val PROPERTY_CHARACTER = "Character"
-const val PROPERTY_ITEM = "Item"
 const val PROPERTY_TARGET_MAP = "TargetMap"
 const val PROPERTY_TARGET_OFFSET_X = "TargetOffsetX"
 const val PROPERTY_TARGET_PORTAL_ID = "TargetPortalID"
 const val PROPERTY_AMBIENT = "Ambient"
 const val PROPERTY_SUN_COLOR = "SunColor"
 const val PROPERTY_SHADOW_ANGLE = "ShadowAngle"
-const val PROPERTY_PARALLAX_VALUE = "parallaxValue"
-const val PROPERTY_FLIP_PARTICLE_FX = "flipParticleFX"
-const val PROPERTY_TRIGGER_CLASS = "TriggerClass"
+const val PROPERTY_PARALLAX_VALUE = "ParallaxValue"
+const val PROPERTY_FLIP_PARTICLE_FX = "FlipParticleFX"
 const val PROPERTY_TRIGGER_REACT_ON_COLLISION = "TriggerReactOnCollision"
 const val PROPERTY_PORTAL_ACTIVE = "Active"
-const val PROPERTY_PORTAL_TARGET = "PortalTarget"
 
 // Map Types
 @Suppress("unused")

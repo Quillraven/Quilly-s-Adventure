@@ -98,7 +98,7 @@ class MapManager(
     private fun createCharacterEntities(map: Map, layer: String) {
         map.forEachMapObject(layer) { mapObj ->
             try {
-                val charKey = Character.valueOf(mapObj.property(PROPERTY_CHARACTER, ""))
+                val charKey = Character.valueOf(mapObj.name)
                 ecsEngine.character(
                     characterConfigurations[charKey],
                     world,
@@ -106,11 +106,7 @@ class MapManager(
                     mapObj.y * UNIT_SCALE
                 )
             } catch (e: IllegalArgumentException) {
-                if (!mapObj.properties.containsKey(PROPERTY_CHARACTER)) {
-                    LOG.error { "Missing character property for object with ID ${mapObj.id} for map ${map.type} in layer $layer" }
-                } else {
-                    LOG.error(e) { "Invalid character property specified for object with ID ${mapObj.id} for map ${map.type} in layer $layer" }
-                }
+                LOG.error(e) { "Invalid name specified for object with ID ${mapObj.id} for map ${map.type} in layer $layer" }
             }
         }
     }
@@ -124,7 +120,7 @@ class MapManager(
     private fun createItemEntities(map: Map) {
         map.forEachMapObject(LAYER_ITEM) { mapObj ->
             try {
-                val itemKey = Item.valueOf(mapObj.property(PROPERTY_ITEM, ""))
+                val itemKey = Item.valueOf(mapObj.name)
                 ecsEngine.item(
                     itemConfigurations[itemKey],
                     world,
@@ -132,11 +128,7 @@ class MapManager(
                     mapObj.y * UNIT_SCALE
                 )
             } catch (e: IllegalArgumentException) {
-                if (!mapObj.properties.containsKey(PROPERTY_ITEM)) {
-                    LOG.error { "Missing item property for object with ID ${mapObj.id} for map ${map.type}" }
-                } else {
-                    LOG.error(e) { "Invalid item property specified for object with ID ${mapObj.id} for map ${map.type}" }
-                }
+                LOG.error(e) { "Invalid name specified for object with ID ${mapObj.id} for map ${map.type} in layer $LAYER_ITEM" }
             }
         }
     }
@@ -145,8 +137,7 @@ class MapManager(
         map.forEachMapObject(LAYER_PORTAL) { mapObj ->
             try {
                 // retrieve and validate portal properties
-                val portalTarget = mapObj.property(PROPERTY_PORTAL_TARGET, false)
-                if (portalTarget) {
+                if (mapObj.type == "PortalTarget") {
                     ecsEngine.portalTarget(mapObj.x * UNIT_SCALE, mapObj.y * UNIT_SCALE, mapObj.id)
                 } else {
                     val targetMap = MapType.valueOf(mapObj.property(PROPERTY_TARGET_MAP, ""))
@@ -206,7 +197,7 @@ class MapManager(
 
     private fun createTriggers(map: Map) {
         map.forEachMapObject(LAYER_TRIGGER) { mapObj ->
-            val triggerClassStr = mapObj.property(PROPERTY_TRIGGER_CLASS, "")
+            val triggerClassStr = mapObj.name
             if (triggerClassStr.isBlank()) {
                 LOG.error { "There is no trigger class defined for trigger ${mapObj.id} in map ${map.type}" }
                 return@forEachMapObject

@@ -91,7 +91,8 @@ class Map2TriggerBoss(
                 engine.findPortal(97) { portal ->
                     portal.portalCmp.active = true
                     portal.add(engine.createComponent(ParticleComponent::class.java).apply {
-                        type = ParticleAssets.PORTAL
+                        type = ParticleAssets.PORTAL2
+                        offsetX = -0.5f
                     })
                 }
                 gameEventManager.disablePlayerInput()

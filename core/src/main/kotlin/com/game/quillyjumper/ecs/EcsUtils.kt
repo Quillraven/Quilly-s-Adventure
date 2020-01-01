@@ -571,13 +571,14 @@ fun Engine.trigger(
         // trigger component uses reflection which might fail if Tiled map object settings
         // are not correct (e.g. wrong classname or wrong package name)
         try {
-            val triggerInstance = ClassReflection.forName(triggerClassStr).getConstructor(
-                Entity::class.java,
-                GameEventManager::class.java,
-                Engine::class.java,
-                World::class.java,
-                CharacterConfigurations::class.java
-            ).newInstance(this.entity, gameEventManager, this@trigger, world, characterCfgs)
+            val triggerInstance =
+                ClassReflection.forName("com.game.quillyjumper.trigger.$triggerClassStr").getConstructor(
+                    Entity::class.java,
+                    GameEventManager::class.java,
+                    Engine::class.java,
+                    World::class.java,
+                    CharacterConfigurations::class.java
+                ).newInstance(this.entity, gameEventManager, this@trigger, world, characterCfgs)
             with<TriggerComponent> { trigger = triggerInstance as Trigger }
         } catch (e: ReflectionException) {
             LOG.error { "Could not create trigger for class name $triggerClassStr" }
