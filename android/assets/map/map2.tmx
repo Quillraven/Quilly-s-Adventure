@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-up" compressionlevel="0" width="32" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="35" nextobjectid="102">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-up" compressionlevel="0" width="32" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="35" nextobjectid="106">
  <tileset firstgid="1" source="tilesets.tsx"/>
  <layer id="28" name="bgd0" width="32" height="96">
   <data encoding="base64" compression="zlib">
@@ -77,105 +77,72 @@
    <polygon points="0,0 -62.3333,-4.66667 -73,3.33333 -72,10.6667 -62,17.6667 -62,80 -31.6667,109 -31,223 -16,237 0.333333,237.667"/>
   </object>
  </objectgroup>
- <objectgroup color="#ffff00" id="11" name="item"/>
+ <objectgroup color="#d89000" id="11" name="item">
+  <object id="102" name="POTION_GAIN_MANA" x="156" y="1048">
+   <point/>
+  </object>
+ </objectgroup>
  <objectgroup color="#0000ff" id="12" name="portal">
-  <object id="27" x="1.91667" y="6.91667" width="12" height="101.5">
+  <object id="27" name="Portal to Map 1" type="Portal" x="1.91667" y="6.91667" width="12" height="101.5">
    <properties>
+    <property name="FlipParticleFX" type="bool" value="true"/>
     <property name="TargetMap" value="MAP1"/>
     <property name="TargetOffsetX" type="int" value="-1"/>
     <property name="TargetPortalID" type="int" value="27"/>
-    <property name="flipParticleFX" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="97" x="263" y="1443.25" width="17" height="24.5">
+  <object id="97" name="Portal to Cave Top" type="Portal" x="242.333" y="1449.25" width="46.3333" height="24.5">
    <properties>
     <property name="Active" type="bool" value="false"/>
     <property name="TargetMap" value="MAP2"/>
     <property name="TargetPortalID" type="int" value="98"/>
-    <property name="flipParticleFX" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="98" x="271.25" y="251.5" width="31.5" height="34">
-   <properties>
-    <property name="PortalTarget" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="98" name="Target for bottom Portal" type="PortalTarget" x="271.25" y="251.5" width="31.5" height="34"/>
  </objectgroup>
  <objectgroup id="8" name="playerSpawnLocation">
-  <object id="101" x="62.6667" y="101.333">
+  <object id="105" name="Start" x="43.3333" y="108">
    <point/>
   </object>
  </objectgroup>
  <objectgroup color="#0000ff" id="9" name="enemy">
-  <object id="84" x="330" y="284">
-   <properties>
-    <property name="Character" value="BLUE_SLIME"/>
-   </properties>
+  <object id="84" name="BLUE_SLIME" x="330" y="284">
    <point/>
   </object>
-  <object id="85" x="121.333" y="334">
-   <properties>
-    <property name="Character" value="DWARF"/>
-   </properties>
+  <object id="85" name="DWARF" x="121.333" y="334">
    <point/>
   </object>
-  <object id="86" x="118.667" y="794">
-   <properties>
-    <property name="Character" value="DWARF"/>
-   </properties>
+  <object id="86" name="DWARF" x="118.667" y="794">
    <point/>
   </object>
-  <object id="87" x="234.667" y="795.333">
-   <properties>
-    <property name="Character" value="DWARF"/>
-   </properties>
+  <object id="87" name="DWARF" x="234.667" y="795.333">
    <point/>
   </object>
-  <object id="88" x="288.667" y="1113.33">
-   <properties>
-    <property name="Character" value="BLUE_SLIME"/>
-   </properties>
+  <object id="88" name="BLUE_SLIME" x="288.667" y="1113.33">
    <point/>
   </object>
-  <object id="89" x="322.667" y="1113.33">
-   <properties>
-    <property name="Character" value="DWARF"/>
-   </properties>
+  <object id="89" name="DWARF" x="322.667" y="1113.33">
    <point/>
   </object>
-  <object id="90" x="276.519" y="1273.83">
-   <properties>
-    <property name="Character" value="DWARF"/>
-   </properties>
+  <object id="90" name="DWARF" x="276.519" y="1273.83">
    <point/>
   </object>
  </objectgroup>
- <objectgroup color="#55ff00" id="15" name="savePoint">
-  <object id="40" x="131.167" y="491">
-   <properties>
-    <property name="Character" value="SAVE_POINT"/>
-   </properties>
+ <objectgroup color="#00aa00" id="15" name="savePoint">
+  <object id="40" name="SAVE_POINT" x="131.167" y="491">
    <point/>
   </object>
-  <object id="68" x="321.667" y="1273.83">
-   <properties>
-    <property name="Character" value="SAVE_POINT"/>
-   </properties>
+  <object id="68" name="SAVE_POINT" x="321.667" y="1273.83">
    <point/>
   </object>
  </objectgroup>
  <objectgroup color="#ff5500" id="16" name="npc"/>
- <objectgroup color="#55ffff" id="34" name="trigger">
-  <object id="91" x="342" y="1308.67" width="103.5" height="31">
+ <objectgroup color="#339c9c" id="34" name="trigger">
+  <object id="91" name="Map2TriggerBoss" x="342" y="1308.67" width="103.5" height="31">
    <properties>
-    <property name="TriggerClass" value="com.game.quillyjumper.trigger.Map2TriggerBoss"/>
     <property name="TriggerReactOnCollision" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="93" x="41" y="20.6061" width="14" height="14.7879">
-   <properties>
-    <property name="TriggerClass" value="com.game.quillyjumper.trigger.Map2TriggerEnter"/>
-   </properties>
-  </object>
+  <object id="93" name="Map2TriggerEnter" x="41" y="20.6061" width="14" height="14.7879"/>
  </objectgroup>
 </map>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="Portal" color="#0000ff">
+  <property name="Active" type="bool" default="true"/>
+  <property name="FlipParticleFX" type="bool" default="false"/>
+  <property name="TargetMap" type="string"/>
+  <property name="TargetOffsetX" type="int" default="0"/>
+  <property name="TargetPortalID" type="int" default="0"/>
+ </objecttype>
+ <objecttype name="PortalTarget" color="#0000ff"/>
+</objecttypes>
