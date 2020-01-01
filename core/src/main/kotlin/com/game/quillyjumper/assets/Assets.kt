@@ -28,11 +28,18 @@ enum class SoundAssets(val filePath: String, val volumeScale: Float = 1f) {
     UNKNOWN(""),
     PLAYER_JUMP("sounds/jump.ogg"),
     SWING("sounds/swing.ogg"),
+    SWING2("sounds/swing2.ogg", 0.75f),
+    GNOME_DEATH("sounds/gnome_death.ogg", 0.5f),
     FIRE_BALL("sounds/fire_ball.ogg"),
     LEVEL_UP("sounds/level_up.ogg"),
     CHECK_POINT("sounds/save_point.ogg"),
     SLIME_DEATH("sounds/slime_death.ogg", 0.25f),
-    POWER_UP_0("sounds/power_up_0.ogg")
+    POWER_UP_0("sounds/power_up_0.ogg"),
+    BIG_SWING("sounds/big_swing.ogg"),
+    BIG_SWING2("sounds/big_swing2.ogg"),
+    SMALL_SWING("sounds/small_swing.ogg"),
+    MINOTAUR_DEATH("sounds/minotaur_death.ogg"),
+    SKELETAL_DEATH("sounds/skeletal_death.ogg")
 }
 
 fun AssetManager.load(asset: SoundAssets) = load<Sound>(asset.filePath)
@@ -61,6 +68,7 @@ operator fun AssetManager.get(asset: MapAssets) = this.getAsset<TiledMap>(asset.
 enum class ParticleAssets(val filePath: String, val scale: Float = 1f, val sound: SoundAssets = SoundAssets.UNKNOWN) {
     BLOOD("particles/blood.p", 0.5f),
     PORTAL("particles/portal.p"),
+    PORTAL2("particles/portal2.p", 0.5f),
     FIREBALL("particles/fireball.p", 0.3f, SoundAssets.FIRE_BALL)
 }
 

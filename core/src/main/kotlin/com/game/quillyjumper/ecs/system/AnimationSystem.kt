@@ -96,6 +96,23 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
                 AnimationType.DEATH -> SoundAssets.SLIME_DEATH
                 else -> SoundAssets.UNKNOWN
             }
+            ModelType.DWARF -> when (animationType) {
+                AnimationType.DEATH -> SoundAssets.GNOME_DEATH
+                AnimationType.ATTACK -> SoundAssets.SWING2
+                else -> SoundAssets.UNKNOWN
+            }
+            ModelType.SKELETAL -> when (animationType) {
+                AnimationType.ATTACK -> SoundAssets.BIG_SWING2
+                AnimationType.DEATH -> SoundAssets.SKELETAL_DEATH
+                else -> SoundAssets.UNKNOWN
+            }
+            ModelType.MINOTAUR -> when (animationType) {
+                AnimationType.DEATH -> SoundAssets.MINOTAUR_DEATH
+                AnimationType.ATTACK3 -> SoundAssets.SMALL_SWING
+                AnimationType.ATTACK -> SoundAssets.BIG_SWING
+                AnimationType.ATTACK2 -> SoundAssets.SWING2
+                else -> SoundAssets.UNKNOWN
+            }
             else -> SoundAssets.UNKNOWN
         }
     }
