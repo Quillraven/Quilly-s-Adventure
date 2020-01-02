@@ -1,9 +1,5 @@
 buildscript {
     repositories {
-        mavenLocal()
-        mavenCentral()
-        maven("https://plugins.gradle.org/m2/")
-        maven("https://oss.sonatype.org/content/repositories/snapshots/")
         jcenter()
         google()
     }
@@ -18,11 +14,7 @@ allprojects {
     version = Apps.versionName
 
     repositories {
-        mavenLocal()
-        mavenCentral()
         jcenter()
         google()
-        maven("https://oss.sonatype.org/content/repositories/snapshots/")
-        maven("https://oss.sonatype.org/content/repositories/releases/")
     }
 }
