@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
         jcenter()
         google()
     }
@@ -14,6 +15,7 @@ allprojects {
     version = Apps.versionName
 
     repositories {
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
         jcenter()
         google()
     }
