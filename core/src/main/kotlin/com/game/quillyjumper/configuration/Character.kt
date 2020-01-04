@@ -2,9 +2,11 @@ package com.game.quillyjumper.configuration
 
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
+import com.game.quillyjumper.UNIT_SCALE
 import com.game.quillyjumper.ability.AbilityEffect
-import com.game.quillyjumper.ai.DefaultState
-import com.game.quillyjumper.ai.EntityState
+import com.game.quillyjumper.ability.FireballEffect
+import com.game.quillyjumper.ability.SpinEffect
+import com.game.quillyjumper.ai.*
 import com.game.quillyjumper.ecs.component.EntityType
 import com.game.quillyjumper.ecs.component.ModelType
 import ktx.log.logger
@@ -25,7 +27,7 @@ enum class Character {
     GIRL
 }
 
-class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
+class CharacterCfg(val characterType: Character, val entityType: EntityType, val modelType: ModelType) {
     var speed = 0f
     val size = vec2(1f, 1f)
     val collBodyOffset = vec2(0f, 0f)
@@ -47,7 +49,7 @@ class CharacterCfg(val entityType: EntityType, val modelType: ModelType) {
 }
 
 class CharacterConfigurations : EnumMap<Character, CharacterCfg>(Character::class.java) {
-    private val defaultCfg = CharacterCfg(EntityType.OTHER, ModelType.UNKNOWN)
+    private val defaultCfg = CharacterCfg(Character.PLAYER, EntityType.OTHER, ModelType.UNKNOWN)
 
     fun cfg(
         id: Character,
@@ -59,7 +61,7 @@ class CharacterConfigurations : EnumMap<Character, CharacterCfg>(Character::clas
             LOG.error { "Character configuration for id $id is already existing!" }
             return
         }
-        this[id] = CharacterCfg(entityType, modelType).apply(init)
+        this[id] = CharacterCfg(id, entityType, modelType).apply(init)
     }
 
     override operator fun get(key: Character): CharacterCfg {
@@ -73,3 +75,89 @@ class CharacterConfigurations : EnumMap<Character, CharacterCfg>(Character::clas
 }
 
 inline fun characterConfigurations(init: CharacterConfigurations.() -> Unit) = CharacterConfigurations().apply(init)
+
+fun loadCharacterConfigurations(): CharacterConfigurations {
+    return characterConfigurations {
+        cfg(Character.PLAYER, EntityType.PLAYER, ModelType.PLAYER) {
+            speed = 4f
+            size(0.5f, 0.8f)
+            attackRange = 0.4f
+            attackCooldown = 1f
+            damage = 6f
+            life = 40f
+            mana = 10f
+            armor = 2f
+            defaultState = PlayerState.IDLE
+            abilities.add(FireballEffect)
+        }
+        cfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
+            speed = 0.3f
+            size(0.5f, 0.5f)
+            attackRange = 0.15f
+            damageDelay = 0.25f
+            attackCooldown = 2f
+            damage = 2f
+            life = 10f
+            defaultState = DefaultEnemyState.IDLE
+            aggroRange = 2.5f
+            xp = 10
+        }
+        cfg(Character.ORANGE_SLIME, EntityType.ENEMY, ModelType.ORANGE_SLIME) {
+            speed = 0.5f
+            size(0.4f, 0.4f)
+            attackRange = 0.1f
+            attackCooldown = 1.5f
+            damage = 3f
+            life = 5f
+            defaultState = DefaultEnemyState.IDLE
+            aggroRange = 3f
+            xp = 15
+        }
+        cfg(Character.DWARF, EntityType.ENEMY, ModelType.DWARF) {
+            speed = 0.6f
+            size(0.5f, 0.6f)
+            attackRange = 0.2f
+            damageDelay = 0.45f
+            attackCooldown = 1.5f
+            damage = 3f
+            life = 10f
+            defaultState = DefaultEnemyState.IDLE
+            aggroRange = 3f
+            xp = 20
+        }
+        cfg(Character.FLIPPY, EntityType.NPC, ModelType.FLIPPY) {
+            size(0.65f, 2f)
+            collisionBodyOffset(3f * UNIT_SCALE, 0f)
+        }
+        cfg(Character.SAVE_POINT, EntityType.SAVE_POINT, ModelType.EYE_MONSTER)
+        cfg(Character.GIRL, EntityType.NPC, ModelType.GIRL) {
+            size(0.5f, 0.6f)
+        }
+        cfg(Character.MINOTAUR, EntityType.ENEMY, ModelType.MINOTAUR) {
+            speed = 0.90f
+            size(0.7f, 1.2f)
+            attackRange = 0.7f
+            damageDelay = 0.3f
+            attackCooldown = 5f
+            damage = 5f
+            life = 50f
+            defaultState = MinotaurState.IDLE
+            aggroRange = 10f
+            xp = 100
+            abilities.add(SpinEffect)
+        }
+        cfg(Character.SKELETAL, EntityType.ENEMY, ModelType.SKELETAL) {
+            speed = 0.6f
+            size(0.4f, 0.8f)
+            collisionBodyOffset(-3f * UNIT_SCALE, 0f)
+            attackRange = 0.6f
+            attackCooldown = 3.5f
+            damage = 4f
+            damageDelay = 0.7f
+            life = 23f
+            defaultState = DefaultEnemyState.IDLE
+            aggroRange = 10f
+            xp = 40
+        }
+    }
+}
