@@ -29,7 +29,7 @@ void main()
     position.x *= resolution.x / resolution.y;
     float distToCenter = length(position);
     // vignetteRadius value is between 0 and 1 where 1 is the edge of the screen and 0 is the center
-    float vignetteRadius = smoothstep(radius, radius+SOFTNESS, 1 - distToCenter);
+    float vignetteRadius = smoothstep(radius, radius+SOFTNESS, 1.0 - distToCenter);
 
     // calculater color
     // 1) normal sprite color with vignette
