@@ -14,12 +14,6 @@ enum class Key {
 }
 
 class GameEventManager : KtxInputAdapter {
-    fun removeFromAllListeners(listener: Any) {
-        if (listener is InputListener) removeInputListener(listener)
-        if (listener is MapChangeListener) removeMapChangeListener(listener)
-        if (listener is GameEventListener) removeGameEventListener(listener)
-    }
-
     // input event related stuff
     private val inputListeners = Array<InputListener>()
     private var ignoreInput = false

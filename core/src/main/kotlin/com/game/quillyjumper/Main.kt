@@ -22,6 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.audio.DefaultAudioService
 import com.game.quillyjumper.audio.NullAudioService
+import com.game.quillyjumper.configuration.CharacterConfigurations
+import com.game.quillyjumper.configuration.loadCharacterConfigurations
 import com.game.quillyjumper.ecs.system.FontType
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.screen.LoadingScreen
@@ -55,6 +57,10 @@ val Application.world: World
     get() = (this.applicationListener as Main).world
 val Application.ecsEngine: Engine
     get() = (this.applicationListener as Main).ecsEngine
+val Application.gameEventManager: GameEventManager
+    get() = (this.applicationListener as Main).gameEventManager
+val Application.characterConfigurations: CharacterConfigurations
+    get() = (this.applicationListener as Main).characterConfigurations
 
 class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
     private val ctx = Context()
@@ -68,6 +74,8 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
     }
     val world by lazy { createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) } }
     val ecsEngine by lazy { PooledEngine() }
+    val gameEventManager by lazy { GameEventManager() }
+    val characterConfigurations by lazy { loadCharacterConfigurations() }
 
     override fun create() {
         // init Box2D - the next call avoids some issues with older devices where the box2d libraries were not loaded correctly
@@ -83,7 +91,6 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
                 // load/unload .tmx files
                 setLoader(TiledMap::class.java, TmxMapLoader(fileHandleResolver))
             })
-            bindSingleton(GameEventManager())
             bindSingleton(Stage(FitViewport(1280f, 720f), ctx.inject<SpriteBatch>()))
             bindSingleton(createSKin())
             bindSingleton(RayHandler(world))
@@ -94,7 +101,7 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
         // we need a multiplexer to react on the following input events
         // UI widget --> Stage
         // keyboard --> InputProcessor (GameEventManager)
-        Gdx.input.inputProcessor = InputMultiplexer(ctx.inject<GameEventManager>(), ctx.inject<Stage>())
+        Gdx.input.inputProcessor = InputMultiplexer(gameEventManager, ctx.inject<Stage>())
         // set our created skin as the default skin for scene2d stuff
         Scene2DSkin.defaultSkin = ctx.inject()
 
@@ -107,7 +114,7 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
                 this, // game instance to switch screens
                 ctx.inject(), // stage
                 ctx.inject(), // assets
-                ctx.inject(), // game event manager
+                gameEventManager, // game event manager
                 audioService,
                 world, // physic world
                 ecsEngine, // entity component engine

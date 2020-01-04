@@ -197,19 +197,17 @@ class MapManager(
 
     private fun createTriggers(map: Map) {
         map.forEachMapObject(LAYER_TRIGGER) { mapObj ->
-            val triggerClassStr = mapObj.name
-            if (triggerClassStr.isBlank()) {
-                LOG.error { "There is no trigger class defined for trigger ${mapObj.id} in map ${map.type}" }
+            val triggerSetupFunction = mapObj.name
+            if (triggerSetupFunction.isBlank()) {
+                LOG.error { "There is no trigger setup function defined for trigger ${mapObj.id} in map ${map.type}" }
                 return@forEachMapObject
             }
 
             ecsEngine.trigger(
-                triggerClassStr,
+                triggerSetupFunction,
                 mapObj.property(PROPERTY_TRIGGER_REACT_ON_COLLISION, false),
-                gameEventManager,
                 world,
-                mapObj.shape,
-                characterConfigurations
+                mapObj.shape
             )
         }
     }
