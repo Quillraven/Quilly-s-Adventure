@@ -1,3 +1,5 @@
+import org.gradle.api.JavaVersion
+
 object Versions {
     const val kotlin = "1.3.61"
     const val androidGradlePlugin = "3.5.3"
@@ -7,6 +9,8 @@ object Versions {
     const val ashley = "1.7.3"
     const val gdxAI = "1.8.2"
     const val shadowJar = "5.2.0"
+    val java = JavaVersion.VERSION_1_8
+    const val jvm = "1.8"
 }
 
 object Apps {
