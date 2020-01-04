@@ -36,6 +36,7 @@ class ParticleComponent(
                     setLow(lowMin - 180f, lowMax - 180f)
                 }
             }
+            flipBy180Deg = false
         }
         effect.free()
     }
