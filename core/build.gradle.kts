@@ -29,12 +29,11 @@ tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
+configure<JavaPluginConvention> {
+    sourceCompatibility = Versions.java
+    targetCompatibility = Versions.java
 }
 
-sourceSets {
-    main {
-        java.srcDirs("src/main/kotlin")
-    }
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = Versions.jvm
 }

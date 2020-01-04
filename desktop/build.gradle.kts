@@ -6,7 +6,7 @@ plugins {
 }
 
 application {
-    mainClassName = "com.game.quillyjumper.DesktopLauncherKt"
+    mainClassName = "${Apps.packageName}.DesktopLauncherKt"
 }
 
 dependencies {
@@ -19,14 +19,18 @@ dependencies {
 }
 
 configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = Versions.java
+    targetCompatibility = Versions.java
 }
 
 sourceSets {
     main {
-        java.srcDirs("src/main/kotlin")
-        resources.srcDirs("../android/assets")
+        resources.srcDir(rootProject.files("assets"))
     }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = Versions.jvm
 }
 
 tasks {
