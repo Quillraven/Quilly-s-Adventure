@@ -19,11 +19,9 @@ import com.game.quillyjumper.ai.DefaultGlobalState
 import com.game.quillyjumper.ai.DefaultState
 import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.configuration.CharacterCfg
-import com.game.quillyjumper.configuration.CharacterConfigurations
 import com.game.quillyjumper.configuration.ItemCfg
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.system.FontType
-import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.map.MapType
 import com.game.quillyjumper.trigger.Trigger
 import ktx.ashley.EngineEntity
@@ -41,6 +39,19 @@ private val LOG = logger<Engine>()
 // helper function to check if an entity is removed. This is needed for box2d contact listener because
 // remove contact is triggered for entities that get removed and they should be ignored for the contacts events
 fun Entity.isRemoved() = this.components.size() == 0
+
+fun EngineEntity.withDefaultStaticPhysic(world: World, shape: Shape2D) {
+    with<PhysicComponent> {
+        body = world.body(BodyDef.BodyType.StaticBody) {
+            userData = this@withDefaultStaticPhysic.entity
+            fixedRotation = true
+            shape2D(shape) {
+                isSensor = true
+                filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
+            }
+        }
+    }
+}
 
 fun Engine.floatingText(
     posX: Float,
@@ -167,6 +178,10 @@ fun Engine.character(
         // type of entity
         with<EntityTypeComponent> {
             this.type = cfg.entityType
+        }
+        // character type
+        with<CharacterTypeComponent> {
+            type = cfg.characterType
         }
         // collision to store colliding entities
         with<CollisionComponent>()
@@ -383,19 +398,7 @@ fun Engine.portal(
 ): Entity {
     return this.entity {
         // physic
-        with<PhysicComponent> {
-            body = world.body(BodyDef.BodyType.StaticBody) {
-                userData = this@entity.entity
-                // scenery does not need to rotate
-                fixedRotation = true
-                // create fixture according to given shape
-                // fixture gets scaled to world units
-                shape2D(shape) {
-                    isSensor = true
-                    filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
-                }
-            }
-        }
+        withDefaultStaticPhysic(world, shape)
         // type of entity
         with<EntityTypeComponent> {
             this.type = EntityType.PORTAL
@@ -559,42 +562,26 @@ fun Engine.missile(
 }
 
 fun Engine.trigger(
-    triggerClassStr: String,
+    triggerSetupFunctionName: String,
     reactOnCollision: Boolean,
-    gameEventManager: GameEventManager,
     world: World,
-    shape: Shape2D,
-    characterCfgs: CharacterConfigurations
+    shape: Shape2D
 ): Entity {
     return this.entity {
         with<EntityTypeComponent> { type = EntityType.TRIGGER }
         // trigger component uses reflection which might fail if Tiled map object settings
         // are not correct (e.g. wrong classname or wrong package name)
+        val newTrigger = Trigger.pool.obtain()
         try {
-            val triggerInstance =
-                ClassReflection.forName("com.game.quillyjumper.trigger.$triggerClassStr").getConstructor(
-                    Entity::class.java,
-                    GameEventManager::class.java,
-                    Engine::class.java,
-                    World::class.java,
-                    CharacterConfigurations::class.java
-                ).newInstance(this.entity, gameEventManager, this@trigger, world, characterCfgs)
-            with<TriggerComponent> { trigger = triggerInstance as Trigger }
+            with<TriggerComponent> { trigger = newTrigger }
+            ClassReflection.getMethod(Trigger::class.java, triggerSetupFunctionName).invoke(newTrigger)
         } catch (e: ReflectionException) {
-            LOG.error { "Could not create trigger for class name $triggerClassStr" }
+            LOG.error { "Could not setup trigger $triggerSetupFunctionName" }
         }
 
         if (reactOnCollision) {
-            with<PhysicComponent> {
-                body = world.body(BodyDef.BodyType.StaticBody) {
-                    userData = this@entity.entity
-                    fixedRotation = true
-                    shape2D(shape) {
-                        isSensor = true
-                        filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
-                    }
-                }
-            }
+            newTrigger.active = false
+            withDefaultStaticPhysic(world, shape)
             with<CollisionComponent>()
         }
     }
