@@ -36,16 +36,13 @@ android {
     compileSdkVersion(Apps.compileSdk)
     sourceSets {
         getByName("main") {
-            manifest.srcFile("AndroidManifest.xml")
-            java.srcDirs("src")
-            aidl.srcDirs("src")
-            renderscript.srcDirs("src")
-            res.srcDirs("res")
-            assets.srcDirs("assets")
+            java.srcDirs("src/main/kotlin")
+            assets.srcDirs(rootProject.file("assets"))
             jniLibs.srcDirs("libs")
         }
 
     }
+
     defaultConfig {
         applicationId = Apps.packageName
         minSdkVersion(Apps.minSdk)
@@ -53,11 +50,21 @@ android {
         versionCode = Apps.versionCode
         versionName = Apps.versionName
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
+    }
+
+    compileOptions {
+        sourceCompatibility = Versions.java
+        targetCompatibility = Versions.java
+    }
+
+    kotlinOptions {
+        jvmTarget = Versions.jvm
     }
 }
 
