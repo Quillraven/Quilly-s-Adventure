@@ -1,8 +1,6 @@
 import org.gradle.api.JavaVersion
 
 object Versions {
-    const val kotlin = "1.3.61"
-    const val androidGradlePlugin = "3.5.3"
     const val gdx = "1.9.10"
     const val ktx = "1.9.10-SNAPSHOT"
     const val box2DLight = "1.4"

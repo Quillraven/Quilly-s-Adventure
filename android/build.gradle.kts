@@ -29,7 +29,7 @@ dependencies {
     api("com.badlogicgames.box2dlights:box2dlights:${Versions.box2DLight}")
     api("com.badlogicgames.ashley:ashley:${Versions.ashley}")
     api("com.badlogicgames.gdx:gdx-ai:${Versions.gdxAI}")
-    api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+    api("org.jetbrains.kotlin:kotlin-stdlib")
 }
 
 android {

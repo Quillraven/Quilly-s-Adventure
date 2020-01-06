@@ -15,7 +15,7 @@ dependencies {
     api("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-desktop")
     api("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-desktop")
     api("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-desktop")
-    api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+    api("org.jetbrains.kotlin:kotlin-stdlib")
 }
 
 configure<JavaPluginConvention> {
