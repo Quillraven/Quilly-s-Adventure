@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.StringBuilder
+import com.game.quillyjumper.ai.PlayerState
 import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.audio.AudioService
 import com.game.quillyjumper.ecs.component.*
@@ -32,19 +33,34 @@ class DeathSystem(
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        if (!entity.statsCmp.alive) {
+        val entityStats = entity.statsCmp
+        if (!entityStats.alive) {
             gameEventManager.dispatchCharacterDeath(entity)
+
+            // entity is dead -> remove it from the game if it is a non-player entity
+            // otherwise heal player and move him out of bounds to respawn at latest checkpoint
+            if (entity[PlayerComponent.mapper] == null) {
+                entity.add(engine.createComponent(RemoveComponent::class.java))
+            } else {
+                // the next line triggers the OutOfBoundsSystem
+                entity.physicCmp.body.setTransform(-1f, -1f, 0f)
+                // fully heal player
+                entityStats.resurrect()
+                // change state to IDLE because right now player is in DEATH state which
+                // would set the ALIVE flag again to false. To avoid that we change to a different state
+                entity.stateCmp.stateMachine.changeState(PlayerState.IDLE)
+            }
 
             // entity is dead (life <=0) and death animation is finished
             entity[KillerComponent.mapper]?.let { killerCmp ->
                 // there is a killing entity specified -> grant XP for killing blow
                 val killer = killerCmp.killer
-                if (killer.isRemoved()) {
-                    // killer was already removed from ECS -> do nothing
+                if (killer.isRemoved() || killer[PlayerComponent.mapper] == null) {
+                    // killer was already removed from ECS or killer is not player -> do nothing
                     return@let
                 }
 
-                val xpGained = entity.statsCmp.xp
+                val xpGained = entityStats.xp
                 val stats = killer.statsCmp
                 val transform = killer.transfCmp
                 // add xp of dying entity to killer entity
@@ -92,9 +108,6 @@ class DeathSystem(
                     2f
                 )
             }
-
-            // entity is dead -> remove it from the game
-            entity.add(engine.createComponent(RemoveComponent::class.java))
         }
     }
 }

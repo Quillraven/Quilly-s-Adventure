@@ -17,12 +17,18 @@ class StatsComponent(
     var xp: Int = 0,
     var alive: Boolean = true
 ) : Component, Pool.Poolable {
-    companion object {
-        val mapper = mapperFor<StatsComponent>()
-    }
-
     override fun reset() {
         alive = true
+    }
+
+    fun resurrect() {
+        life = maxLife
+        mana = maxMana
+        alive = true
+    }
+
+    companion object {
+        val mapper = mapperFor<StatsComponent>()
     }
 }
 

@@ -49,18 +49,13 @@ class OutOfBoundsSystem(private val gameEventManager: GameEventManager) : MapCha
         if (!boundaries.contains(entityBoundingRect) && !boundaries.overlaps(entityBoundingRect)) {
             // entity is out of bounds
             // if it is en enemy entity then remove it
-            // otherwise reduce life from player and respawn him at latest checkpoint
+            // otherwise respawn player at latest checkpoint
             if (entity.typeCmp.type == EntityType.PLAYER) {
                 entity.physicCmp.body.setTransform(
                     playerCheckpointPosition.x + entityBoundingRect.width * 0.5f,
                     playerCheckpointPosition.y + entityBoundingRect.height * 0.5f,
                     0f
                 )
-                with(entity.takeDamageCmp) {
-                    damage = 3f
-                    // TODO make a real damage source because otherwise player gets XP for killing himself
-                    source = entity
-                }
             } else if (entity.typeCmp.type == EntityType.ENEMY) {
                 entity.add(engine.createComponent(RemoveComponent::class.java))
             }
