@@ -136,7 +136,7 @@ fun loadCharacterConfigurations(): CharacterConfigurations {
         cfg(Character.MINOTAUR, EntityType.ENEMY, ModelType.MINOTAUR) {
             speed = 0.90f
             size(0.7f, 1.2f)
-            attackRange = 0.7f
+            attackRange = 0.4f
             damageDelay = 0.3f
             attackCooldown = 5f
             damage = 5f
