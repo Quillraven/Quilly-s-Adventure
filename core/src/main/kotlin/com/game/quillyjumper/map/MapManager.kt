@@ -201,6 +201,9 @@ class MapManager(
             if (triggerSetupFunction.isBlank()) {
                 LOG.error { "There is no trigger setup function defined for trigger ${mapObj.id} in map ${map.type}" }
                 return@forEachMapObject
+            } else if (!triggerSetupFunction.contains('.')) {
+                LOG.error { "Wrong trigger setup function definition for trigger ${mapObj.id} in map ${map.type}. Format is FILENAME.METHOD" }
+                return@forEachMapObject
             }
 
             ecsEngine.trigger(

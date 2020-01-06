@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.StringBuilder
 import com.badlogic.gdx.utils.reflect.ClassReflection
-import com.badlogic.gdx.utils.reflect.ReflectionException
 import com.game.quillyjumper.*
 import com.game.quillyjumper.ai.DefaultGlobalState
 import com.game.quillyjumper.ai.DefaultState
@@ -574,8 +573,11 @@ fun Engine.trigger(
         val newTrigger = Trigger.pool.obtain()
         try {
             with<TriggerComponent> { trigger = newTrigger }
-            ClassReflection.getMethod(Trigger::class.java, triggerSetupFunctionName).invoke(newTrigger)
-        } catch (e: ReflectionException) {
+            val fileAndMethod = triggerSetupFunctionName.split(".")
+            val file = ClassReflection.forName("com.game.quillyjumper.trigger.${fileAndMethod[0]}Kt")
+            val method = ClassReflection.getMethod(file, fileAndMethod[1], Trigger::class.java)
+            method.invoke(null, newTrigger)
+        } catch (e: Exception) {
             LOG.error { "Could not setup trigger $triggerSetupFunctionName" }
         }
 

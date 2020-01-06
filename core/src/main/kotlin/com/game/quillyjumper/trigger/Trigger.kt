@@ -30,7 +30,7 @@ class Trigger : Pool.Poolable {
         }
     }
 
-    private fun playMusic(type: MusicAssets, loop: Boolean = false, waitForCompletion: Boolean = false): Trigger {
+    fun playMusic(type: MusicAssets, loop: Boolean = false, waitForCompletion: Boolean = false): Trigger {
         actions.add(ReflectionPool(TriggerActionPlayMusic::class.java).obtain().apply {
             this.musicType = type
             this.loop = loop
@@ -39,7 +39,7 @@ class Trigger : Pool.Poolable {
         return this
     }
 
-    private fun createCharacter(
+    fun createCharacter(
         type: Character,
         spawnX: Float,
         spawnY: Float,
@@ -55,14 +55,14 @@ class Trigger : Pool.Poolable {
         return this
     }
 
-    private fun enablePlayerInput(enable: Boolean): Trigger {
+    fun enablePlayerInput(enable: Boolean): Trigger {
         actions.add(ReflectionPool(TriggerActionSetPlayerInput::class.java).obtain().apply {
             this.enable = enable
         })
         return this
     }
 
-    private fun delay(delay: Float): Trigger {
+    fun delay(delay: Float): Trigger {
         actions.add(ReflectionPool(TriggerActionDelay::class.java).obtain().apply {
             this.delay = delay
         })
@@ -72,21 +72,21 @@ class Trigger : Pool.Poolable {
     private fun lastCreatedCharacterTrigger(): TriggerActionCreateCharacter =
         actions.find { it is TriggerActionCreateCharacter } as TriggerActionCreateCharacter
 
-    private fun resetLastCreatedCharacterState(): Trigger {
+    fun resetLastCreatedCharacterState(): Trigger {
         actions.add(ReflectionPool(TriggerActionResetState::class.java).obtain().apply {
             this.createCharTrigger = lastCreatedCharacterTrigger()
         })
         return this
     }
 
-    private fun enablePortal(portalID: Int): Trigger {
+    fun enablePortal(portalID: Int): Trigger {
         actions.add(ReflectionPool(TriggerActionEnablePortal::class.java).obtain().apply {
             this.portalID = portalID
         })
         return this
     }
 
-    private fun waitForCreatedUnitsDeath(): Trigger {
+    fun waitForCreatedUnitsDeath(): Trigger {
         actions.add(ReflectionPool(TriggerActionWaitCreatedCharacterDeath::class.java).obtain().apply {
             actions.forEach {
                 if (it is TriggerActionCreateCharacter) {
@@ -95,23 +95,6 @@ class Trigger : Pool.Poolable {
             }
         })
         return this
-    }
-
-    @Suppress("unused")
-    fun map2BossTriggerSetup() {
-        enablePlayerInput(false)
-            .playMusic(MusicAssets.BOSS_1, loop = true)
-            .createCharacter(Character.MINOTAUR, 8f, 2.5f, 2f, true)
-            .delay(2f)
-            .resetLastCreatedCharacterState()
-            .createCharacter(Character.SKELETAL, 8f, 2.3f, 2f)
-            .enablePlayerInput(true)
-            .waitForCreatedUnitsDeath()
-            .enablePortal(97)
-            .enablePlayerInput(false)
-            .playMusic(MusicAssets.FANFARE, loop = false, waitForCompletion = true)
-            .playMusic(MusicAssets.LEVEL_2, true)
-            .enablePlayerInput(true)
     }
 
     companion object {

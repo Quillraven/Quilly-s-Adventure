@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-up" compressionlevel="0" width="32" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="35" nextobjectid="108">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-up" compressionlevel="0" width="32" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="35" nextobjectid="110">
  <tileset firstgid="1" source="tilesets.tsx"/>
  <layer id="28" name="bgd0" width="32" height="96">
   <data encoding="base64" compression="zlib">
@@ -68,7 +68,7 @@
   <object id="70" x="76.1114" y="1472.2" width="377.694" height="40.2727"/>
   <object id="71" x="176.237" y="1278.61" width="160.527" height="40.2727"/>
   <object id="72" x="55.5" y="1241.25">
-   <polyline points="0,0 0.25,-6 23.75,-12 120.5,37.5"/>
+   <polyline points="-20,-5.75 0.25,-6 23.75,-12 120.5,37.5"/>
   </object>
   <object id="73" x="336.5" y="1278.64">
    <polyline points="0,0 8,2.94597 8,10.6055 0.75,15.6136"/>
@@ -101,7 +101,7 @@
   <object id="98" name="Target for bottom Portal" type="PortalTarget" x="271.25" y="251.5" width="31.5" height="34"/>
  </objectgroup>
  <objectgroup id="8" name="playerSpawnLocation">
-  <object id="107" name="Start" x="55" y="105">
+  <object id="109" name="Start" x="62.6667" y="100">
    <point/>
   </object>
  </objectgroup>
@@ -138,7 +138,7 @@
  </objectgroup>
  <objectgroup color="#ff5500" id="16" name="npc"/>
  <objectgroup color="#339c9c" id="34" name="trigger">
-  <object id="91" name="map2BossTriggerSetup" x="342" y="1308.67" width="103.5" height="31">
+  <object id="91" name="TriggerMap2.setupBossTrigger" x="342" y="1308.67" width="103.5" height="31">
    <properties>
     <property name="TriggerReactOnCollision" type="bool" value="true"/>
    </properties>
