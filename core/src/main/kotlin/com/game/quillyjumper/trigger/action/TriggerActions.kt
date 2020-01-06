@@ -75,7 +75,7 @@ class TriggerActionCreateCharacter : TriggerAction {
             world,
             spawnLocation.x,
             spawnLocation.y
-        ) { if (fadeTime > 0f) with<FadeInComponent> { maxFadeTime = fadeTime } }
+        ) { if (fadeTime > 0f) with<FadeInComponent> { maxFadeTime = this@TriggerActionCreateCharacter.fadeTime } }
 
         if (holdPosition) createdCharacter.stateCmp.stateMachine.changeState(DefaultState.NONE)
 
