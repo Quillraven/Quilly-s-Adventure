@@ -1,10 +1,19 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    id("com.android.application") version Versions.androidGradlePlugin
+    kotlin("android") version Versions.kotlin
 }
 
 val natives by configurations.register("natives")
 val copyAndroidNatives by tasks.registering(Task::class)
+
+allprojects {
+    repositories {
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
+        jcenter()
+        google()
+    }
+}
+
 
 dependencies {
     implementation(project(":core"))
