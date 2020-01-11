@@ -6,9 +6,9 @@ filter: Linear,Linear
 repeat: none
 attack
   rotate: false
-  xy: 1935, 413
-  size: 34, 36
-  orig: 34, 36
+  xy: 1395, 223
+  size: 90, 90
+  orig: 90, 90
   offset: 0, 0
   index: -1
 bar
@@ -28,21 +28,21 @@ bar_green
   index: -1
 btn_chk
   rotate: false
-  xy: 1049, 124
+  xy: 1579, 251
   size: 57, 62
   orig: 57, 62
   offset: 0, 0
   index: -1
 btn_close
   rotate: false
-  xy: 954, 51
+  xy: 1783, 273
   size: 93, 135
   orig: 93, 135
   offset: 0, 0
   index: -1
 btn_rect_down
   rotate: false
-  xy: 1049, 72
+  xy: 878, 6
   size: 52, 50
   orig: 52, 50
   offset: 0, 0
@@ -54,30 +54,30 @@ btn_rect_up
   orig: 52, 50
   offset: 0, 0
   index: -1
-btn_round
+btn_round_down
   rotate: false
-  xy: 1395, 253
-  size: 60, 60
-  orig: 60, 60
+  xy: 1661, 288
+  size: 120, 120
+  orig: 120, 120
   offset: 0, 0
   index: -1
-btn_round_transparent
+btn_round_up
   rotate: false
-  xy: 1935, 451
-  size: 60, 60
-  orig: 60, 60
+  xy: 954, 66
+  size: 120, 120
+  orig: 120, 120
   offset: 0, 0
   index: -1
 btn_unchk
   rotate: false
-  xy: 1729, 346
+  xy: 1878, 346
   size: 57, 62
   orig: 57, 62
   offset: 0, 0
   index: -1
 can_attack_indicator
   rotate: false
-  xy: 1729, 340
+  xy: 1076, 95
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
@@ -105,21 +105,21 @@ healthbars_background
   index: -1
 jump
   rotate: false
-  xy: 1108, 163
-  size: 21, 23
-  orig: 21, 23
+  xy: 1487, 223
+  size: 90, 90
+  orig: 90, 90
   offset: 0, 0
   index: -1
 knob
   rotate: false
-  xy: 1457, 257
+  xy: 1878, 288
   size: 51, 56
   orig: 51, 56
   offset: 0, 0
   index: -1
 lifebar
   rotate: false
-  xy: 1661, 317
+  xy: 954, 60
   size: 58, 4
   orig: 58, 4
   offset: 0, 0
@@ -133,16 +133,16 @@ manabar
   index: -1
 player
   rotate: false
-  xy: 1395, 233
+  xy: 2027, 493
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 skill
   rotate: false
-  xy: 1997, 479
-  size: 32, 32
-  orig: 32, 32
+  xy: 1935, 421
+  size: 90, 90
+  orig: 90, 90
   offset: 0, 0
   index: 0
 skull
@@ -161,7 +161,7 @@ touchpad
   index: -1
 triangle
   rotate: false
-  xy: 1661, 323
+  xy: 1076, 101
   size: 66, 85
   orig: 66, 85
   offset: 0, 0
