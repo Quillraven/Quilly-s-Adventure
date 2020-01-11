@@ -18,7 +18,7 @@ class AudioVolumeWidget(text: String, skin: Skin) : Table(skin), KTable {
     }
 }
 
-inline fun <S> KWidget<S>.audioWidget(
+inline fun <S> KWidget<S>.audioVolumeWidget(
     text: String,
     skin: Skin = Scene2DSkin.defaultSkin,
     init: AudioVolumeWidget.(S) -> Unit = {}

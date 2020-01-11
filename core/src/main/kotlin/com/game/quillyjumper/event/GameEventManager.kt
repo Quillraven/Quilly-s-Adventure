@@ -22,10 +22,19 @@ class GameEventManager : KtxInputAdapter {
 
     fun removeInputListener(listener: InputListener) = inputListeners.removeValue(listener, true)
 
-    @Suppress("MemberVisibilityCanBePrivate")
     fun dispatchInputMoveEvent(percX: Float, percY: Float) {
         if (ignoreInput) return
         inputListeners.forEach { it.move(percX, percY) }
+    }
+
+    fun dispatchInputKeyPressEvent(key: Key) {
+        if (ignoreInput) return
+        inputListeners.forEach { it.keyPressed(key) }
+    }
+
+    fun dispatchInputKeyReleaseEvent(key: Key) {
+        if (ignoreInput) return
+        inputListeners.forEach { it.keyReleased(key) }
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -33,10 +42,10 @@ class GameEventManager : KtxInputAdapter {
         when (keycode) {
             Input.Keys.A -> dispatchInputMoveEvent(-1f, 0f)
             Input.Keys.D -> dispatchInputMoveEvent(1f, 0f)
-            Input.Keys.SPACE -> inputListeners.forEach { it.keyPressed(Key.JUMP) }
-            Input.Keys.CONTROL_LEFT -> inputListeners.forEach { it.keyPressed(Key.ATTACK) }
-            Input.Keys.SHIFT_LEFT -> inputListeners.forEach { it.keyPressed(Key.CAST) }
-            Input.Keys.ESCAPE -> inputListeners.forEach { it.keyPressed(Key.EXIT) }
+            Input.Keys.SPACE -> dispatchInputKeyPressEvent(Key.JUMP)
+            Input.Keys.CONTROL_LEFT -> dispatchInputKeyPressEvent(Key.ATTACK)
+            Input.Keys.SHIFT_LEFT -> dispatchInputKeyPressEvent(Key.CAST)
+            Input.Keys.ESCAPE -> dispatchInputKeyPressEvent(Key.EXIT)
         }
         return true
     }
@@ -46,10 +55,10 @@ class GameEventManager : KtxInputAdapter {
         when (keycode) {
             Input.Keys.A -> dispatchInputMoveEvent(if (Gdx.input.isKeyPressed(Input.Keys.D)) 1f else 0f, 0f)
             Input.Keys.D -> dispatchInputMoveEvent(if (Gdx.input.isKeyPressed(Input.Keys.A)) -1f else 0f, 0f)
-            Input.Keys.SPACE -> inputListeners.forEach { it.keyReleased(Key.JUMP) }
-            Input.Keys.CONTROL_LEFT -> inputListeners.forEach { it.keyReleased(Key.ATTACK) }
-            Input.Keys.SHIFT_LEFT -> inputListeners.forEach { it.keyReleased(Key.CAST) }
-            Input.Keys.ESCAPE -> inputListeners.forEach { it.keyReleased(Key.EXIT) }
+            Input.Keys.SPACE -> dispatchInputKeyReleaseEvent(Key.JUMP)
+            Input.Keys.CONTROL_LEFT -> dispatchInputKeyReleaseEvent(Key.ATTACK)
+            Input.Keys.SHIFT_LEFT -> dispatchInputKeyReleaseEvent(Key.CAST)
+            Input.Keys.ESCAPE -> dispatchInputKeyReleaseEvent(Key.EXIT)
         }
         return true
     }

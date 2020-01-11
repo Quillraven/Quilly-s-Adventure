@@ -1,12 +1,13 @@
 package com.game.quillyjumper.screen
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.game.quillyjumper.assets.MusicAssets
 import com.game.quillyjumper.audio.AudioService
-import com.game.quillyjumper.ui.audioWidget
+import com.game.quillyjumper.ui.Images
+import com.game.quillyjumper.ui.audioVolumeWidget
+import com.game.quillyjumper.ui.get
 import ktx.actors.centerPosition
 import ktx.actors.onChange
 import ktx.actors.onClick
@@ -26,7 +27,7 @@ class MenuScreen(
         audioService.play(MusicAssets.MENU)
 
         //TODO beautify UI and extract it to separate UI package to avoid creating the same table multiple times
-        stage.root.addActor(Image(Scene2DSkin.defaultSkin.getDrawable("dialog_light")).apply {
+        stage.root.addActor(Image(Scene2DSkin.defaultSkin[Images.DIALOG_LIGHT]).apply {
             centerPosition(this@MenuScreen.stage.width, this@MenuScreen.stage.height)
         })
         stage.root.addActor(
@@ -37,13 +38,13 @@ class MenuScreen(
                     label("New Game"); cell.fillX().padLeft(60f).row()
                 }.onClick { game.setScreen<GameScreen>() }
                 button { cell -> label("Continue"); cell.fillX().padLeft(60f).row() }
-                audioWidget("Music") { cell ->
+                audioVolumeWidget("Music") { cell ->
                     checkBox.onChange { println("${checkBox.isChecked}") }
                     audioReduceButton.onClick { println("reduce") }
                     audioIncreaseButton.onClick { println("increase") }
                     cell.fillX().row()
                 }
-                audioWidget("Sound") { cell -> cell.fillX().row() }
+                audioVolumeWidget("Sound") { cell -> cell.fillX().row() }
                 //TODO mention Schlaubi for his awesome support throughout the entire project (BOLD AND COLORFUL TEXT)
                 // also add REDRUM on soundcloud for awesome music stuff!
                 // Valvoorik just because he is awesome
@@ -64,9 +65,6 @@ class MenuScreen(
     }
 
     override fun render(delta: Float) {
-        // TODO remove debug stuff
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) show()
-
         stage.viewport.apply()
         stage.act()
         stage.draw()
