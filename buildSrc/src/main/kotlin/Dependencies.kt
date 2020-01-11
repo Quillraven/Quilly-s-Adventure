@@ -10,7 +10,7 @@ object Versions {
     val java = JavaVersion.VERSION_1_8
     const val jvm = "1.8"
     const val kotlin = "1.3.61"
-    const val androidGradlePlugin = "3.5.2"
+    const val androidGradlePlugin = "3.5.3"
 }
 
 object Apps {
