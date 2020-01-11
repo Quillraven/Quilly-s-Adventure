@@ -47,7 +47,8 @@ operator fun AssetManager.get(asset: SoundAssets) = this.getAsset<Sound>(asset.f
 
 // texture atlas
 enum class TextureAtlasAssets(val filePath: String) {
-    GAME_OBJECTS("graphics/gameObjects.atlas")
+    GAME_OBJECTS("graphics/gameObjects.atlas"),
+    UI("ui/UI.atlas")
 }
 
 fun AssetManager.load(asset: TextureAtlasAssets) = load<TextureAtlas>(asset.filePath)

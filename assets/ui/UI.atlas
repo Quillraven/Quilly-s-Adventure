@@ -1,0 +1,168 @@
+
+UI.png
+size: 2048,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+attack
+  rotate: false
+  xy: 1935, 413
+  size: 34, 36
+  orig: 34, 36
+  offset: 0, 0
+  index: -1
+bar
+  rotate: false
+  xy: 824, 230
+  size: 569, 83
+  split: 24, 23, 24, 27
+  orig: 569, 83
+  offset: 0, 0
+  index: -1
+bar_green
+  rotate: false
+  xy: 824, 188
+  size: 329, 40
+  orig: 329, 40
+  offset: 0, 0
+  index: -1
+btn_chk
+  rotate: false
+  xy: 1049, 124
+  size: 57, 62
+  orig: 57, 62
+  offset: 0, 0
+  index: -1
+btn_close
+  rotate: false
+  xy: 954, 51
+  size: 93, 135
+  orig: 93, 135
+  offset: 0, 0
+  index: -1
+btn_rect_down
+  rotate: false
+  xy: 1049, 72
+  size: 52, 50
+  orig: 52, 50
+  offset: 0, 0
+  index: -1
+btn_rect_up
+  rotate: false
+  xy: 824, 6
+  size: 52, 50
+  orig: 52, 50
+  offset: 0, 0
+  index: -1
+btn_round
+  rotate: false
+  xy: 1395, 253
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn_round_transparent
+  rotate: false
+  xy: 1935, 451
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn_unchk
+  rotate: false
+  xy: 1729, 346
+  size: 57, 62
+  orig: 57, 62
+  offset: 0, 0
+  index: -1
+can_attack_indicator
+  rotate: false
+  xy: 1729, 340
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+dialog_light
+  rotate: false
+  xy: 1, 5
+  size: 821, 506
+  orig: 821, 506
+  offset: 0, 0
+  index: -1
+dialog_title
+  rotate: false
+  xy: 824, 315
+  size: 835, 196
+  orig: 835, 196
+  offset: 0, 0
+  index: -1
+healthbars_background
+  rotate: false
+  xy: 1155, 218
+  size: 64, 10
+  orig: 64, 10
+  offset: 0, 0
+  index: -1
+jump
+  rotate: false
+  xy: 1108, 163
+  size: 21, 23
+  orig: 21, 23
+  offset: 0, 0
+  index: -1
+knob
+  rotate: false
+  xy: 1457, 257
+  size: 51, 56
+  orig: 51, 56
+  offset: 0, 0
+  index: -1
+lifebar
+  rotate: false
+  xy: 1661, 317
+  size: 58, 4
+  orig: 58, 4
+  offset: 0, 0
+  index: -1
+manabar
+  rotate: false
+  xy: 1, 1
+  size: 56, 2
+  orig: 56, 2
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 1395, 233
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+skill
+  rotate: false
+  xy: 1997, 479
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+skull
+  rotate: false
+  xy: 1661, 410
+  size: 272, 101
+  orig: 272, 101
+  offset: 0, 0
+  index: -1
+touchpad
+  rotate: false
+  xy: 824, 58
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+triangle
+  rotate: false
+  xy: 1661, 323
+  size: 66, 85
+  orig: 66, 85
+  offset: 0, 0
+  index: -1
