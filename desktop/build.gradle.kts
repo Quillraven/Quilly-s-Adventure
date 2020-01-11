@@ -11,7 +11,7 @@ application {
 
 dependencies {
     implementation(project(":core"))
-    api("com.badlogicgames.gdx:gdx-backend-lwjgl:${Versions.gdx}")
+    api("com.badlogicgames.gdx:gdx-backend-lwjgl3:${Versions.gdx}")
     api("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-desktop")
     api("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-desktop")
     api("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-desktop")
