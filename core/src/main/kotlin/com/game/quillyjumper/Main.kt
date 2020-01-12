@@ -55,6 +55,7 @@ val Application.gameEventManager: GameEventManager
 val Application.characterConfigurations: CharacterConfigurations
     get() = (this.applicationListener as Main).characterConfigurations
 
+@Suppress("UnnecessaryApply")
 class Main(private val disableAudio: Boolean = false,
            private val logLevel: Int = Application.LOG_ERROR) :
     KtxGame<KtxScreen>() {
@@ -75,7 +76,8 @@ class Main(private val disableAudio: Boolean = false,
     override fun create() {
         Gdx.app.logLevel = logLevel
 
-        // init Box2D - the next call avoids some issues with older devices where the box2d libraries were not loaded correctly
+        // init Box2D - the next call avoids some issues with older devices
+        // where the box2d libraries were not loaded correctly
         Box2D.init()
 
         // setup context and register stuff that should also be disposed at the end of the game lifecycle

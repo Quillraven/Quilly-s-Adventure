@@ -65,13 +65,9 @@ class PlayerInfoWidget(
         }
     }
 
-    override fun getPrefHeight(): Float {
-        return 100f
-    }
+    override fun getPrefHeight(): Float = 100f
 
-    override fun getPrefWidth(): Float {
-        return 200f
-    }
+    override fun getPrefWidth(): Float = 200f
 }
 
 inline fun <S> KWidget<S>.playerInfoWidget(
