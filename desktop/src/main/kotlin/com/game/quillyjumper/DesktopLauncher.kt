@@ -9,5 +9,5 @@ fun main() {
         setWindowSizeLimits(1280, 720, -1, -1)
         setTitle("Quilly Jumper")
     }
-    Lwjgl3Application(Main(disableAudio = false), config).logLevel = Application.LOG_DEBUG
+    Lwjgl3Application(Main(disableAudio = false, logLevel = Application.LOG_DEBUG), config)
 }
