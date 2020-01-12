@@ -11,9 +11,9 @@ enum class JumpOrder {
 }
 
 class JumpComponent(
-    var order: JumpOrder = JumpOrder.NONE,
-    var jumpTime: Float = 0f,
-    var maxJumpTime: Float = 1f
+        var order: JumpOrder = JumpOrder.NONE,
+        var jumpTime: Float = 0f,
+        var maxJumpTime: Float = 1f
 ) : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<JumpComponent>()
@@ -27,4 +27,4 @@ class JumpComponent(
 
 val Entity.jumpCmp: JumpComponent
     get() = this[JumpComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a jump component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a jump component which is null")

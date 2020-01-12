@@ -29,14 +29,14 @@ import ktx.tiled.property
 private val LOG = logger<RenderSystem>()
 
 class RenderSystem(
-    engine: Engine,
-    private val batch: SpriteBatch,
-    private val gameViewPort: Viewport,
-    private val mapRenderer: OrthogonalTiledMapRenderer,
-    private val shaderPrograms: ShaderPrograms
+        engine: Engine,
+        private val batch: SpriteBatch,
+        private val gameViewPort: Viewport,
+        private val mapRenderer: OrthogonalTiledMapRenderer,
+        private val shaderPrograms: ShaderPrograms
 ) : MapChangeListener, SortedIteratingSystem(
-    allOf(RenderComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get(),
-    compareBy { entity -> entity.transfCmp }
+        allOf(RenderComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get(),
+        compareBy { entity -> entity.transfCmp }
 ) {
     private var vignetteActive = false
     private val resolutionVector = vec2()
@@ -49,12 +49,12 @@ class RenderSystem(
     private val mapParallaxValues = FloatArray()
 
     private val particleEffects =
-        engine.getEntitiesFor(
-            allOf(
-                ParticleComponent::class,
-                TransformComponent::class
-            ).exclude(RemoveComponent::class).get()
-        )
+            engine.getEntitiesFor(
+                    allOf(
+                            ParticleComponent::class,
+                            TransformComponent::class
+                    ).exclude(RemoveComponent::class).get()
+            )
 
     override fun update(deltaTime: Float) {
         // Update animation timer for animated tiles
@@ -126,8 +126,8 @@ class RenderSystem(
                 // adjust sprite position to render image centered around the entity's position
                 val transform = entity.transfCmp
                 setPosition(
-                    transform.interpolatedPosition.x - (width - transform.size.x) * 0.5f,
-                    transform.interpolatedPosition.y - 0.01f
+                        transform.interpolatedPosition.x - (width - transform.size.x) * 0.5f,
+                        transform.interpolatedPosition.y - 0.01f
                 )
                 draw(batch)
             }

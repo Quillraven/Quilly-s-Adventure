@@ -14,7 +14,8 @@ enum class Item {
     POTION_GAIN_MANA
 }
 
-class ItemCfg(val region: TextureAtlas.AtlasRegion) {
+@Suppress("DataClassShouldBeImmutable")
+data class ItemCfg(val region: TextureAtlas.AtlasRegion) {
     var lifeBonus = 0
     var manaBonus = 0
 }
@@ -25,9 +26,9 @@ class ItemConfigurations(assets: AssetManager) : EnumMap<Item, ItemCfg>(Item::cl
     private val defaultCfg = ItemCfg(defaultRegion)
 
     fun cfg(
-        id: Item,
-        regionKey: String,
-        init: ItemCfg.() -> Unit = { Unit }
+            id: Item,
+            regionKey: String,
+            init: ItemCfg.() -> Unit = { }
     ) {
         if (this.containsKey(id)) {
             LOG.error { "Item configuration for id $id is already existing!" }
@@ -52,4 +53,4 @@ class ItemConfigurations(assets: AssetManager) : EnumMap<Item, ItemCfg>(Item::cl
 }
 
 inline fun itemConfigurations(assets: AssetManager, init: ItemConfigurations.() -> Unit) =
-    ItemConfigurations(assets).apply(init)
+        ItemConfigurations(assets).apply(init)

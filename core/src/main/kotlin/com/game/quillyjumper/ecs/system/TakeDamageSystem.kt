@@ -12,11 +12,11 @@ import ktx.ashley.allOf
 import ktx.ashley.exclude
 
 class TakeDamageSystem : IteratingSystem(
-    allOf(
-        StatsComponent::class,
-        TakeDamageComponent::class,
-        TransformComponent::class
-    ).exclude(RemoveComponent::class).get()
+        allOf(
+                StatsComponent::class,
+                TakeDamageComponent::class,
+                TransformComponent::class
+        ).exclude(RemoveComponent::class).get()
 ) {
     private val stringBuilder = StringBuilder(4)
 
@@ -44,21 +44,21 @@ class TakeDamageSystem : IteratingSystem(
         // create floating text to display damage number to player
         val transform = entity.transfCmp
         engine.floatingText(
-            transform.position.x + transform.size.x * 0.5f,
-            transform.position.y + transform.size.y,
-            FontType.DEFAULT,
-            stringBuilder,
-            Color.RED,
-            0f,
-            -1f,
-            1.25f
+                transform.position.x + transform.size.x * 0.5f,
+                transform.position.y + transform.size.y,
+                FontType.DEFAULT,
+                stringBuilder,
+                Color.RED,
+                0f,
+                -1f,
+                1.25f
         )
 
         // show some blood splatter to indicate that the entity got hurt
         engine.particleEffect(
-            transform.position.x + transform.size.x * 0.25f,
-            transform.position.y + transform.size.y * 0.25f,
-            ParticleAssets.BLOOD
+                transform.position.x + transform.size.x * 0.25f,
+                transform.position.y + transform.size.y * 0.25f,
+                ParticleAssets.BLOOD
         )
     }
 }

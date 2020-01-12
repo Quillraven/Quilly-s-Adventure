@@ -25,15 +25,16 @@ import java.util.*
 
 private val LOG = logger<MapManager>()
 
+@Suppress("StringLiteralDuplication")
 class MapManager(
-    private val assets: AssetManager,
-    private val world: World,
-    private val rayHandler: RayHandler,
-    private val ecsEngine: Engine,
-    private val characterConfigurations: CharacterConfigurations,
-    private val itemConfigurations: ItemConfigurations,
-    private val playerEntities: ImmutableArray<Entity>,
-    private val gameEventManager: GameEventManager
+        private val assets: AssetManager,
+        private val world: World,
+        private val rayHandler: RayHandler,
+        private val ecsEngine: Engine,
+        private val characterConfigurations: CharacterConfigurations,
+        private val itemConfigurations: ItemConfigurations,
+        private val playerEntities: ImmutableArray<Entity>,
+        private val gameEventManager: GameEventManager
 ) {
     private var currentMapType = MapType.TEST_MAP
     private val mapCache = EnumMap<MapType, Map>(MapType::class.java)
@@ -100,13 +101,16 @@ class MapManager(
             try {
                 val charKey = Character.valueOf(mapObj.name)
                 ecsEngine.character(
-                    characterConfigurations[charKey],
-                    world,
-                    mapObj.x * UNIT_SCALE,
-                    mapObj.y * UNIT_SCALE
+                        characterConfigurations[charKey],
+                        world,
+                        mapObj.x * UNIT_SCALE,
+                        mapObj.y * UNIT_SCALE
                 )
             } catch (e: IllegalArgumentException) {
-                LOG.error(e) { "Invalid name specified for object with ID ${mapObj.id} for map ${map.type} in layer $layer" }
+                LOG.error(e) {
+                    "Invalid name specified for object with ID ${mapObj.id}" +
+                            " for map ${map.type} in layer $layer"
+                }
             }
         }
     }
@@ -122,13 +126,16 @@ class MapManager(
             try {
                 val itemKey = Item.valueOf(mapObj.name)
                 ecsEngine.item(
-                    itemConfigurations[itemKey],
-                    world,
-                    mapObj.x * UNIT_SCALE,
-                    mapObj.y * UNIT_SCALE
+                        itemConfigurations[itemKey],
+                        world,
+                        mapObj.x * UNIT_SCALE,
+                        mapObj.y * UNIT_SCALE
                 )
             } catch (e: IllegalArgumentException) {
-                LOG.error(e) { "Invalid name specified for object with ID ${mapObj.id} for map ${map.type} in layer $LAYER_ITEM" }
+                LOG.error(e) {
+                    "Invalid name specified for object with ID ${mapObj.id}" +
+                            " for map ${map.type} in layer $LAYER_ITEM"
+                }
             }
         }
     }
@@ -143,32 +150,44 @@ class MapManager(
                     val targetMap = MapType.valueOf(mapObj.property(PROPERTY_TARGET_MAP, ""))
                     val targetPortal = mapObj.property(PROPERTY_TARGET_PORTAL_ID, -1)
                     if (targetPortal == -1) {
-                        LOG.error { "Target portal ID not specified for object with ID ${mapObj.id} for map ${map.type}" }
+                        LOG.error {
+                            "Target portal ID not specified for object with ID ${mapObj.id}" +
+                                    " for map ${map.type}"
+                        }
                         return@forEachMapObject
                     }
                     val targetOffsetX = mapObj.property(PROPERTY_TARGET_OFFSET_X, 0)
                     if (targetOffsetX == 0 && map.type != targetMap) {
-                        LOG.error { "Target offset X not specified for object with ID ${mapObj.id} for map ${map.type}" }
+                        LOG.error {
+                            "Target offset X not specified for object with ID ${mapObj.id}" +
+                                    " for map ${map.type}"
+                        }
                         return@forEachMapObject
                     }
 
                     // create portal entity
                     ecsEngine.portal(
-                        world,
-                        mapObj.shape,
-                        mapObj.id,
-                        mapObj.property(PROPERTY_PORTAL_ACTIVE, true),
-                        targetMap,
-                        targetPortal,
-                        targetOffsetX,
-                        mapObj.property(PROPERTY_FLIP_PARTICLE_FX, false)
+                            world,
+                            mapObj.shape,
+                            mapObj.id,
+                            mapObj.property(PROPERTY_PORTAL_ACTIVE, true),
+                            targetMap,
+                            targetPortal,
+                            targetOffsetX,
+                            mapObj.property(PROPERTY_FLIP_PARTICLE_FX, false)
                     )
                 }
             } catch (e: IllegalArgumentException) {
                 if (!mapObj.properties.containsKey(PROPERTY_TARGET_MAP)) {
-                    LOG.error { "Missing target map property for object with ID ${mapObj.id} for map ${map.type}" }
+                    LOG.error {
+                        "Missing target map property for object with ID ${mapObj.id}" +
+                                " for map ${map.type}"
+                    }
                 } else {
-                    LOG.error(e) { "Invalid map property specified for object with ID ${mapObj.id} for map ${map.type}" }
+                    LOG.error(e) {
+                        "Invalid map property specified for object with ID ${mapObj.id}" +
+                                " for map ${map.type}"
+                    }
                 }
             }
         }
@@ -181,9 +200,9 @@ class MapManager(
                 // found target portal by ID -> move player to that location
                 playerEntities.forEach { player ->
                     player.physicCmp.body.setTransform(
-                        mapObj.x * UNIT_SCALE + targetOffsetX,
-                        mapObj.y * UNIT_SCALE,
-                        0f
+                            mapObj.x * UNIT_SCALE + targetOffsetX,
+                            mapObj.y * UNIT_SCALE,
+                            0f
                     )
                 }
                 return
@@ -199,18 +218,24 @@ class MapManager(
         map.forEachMapObject(LAYER_TRIGGER) { mapObj ->
             val triggerSetupFunction = mapObj.name
             if (triggerSetupFunction.isBlank()) {
-                LOG.error { "There is no trigger setup function defined for trigger ${mapObj.id} in map ${map.type}" }
+                LOG.error {
+                    "There is no trigger setup function defined for trigger ${mapObj.id}" +
+                            " in map ${map.type}"
+                }
                 return@forEachMapObject
             } else if (!triggerSetupFunction.contains('.')) {
-                LOG.error { "Wrong trigger setup function definition for trigger ${mapObj.id} in map ${map.type}. Format is FILENAME.METHOD" }
+                LOG.error {
+                    "Wrong trigger setup function definition for trigger ${mapObj.id}" +
+                            " in map ${map.type}. Format is FILENAME.METHOD"
+                }
                 return@forEachMapObject
             }
 
             ecsEngine.trigger(
-                triggerSetupFunction,
-                mapObj.property(PROPERTY_TRIGGER_REACT_ON_COLLISION, false),
-                world,
-                mapObj.shape
+                    triggerSetupFunction,
+                    mapObj.property(PROPERTY_TRIGGER_REACT_ON_COLLISION, false),
+                    world,
+                    mapObj.shape
             )
         }
     }
@@ -224,9 +249,9 @@ class MapManager(
             rayHandler.setBlurNum(2)
             // create point light entity
             ecsEngine.globalLight(
-                rayHandler,
-                map.property(PROPERTY_SUN_COLOR, Color.WHITE),
-                map.property(PROPERTY_SHADOW_ANGLE, 0f)
+                    rayHandler,
+                    map.property(PROPERTY_SUN_COLOR, Color.WHITE),
+                    map.property(PROPERTY_SHADOW_ANGLE, 0f)
             )
         } else {
             rayHandler.setBlur(false)

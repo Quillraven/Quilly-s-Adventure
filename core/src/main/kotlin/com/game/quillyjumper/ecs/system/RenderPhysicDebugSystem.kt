@@ -6,9 +6,9 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport.Viewport
 
 class RenderPhysicDebugSystem(
-    private val world: World,
-    private val viewport: Viewport,
-    private val box2DDebugRenderer: Box2DDebugRenderer
+        private val world: World,
+        private val viewport: Viewport,
+        private val box2DDebugRenderer: Box2DDebugRenderer
 ) : EntitySystem() {
     init {
         // enable/disable box2d debug rendering

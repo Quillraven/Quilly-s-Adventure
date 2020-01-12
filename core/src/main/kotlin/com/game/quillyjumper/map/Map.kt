@@ -52,14 +52,17 @@ class Map(val type: MapType, val tiledMap: TiledMap) {
         // like e.g. MapManager.changeMap or OutOfBoundsSystem
         val mapObjects = tiledMap.layer(LAYER_PLAYER_SPAWN_LOCATION).objects
         if (mapObjects.count != 1) {
-            LOG.error { "There is not exactly one player start location defined for map $type. Amount: ${mapObjects.count}" }
+            LOG.error {
+                "There is not exactly one player start location defined for map $type." +
+                        " Amount: ${mapObjects.count}"
+            }
         } else {
             with(mapObjects.first()) { startLocation.set(x * UNIT_SCALE, y * UNIT_SCALE) }
         }
     }
 
     inline fun forEachMapObject(layerName: String, action: (MapObject) -> Unit) =
-        tiledMap.forEachMapObject(layerName, action)
+            tiledMap.forEachMapObject(layerName, action)
 
     inline fun <reified T> property(key: String, defaultValue: T): T = tiledMap.property(key, defaultValue)
 

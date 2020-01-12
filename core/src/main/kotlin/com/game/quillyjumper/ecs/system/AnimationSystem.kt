@@ -32,9 +32,10 @@ private const val DEFAULT_REGION_KEY = "error"
  * Example for a player idle animation with two frames would be PLAYER/IDLE_0 and PLAYER/IDLE_1
  * as keys for the regions of the atlas.
  */
+@Suppress("CommentOverPrivateFunction")
 class AnimationSystem(assets: AssetManager, private val audioService: AudioService) :
-    IteratingSystem(allOf(AnimationComponent::class, RenderComponent::class).exclude(RemoveComponent::class).get()),
-    EntityListener {
+        IteratingSystem(allOf(AnimationComponent::class, RenderComponent::class).exclude(RemoveComponent::class).get()),
+        EntityListener {
     private val animationFamily = allOf(AnimationComponent::class).get()
     private val animationCache = EnumMap<ModelType, EnumMap<AnimationType, Animation>>(ModelType::class.java)
     private val textureAtlas = assets[TextureAtlasAssets.GAME_OBJECTS]
@@ -42,10 +43,10 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
     // even if the real animation is missing or wrongly defined
     private val defaultRegion = textureAtlas.findRegion(DEFAULT_REGION_KEY)!!
     private val defaultAnimation = Animation(
-        ModelType.UNKNOWN,
-        AnimationType.IDLE,
-        SoundAssets.UNKNOWN,
-        Array<TextureAtlas.AtlasRegion>(TextureAtlas.AtlasRegion::class.java).apply { add(defaultRegion) }
+            ModelType.UNKNOWN,
+            AnimationType.IDLE,
+            SoundAssets.UNKNOWN,
+            Array<TextureAtlas.AtlasRegion>(TextureAtlas.AtlasRegion::class.java).apply { add(defaultRegion) }
     )
 
     override fun addedToEngine(engine: Engine) {
@@ -64,7 +65,7 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
         entity.aniCmp.animation = defaultAnimation
     }
 
-    override fun entityRemoved(entity: Entity?) {}
+    override fun entityRemoved(entity: Entity?) = Unit
 
     /**
      * Extension method for animation cache to simply retrieve animations by calling
@@ -74,13 +75,14 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
      * [getAnimation] method.
      */
     private operator fun EnumMap<ModelType, EnumMap<AnimationType, Animation>>.get(
-        modelType: ModelType,
-        animationType: AnimationType
+            modelType: ModelType,
+            animationType: AnimationType
     ): Animation {
         val animationMap = this.computeIfAbsent(modelType) { EnumMap(AnimationType::class.java) }
         return animationMap.computeIfAbsent(animationType) { getAnimation(modelType, animationType) }
     }
 
+    @Suppress("MandatoryBracesIfStatements")
     private fun getSound(modelType: ModelType, animationType: AnimationType): SoundAssets {
         return when (modelType) {
             ModelType.PLAYER -> when (animationType) {
@@ -88,14 +90,10 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
                 AnimationType.JUMP -> SoundAssets.PLAYER_JUMP
                 else -> SoundAssets.UNKNOWN
             }
-            ModelType.ORANGE_SLIME -> when (animationType) {
-                AnimationType.DEATH -> SoundAssets.SLIME_DEATH
-                else -> SoundAssets.UNKNOWN
-            }
-            ModelType.BLUE_SLIME -> when (animationType) {
-                AnimationType.DEATH -> SoundAssets.SLIME_DEATH
-                else -> SoundAssets.UNKNOWN
-            }
+            ModelType.ORANGE_SLIME -> if (animationType == AnimationType.DEATH) SoundAssets.SLIME_DEATH
+            else SoundAssets.UNKNOWN
+            ModelType.BLUE_SLIME -> if (animationType == AnimationType.DEATH) SoundAssets.SLIME_DEATH
+            else SoundAssets.UNKNOWN
             ModelType.DWARF -> when (animationType) {
                 AnimationType.DEATH -> SoundAssets.GNOME_DEATH
                 AnimationType.ATTACK -> SoundAssets.SWING2
@@ -134,17 +132,19 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
 
         // regions found -> create new animation
         return Animation(
-            modelType,
-            animationType,
-            getSound(modelType, animationType),
-            regions
+                modelType,
+                animationType,
+                getSound(modelType, animationType),
+                regions
         )
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         // check if aniCmp has a valid model and if the animation has to be updated
         val aniCmp = entity.aniCmp
-        if (aniCmp.modelType != ModelType.UNKNOWN && (aniCmp.animationType != aniCmp.animation.animationType || aniCmp.modelType != aniCmp.animation.modelType)) {
+        if (aniCmp.modelType != ModelType.UNKNOWN &&
+                (aniCmp.animationType != aniCmp.animation.animationType
+                        || aniCmp.modelType != aniCmp.animation.modelType)) {
             // animation update needed -> retrieve it from cache
             // if it is not part of the cache yet then the cache will create it
             aniCmp.animation = animationCache[aniCmp.modelType, aniCmp.animationType]
@@ -165,7 +165,10 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
             aniCmp.animation.playMode = aniCmp.mode
             var textureRegion = aniCmp.animation.getKeyFrame(aniCmp.animationTime)
             if (textureRegion == null) {
-                LOG.error { "Could not retrieve textureRegion for ${aniCmp.modelType}/${aniCmp.animationType} at time ${aniCmp.animationTime}" }
+                LOG.error {
+                    "Could not retrieve textureRegion for" +
+                            " ${aniCmp.modelType}/${aniCmp.animationType} at time ${aniCmp.animationTime}"
+                }
                 textureRegion = defaultRegion
             }
 

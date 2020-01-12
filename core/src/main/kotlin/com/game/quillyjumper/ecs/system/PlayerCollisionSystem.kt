@@ -21,11 +21,11 @@ import ktx.log.logger
 private val LOG = logger<PlayerCollisionSystem>()
 
 class PlayerCollisionSystem(
-    private val mapManager: MapManager,
-    private val audioService: AudioService,
-    private val gameEventManager: GameEventManager
+        private val mapManager: MapManager,
+        private val audioService: AudioService,
+        private val gameEventManager: GameEventManager
 ) :
-    IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()), MapChangeListener {
+        IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()), MapChangeListener {
     private val itemInfoBuilder = StringBuilder(64)
     private var lastSavepoint: Entity? = null
     private var lastTrigger: Entity? = null
@@ -49,6 +49,7 @@ class PlayerCollisionSystem(
                     return@forEach
                 }
 
+                @Suppress("OptionalWhenBraces")
                 when (collidingEntity.typeCmp.type) {
                     EntityType.PORTAL -> {
                         // player collides with a portal -> move player to new location/map if portal is active
@@ -119,14 +120,14 @@ class PlayerCollisionSystem(
         // show information to player about the changed stats
         with(player.transfCmp) {
             engine.floatingText(
-                position.x,
-                position.y + size.y,
-                FontType.DEFAULT,
-                itemInfoBuilder,
-                Color.FIREBRICK,
-                0f,
-                -1f,
-                3f
+                    position.x,
+                    position.y + size.y,
+                    FontType.DEFAULT,
+                    itemInfoBuilder,
+                    Color.FIREBRICK,
+                    0f,
+                    -1f,
+                    3f
             )
         }
 

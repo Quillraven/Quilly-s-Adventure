@@ -12,7 +12,7 @@ import ktx.ashley.allOf
 import ktx.ashley.exclude
 
 class TriggerSystem(private val gameEventManager: GameEventManager) :
-    IteratingSystem(allOf(TriggerComponent::class).exclude(RemoveComponent::class).get()), GameEventListener {
+        IteratingSystem(allOf(TriggerComponent::class).exclude(RemoveComponent::class).get()), GameEventListener {
     override fun addedToEngine(engine: Engine?) {
         super.addedToEngine(engine)
         gameEventManager.addGameEventListener(this)
@@ -25,10 +25,8 @@ class TriggerSystem(private val gameEventManager: GameEventManager) :
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         with(entity.triggerCmp) {
-            if (trigger.active) {
-                if (trigger.update(deltaTime)) {
-                    entity.add(engine.createComponent(RemoveComponent::class.java))
-                }
+            if (trigger.active and trigger.update(deltaTime)) {
+                entity.add(engine.createComponent(RemoveComponent::class.java))
             }
         }
     }

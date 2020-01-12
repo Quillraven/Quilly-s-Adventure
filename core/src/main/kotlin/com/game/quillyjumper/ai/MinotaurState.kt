@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.MathUtils
 import com.game.quillyjumper.ecs.component.*
 
 enum class MinotaurState(
-    override val aniType: AnimationType,
-    override val aniMode: Animation.PlayMode = Animation.PlayMode.LOOP
+        override val aniType: AnimationType,
+        override val aniMode: Animation.PlayMode = Animation.PlayMode.LOOP
 ) : EntityState {
     IDLE(AnimationType.IDLE) {
         override fun update(entity: Entity) {

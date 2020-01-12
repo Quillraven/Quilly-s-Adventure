@@ -20,11 +20,9 @@ enum class DefaultGlobalState : State<Entity> {
         }
     };
 
-    override fun enter(entity: Entity?) {
-    }
+    override fun enter(entity: Entity?) = Unit
 
-    override fun exit(entity: Entity?) {
-    }
+    override fun exit(entity: Entity?) = Unit
 
     override fun onMessage(entity: Entity?, telegram: Telegram?): Boolean = false
 }

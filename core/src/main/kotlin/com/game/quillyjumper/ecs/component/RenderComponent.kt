@@ -14,4 +14,4 @@ class RenderComponent(var sprite: Sprite = Sprite()) : Component {
 
 val Entity.renderCmp: RenderComponent
     get() = this[RenderComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a render component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a render component which is null")

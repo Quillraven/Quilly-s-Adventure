@@ -45,4 +45,4 @@ class AbilityComponent : Component, Pool.Poolable {
 
 val Entity.abilityCmp: AbilityComponent
     get() = this[AbilityComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access an ability component which is null")
+            ?: throw KotlinNullPointerException("Trying to access an ability component which is null")

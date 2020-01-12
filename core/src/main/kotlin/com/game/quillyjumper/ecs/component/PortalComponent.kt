@@ -8,11 +8,11 @@ import ktx.ashley.get
 import ktx.ashley.mapperFor
 
 class PortalComponent(
-    var portalID: Int = -1,
-    var active: Boolean = true,
-    var targetMap: MapType = MapType.TEST_MAP,
-    var targetPortal: Int = 0,
-    var targetOffsetX: Int = 0
+        var portalID: Int = -1,
+        var active: Boolean = true,
+        var targetMap: MapType = MapType.TEST_MAP,
+        var targetPortal: Int = 0,
+        var targetOffsetX: Int = 0
 ) : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<PortalComponent>()
@@ -28,4 +28,4 @@ class PortalComponent(
 
 val Entity.portalCmp: PortalComponent
     get() = this[PortalComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a portal component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a portal component which is null")

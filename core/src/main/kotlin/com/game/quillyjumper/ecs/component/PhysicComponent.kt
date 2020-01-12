@@ -30,4 +30,4 @@ class PhysicComponent(val impulse: Vector2 = vec2()) : Component, Pool.Poolable 
 
 val Entity.physicCmp: PhysicComponent
     get() = this[PhysicComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a physic component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a physic component which is null")

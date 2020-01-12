@@ -12,9 +12,9 @@ import ktx.scene2d.label
 import ktx.scene2d.table
 
 class MenuScreen(
-    private val game: KtxGame<KtxScreen>,
-    private val audioService: AudioService,
-    private val stage: Stage
+        private val game: KtxGame<KtxScreen>,
+        private val audioService: AudioService,
+        private val stage: Stage
 ) : KtxScreen {
     override fun show() {
         audioService.play(MusicAssets.MENU)

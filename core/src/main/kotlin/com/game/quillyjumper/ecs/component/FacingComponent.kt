@@ -20,4 +20,4 @@ class FacingComponent(var direction: FacingDirection = FacingDirection.RIGHT) : 
 
 val Entity.facingCmp: FacingComponent
     get() = this[FacingComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a facing component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a facing component which is null")

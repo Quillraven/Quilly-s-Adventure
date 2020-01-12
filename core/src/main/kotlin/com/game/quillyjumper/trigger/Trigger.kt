@@ -40,11 +40,11 @@ class Trigger : Pool.Poolable {
     }
 
     fun createCharacter(
-        type: Character,
-        spawnX: Float,
-        spawnY: Float,
-        fadeTime: Float = 0f,
-        holdPosition: Boolean = false
+            type: Character,
+            spawnX: Float,
+            spawnY: Float,
+            fadeTime: Float = 0f,
+            holdPosition: Boolean = false
     ): Trigger {
         actions.add(ReflectionPool(TriggerActionCreateCharacter::class.java).obtain().apply {
             this.type = type
@@ -70,7 +70,7 @@ class Trigger : Pool.Poolable {
     }
 
     private fun lastCreatedCharacterTrigger(): TriggerActionCreateCharacter =
-        actions.find { it is TriggerActionCreateCharacter } as TriggerActionCreateCharacter
+            actions.find { it is TriggerActionCreateCharacter } as TriggerActionCreateCharacter
 
     fun resetLastCreatedCharacterState(): Trigger {
         actions.add(ReflectionPool(TriggerActionResetState::class.java).obtain().apply {

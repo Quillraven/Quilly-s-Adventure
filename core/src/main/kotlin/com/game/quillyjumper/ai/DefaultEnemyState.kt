@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.game.quillyjumper.ecs.component.*
 
 enum class DefaultEnemyState(
-    override val aniType: AnimationType,
-    override val aniMode: Animation.PlayMode = Animation.PlayMode.LOOP
+        override val aniType: AnimationType,
+        override val aniMode: Animation.PlayMode = Animation.PlayMode.LOOP
 ) : EntityState {
     IDLE(AnimationType.IDLE) {
         override fun update(entity: Entity) {
@@ -87,8 +87,8 @@ fun updateFacingForAttack(entity: Entity) {
     val transformA = entity.transfCmp
     val transformB = entity.aggroCmp.aggroEntities.first().transfCmp
 
-    entity.facingCmp.direction = when {
-        transformA.position.x + transformA.size.x * 0.5f > transformB.position.x + transformB.size.x * 0.5f -> FacingDirection.LEFT
-        else -> FacingDirection.RIGHT
-    }
+    entity.facingCmp.direction = if (transformA.position.x + transformA.size.x * 0.5f > transformB.position.x +
+            transformB.size.x * 0.5f) {
+        FacingDirection.LEFT
+    } else FacingDirection.RIGHT
 }

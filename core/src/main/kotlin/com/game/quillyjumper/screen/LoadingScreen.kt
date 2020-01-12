@@ -17,18 +17,18 @@ import ktx.app.KtxGame
 import ktx.app.KtxScreen
 
 class LoadingScreen(
-    private val game: KtxGame<KtxScreen>,
-    private val stage: Stage,
-    private val assets: AssetManager,
-    private val gameEventManager: GameEventManager,
-    private val audioService: AudioService,
-    private val world: World,
-    private val ecsEngine: Engine,
-    private val rayHandler: RayHandler,
-    private val shaderPrograms: ShaderPrograms,
-    private val batch: SpriteBatch,
-    private val mapRenderer: OrthogonalTiledMapRenderer,
-    private val box2DDebugRenderer: Box2DDebugRenderer
+        private val game: KtxGame<KtxScreen>,
+        private val stage: Stage,
+        private val assets: AssetManager,
+        private val gameEventManager: GameEventManager,
+        private val audioService: AudioService,
+        private val world: World,
+        private val ecsEngine: Engine,
+        private val rayHandler: RayHandler,
+        private val shaderPrograms: ShaderPrograms,
+        private val batch: SpriteBatch,
+        private val mapRenderer: OrthogonalTiledMapRenderer,
+        private val box2DDebugRenderer: Box2DDebugRenderer
 ) : KtxScreen {
     override fun show() {
         // queue all assets that should be loaded
@@ -50,20 +50,20 @@ class LoadingScreen(
             // all assets are loaded -> add remaining screens to our game now because
             // now they can access the different assets that they need
             game.addScreen(
-                GameScreen(
-                    game,
-                    assets,
-                    gameEventManager,
-                    audioService,
-                    world,
-                    ecsEngine,
-                    rayHandler,
-                    shaderPrograms,
-                    batch,
-                    mapRenderer,
-                    box2DDebugRenderer,
-                    stage
-                )
+                    GameScreen(
+                            game,
+                            assets,
+                            gameEventManager,
+                            audioService,
+                            world,
+                            ecsEngine,
+                            rayHandler,
+                            shaderPrograms,
+                            batch,
+                            mapRenderer,
+                            box2DDebugRenderer,
+                            stage
+                    )
             )
             game.addScreen(MenuScreen(game, audioService, stage))
             game.addScreen(EndScreen(game))

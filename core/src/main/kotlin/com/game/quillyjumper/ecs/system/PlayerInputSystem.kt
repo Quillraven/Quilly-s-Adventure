@@ -9,7 +9,7 @@ import com.game.quillyjumper.input.InputListener
 import ktx.ashley.allOf
 
 class PlayerInputSystem(private val gameEventManager: GameEventManager, engine: Engine) :
-    EntitySystem(), InputListener {
+        EntitySystem(), InputListener {
     private val entities = engine.getEntitiesFor(allOf(PlayerComponent::class).get())
 
     override fun addedToEngine(engine: Engine?) {

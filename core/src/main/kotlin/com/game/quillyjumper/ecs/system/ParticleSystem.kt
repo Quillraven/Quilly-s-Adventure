@@ -17,8 +17,9 @@ import ktx.ashley.exclude
 import java.util.*
 
 class ParticleSystem(private val assets: AssetManager, private val audioService: AudioService) :
-    IteratingSystem(allOf(ParticleComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get()),
-    EntityListener {
+        IteratingSystem(allOf(ParticleComponent::class, TransformComponent::class)
+                .exclude(RemoveComponent::class).get()),
+        EntityListener {
     private val effectPools = EnumMap<ParticleAssets, ParticleEffectPool>(ParticleAssets::class.java)
 
     init {
@@ -45,7 +46,7 @@ class ParticleSystem(private val assets: AssetManager, private val audioService:
         engine.removeEntityListener(this)
     }
 
-    override fun entityRemoved(entity: Entity) {}
+    override fun entityRemoved(entity: Entity) = Unit
 
     override fun entityAdded(entity: Entity) {
         // create particle effect

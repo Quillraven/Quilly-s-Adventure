@@ -82,12 +82,13 @@ class GameEventManager : KtxInputAdapter {
 
     fun removeGameEventListener(listener: GameEventListener) = gameEventListeners.removeValue(listener, true)
 
+    @Suppress("FunctionMaxLength")
     fun dispatchGameActivateSavepointEvent(savepoint: Entity) =
-        gameEventListeners.forEach { it.activateSavepoint(savepoint) }
+            gameEventListeners.forEach { it.activateSavepoint(savepoint) }
 
     fun dispatchPlayerTriggerContact(player: Entity, trigger: Entity) =
-        gameEventListeners.forEach { it.playerTriggerContact(player, trigger) }
+            gameEventListeners.forEach { it.playerTriggerContact(player, trigger) }
 
     fun dispatchCharacterDeath(character: Entity) =
-        gameEventListeners.forEach { it.characterDeath(character) }
+            gameEventListeners.forEach { it.characterDeath(character) }
 }

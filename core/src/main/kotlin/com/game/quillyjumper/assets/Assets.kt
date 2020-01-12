@@ -73,6 +73,6 @@ enum class ParticleAssets(val filePath: String, val scale: Float = 1f, val sound
 }
 
 fun AssetManager.load(asset: ParticleAssets, params: ParticleEffectLoader.ParticleEffectParameter) =
-    load(asset.filePath, ParticleEffect::class.java, params)
+        load(asset.filePath, ParticleEffect::class.java, params)
 
 operator fun AssetManager.get(asset: ParticleAssets) = this.getAsset<ParticleEffect>(asset.filePath)

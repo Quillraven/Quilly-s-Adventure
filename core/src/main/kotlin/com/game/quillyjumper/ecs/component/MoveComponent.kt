@@ -11,9 +11,9 @@ enum class MoveOrder {
 }
 
 class MoveComponent(
-    var moveTime: Float = 0f,
-    var maxSpeed: Float = 1f,
-    var lockMovement: Boolean = false
+        var moveTime: Float = 0f,
+        var maxSpeed: Float = 1f,
+        var lockMovement: Boolean = false
 ) : Component, Pool.Poolable {
     var order: MoveOrder = MoveOrder.NONE
         set(value) {
@@ -34,4 +34,4 @@ class MoveComponent(
 
 val Entity.moveCmp: MoveComponent
     get() = this[MoveComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a move component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a move component which is null")

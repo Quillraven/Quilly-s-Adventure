@@ -36,34 +36,34 @@ import ktx.ashley.allOf
 import ktx.ashley.get
 
 class GameScreen(
-    private val game: KtxGame<KtxScreen>,
-    private val assets: AssetManager,
-    private val gameEventManager: GameEventManager,
-    private val audioService: AudioService,
-    private val world: World,
-    private val engine: Engine,
-    private val rayHandler: RayHandler,
-    private val shaderPrograms: ShaderPrograms,
-    private val batch: SpriteBatch,
-    private val mapRenderer: OrthogonalTiledMapRenderer,
-    private val box2DDebugRenderer: Box2DDebugRenderer,
-    private val stage: Stage
+        private val game: KtxGame<KtxScreen>,
+        private val assets: AssetManager,
+        private val gameEventManager: GameEventManager,
+        private val audioService: AudioService,
+        private val world: World,
+        private val engine: Engine,
+        private val rayHandler: RayHandler,
+        private val shaderPrograms: ShaderPrograms,
+        private val batch: SpriteBatch,
+        private val mapRenderer: OrthogonalTiledMapRenderer,
+        private val box2DDebugRenderer: Box2DDebugRenderer,
+        private val stage: Stage
 ) : KtxScreen, InputListener, GameEventListener {
     private val characterCfgCache = Gdx.app.characterConfigurations
     private val itemCfgCache = initItemConfigurations(assets)
     private val viewport = FitViewport(16f, 9f)
     private val playerEntities = engine.getEntitiesFor(allOf(PlayerComponent::class).get())
     private val mapManager =
-        MapManager(
-            assets,
-            world,
-            rayHandler,
-            engine,
-            characterCfgCache,
-            itemCfgCache,
-            playerEntities,
-            gameEventManager
-        )
+            MapManager(
+                    assets,
+                    world,
+                    rayHandler,
+                    engine,
+                    characterCfgCache,
+                    itemCfgCache,
+                    playerEntities,
+                    gameEventManager
+            )
 
     override fun show() {
         if (engine.systems.size() == 0) {
@@ -99,11 +99,11 @@ class GameScreen(
                 addSystem(RemoveSystem(this))
                 // create player entity
                 character(
-                    characterCfgCache[Character.PLAYER],
-                    world,
-                    0f,
-                    0f,
-                    1
+                        characterCfgCache[Character.PLAYER],
+                        world,
+                        0f,
+                        0f,
+                        1
                 ) {
                     with<PlayerComponent>()
                     with<CameraLockComponent>()
@@ -147,6 +147,7 @@ class GameScreen(
 
     override fun render(delta: Float) {
         // TODO remove debug stuff
+        @Suppress("OptionalWhenBraces")
         when {
             Gdx.input.isKeyJustPressed(Input.Keys.NUM_1) -> {
                 engine.getSystem(RenderSystem::class.java).setNormalColor()

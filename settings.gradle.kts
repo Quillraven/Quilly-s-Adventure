@@ -1,4 +1,4 @@
-include(":desktop", ":android", ":core")
+include(":desktop", ":core")
 
 pluginManagement {
     repositories {

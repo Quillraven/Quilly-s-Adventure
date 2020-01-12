@@ -21,4 +21,4 @@ class AggroComponent : Component, Pool.Poolable {
 
 val Entity.aggroCmp: AggroComponent
     get() = this[AggroComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access an aggro component which is null")
+            ?: throw KotlinNullPointerException("Trying to access an aggro component which is null")

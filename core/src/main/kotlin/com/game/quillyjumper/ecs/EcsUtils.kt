@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.StringBuilder
 import com.badlogic.gdx.utils.reflect.ClassReflection
+import com.badlogic.gdx.utils.reflect.ReflectionException
 import com.game.quillyjumper.*
 import com.game.quillyjumper.ai.DefaultGlobalState
 import com.game.quillyjumper.ai.DefaultState
@@ -53,14 +54,14 @@ fun EngineEntity.withDefaultStaticPhysic(world: World, shape: Shape2D) {
 }
 
 fun Engine.floatingText(
-    posX: Float,
-    posY: Float,
-    fontType: FontType,
-    text: StringBuilder,
-    color: Color,
-    speedX: Float,
-    speedY: Float,
-    lifeSpan: Float
+        posX: Float,
+        posY: Float,
+        fontType: FontType,
+        text: StringBuilder,
+        color: Color,
+        speedX: Float,
+        speedY: Float,
+        lifeSpan: Float
 ): Entity {
     return this.entity {
         // transform
@@ -83,12 +84,12 @@ fun Engine.floatingText(
 }
 
 fun Engine.character(
-    cfg: CharacterCfg,
-    world: World,
-    posX: Float,
-    posY: Float,
-    z: Int = 0,
-    compData: EngineEntity.() -> Unit = { Unit }
+        cfg: CharacterCfg,
+        world: World,
+        posX: Float,
+        posY: Float,
+        z: Int = 0,
+        compData: EngineEntity.() -> Unit = { }
 ): Entity {
     return this.entity {
         // transform
@@ -114,23 +115,23 @@ fun Engine.character(
                 // In addition they have two additional fixtures on the right and left side
                 // with no friction to avoid sticking to walls
                 box(
-                    cfg.size.x * 0.1f,
-                    cfg.size.y,
-                    PhysicComponent.tmpVec2.set(
-                        cfg.collBodyOffset.x - cfg.size.x * 0.5f + cfg.size.x * 0.1f * 0.5f,
-                        cfg.collBodyOffset.y
-                    )
+                        cfg.size.x * 0.1f,
+                        cfg.size.y,
+                        PhysicComponent.tmpVec2.set(
+                                cfg.collBodyOffset.x - cfg.size.x * 0.5f + cfg.size.x * 0.1f * 0.5f,
+                                cfg.collBodyOffset.y
+                        )
                 ) {
                     friction = 0f
                     filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
                 }
                 box(
-                    cfg.size.x * 0.1f,
-                    cfg.size.y,
-                    PhysicComponent.tmpVec2.set(
-                        cfg.collBodyOffset.x + cfg.size.x * 0.5f - cfg.size.x * 0.1f * 0.5f,
-                        cfg.collBodyOffset.y
-                    )
+                        cfg.size.x * 0.1f,
+                        cfg.size.y,
+                        PhysicComponent.tmpVec2.set(
+                                cfg.collBodyOffset.x + cfg.size.x * 0.5f - cfg.size.x * 0.1f * 0.5f,
+                                cfg.collBodyOffset.y
+                        )
                 ) {
                     friction = 0f
                     filter.categoryBits = FILTER_CATEGORY_GAME_OBJECT
@@ -143,9 +144,10 @@ fun Engine.character(
 
                 // ground sensor to detect if entity can jump
                 box(
-                    cfg.size.x * 0.5f,
-                    0.35f,
-                    PhysicComponent.tmpVec2.set(0f + cfg.collBodyOffset.x, -cfg.size.y * 0.6f + cfg.collBodyOffset.y)
+                        cfg.size.x * 0.5f,
+                        0.35f,
+                        PhysicComponent.tmpVec2.set(0f + cfg.collBodyOffset.x,
+                                -cfg.size.y * 0.6f + cfg.collBodyOffset.y)
                 ) {
                     userData = FIXTURE_TYPE_FOOT_SENSOR
                     this.isSensor = true
@@ -289,8 +291,9 @@ fun Engine.item(cfg: ItemCfg, world: World, posX: Float, posY: Float): Entity {
     }
 }
 
-private fun BodyDefinition.shape2D(shape: Shape2D, init: FixtureDefinition.() -> Unit = { Unit }) {
+private fun BodyDefinition.shape2D(shape: Shape2D, init: FixtureDefinition.() -> Unit = { }) {
     // position and fixture scaled according to world units
+    @Suppress("OptionalWhenBrances")
     when (shape) {
         is Rectangle -> {
             val width = shape.width * UNIT_SCALE
@@ -337,9 +340,7 @@ private fun BodyDefinition.shape2D(shape: Shape2D, init: FixtureDefinition.() ->
             // restore position
             shape.setPosition(x, y)
         }
-        else -> {
-            LOG.error { "Unsupported shape ${shape::class.java} for scenery object." }
-        }
+        else -> LOG.error { "Unsupported shape ${shape::class.java} for scenery object." }
     }
 }
 
@@ -366,9 +367,9 @@ fun Engine.scenery(world: World, shape: Shape2D): Entity {
 }
 
 fun Engine.portalTarget(
-    posX: Float,
-    posY: Float,
-    portalID: Int
+        posX: Float,
+        posY: Float,
+        portalID: Int
 ): Entity {
     return this.entity {
         with<EntityTypeComponent> {
@@ -386,14 +387,14 @@ fun Engine.portalTarget(
 }
 
 fun Engine.portal(
-    world: World,
-    shape: Shape2D,
-    portalID: Int,
-    active: Boolean,
-    targetMap: MapType,
-    targetPortal: Int,
-    targetOffsetX: Int,
-    flipParticleFX: Boolean
+        world: World,
+        shape: Shape2D,
+        portalID: Int,
+        active: Boolean,
+        targetMap: MapType,
+        targetPortal: Int,
+        targetOffsetX: Int,
+        flipParticleFX: Boolean
 ): Entity {
     return this.entity {
         // physic
@@ -428,15 +429,15 @@ fun Engine.portal(
 }
 
 fun Engine.damageEmitter(
-    world: World,
-    posX: Float,
-    posY: Float,
-    sizeX: Float,
-    sizeY: Float,
-    damage: Float,
-    lifeSpan: Float,
-    source: Entity,
-    damageDelay: Float = 0f
+        world: World,
+        posX: Float,
+        posY: Float,
+        sizeX: Float,
+        sizeY: Float,
+        damage: Float,
+        lifeSpan: Float,
+        source: Entity,
+        damageDelay: Float = 0f
 ): Entity {
     return this.entity {
         // physic
@@ -467,9 +468,9 @@ fun Engine.damageEmitter(
 }
 
 fun Engine.globalLight(
-    rayHandler: RayHandler,
-    sunColor: Color,
-    shadowAngle: Float
+        rayHandler: RayHandler,
+        sunColor: Color,
+        shadowAngle: Float
 ): Entity {
     return this.entity {
         // light
@@ -485,9 +486,9 @@ fun Engine.globalLight(
 }
 
 fun Engine.particleEffect(
-    posX: Float,
-    posY: Float,
-    type: ParticleAssets
+        posX: Float,
+        posY: Float,
+        type: ParticleAssets
 ): Entity {
     return this.entity {
         // transform
@@ -504,17 +505,17 @@ fun Engine.particleEffect(
 }
 
 fun Engine.missile(
-    owner: Entity,
-    world: World,
-    spawnX: Float,
-    spawnY: Float,
-    width: Float,
-    height: Float,
-    speed: Float,
-    lifeSpan: Float,
-    damage: Float,
-    particleEffect: ParticleAssets,
-    flipBy180Deg: Boolean = false
+        owner: Entity,
+        world: World,
+        spawnX: Float,
+        spawnY: Float,
+        width: Float,
+        height: Float,
+        speed: Float,
+        lifeSpan: Float,
+        damage: Float,
+        particleEffect: ParticleAssets,
+        flipBy180Deg: Boolean = false
 ): Entity {
     return this.entity {
         // physic
@@ -560,11 +561,12 @@ fun Engine.missile(
     }
 }
 
+@Suppress("SwallowedException") // Kotlin Reflection does not support this yet ;(
 fun Engine.trigger(
-    triggerSetupFunctionName: String,
-    reactOnCollision: Boolean,
-    world: World,
-    shape: Shape2D
+        triggerSetupFunctionName: String,
+        reactOnCollision: Boolean,
+        world: World,
+        shape: Shape2D
 ): Entity {
     return this.entity {
         with<EntityTypeComponent> { type = EntityType.TRIGGER }
@@ -577,7 +579,7 @@ fun Engine.trigger(
             val file = ClassReflection.forName("com.game.quillyjumper.trigger.${fileAndMethod[0]}Kt")
             val method = ClassReflection.getMethod(file, fileAndMethod[1], Trigger::class.java)
             method.invoke(null, newTrigger)
-        } catch (e: Exception) {
+        } catch (e: ReflectionException) {
             LOG.error { "Could not setup trigger $triggerSetupFunctionName" }
         }
 

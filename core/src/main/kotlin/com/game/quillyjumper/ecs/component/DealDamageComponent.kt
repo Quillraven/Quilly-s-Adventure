@@ -8,12 +8,12 @@ import ktx.ashley.get
 import ktx.ashley.mapperFor
 
 class DealDamageComponent(
-    var damage: Float = 0f,
-    var lifeSpan: Float = 0f,
-    val damagedEntities: ObjectSet<Entity> = ObjectSet(4),
-    var damageDelay: Float = 0f
+        var damage: Float = 0f,
+        var lifeSpan: Float = 0f,
+        val damagedEntities: ObjectSet<Entity> = ObjectSet(4),
+        var damageDelay: Float = 0f
 ) :
-    Component, Pool.Poolable {
+        Component, Pool.Poolable {
     lateinit var source: Entity
 
     companion object {
@@ -30,4 +30,4 @@ class DealDamageComponent(
 
 val Entity.dealDamageCmp: DealDamageComponent
     get() = this[DealDamageComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a deal damage component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a deal damage component which is null")

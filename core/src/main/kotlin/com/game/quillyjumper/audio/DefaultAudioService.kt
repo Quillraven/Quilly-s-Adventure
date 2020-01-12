@@ -24,7 +24,7 @@ class DefaultAudioService(private val assets: AssetManager) : AudioService {
         music?.stop()
         // play new music
         music = musicCache.computeIfAbsent(type) { assets[type] }.apply {
-            volume = (musicVolume * type.volumeScale)
+            volume = musicVolume * type.volumeScale
             isLooping = loop
             if (completeListener != null) this.setOnCompletionListener(completeListener)
             play()

@@ -9,12 +9,12 @@ import ktx.ashley.allOf
 import ktx.ashley.exclude
 
 class AttackSystem(private val world: World) : IteratingSystem(
-    allOf(
-        AttackComponent::class,
-        TransformComponent::class,
-        StatsComponent::class,
-        FacingComponent::class
-    ).exclude(RemoveComponent::class).get()
+        allOf(
+                AttackComponent::class,
+                TransformComponent::class,
+                StatsComponent::class,
+                FacingComponent::class
+        ).exclude(RemoveComponent::class).get()
 ) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity.attackCmp.run {
@@ -24,20 +24,19 @@ class AttackSystem(private val world: World) : IteratingSystem(
                 attackTime = cooldown
                 // 2) create damage emitter entity
                 val transform = entity.transfCmp
-                val offsetX = when (entity.facingCmp.direction) {
-                    FacingDirection.LEFT -> -range
-                    else -> transform.size.x
-                }
+                @Suppress("MandatoryBracesIfStatements")
+                val offsetX = if (entity.facingCmp.direction == FacingDirection.LEFT) -range
+                else transform.size.x
                 engine.damageEmitter(
-                    world,
-                    transform.position.x + offsetX,
-                    transform.position.y,
-                    range,
-                    transform.size.y,
-                    entity.statsCmp.damage,
-                    0.25f,
-                    entity,
-                    damageDelay
+                        world,
+                        transform.position.x + offsetX,
+                        transform.position.y,
+                        range,
+                        transform.size.y,
+                        entity.statsCmp.damage,
+                        0.25f,
+                        entity,
+                        damageDelay
                 )
             }
             attackTime -= deltaTime

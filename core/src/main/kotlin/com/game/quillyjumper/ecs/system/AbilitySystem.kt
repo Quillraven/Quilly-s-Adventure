@@ -11,7 +11,7 @@ private val LOG = logger<AbilitySystem>()
 
 
 class AbilitySystem :
-    IteratingSystem(allOf(AbilityComponent::class, StatsComponent::class).exclude(RemoveComponent::class).get()) {
+        IteratingSystem(allOf(AbilityComponent::class, StatsComponent::class).exclude(RemoveComponent::class).get()) {
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity.abilityCmp.let { ability ->
@@ -19,7 +19,10 @@ class AbilitySystem :
 
             if (ability.order == CastOrder.CAST) {
                 if (ability.abilityToCastIdx < 0 || ability.abilityToCastIdx >= ability.abilities.size) {
-                    LOG.error { "Trying to cast an invalid ability of index ${ability.abilityToCastIdx}. Available abilities: ${ability.abilities}" }
+                    LOG.error {
+                        "Trying to cast an invalid ability of index ${ability.abilityToCastIdx}." +
+                                " Available abilities: ${ability.abilities}"
+                    }
                     return
                 }
 

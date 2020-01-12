@@ -11,9 +11,9 @@ import ktx.ashley.allOf
 import kotlin.math.min
 
 class PhysicSystem(
-    private val world: World,
-    ecsEngine: Engine,
-    private val interval: Float = 1 / 60f
+        private val world: World,
+        ecsEngine: Engine,
+        private val interval: Float = 1 / 60f
 ) : EntitySystem() {
     private val entities = ecsEngine.getEntitiesFor(allOf(PhysicComponent::class, TransformComponent::class).get())
     private var accumulator = 0f
@@ -28,8 +28,8 @@ class PhysicSystem(
                     // This will smooth the graphics for the user and avoids "stuttering"
                     val transform = it.transfCmp
                     transform.prevPosition.set(
-                        body.position.x - transform.size.x * 0.5f,
-                        body.position.y - transform.size.y * 0.5f
+                            body.position.x - transform.size.x * 0.5f,
+                            body.position.y - transform.size.y * 0.5f
                     )
 
                     if (body.linearVelocity.x != 0f || !impulse.isZero) {
@@ -50,8 +50,8 @@ class PhysicSystem(
             it.physicCmp.run {
                 val transform = it.transfCmp
                 transform.position.set(
-                    body.position.x - transform.size.x * 0.5f,
-                    body.position.y - transform.size.y * 0.5f
+                        body.position.x - transform.size.x * 0.5f,
+                        body.position.y - transform.size.y * 0.5f
                 )
                 transform.interpolatedPosition.set(transform.prevPosition.lerp(transform.position, alpha))
             }

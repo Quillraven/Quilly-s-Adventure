@@ -9,12 +9,12 @@ import ktx.ashley.exclude
 import kotlin.math.min
 
 class FadeSystem :
-    IteratingSystem(allOf(FadeInComponent::class, RenderComponent::class).exclude(RemoveComponent::class).get()) {
+        IteratingSystem(allOf(FadeInComponent::class, RenderComponent::class).exclude(RemoveComponent::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         with(entity.fadeinCmp) {
-            fadeTime = min(1f, fadeTime + (deltaTime / maxFadeTime))
+            fadeTime = min(1f, fadeTime + deltaTime / maxFadeTime)
             entity.renderCmp.sprite.setAlpha(
-                min(targetAlpha, MathUtils.lerp(startAlpha, targetAlpha, fadeTime))
+                    min(targetAlpha, MathUtils.lerp(startAlpha, targetAlpha, fadeTime))
             )
 
             if (fadeTime >= 1f) {

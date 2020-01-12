@@ -62,6 +62,7 @@ val Application.gameEventManager: GameEventManager
 val Application.characterConfigurations: CharacterConfigurations
     get() = (this.applicationListener as Main).characterConfigurations
 
+@Suppress("UnnecessaryApply")
 class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
     private val ctx = Context()
     private val profiler by lazy { GLProfiler(Gdx.graphics).apply { enable() } }
@@ -78,7 +79,8 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
     val characterConfigurations by lazy { loadCharacterConfigurations() }
 
     override fun create() {
-        // init Box2D - the next call avoids some issues with older devices where the box2d libraries were not loaded correctly
+        // init Box2D - the next call avoids some issues with older devices where the box2d
+        // libraries were not loaded correctly
         Box2D.init()
 
         // setup context and register stuff that should also be disposed at the end of the game lifecycle
@@ -110,20 +112,20 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
 
         // initial screen is the loading screen which is loading all assets for the game
         addScreen(
-            LoadingScreen(
-                this, // game instance to switch screens
-                ctx.inject(), // stage
-                ctx.inject(), // assets
-                gameEventManager, // game event manager
-                audioService,
-                world, // physic world
-                ecsEngine, // entity component engine
-                ctx.inject(), // ray handler
-                ctx.inject(), // shaders
-                ctx.inject(), // sprite batch
-                ctx.inject(), // tiled map renderer
-                ctx.inject() // box2d debug renderer
-            )
+                LoadingScreen(
+                        this, // game instance to switch screens
+                        ctx.inject(), // stage
+                        ctx.inject(), // assets
+                        gameEventManager, // game event manager
+                        audioService,
+                        world, // physic world
+                        ecsEngine, // entity component engine
+                        ctx.inject(), // ray handler
+                        ctx.inject(), // shaders
+                        ctx.inject(), // sprite batch
+                        ctx.inject(), // tiled map renderer
+                        ctx.inject() // box2d debug renderer
+                )
         )
         setScreen<LoadingScreen>()
     }

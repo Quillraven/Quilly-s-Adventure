@@ -6,6 +6,7 @@ import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.isRemoved
 import ktx.ashley.get
 
+@Suppress("ComplexCondition", "CommentOverPrivateFunction")
 class PhysicContactListener : ContactListener {
     /**
      * @param srcFixture the fixture of the entity for which you want to update the collision data
@@ -17,6 +18,8 @@ class PhysicContactListener : ContactListener {
         if (srcEntity[CollisionComponent.mapper] == null) return
 
         val collEntityType = collEntity.typeCmp.type
+
+        @Suppress("OptionalWhenBraces")
         when (srcFixture.userData) {
             FIXTURE_TYPE_FOOT_SENSOR -> if (collEntityType == EntityType.SCENERY) srcEntity.collCmp.numGroundContacts++
             FIXTURE_TYPE_AGGRO_SENSOR -> {
@@ -25,7 +28,8 @@ class PhysicContactListener : ContactListener {
                 }
             }
             else -> {
-                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM || collEntityType == EntityType.TRIGGER) {
+                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL
+                        || collEntityType == EntityType.ITEM || collEntityType == EntityType.TRIGGER) {
                     srcEntity.collCmp.entities.add(collEntity)
                 }
             }
@@ -44,15 +48,12 @@ class PhysicContactListener : ContactListener {
         val collEntityType = collEntity.typeCmp.type
         when (srcFixture.userData) {
             FIXTURE_TYPE_FOOT_SENSOR -> if (collEntityType == EntityType.SCENERY) srcEntity.collCmp.numGroundContacts--
-            FIXTURE_TYPE_AGGRO_SENSOR -> {
-                if (collEntityType == EntityType.PLAYER && !collFixture.isSensor) {
-                    srcEntity.aggroCmp.aggroEntities.remove(collEntity)
-                }
+            FIXTURE_TYPE_AGGRO_SENSOR -> if (collEntityType == EntityType.PLAYER && !collFixture.isSensor) {
+                srcEntity.aggroCmp.aggroEntities.remove(collEntity)
             }
-            else -> {
-                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM || collEntityType == EntityType.TRIGGER) {
-                    srcEntity.collCmp.entities.remove(collEntity)
-                }
+            else -> if (!collFixture.isSensor || collEntityType == EntityType.PORTAL
+                    || collEntityType == EntityType.ITEM || collEntityType == EntityType.TRIGGER) {
+                srcEntity.collCmp.entities.remove(collEntity)
             }
         }
     }
@@ -107,6 +108,5 @@ class PhysicContactListener : ContactListener {
         }
     }
 
-    override fun postSolve(contact: Contact?, impulse: ContactImpulse?) {
-    }
+    override fun postSolve(contact: Contact?, impulse: ContactImpulse?) = Unit
 }

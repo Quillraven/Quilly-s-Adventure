@@ -21,4 +21,4 @@ class TriggerComponent : Component, Pool.Poolable {
 
 val Entity.triggerCmp: TriggerComponent
     get() = this[TriggerComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a trigger component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a trigger component which is null")

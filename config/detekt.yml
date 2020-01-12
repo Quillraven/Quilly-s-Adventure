@@ -1,0 +1,29 @@
+complexity:
+  TooManyFunctions:
+    active: false
+  LongMethod:
+    active: false
+  LongParameterList:
+    active: false
+  ComplexMethod:
+    active: false
+  NestedBlockDepth:
+    active: false
+  LabeledExpression:
+    active: false
+potential-bugs:
+  LateinitUsage:
+    active: true
+    excludes: "**/component/**, **/trigger/**"
+style:
+  WildcardImport:
+    active: false
+  MagicNumber:
+    active: false #TODO: Fix magic numbers
+comments:
+  UndocumentedPublicClass:
+    active: false
+  UndocumentedPublicFunction:
+    active: false
+  UndocumentedPublicProperty:
+    active: false

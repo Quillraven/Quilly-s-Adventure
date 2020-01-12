@@ -16,10 +16,10 @@ import ktx.ashley.exclude
 import ktx.ashley.get
 
 class DeathSystem(
-    private val audioService: AudioService,
-    private val gameEventManager: GameEventManager
+        private val audioService: AudioService,
+        private val gameEventManager: GameEventManager
 ) :
-    IteratingSystem(allOf(StatsComponent::class).exclude(RemoveComponent::class).get()) {
+        IteratingSystem(allOf(StatsComponent::class).exclude(RemoveComponent::class).get()) {
     private val xpInfoBuilder = StringBuilder(8)
 
     private fun canLevelUp(currentLevel: Int, currentXP: Int): Boolean {
@@ -81,14 +81,14 @@ class DeathSystem(
                     xpInfoBuilder.append("New Level: ")
                     xpInfoBuilder.append(stats.level)
                     engine.floatingText(
-                        transform.position.x + transform.size.x * 0.5f,
-                        transform.position.y + transform.size.y,
-                        FontType.LARGE,
-                        xpInfoBuilder,
-                        Color.GOLD,
-                        0f,
-                        -0.4f,
-                        3f
+                            transform.position.x + transform.size.x * 0.5f,
+                            transform.position.y + transform.size.y,
+                            FontType.LARGE,
+                            xpInfoBuilder,
+                            Color.GOLD,
+                            0f,
+                            -0.4f,
+                            3f
                     )
                 }
 
@@ -98,14 +98,14 @@ class DeathSystem(
                 xpInfoBuilder.append(xpGained)
                 xpInfoBuilder.append(" XP")
                 engine.floatingText(
-                    transform.position.x + transform.size.x * 0.5f,
-                    transform.position.y + transform.size.y,
-                    FontType.DEFAULT,
-                    xpInfoBuilder,
-                    Color.PURPLE,
-                    0f,
-                    -0.8f,
-                    2f
+                        transform.position.x + transform.size.x * 0.5f,
+                        transform.position.y + transform.size.y,
+                        FontType.DEFAULT,
+                        xpInfoBuilder,
+                        Color.PURPLE,
+                        0f,
+                        -0.8f,
+                        2f
                 )
             }
         }

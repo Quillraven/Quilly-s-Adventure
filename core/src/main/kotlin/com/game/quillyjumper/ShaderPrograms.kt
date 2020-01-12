@@ -14,22 +14,22 @@ enum class ShaderType(val vertexName: String = "default", val fragmentName: Stri
 
 class ShaderPrograms : Disposable {
     private val defaultShader = loadShader(ShaderType.DEFAULT)
-    private val shaderPrograms = EnumMap<ShaderType, ShaderProgram>(ShaderType::class.java)
+    private val programs = EnumMap<ShaderType, ShaderProgram>(ShaderType::class.java)
 
     init {
         ShaderType.values().forEach {
             if (it == ShaderType.DEFAULT) {
-                shaderPrograms[ShaderType.DEFAULT] = defaultShader
+                programs[ShaderType.DEFAULT] = defaultShader
             } else {
-                shaderPrograms[it] = loadShader(it)
+                programs[it] = loadShader(it)
             }
         }
     }
 
     private fun loadShader(type: ShaderType): ShaderProgram {
         ShaderProgram(
-            Gdx.files.internal("shader/${type.vertexName}.vert"),
-            Gdx.files.internal("shader/${type.fragmentName}.frag")
+                Gdx.files.internal("shader/${type.vertexName}.vert"),
+                Gdx.files.internal("shader/${type.fragmentName}.frag")
         ).run {
             if (!isCompiled) {
                 throw GdxRuntimeException("Could not load ${type.vertexName}/${type.fragmentName} shader: $log")
@@ -38,9 +38,9 @@ class ShaderPrograms : Disposable {
         }
     }
 
-    operator fun get(type: ShaderType): ShaderProgram = shaderPrograms[type] ?: defaultShader
+    operator fun get(type: ShaderType): ShaderProgram = programs[type] ?: defaultShader
 
     override fun dispose() {
-        shaderPrograms.values.forEach { it.dispose() }
+        programs.values.forEach { it.dispose() }
     }
 }

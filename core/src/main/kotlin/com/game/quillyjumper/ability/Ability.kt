@@ -15,6 +15,7 @@ import com.game.quillyjumper.ecsEngine
 import com.game.quillyjumper.world
 import kotlin.math.max
 
+@Suppress("LateinitUsage")
 class Ability : Pool.Poolable {
     private val engine = Gdx.app.ecsEngine
     private val world = Gdx.app.world
@@ -42,17 +43,17 @@ class Ability : Pool.Poolable {
         with(owner.transfCmp) {
             val facing = owner.facingCmp.direction
             engine.missile(
-                owner,
-                world,
-                if (facing == FacingDirection.RIGHT) position.x + size.x else position.x,
-                position.y + size.y * 0.25f,
-                sizeXY,
-                sizeXY,
-                if (facing == FacingDirection.RIGHT) 4f else -4f,
-                lifeSpan,
-                damage,
-                particleAsset,
-                facing != FacingDirection.RIGHT
+                    owner,
+                    world,
+                    if (facing == FacingDirection.RIGHT) position.x + size.x else position.x,
+                    position.y + size.y * 0.25f,
+                    sizeXY,
+                    sizeXY,
+                    if (facing == FacingDirection.RIGHT) 4f else -4f,
+                    lifeSpan,
+                    damage,
+                    particleAsset,
+                    facing != FacingDirection.RIGHT
             )
         }
     }
@@ -60,14 +61,14 @@ class Ability : Pool.Poolable {
     fun dealAreaDamage(damage: Float, range: Float, lifeSpan: Float) {
         with(owner.transfCmp) {
             engine.damageEmitter(
-                world,
-                position.x - range,
-                position.y,
-                size.x + 2 * range,
-                size.y,
-                damage,
-                lifeSpan,
-                owner
+                    world,
+                    position.x - range,
+                    position.y,
+                    size.x + 2 * range,
+                    size.y,
+                    damage,
+                    lifeSpan,
+                    owner
             )
         }
     }

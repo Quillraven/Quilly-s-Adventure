@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.game.quillyjumper.ecs.component.*
 import kotlin.math.abs
 
+@Suppress("MethodOverloading") // How am I supposed to implement an interface without it?
 enum class PlayerState(
-    override val aniType: AnimationType,
-    override val aniMode: Animation.PlayMode = Animation.PlayMode.LOOP
+        override val aniType: AnimationType,
+        override val aniMode: Animation.PlayMode = Animation.PlayMode.LOOP
 ) : EntityState {
     IDLE(AnimationType.IDLE) {
         override fun update(entity: Entity) {
@@ -42,7 +43,8 @@ enum class PlayerState(
             val physic = entity.physicCmp
             val collision = entity.collCmp
             with(entity.stateCmp) {
-                if ((physic.body.linearVelocity.y <= 0f && collision.numGroundContacts == 0) || stateTime >= entity.jumpCmp.maxJumpTime) {
+                if (physic.body.linearVelocity.y <= 0f && collision.numGroundContacts == 0
+                        || stateTime >= entity.jumpCmp.maxJumpTime) {
                     // player is in mid-air and falling down OR player exceeds maximum jump time
                     stateMachine.changeState(FALL)
                 } else if (collision.numGroundContacts > 0 && entity.jumpCmp.order == JumpOrder.NONE) {
@@ -96,7 +98,7 @@ enum class PlayerState(
                         order = CastOrder.CAST
                     }
 
-                    if (entity.aniCmp.isAnimationFinished() || (state.stateTime < 0.2f && order == CastOrder.NONE)) {
+                    if (entity.aniCmp.isAnimationFinished() || state.stateTime < 0.2f && order == CastOrder.NONE) {
                         state.stateMachine.changeState(IDLE)
                     }
                 }

@@ -10,12 +10,12 @@ import ktx.ashley.exclude
 import kotlin.math.max
 
 class DealDamageSystem :
-    IteratingSystem(
-        allOf(
-            DealDamageComponent::class,
-            CollisionComponent::class
-        ).exclude(RemoveComponent::class).get()
-    ) {
+        IteratingSystem(
+                allOf(
+                        DealDamageComponent::class,
+                        CollisionComponent::class
+                ).exclude(RemoveComponent::class).get()
+        ) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity.dealDamageCmp.run {
             lifeSpan -= deltaTime
@@ -23,8 +23,10 @@ class DealDamageSystem :
 
             when {
                 damageDelay > 0f -> return // nothing to do yet
-                // check if life came to an end or if the damage source got already removed -> if yes remove the deal damage entity
-                lifeSpan <= 0f || source.isRemoved() -> entity.add(engine.createComponent(RemoveComponent::class.java))
+                // check if life came to an end or
+                // if the damage source got already removed -> if yes remove the deal damage entity
+                lifeSpan <= 0f || source.isRemoved() ->
+                    entity.add(engine.createComponent(RemoveComponent::class.java))
                 else -> {
                     val sourceType = source.typeCmp.type
                     entity.collCmp.entities.forEach { collEntity ->

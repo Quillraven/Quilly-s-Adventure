@@ -10,11 +10,11 @@ import ktx.math.vec2
 import kotlin.math.roundToInt
 
 class TransformComponent(
-    var position: Vector2 = vec2(0f, 0f),
-    var z: Int = 0,
-    var prevPosition: Vector2 = vec2(0f, 0f),
-    var interpolatedPosition: Vector2 = vec2(0f, 0f),
-    var size: Vector2 = vec2(0f, 0f)
+        var position: Vector2 = vec2(0f, 0f),
+        var z: Int = 0,
+        var prevPosition: Vector2 = vec2(0f, 0f),
+        var interpolatedPosition: Vector2 = vec2(0f, 0f),
+        var size: Vector2 = vec2(0f, 0f)
 ) : Component, Comparable<TransformComponent>, Pool.Poolable {
     // entities are sorted first by their z index (background/foreground) and then by their
     // y-coordinate of their position on the current layer (=z index)
@@ -37,4 +37,4 @@ class TransformComponent(
 
 val Entity.transfCmp: TransformComponent
     get() = this[TransformComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a transform component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a transform component which is null")

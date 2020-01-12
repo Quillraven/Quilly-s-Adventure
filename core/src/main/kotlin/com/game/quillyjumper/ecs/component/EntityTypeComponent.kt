@@ -39,4 +39,4 @@ class EntityTypeComponent(var type: EntityType = EntityType.OTHER) : Component, 
 
 val Entity.typeCmp: EntityTypeComponent
     get() = this[EntityTypeComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access an entity type component which is null")
+            ?: throw KotlinNullPointerException("Trying to access an entity type component which is null")

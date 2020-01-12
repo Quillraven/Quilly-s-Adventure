@@ -20,4 +20,4 @@ class TakeDamageComponent(var damage: Float = 0f) : Component, Pool.Poolable {
 
 val Entity.takeDamageCmp: TakeDamageComponent
     get() = this[TakeDamageComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a take damage component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a take damage component which is null")

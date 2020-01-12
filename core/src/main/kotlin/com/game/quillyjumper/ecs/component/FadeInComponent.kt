@@ -7,12 +7,12 @@ import ktx.ashley.get
 import ktx.ashley.mapperFor
 
 class FadeInComponent(
-    var targetAlpha: Float = 1f,
-    var startAlpha: Float = 0f,
-    var fadeTime: Float = 0f,
-    var maxFadeTime: Float = 1f
+        var targetAlpha: Float = 1f,
+        var startAlpha: Float = 0f,
+        var fadeTime: Float = 0f,
+        var maxFadeTime: Float = 1f
 ) : Component,
-    Pool.Poolable {
+        Pool.Poolable {
     companion object {
         val mapper = mapperFor<FadeInComponent>()
     }
@@ -28,4 +28,4 @@ class FadeInComponent(
 
 val Entity.fadeinCmp: FadeInComponent
     get() = this[FadeInComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a fadein component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a fadein component which is null")

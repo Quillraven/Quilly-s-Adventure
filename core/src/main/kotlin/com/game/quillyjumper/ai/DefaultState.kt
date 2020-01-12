@@ -29,8 +29,8 @@ interface EntityState : State<Entity> {
 }
 
 enum class DefaultState(
-    override val aniType: AnimationType,
-    override val aniMode: Animation.PlayMode = Animation.PlayMode.LOOP
+        override val aniType: AnimationType,
+        override val aniMode: Animation.PlayMode = Animation.PlayMode.LOOP
 ) : EntityState {
     NONE(AnimationType.IDLE, Animation.PlayMode.LOOP_PINGPONG),
     DEATH(AnimationType.DEATH, Animation.PlayMode.NORMAL) {

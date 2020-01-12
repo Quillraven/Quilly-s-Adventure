@@ -19,4 +19,4 @@ class CharacterTypeComponent(var type: Character = Character.PLAYER) : Component
 
 val Entity.characterCmp: CharacterTypeComponent
     get() = this[CharacterTypeComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a character type component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a character type component which is null")

@@ -8,10 +8,9 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-
 class StateComponent(
-    var stateTime: Float = 0f,
-    val stateMachine: DefaultStateMachine<Entity, State<Entity>> = DefaultStateMachine()
+        var stateTime: Float = 0f,
+        val stateMachine: DefaultStateMachine<Entity, State<Entity>> = DefaultStateMachine()
 ) : Component, Pool.Poolable {
     companion object {
         val mapper = mapperFor<StateComponent>()
@@ -24,4 +23,4 @@ class StateComponent(
 
 val Entity.stateCmp: StateComponent
     get() = this[StateComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a state component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a state component which is null")

@@ -52,10 +52,10 @@ class CharacterConfigurations : EnumMap<Character, CharacterCfg>(Character::clas
     private val defaultCfg = CharacterCfg(Character.PLAYER, EntityType.OTHER, ModelType.UNKNOWN)
 
     fun cfg(
-        id: Character,
-        entityType: EntityType,
-        modelType: ModelType,
-        init: CharacterCfg.() -> Unit = { Unit }
+            id: Character,
+            entityType: EntityType,
+            modelType: ModelType,
+            init: CharacterCfg.() -> Unit = { }
     ) {
         if (this.containsKey(id)) {
             LOG.error { "Character configuration for id $id is already existing!" }
