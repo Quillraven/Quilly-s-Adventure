@@ -1158,13 +1158,6 @@ SKELETAL/DEATH
   size: 33, 32
   orig: 33, 32
   offset: 0, 0
-  index: 3
-SKELETAL/DEATH
-  rotate: false
-  xy: 1402, 478
-  size: 33, 32
-  orig: 33, 32
-  offset: 0, 0
   index: 5
 SKELETAL/DEATH
   rotate: false
@@ -1173,6 +1166,13 @@ SKELETAL/DEATH
   orig: 33, 32
   offset: 0, 0
   index: 4
+SKELETAL/DEATH
+  rotate: false
+  xy: 1402, 478
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 3
 SKELETAL/DEATH
   rotate: false
   xy: 1502, 478

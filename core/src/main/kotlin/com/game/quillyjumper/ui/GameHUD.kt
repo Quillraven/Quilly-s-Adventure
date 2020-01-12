@@ -12,26 +12,30 @@ class GameHUD(private val gameEventManager: GameEventManager, skin: Skin = Scene
     init {
         defaults().fillX().bottom().pad(10f, 10f, 10f, 10f)
 
+        // touch pad on bottom left corner
         touchpad(0f) { cell ->
             cell.left().size(250f, 250f).expandX()
         }.onChangeEvent { event, actor ->
             gameEventManager.dispatchInputMoveEvent(actor.knobPercentX, actor.knobPercentY)
         }
 
+        // player information for life/mana in bottom center
+
+        // action buttons for jumping, attacking and casting in bottom right corner
         table { cell ->
             defaults().bottom().right().fillX()
-            imageButtonWidget(Images.IMAGE_JUMP) {
+            imageButton(ImageButtonStyles.JUMP.name) {
                 it.padBottom(70f).padRight(-20f)
             }.onTouch(
                 touchDownListener = { this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.JUMP) },
                 touchUpListener = { this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.JUMP) }
             )
             verticalGroup {
-                imageButtonWidget(Images.IMAGE_ATTACK, 20f, 20f).onTouch(
+                imageButton(ImageButtonStyles.ATTACK.name).onTouch(
                     touchDownListener = { this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.ATTACK) },
                     touchUpListener = { this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.ATTACK) }
                 )
-                imageButtonWidget(Images.IMAGE_FIREBALL).onTouch(
+                imageButton(ImageButtonStyles.FIREBALL.name).onTouch(
                     touchDownListener = { this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.CAST) },
                     touchUpListener = { this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.CAST) }
                 )

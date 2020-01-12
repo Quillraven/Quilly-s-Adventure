@@ -26,7 +26,12 @@ enum class Images(val imageName: String) {
     IMAGE_FIREBALL("skill_0"),
     TOUCHPAD("touchpad"),
     KNOB("knob")
+}
 
+enum class ImageButtonStyles {
+    ATTACK,
+    JUMP,
+    FIREBALL
 }
 
 operator fun Skin.get(image: Images): Drawable = this.getDrawable(image.imageName)
@@ -52,10 +57,6 @@ fun createSkin(assets: AssetManager): Skin {
         label { font = skin.getFont(FontType.DEFAULT.skinKey) }
         // default button style
         button {}
-        button("round") {
-            down = skin[Images.BUTTON_ROUND_DOWN]
-            up = skin[Images.BUTTON_ROUND_UP]
-        }
         // default textButton style
         textButton {
             down = skin[Images.BUTTON_RECT_DOWN]
@@ -67,6 +68,25 @@ fun createSkin(assets: AssetManager): Skin {
             checkboxOn = skin[Images.BUTTON_CHECK]
             checkboxOff = skin[Images.BUTTON_UNCHECK]
             font = defaultFont
+        }
+        // image button
+        imageButton(ImageButtonStyles.ATTACK.name) {
+            down = skin[Images.BUTTON_ROUND_DOWN]
+            up = skin[Images.BUTTON_ROUND_UP]
+            imageUp = skin[Images.IMAGE_ATTACK]
+            imageDown = imageUp
+        }
+        imageButton(ImageButtonStyles.JUMP.name) {
+            down = skin[Images.BUTTON_ROUND_DOWN]
+            up = skin[Images.BUTTON_ROUND_UP]
+            imageUp = skin[Images.IMAGE_JUMP]
+            imageDown = imageUp
+        }
+        imageButton(ImageButtonStyles.FIREBALL.name) {
+            down = skin[Images.BUTTON_ROUND_DOWN]
+            up = skin[Images.BUTTON_ROUND_UP]
+            imageUp = skin[Images.IMAGE_FIREBALL]
+            imageDown = imageUp
         }
         // default window style
         window { }
