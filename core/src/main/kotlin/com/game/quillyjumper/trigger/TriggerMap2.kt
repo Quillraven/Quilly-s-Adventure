@@ -13,9 +13,26 @@ fun setupBossTrigger(trigger: Trigger) {
         .createCharacter(Character.SKELETAL, 7.8f, 2f, 1f)
         .enablePlayerInput(true)
         .waitForCreatedUnitsDeath()
-        .enablePortal(97)
         .enablePlayerInput(false)
         .playMusic(MusicAssets.FANFARE, loop = false, waitForCompletion = true)
         .playMusic(MusicAssets.LEVEL_2, true)
         .enablePlayerInput(true)
+        .delay(1f)
+        .enablePortal(97)
+}
+
+@Suppress("unused")
+fun setupBossPitLeft(trigger: Trigger) {
+    trigger.selectActivatingCharacter()
+        .moveSelectedCharacterTo(3f, 2.5f)
+        .damageSelectedCharacter(3f)
+        .deactivateTrigger(true)
+}
+
+@Suppress("unused")
+fun setupBossPitRight(trigger: Trigger) {
+    trigger.selectActivatingCharacter()
+        .moveSelectedCharacterTo(13f, 2.5f)
+        .damageSelectedCharacter(3f)
+        .deactivateTrigger(true)
 }

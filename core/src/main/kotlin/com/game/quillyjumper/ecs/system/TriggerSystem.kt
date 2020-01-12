@@ -34,6 +34,9 @@ class TriggerSystem(private val gameEventManager: GameEventManager) :
     }
 
     override fun playerTriggerContact(player: Entity, trigger: Entity) {
-        trigger.triggerCmp.trigger.active = true
+        trigger.triggerCmp.trigger.run {
+            active = true
+            activatingCharacter = player
+        }
     }
 }

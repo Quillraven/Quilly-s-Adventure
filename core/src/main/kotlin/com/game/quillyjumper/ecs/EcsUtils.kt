@@ -578,7 +578,7 @@ fun Engine.trigger(
             val method = ClassReflection.getMethod(file, fileAndMethod[1], Trigger::class.java)
             method.invoke(null, newTrigger)
         } catch (e: Exception) {
-            LOG.error { "Could not setup trigger $triggerSetupFunctionName" }
+            LOG.error(e) { "Could not setup trigger $triggerSetupFunctionName" }
         }
 
         if (reactOnCollision) {

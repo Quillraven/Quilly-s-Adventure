@@ -11,12 +11,10 @@ import com.game.quillyjumper.assets.MusicAssets
 import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.configuration.Character
 import com.game.quillyjumper.ecs.character
-import com.game.quillyjumper.ecs.component.FadeInComponent
-import com.game.quillyjumper.ecs.component.ParticleComponent
-import com.game.quillyjumper.ecs.component.portalCmp
-import com.game.quillyjumper.ecs.component.stateCmp
+import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.findPortal
 import com.game.quillyjumper.event.GameEventListener
+import com.game.quillyjumper.trigger.Trigger
 import ktx.collections.iterate
 import ktx.math.vec2
 
@@ -119,10 +117,10 @@ class TriggerActionDelay : TriggerAction {
 }
 
 class TriggerActionResetState : TriggerAction {
-    lateinit var createCharTrigger: TriggerActionCreateCharacter
+    lateinit var createCharacterAction: TriggerActionCreateCharacter
 
     override fun update(deltaTime: Float): Boolean {
-        with(createCharTrigger.character().stateCmp.stateMachine) {
+        with(createCharacterAction.character().stateCmp.stateMachine) {
             changeState(previousState)
         }
         return true
@@ -152,10 +150,10 @@ class TriggerActionEnablePortal : TriggerAction {
 class TriggerActionWaitCreatedCharacterDeath : TriggerAction, GameEventListener {
     private val gameEventManager = Gdx.app.gameEventManager
     private var step = 0
-    val createdCharTriggers = Array<TriggerActionCreateCharacter>(3)
+    val createCharacterAction = Array<TriggerActionCreateCharacter>(3)
 
     override fun update(deltaTime: Float): Boolean {
-        if (createdCharTriggers.isEmpty) step = 2
+        if (createCharacterAction.isEmpty) step = 2
 
         if (step == 0) {
             gameEventManager.addGameEventListener(this)
@@ -167,13 +165,60 @@ class TriggerActionWaitCreatedCharacterDeath : TriggerAction, GameEventListener 
 
     override fun reset() {
         gameEventManager.removeGameEventListener(this)
-        createdCharTriggers.clear()
+        createCharacterAction.clear()
         step = 0
     }
 
     override fun characterDeath(character: Entity) {
-        createdCharTriggers.iterate { action, iterator ->
+        createCharacterAction.iterate { action, iterator ->
             if (action.character() == character) iterator.remove()
         }
+    }
+}
+
+class TriggerActionSelectActivatingCharacter : TriggerAction {
+    lateinit var trigger: Trigger
+    lateinit var character: Entity
+
+    override fun update(deltaTime: Float): Boolean {
+        character = trigger.activatingCharacter
+        return true
+    }
+}
+
+class TriggerActionMoveCharacter : TriggerAction {
+    lateinit var selectCharacterAction: TriggerActionSelectActivatingCharacter
+    var targetLocation = vec2()
+
+    override fun update(deltaTime: Float): Boolean {
+        selectCharacterAction.character.run {
+            physicCmp.body.setTransform(targetLocation, 0f)
+            transfCmp.position.set(targetLocation)
+        }
+        return true
+    }
+}
+
+class TriggerActionDamageCharacter : TriggerAction {
+    lateinit var selectCharacterAction: TriggerActionSelectActivatingCharacter
+    var damage = 0f
+
+    override fun update(deltaTime: Float): Boolean {
+        selectCharacterAction.character.takeDamageCmp.run {
+            damage += this@TriggerActionDamageCharacter.damage
+            source = selectCharacterAction.character
+        }
+        return true
+    }
+}
+
+class TriggerActionDeactivateTrigger : TriggerAction {
+    lateinit var trigger: Trigger
+    var reset = false
+
+    override fun update(deltaTime: Float): Boolean {
+        trigger.active = false
+        trigger.resetActions()
+        return true
     }
 }

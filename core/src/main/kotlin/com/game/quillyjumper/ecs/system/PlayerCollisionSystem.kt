@@ -11,11 +11,13 @@ import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.findPortal
 import com.game.quillyjumper.ecs.floatingText
 import com.game.quillyjumper.ecs.isRemoved
+import com.game.quillyjumper.event.GameEventListener
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.map.Map
 import com.game.quillyjumper.map.MapChangeListener
 import com.game.quillyjumper.map.MapManager
 import ktx.ashley.allOf
+import ktx.collections.iterate
 import ktx.log.logger
 
 private val LOG = logger<PlayerCollisionSystem>()
@@ -25,28 +27,30 @@ class PlayerCollisionSystem(
     private val audioService: AudioService,
     private val gameEventManager: GameEventManager
 ) :
-    IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()), MapChangeListener {
+    IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()), MapChangeListener,
+    GameEventListener {
     private val itemInfoBuilder = StringBuilder(64)
     private var lastSavepoint: Entity? = null
-    private var lastTrigger: Entity? = null
 
     override fun addedToEngine(engine: Engine?) {
         gameEventManager.addMapChangeListener(this)
+        gameEventManager.addGameEventListener(this)
         super.addedToEngine(engine)
     }
 
     override fun removedFromEngine(engine: Engine?) {
         gameEventManager.removeMapChangeListener(this)
+        gameEventManager.removeGameEventListener(this)
         super.removedFromEngine(engine)
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity.collCmp.run {
             // loop through all colliding entities
-            entities.forEach { collidingEntity ->
+            entities.iterate { collidingEntity, iterator ->
                 if (collidingEntity.isRemoved()) {
                     // ignore entities that are getting removed at the end of the frame
-                    return@forEach
+                    return@iterate
                 }
 
                 when (collidingEntity.typeCmp.type) {
@@ -81,10 +85,8 @@ class PlayerCollisionSystem(
                         }
                     }
                     EntityType.TRIGGER -> {
-                        if (lastTrigger != entity) {
-                            lastTrigger = entity
-                            gameEventManager.dispatchPlayerTriggerContact(entity, collidingEntity)
-                        }
+                        gameEventManager.dispatchPlayerTriggerContact(entity, collidingEntity)
+                        iterator.remove()
                     }
                     else -> {
                         // do nothing
@@ -144,7 +146,6 @@ class PlayerCollisionSystem(
     }
 
     override fun mapChange(newMap: Map) {
-        lastTrigger = null
         lastSavepoint = null
     }
 }
