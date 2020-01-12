@@ -30,6 +30,7 @@ import com.game.quillyjumper.event.Key
 import com.game.quillyjumper.input.InputListener
 import com.game.quillyjumper.map.MapManager
 import com.game.quillyjumper.map.MapType
+import com.game.quillyjumper.ui.GameHUD
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.allOf
@@ -66,6 +67,8 @@ class GameScreen(
         )
 
     override fun show() {
+        stage.root.addActor(GameHUD(gameEventManager))
+
         if (engine.systems.size() == 0) {
             // initialize engine
             engine.apply {
@@ -128,6 +131,7 @@ class GameScreen(
     }
 
     override fun hide() {
+        stage.root.clear()
         gameEventManager.removeInputListener(this)
         gameEventManager.removeMapChangeListener(engine.getSystem(RenderSystem::class.java))
         gameEventManager.removeMapChangeListener(engine.getSystem(CameraSystem::class.java))
@@ -163,6 +167,10 @@ class GameScreen(
         engine.update(delta)
         // update audio manager to play any queued sound effects
         audioService.update()
+        // render UI
+        stage.viewport.apply()
+        stage.act()
+        stage.draw()
     }
 
     override fun keyPressed(key: Key) {
