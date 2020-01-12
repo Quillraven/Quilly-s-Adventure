@@ -21,12 +21,6 @@ class StatsComponent(
         alive = true
     }
 
-    fun resurrect() {
-        life = maxLife
-        mana = maxMana
-        alive = true
-    }
-
     companion object {
         val mapper = mapperFor<StatsComponent>()
     }

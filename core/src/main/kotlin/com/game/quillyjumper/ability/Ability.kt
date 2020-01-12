@@ -12,6 +12,7 @@ import com.game.quillyjumper.ecs.component.transfCmp
 import com.game.quillyjumper.ecs.damageEmitter
 import com.game.quillyjumper.ecs.missile
 import com.game.quillyjumper.ecsEngine
+import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.world
 import kotlin.math.max
 
@@ -23,16 +24,14 @@ class Ability : Pool.Poolable {
     lateinit var effect: AbilityEffect
     private var cooldown = 0f
 
-    companion object {
-        val pool = ReflectionPool<Ability>(Ability::class.java, 32)
-    }
-
     fun canCast() = owner.statsCmp.mana >= effect.cost && cooldown <= 0f
 
-    fun cast() {
-        owner.statsCmp.mana -= effect.cost
+    fun cast(gameEventManager: GameEventManager) {
+        val stats = owner.statsCmp
+        stats.mana -= effect.cost
         cooldown = effect.cooldown
         effect.trigger(this)
+        gameEventManager.dispatchCharacterCast(owner, this, effect.cost, stats.mana, stats.maxMana)
     }
 
     fun update(deltaTime: Float) {
@@ -75,6 +74,10 @@ class Ability : Pool.Poolable {
 
     override fun reset() {
         cooldown = 0f
+    }
+
+    companion object {
+        val pool = ReflectionPool<Ability>(Ability::class.java, 32)
     }
 }
 

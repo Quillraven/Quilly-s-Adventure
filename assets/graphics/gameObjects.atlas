@@ -1305,14 +1305,14 @@ SKELETAL/IDLE
   size: 24, 32
   orig: 24, 32
   offset: 0, 0
-  index: 10
+  index: 0
 SKELETAL/IDLE
   rotate: false
   xy: 1202, 546
   size: 24, 32
   orig: 24, 32
   offset: 0, 0
-  index: 0
+  index: 10
 SKELETAL/RUN
   rotate: false
   xy: 1302, 546

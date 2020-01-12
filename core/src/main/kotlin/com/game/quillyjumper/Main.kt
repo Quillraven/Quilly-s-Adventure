@@ -9,7 +9,6 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.profiling.GLProfiler
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
@@ -18,26 +17,20 @@ import com.badlogic.gdx.physics.box2d.Box2D
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.audio.DefaultAudioService
 import com.game.quillyjumper.audio.NullAudioService
 import com.game.quillyjumper.configuration.CharacterConfigurations
 import com.game.quillyjumper.configuration.loadCharacterConfigurations
-import com.game.quillyjumper.ecs.system.FontType
 import com.game.quillyjumper.event.GameEventManager
 import com.game.quillyjumper.screen.LoadingScreen
+import com.game.quillyjumper.ui.createSkin
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.box2d.createWorld
 import ktx.box2d.earthGravity
-import ktx.freetype.generateFont
 import ktx.inject.Context
 import ktx.log.logger
-import ktx.scene2d.Scene2DSkin
-import ktx.style.button
-import ktx.style.label
-import ktx.style.skin
 
 private val LOG = logger<Main>()
 
@@ -62,8 +55,9 @@ val Application.gameEventManager: GameEventManager
 val Application.characterConfigurations: CharacterConfigurations
     get() = (this.applicationListener as Main).characterConfigurations
 
-@Suppress("UnnecessaryApply")
-class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
+class Main(private val disableAudio: Boolean = false,
+           private val logLevel: Int = Application.LOG_ERROR) :
+    KtxGame<KtxScreen>() {
     private val ctx = Context()
     private val profiler by lazy { GLProfiler(Gdx.graphics).apply { enable() } }
     val audioService by lazy {
@@ -79,8 +73,9 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
     val characterConfigurations by lazy { loadCharacterConfigurations() }
 
     override fun create() {
-        // init Box2D - the next call avoids some issues with older devices where the box2d
-        // libraries were not loaded correctly
+        Gdx.app.logLevel = logLevel
+
+        // init Box2D - the next call avoids some issues with older devices where the box2d libraries were not loaded correctly
         Box2D.init()
 
         // setup context and register stuff that should also be disposed at the end of the game lifecycle
@@ -94,7 +89,7 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
                 setLoader(TiledMap::class.java, TmxMapLoader(fileHandleResolver))
             })
             bindSingleton(Stage(FitViewport(1280f, 720f), ctx.inject<SpriteBatch>()))
-            bindSingleton(createSKin())
+            bindSingleton(createSkin(ctx.inject()))
             bindSingleton(RayHandler(world))
             bindSingleton(Box2DDebugRenderer())
             bindSingleton(OrthogonalTiledMapRenderer(null, UNIT_SCALE, ctx.inject<SpriteBatch>()))
@@ -104,8 +99,6 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
         // UI widget --> Stage
         // keyboard --> InputProcessor (GameEventManager)
         Gdx.input.inputProcessor = InputMultiplexer(gameEventManager, ctx.inject<Stage>())
-        // set our created skin as the default skin for scene2d stuff
-        Scene2DSkin.defaultSkin = ctx.inject()
 
         // box2d light should not create shadows for dynamic game objects
         Light.setGlobalContactFilter(FILTER_CATEGORY_LIGHT, 0, FILTER_MASK_LIGHTS)
@@ -128,27 +121,6 @@ class Main(private val disableAudio: Boolean = false) : KtxGame<KtxScreen>() {
                 )
         )
         setScreen<LoadingScreen>()
-    }
-
-    private fun createSKin(): Skin {
-        // generate fonts for the skin
-        val generator = FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"))
-        val defaultFont = generator.generateFont { size = 24 }
-        val largeFont = generator.generateFont { size = 32 }
-        // dispose font generator after creating all .ttf fonts that we need
-        generator.dispose()
-
-        // generate skin
-        return skin { skin ->
-            // add generated fonts as resources to the skin to correctly dispose them
-            add(FontType.DEFAULT.skinKey, defaultFont)
-            add(FontType.LARGE.skinKey, largeFont)
-
-            // default label style
-            label { font = skin.getFont(FontType.DEFAULT.skinKey) }
-            // default button style
-            button { }
-        }
     }
 
     override fun render() {

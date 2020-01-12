@@ -1,15 +1,13 @@
 package com.game.quillyjumper
 
 import com.badlogic.gdx.Application
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 
 fun main() {
-    val config = LwjglApplicationConfiguration().apply {
-        width = 1280
-        height = 720
-        pauseWhenBackground = true
-        title = "Quilly Jumper"
+    val config = Lwjgl3ApplicationConfiguration().apply {
+        setWindowSizeLimits(1280, 720, -1, -1)
+        setTitle("Quilly Jumper")
     }
-    LwjglApplication(Main(disableAudio = false), config).logLevel = Application.LOG_DEBUG
+    Lwjgl3Application(Main(disableAudio = false, logLevel = Application.LOG_DEBUG), config)
 }

@@ -7,7 +7,10 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 class AndroidLauncher : AndroidApplication() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val config = AndroidApplicationConfiguration()
+        val config = AndroidApplicationConfiguration().apply {
+            hideStatusBar = true
+            useImmersiveMode = true
+        }
         initialize(Main(), config)
     }
 }

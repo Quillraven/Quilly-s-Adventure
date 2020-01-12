@@ -8,15 +8,16 @@ import com.game.quillyjumper.assets.ParticleAssets
 import com.game.quillyjumper.ecs.component.*
 import com.game.quillyjumper.ecs.floatingText
 import com.game.quillyjumper.ecs.particleEffect
+import com.game.quillyjumper.event.GameEventManager
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 
-class TakeDamageSystem : IteratingSystem(
-        allOf(
-                StatsComponent::class,
-                TakeDamageComponent::class,
-                TransformComponent::class
-        ).exclude(RemoveComponent::class).get()
+class TakeDamageSystem(private val gameEventManager: GameEventManager) : IteratingSystem(
+    allOf(
+        StatsComponent::class,
+        TakeDamageComponent::class,
+        TransformComponent::class
+    ).exclude(RemoveComponent::class).get()
 ) {
     private val stringBuilder = StringBuilder(4)
 
@@ -32,9 +33,9 @@ class TakeDamageSystem : IteratingSystem(
         stats.life -= damage.damage
         stringBuilder.clear()
         stringBuilder.append(damage.damage.toInt())
+        gameEventManager.dispatchCharacterDamaged(entity, damage.damage, stats.life, stats.maxLife)
         damage.damage = 0f
 
-        // TODO dispatch damage taken / death event so that abilities can react and maybe prevent the death
         // after that step if the life is still <= 0 then the entity is really dead
         // store killer entity to give it experience for the killing blow
         if (stats.life <= 0f) {

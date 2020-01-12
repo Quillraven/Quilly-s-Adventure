@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.utils.Array
+import com.game.quillyjumper.ability.Ability
 import com.game.quillyjumper.input.InputListener
 import com.game.quillyjumper.map.Map
 import com.game.quillyjumper.map.MapChangeListener
@@ -22,10 +23,19 @@ class GameEventManager : KtxInputAdapter {
 
     fun removeInputListener(listener: InputListener) = inputListeners.removeValue(listener, true)
 
-    @Suppress("MemberVisibilityCanBePrivate")
     fun dispatchInputMoveEvent(percX: Float, percY: Float) {
         if (ignoreInput) return
         inputListeners.forEach { it.move(percX, percY) }
+    }
+
+    fun dispatchInputKeyPressEvent(key: Key) {
+        if (ignoreInput) return
+        inputListeners.forEach { it.keyPressed(key) }
+    }
+
+    fun dispatchInputKeyReleaseEvent(key: Key) {
+        if (ignoreInput) return
+        inputListeners.forEach { it.keyReleased(key) }
     }
 
     override fun keyDown(keycode: Int): Boolean {
@@ -33,10 +43,10 @@ class GameEventManager : KtxInputAdapter {
         when (keycode) {
             Input.Keys.A -> dispatchInputMoveEvent(-1f, 0f)
             Input.Keys.D -> dispatchInputMoveEvent(1f, 0f)
-            Input.Keys.SPACE -> inputListeners.forEach { it.keyPressed(Key.JUMP) }
-            Input.Keys.CONTROL_LEFT -> inputListeners.forEach { it.keyPressed(Key.ATTACK) }
-            Input.Keys.SHIFT_LEFT -> inputListeners.forEach { it.keyPressed(Key.CAST) }
-            Input.Keys.ESCAPE -> inputListeners.forEach { it.keyPressed(Key.EXIT) }
+            Input.Keys.SPACE -> dispatchInputKeyPressEvent(Key.JUMP)
+            Input.Keys.CONTROL_LEFT -> dispatchInputKeyPressEvent(Key.ATTACK)
+            Input.Keys.SHIFT_LEFT -> dispatchInputKeyPressEvent(Key.CAST)
+            Input.Keys.ESCAPE -> dispatchInputKeyPressEvent(Key.EXIT)
         }
         return true
     }
@@ -46,10 +56,10 @@ class GameEventManager : KtxInputAdapter {
         when (keycode) {
             Input.Keys.A -> dispatchInputMoveEvent(if (Gdx.input.isKeyPressed(Input.Keys.D)) 1f else 0f, 0f)
             Input.Keys.D -> dispatchInputMoveEvent(if (Gdx.input.isKeyPressed(Input.Keys.A)) -1f else 0f, 0f)
-            Input.Keys.SPACE -> inputListeners.forEach { it.keyReleased(Key.JUMP) }
-            Input.Keys.CONTROL_LEFT -> inputListeners.forEach { it.keyReleased(Key.ATTACK) }
-            Input.Keys.SHIFT_LEFT -> inputListeners.forEach { it.keyReleased(Key.CAST) }
-            Input.Keys.ESCAPE -> inputListeners.forEach { it.keyReleased(Key.EXIT) }
+            Input.Keys.SPACE -> dispatchInputKeyReleaseEvent(Key.JUMP)
+            Input.Keys.CONTROL_LEFT -> dispatchInputKeyReleaseEvent(Key.ATTACK)
+            Input.Keys.SHIFT_LEFT -> dispatchInputKeyReleaseEvent(Key.CAST)
+            Input.Keys.ESCAPE -> dispatchInputKeyReleaseEvent(Key.EXIT)
         }
         return true
     }
@@ -90,5 +100,29 @@ class GameEventManager : KtxInputAdapter {
             gameEventListeners.forEach { it.playerTriggerContact(player, trigger) }
 
     fun dispatchCharacterDeath(character: Entity) =
-            gameEventListeners.forEach { it.characterDeath(character) }
+        gameEventListeners.forEach { it.characterDeath(character) }
+
+    fun dispatchCharacterDamaged(character: Entity, damage: Float, life: Float, maxLife: Float) {
+        gameEventListeners.forEach { it.characterDamaged(character, damage, life, maxLife) }
+    }
+
+    fun dispatchCharacterHealLife(character: Entity, healAmount: Float, life: Float, maxLife: Float) {
+        gameEventListeners.forEach { it.characterHealLife(character, healAmount, life, maxLife) }
+    }
+
+    fun dispatchCharacterHealMana(character: Entity, healAmount: Float, mana: Float, maxMana: Float) {
+        gameEventListeners.forEach { it.characterHealMana(character, healAmount, mana, maxMana) }
+    }
+
+    fun dispatchCharacterCast(character: Entity, ability: Ability, cost: Int, mana: Float, maxMana: Float) {
+        gameEventListeners.forEach { it.characterCast(character, ability, cost, mana, maxMana) }
+    }
+
+    fun dispatchCharacterAttackReady(character: Entity) {
+        gameEventListeners.forEach { it.characterAttackReady(character) }
+    }
+
+    fun dispatchCharacterAttack(character: Entity) {
+        gameEventListeners.forEach { it.characterAttack(character) }
+    }
 }

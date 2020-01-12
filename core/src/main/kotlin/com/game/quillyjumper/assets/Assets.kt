@@ -39,7 +39,8 @@ enum class SoundAssets(val filePath: String, val volumeScale: Float = 1f) {
     BIG_SWING2("sounds/big_swing2.ogg"),
     SMALL_SWING("sounds/small_swing.ogg"),
     MINOTAUR_DEATH("sounds/minotaur_death.ogg"),
-    SKELETAL_DEATH("sounds/skeletal_death.ogg")
+    SKELETAL_DEATH("sounds/skeletal_death.ogg"),
+    PING("sounds/ping.ogg")
 }
 
 fun AssetManager.load(asset: SoundAssets) = load<Sound>(asset.filePath)
@@ -47,7 +48,8 @@ operator fun AssetManager.get(asset: SoundAssets) = this.getAsset<Sound>(asset.f
 
 // texture atlas
 enum class TextureAtlasAssets(val filePath: String) {
-    GAME_OBJECTS("graphics/gameObjects.atlas")
+    GAME_OBJECTS("graphics/gameObjects.atlas"),
+    UI("ui/UI.atlas")
 }
 
 fun AssetManager.load(asset: TextureAtlasAssets) = load<TextureAtlas>(asset.filePath)

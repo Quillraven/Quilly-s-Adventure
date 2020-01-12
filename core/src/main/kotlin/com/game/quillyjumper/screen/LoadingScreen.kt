@@ -34,7 +34,7 @@ class LoadingScreen(
         // queue all assets that should be loaded
         MusicAssets.values().forEach { assets.load(it) }
         SoundAssets.values().forEach { if (it != SoundAssets.UNKNOWN) assets.load(it) }
-        TextureAtlasAssets.values().forEach { assets.load(it) }
+        TextureAtlasAssets.values().forEach { if (it != TextureAtlasAssets.UI) assets.load(it) }
         MapAssets.values().forEach { assets.load(it) }
         val particleParam = ParticleEffectLoader.ParticleEffectParameter()
         particleParam.atlasFile = TextureAtlasAssets.GAME_OBJECTS.filePath

@@ -3,6 +3,7 @@ package com.game.quillyjumper.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.game.quillyjumper.ecs.component.*
+import com.game.quillyjumper.event.GameEventManager
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.log.logger
@@ -10,8 +11,8 @@ import ktx.log.logger
 private val LOG = logger<AbilitySystem>()
 
 
-class AbilitySystem :
-        IteratingSystem(allOf(AbilityComponent::class, StatsComponent::class).exclude(RemoveComponent::class).get()) {
+class AbilitySystem(private val gameEventManager: GameEventManager) :
+    IteratingSystem(allOf(AbilityComponent::class, StatsComponent::class).exclude(RemoveComponent::class).get()) {
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         entity.abilityCmp.let { ability ->
@@ -29,7 +30,7 @@ class AbilitySystem :
                 // cast ability if not on cooldown and of entity has enough mana
                 val abilityToCast = ability.abilities[ability.abilityToCastIdx]
                 if (abilityToCast.canCast()) {
-                    abilityToCast.cast()
+                    abilityToCast.cast(gameEventManager)
                 }
 
                 // reset cast order
