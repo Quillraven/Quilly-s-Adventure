@@ -1,6 +1,5 @@
 package com.game.quillyjumper.ui
 
-import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -23,7 +22,7 @@ class PlayerInfoWidget(
 ), KGroup {
     init {
         // offsets from player icon image
-        val barOffsetX = 70f
+        val barOffsetX = 71f
         val barOffsetY = 7f
         imageAttackIndicator.setPosition(barOffsetX + 2f, barOffsetY + 15f)
         imageHealthbars.setPosition(barOffsetX, barOffsetY + 0f)
@@ -45,15 +44,24 @@ class PlayerInfoWidget(
         }
     }
 
-    fun pingAttackIndicator() {
+    fun activateAttackIndicator() {
         imageAttackIndicator.run {
             clearActions()
             addAction(
                 Actions.sequence(
                     Actions.alpha(0f),
-                    Actions.alpha(1f, 0.75f, Interpolation.bounceOut)
+                    Actions.alpha(1f, 0.1f),
+                    Actions.alpha(0f, 0.1f),
+                    Actions.alpha(1f, 0.1f)
                 )
             )
+        }
+    }
+
+    fun disableAttackIndicator() {
+        imageAttackIndicator.run {
+            clearActions()
+            addAction(Actions.alpha(0.2f, 0.5f))
         }
     }
 

@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.ShaderPrograms
+import com.game.quillyjumper.ability.Ability
 import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.audio.AudioService
 import com.game.quillyjumper.characterConfigurations
@@ -67,8 +68,11 @@ class GameScreen(
             gameEventManager
         )
     private val hud = GameHUD(gameEventManager)
+    private var gameOver = false
 
     override fun show() {
+        gameOver = false
+
         stage.root.addActor(hud)
 
         if (engine.systems.size() == 0) {
@@ -77,10 +81,10 @@ class GameScreen(
                 addSystem(TriggerSystem(gameEventManager))
                 addSystem(PhysicMoveSystem())
                 addSystem(PhysicJumpSystem())
-                addSystem(AbilitySystem())
-                addSystem(AttackSystem(world))
+                addSystem(AbilitySystem(gameEventManager))
+                addSystem(AttackSystem(world, gameEventManager))
                 addSystem(DealDamageSystem())
-                addSystem(TakeDamageSystem())
+                addSystem(TakeDamageSystem(gameEventManager))
                 addSystem(DeathSystem(audioService, gameEventManager))
                 // out of bounds system must be before PhysicSystem because it deals damage to the player
                 // and in order for the TakeDamageSystem to show the damage indicator at the correct location
@@ -90,6 +94,10 @@ class GameScreen(
                 // with a portal then its body location gets transformed and we need the physic system
                 // to correctly update the TransformComponent which is e.g. used in the OutOfBoundsSystem
                 addSystem(PlayerCollisionSystem(mapManager, audioService, gameEventManager))
+                // heal system must come after take damage, death and collision system because all of these
+                // systems are creating healcomponents internally in some cases that need to be considered
+                // in the same frame
+                addSystem(HealSystem(gameEventManager))
                 addSystem(PhysicSystem(world, this))
                 addSystem(PlayerInputSystem(gameEventManager, this))
                 addSystem(StateSystem())
@@ -163,34 +171,6 @@ class GameScreen(
             Gdx.input.isKeyJustPressed(Input.Keys.NUM_3) -> {
                 engine.getSystem(RenderSystem::class.java).setSepia()
             }
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_4) -> {
-                hud.infoWidget.run {
-                    setLifePercentage(1f)
-                    setManaPercentage(1f)
-                }
-            }
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_5) -> {
-                hud.infoWidget.run {
-                    setLifePercentage(0.5f)
-                    setManaPercentage(1f)
-                }
-            }
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_6) -> {
-                hud.infoWidget.run {
-                    setLifePercentage(0.5f)
-                    setManaPercentage(0.5f)
-                }
-            }
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_7) -> {
-                hud.infoWidget.run {
-                    setLifePercentage(0f)
-                    setManaPercentage(0f)
-                }
-            }
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_8) -> {
-                hud.infoWidget.pingAttackIndicator()
-                audioService.play(SoundAssets.PING)
-            }
         }
 
         // update all ecs engine systems including the render system which draws stuff on the screen
@@ -201,6 +181,13 @@ class GameScreen(
         stage.viewport.apply()
         stage.act()
         stage.draw()
+
+        if (gameOver) {
+            // process gameover at the end of a frame because switching screens within engine.update is a bad idea.
+            // The reason is that the hide method of GameScreen will be called and therefore some game events
+            // will not be processed correctly because listeners are removed
+            game.setScreen<EndScreen>()
+        }
     }
 
     override fun keyPressed(key: Key) {
@@ -223,7 +210,44 @@ class GameScreen(
 
     override fun characterDeath(character: Entity) {
         if (character[PlayerComponent.mapper] != null) {
-            game.setScreen<EndScreen>()
+            gameOver = true
+        }
+    }
+
+    override fun characterDamaged(character: Entity, damage: Float, life: Float, maxLife: Float) {
+        if (character[PlayerComponent.mapper] != null) {
+            hud.infoWidget.setLifePercentage(life / maxLife)
+        }
+    }
+
+    override fun characterHealLife(character: Entity, healAmount: Float, life: Float, maxLife: Float) {
+        if (character[PlayerComponent.mapper] != null) {
+            hud.infoWidget.setLifePercentage(life / maxLife)
+        }
+    }
+
+    override fun characterHealMana(character: Entity, healAmount: Float, mana: Float, maxMana: Float) {
+        if (character[PlayerComponent.mapper] != null) {
+            hud.infoWidget.setManaPercentage(mana / maxMana)
+        }
+    }
+
+    override fun characterCast(character: Entity, ability: Ability, cost: Int, mana: Float, maxMana: Float) {
+        if (character[PlayerComponent.mapper] != null) {
+            hud.infoWidget.setManaPercentage(mana / maxMana)
+        }
+    }
+
+    override fun characterAttack(character: Entity) {
+        if (character[PlayerComponent.mapper] != null) {
+            hud.infoWidget.disableAttackIndicator()
+        }
+    }
+
+    override fun characterAttackReady(character: Entity) {
+        if (character[PlayerComponent.mapper] != null) {
+            hud.infoWidget.activateAttackIndicator()
+            audioService.play(SoundAssets.PING)
         }
     }
 }

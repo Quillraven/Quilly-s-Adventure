@@ -45,7 +45,7 @@ class DeathSystem(
                 // the next line triggers the OutOfBoundsSystem
                 entity.physicCmp.body.setTransform(-1f, -1f, 0f)
                 // fully heal player
-                entityStats.resurrect()
+                entity.heal(engine, entityStats.maxLife, entityStats.maxMana, true)
                 // change state to IDLE because right now player is in DEATH state which
                 // would set the ALIVE flag again to false. To avoid that we change to a different state
                 entity.stateCmp.stateMachine.changeState(PlayerState.IDLE)

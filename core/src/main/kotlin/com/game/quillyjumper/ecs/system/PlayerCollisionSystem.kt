@@ -75,6 +75,9 @@ class PlayerCollisionSystem(
                             lastSavepoint?.flags = ENTITY_FLAG_SAVE_POINT_NOT_ACTIVE
                             collidingEntity.flags = ENTITY_FLAG_SAVE_POINT_ACTIVE
                             activateSavePoint(collidingEntity)
+                            // also heal the player
+                            val stats = entity.statsCmp
+                            entity.heal(engine, stats.maxLife, stats.maxMana)
                         }
                     }
                     EntityType.TRIGGER -> {
@@ -101,14 +104,14 @@ class PlayerCollisionSystem(
             if (itemStats.life != 0f) {
                 maxLife += itemStats.life
                 // heal player to maximum when maximum life changes
-                life = maxLife
+                player.heal(engine, maxLife, 0f)
                 itemInfoBuilder.append("Max life increased by ")
                 itemInfoBuilder.append(itemStats.life.toInt())
             }
             if (itemStats.mana != 0f) {
                 maxMana += itemStats.mana
                 // heal player to maximum when mana changes
-                mana = maxMana
+                player.heal(engine, 0f, maxMana)
                 itemInfoBuilder.append("Max mana increased by ")
                 itemInfoBuilder.append(itemStats.mana.toInt())
             }

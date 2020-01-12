@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.utils.Array
+import com.game.quillyjumper.ability.Ability
 import com.game.quillyjumper.input.InputListener
 import com.game.quillyjumper.map.Map
 import com.game.quillyjumper.map.MapChangeListener
@@ -99,4 +100,28 @@ class GameEventManager : KtxInputAdapter {
 
     fun dispatchCharacterDeath(character: Entity) =
         gameEventListeners.forEach { it.characterDeath(character) }
+
+    fun dispatchCharacterDamaged(character: Entity, damage: Float, life: Float, maxLife: Float) {
+        gameEventListeners.forEach { it.characterDamaged(character, damage, life, maxLife) }
+    }
+
+    fun dispatchCharacterHealLife(character: Entity, healAmount: Float, life: Float, maxLife: Float) {
+        gameEventListeners.forEach { it.characterHealLife(character, healAmount, life, maxLife) }
+    }
+
+    fun dispatchCharacterHealMana(character: Entity, healAmount: Float, mana: Float, maxMana: Float) {
+        gameEventListeners.forEach { it.characterHealMana(character, healAmount, mana, maxMana) }
+    }
+
+    fun dispatchCharacterCast(character: Entity, ability: Ability, cost: Int, mana: Float, maxMana: Float) {
+        gameEventListeners.forEach { it.characterCast(character, ability, cost, mana, maxMana) }
+    }
+
+    fun dispatchCharacterAttackReady(character: Entity) {
+        gameEventListeners.forEach { it.characterAttackReady(character) }
+    }
+
+    fun dispatchCharacterAttack(character: Entity) {
+        gameEventListeners.forEach { it.characterAttack(character) }
+    }
 }
