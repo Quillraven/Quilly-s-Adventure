@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-up" compressionlevel="0" width="96" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="43">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-up" compressionlevel="0" width="96" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="44">
  <properties>
   <property name="Ambient" type="color" value="#e6000000"/>
   <property name="ShadowAngle" type="float" value="225"/>
@@ -102,6 +102,9 @@
   <object id="22" x="31.3333" y="106.667">
    <polygon points="0,0 -3.75,4.25 -4.25,11.75 -1.5,13.75 -2.25,23.25 2.25,27.5 8.75,23.75 16.5,24.75 22.5,19.25 25.75,9.5 20.75,-0.75"/>
   </object>
+  <object id="43" x="-0.5" y="286.5">
+   <polyline points="0,0 1,-286.5"/>
+  </object>
  </objectgroup>
  <objectgroup color="#d89000" id="11" name="item">
   <object id="23" name="POTION_GAIN_LIFE" x="224" y="66">
@@ -118,7 +121,7 @@
   </object>
  </objectgroup>
  <objectgroup id="8" name="playerSpawnLocation">
-  <object id="13" name="Start" x="14" y="276">
+  <object id="13" name="Start" x="22.5" y="279">
    <point/>
   </object>
  </objectgroup>
