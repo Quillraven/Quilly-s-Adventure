@@ -24,6 +24,11 @@ enum class Images(val imageName: String) {
     IMAGE_ATTACK("attack"),
     IMAGE_JUMP("jump"),
     IMAGE_FIREBALL("skill_0"),
+    IMAGE_PLAYER_ICON("player"),
+    IMAGE_HEALTHBARS("healthbars_background"),
+    IMAGE_LIFEBAR("lifebar"),
+    IMAGE_MANABAR("manabar"),
+    IMAGE_ATTACK_INDICATOR("can_attack_indicator"),
     TOUCHPAD("touchpad"),
     KNOB("knob")
 }

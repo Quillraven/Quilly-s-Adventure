@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.game.quillyjumper.ShaderPrograms
+import com.game.quillyjumper.assets.SoundAssets
 import com.game.quillyjumper.audio.AudioService
 import com.game.quillyjumper.characterConfigurations
 import com.game.quillyjumper.configuration.Character
@@ -65,9 +66,10 @@ class GameScreen(
             playerEntities,
             gameEventManager
         )
+    private val hud = GameHUD(gameEventManager)
 
     override fun show() {
-        stage.root.addActor(GameHUD(gameEventManager))
+        stage.root.addActor(hud)
 
         if (engine.systems.size() == 0) {
             // initialize engine
@@ -160,6 +162,34 @@ class GameScreen(
             }
             Gdx.input.isKeyJustPressed(Input.Keys.NUM_3) -> {
                 engine.getSystem(RenderSystem::class.java).setSepia()
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.NUM_4) -> {
+                hud.infoWidget.run {
+                    setLifePercentage(1f)
+                    setManaPercentage(1f)
+                }
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.NUM_5) -> {
+                hud.infoWidget.run {
+                    setLifePercentage(0.5f)
+                    setManaPercentage(1f)
+                }
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.NUM_6) -> {
+                hud.infoWidget.run {
+                    setLifePercentage(0.5f)
+                    setManaPercentage(0.5f)
+                }
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.NUM_7) -> {
+                hud.infoWidget.run {
+                    setLifePercentage(0f)
+                    setManaPercentage(0f)
+                }
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.NUM_8) -> {
+                hud.infoWidget.pingAttackIndicator()
+                audioService.play(SoundAssets.PING)
             }
         }
 
