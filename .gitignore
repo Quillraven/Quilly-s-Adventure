@@ -123,3 +123,5 @@ Thumbs.db
 /core/out/
 /desktop/out/
 /buildSrc/build/
+
+android/local.properties
