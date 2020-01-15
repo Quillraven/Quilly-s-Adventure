@@ -19,6 +19,6 @@ object Apps {
     const val targetSdk = 29
     const val versionCode = 1
     const val versionName = "1.0"
-    const val packageName = "com.game.quillyjumper"
-    const val name = "Quilly Jumper"
+    const val packageName = "com.github.quillraven.quillyjumper"
+    const val name = "Quillys Adventure"
 }

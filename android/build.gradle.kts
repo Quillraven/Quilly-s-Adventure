@@ -49,7 +49,6 @@ android {
             assets.srcDirs(project.file("../assets"))
             jniLibs.srcDirs("libs")
         }
-
     }
 
     defaultConfig {
