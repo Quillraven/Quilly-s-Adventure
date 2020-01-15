@@ -20,5 +20,5 @@ object Apps {
     const val versionCode = 1
     const val versionName = "1.0"
     const val packageName = "com.github.quillraven.quillyjumper"
-    const val name = "Quillys Adventure"
+    const val name = "Quilly's Adventure"
 }
