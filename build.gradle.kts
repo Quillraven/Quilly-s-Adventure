@@ -1,3 +1,7 @@
+plugins {
+    kotlin("jvm") version Versions.kotlin apply false
+}
+
 allprojects {
     version = Apps.versionName
 
