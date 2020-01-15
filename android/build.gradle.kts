@@ -46,7 +46,7 @@ android {
     sourceSets {
         getByName("main") {
             java.srcDirs("src/main/kotlin")
-            assets.srcDirs(rootProject.file("assets"))
+            assets.srcDirs(project.file("../assets"))
             jniLibs.srcDirs("libs")
         }
 
