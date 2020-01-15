@@ -216,25 +216,25 @@ class GameScreen(
 
     override fun characterDamaged(character: Entity, damage: Float, life: Float, maxLife: Float) {
         if (character[PlayerComponent.mapper] != null) {
-            hud.infoWidget.setLifePercentage(life / maxLife)
+            hud.infoWidget.scaleLifeBarTo(life / maxLife)
         }
     }
 
     override fun characterHealLife(character: Entity, healAmount: Float, life: Float, maxLife: Float) {
         if (character[PlayerComponent.mapper] != null) {
-            hud.infoWidget.setLifePercentage(life / maxLife)
+            hud.infoWidget.scaleLifeBarTo(life / maxLife)
         }
     }
 
     override fun characterHealMana(character: Entity, healAmount: Float, mana: Float, maxMana: Float) {
         if (character[PlayerComponent.mapper] != null) {
-            hud.infoWidget.setManaPercentage(mana / maxMana)
+            hud.infoWidget.scaleManaBarTo(mana / maxMana)
         }
     }
 
     override fun characterCast(character: Entity, ability: Ability, cost: Int, mana: Float, maxMana: Float) {
         if (character[PlayerComponent.mapper] != null) {
-            hud.infoWidget.setManaPercentage(mana / maxMana)
+            hud.infoWidget.scaleManaBarTo(mana / maxMana)
         }
     }
 
