@@ -39,6 +39,7 @@ class LoadingScreen(
         val particleParam = ParticleEffectLoader.ParticleEffectParameter()
         particleParam.atlasFile = TextureAtlasAssets.GAME_OBJECTS.filePath
         ParticleAssets.values().forEach { assets.load(it, particleParam) }
+        assets.load(I18nAssets.DEFAULT)
     }
 
     override fun resize(width: Int, height: Int) {

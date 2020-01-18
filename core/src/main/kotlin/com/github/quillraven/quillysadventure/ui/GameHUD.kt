@@ -10,9 +10,17 @@ import ktx.scene2d.*
 class GameHUD(private val gameEventManager: GameEventManager, skin: Skin = Scene2DSkin.defaultSkin) : Table(skin),
     KTable {
     val infoWidget: PlayerInfoWidget
+    val mapInfoWidget: MapInfoWidget
 
     init {
-        defaults().fillX().bottom().pad(10f, 10f, 10f, 10f)
+        defaults().fillX().pad(10f, 10f, 10f, 10f)
+
+        mapInfoWidget = mapInfoWidget {
+            it.colspan(3).padLeft(325f).row()
+        }
+
+        // add dummy cell in the middle to push map info to the top and other elements to the bottom
+        add().expand().colspan(3).row()
 
         // touch pad on bottom left corner
         touchpad(0f) { cell ->
@@ -22,7 +30,7 @@ class GameHUD(private val gameEventManager: GameEventManager, skin: Skin = Scene
         }
 
         // player information for life/mana in bottom center
-        infoWidget = playerInfoWidget { it.expandX().spaceLeft(275f).padBottom(30f) }
+        infoWidget = playerInfoWidget { it.expandX().spaceLeft(275f).padBottom(30f).bottom() }
 
         // action buttons for jumping, attacking and casting in bottom right corner
         table {
@@ -48,7 +56,6 @@ class GameHUD(private val gameEventManager: GameEventManager, skin: Skin = Scene
         }
 
         setFillParent(true)
-        bottom()
         pack()
     }
 }

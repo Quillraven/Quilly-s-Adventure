@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.utils.I18NBundle
 import ktx.assets.getAsset
 import ktx.assets.load
 
@@ -78,3 +79,12 @@ fun AssetManager.load(asset: ParticleAssets, params: ParticleEffectLoader.Partic
     load(asset.filePath, ParticleEffect::class.java, params)
 
 operator fun AssetManager.get(asset: ParticleAssets) = this.getAsset<ParticleEffect>(asset.filePath)
+
+enum class I18nAssets(val filePath: String) {
+    DEFAULT("ui/i18n")
+}
+
+fun AssetManager.load(asset: I18nAssets) =
+    load(asset.filePath, I18NBundle::class.java)
+
+operator fun AssetManager.get(asset: I18nAssets) = this.getAsset<I18NBundle>(asset.filePath)

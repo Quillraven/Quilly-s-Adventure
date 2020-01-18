@@ -30,13 +30,19 @@ enum class Images(val imageName: String) {
     IMAGE_MANABAR("manabar"),
     IMAGE_ATTACK_INDICATOR("can_attack_indicator"),
     TOUCHPAD("touchpad"),
-    KNOB("knob")
+    KNOB("knob"),
+    SKULL("skull"),
+    DIALOG_TITLE("dialog_title")
 }
 
 enum class ImageButtonStyles {
     ATTACK,
     JUMP,
     FIREBALL
+}
+
+enum class LabelStyles {
+    MAP_INFO
 }
 
 operator fun Skin.get(image: Images): Drawable = this.getDrawable(image.imageName)
@@ -55,11 +61,15 @@ fun createSkin(assets: AssetManager): Skin {
 
     Scene2DSkin.defaultSkin = skin(assets[TextureAtlasAssets.UI]) { skin ->
         // add generated fonts as resources to the skin to correctly dispose them
-        add(FontType.DEFAULT.skinKey, defaultFont)
-        add(FontType.LARGE.skinKey, largeFont)
+        add(FontType.DEFAULT.skinKey, defaultFont.apply { data.markupEnabled = true })
+        add(FontType.LARGE.skinKey, largeFont.apply { data.markupEnabled = true })
 
         // default label style
         label { font = skin.getFont(FontType.DEFAULT.skinKey) }
+        label(LabelStyles.MAP_INFO.name) {
+            font = skin.getFont(FontType.LARGE.skinKey)
+            background = skin[Images.DIALOG_TITLE]
+        }
         // default button style
         button {}
         // default textButton style

@@ -15,7 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.github.quillraven.quillysadventure.ShaderPrograms
 import com.github.quillraven.quillysadventure.ability.Ability
+import com.github.quillraven.quillysadventure.assets.I18nAssets
 import com.github.quillraven.quillysadventure.assets.SoundAssets
+import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.characterConfigurations
 import com.github.quillraven.quillysadventure.configuration.Character
@@ -30,6 +32,8 @@ import com.github.quillraven.quillysadventure.event.GameEventListener
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
 import com.github.quillraven.quillysadventure.input.InputListener
+import com.github.quillraven.quillysadventure.map.Map
+import com.github.quillraven.quillysadventure.map.MapChangeListener
 import com.github.quillraven.quillysadventure.map.MapManager
 import com.github.quillraven.quillysadventure.map.MapType
 import com.github.quillraven.quillysadventure.ui.GameHUD
@@ -51,7 +55,7 @@ class GameScreen(
     private val mapRenderer: OrthogonalTiledMapRenderer,
     private val box2DDebugRenderer: Box2DDebugRenderer,
     private val stage: Stage
-) : KtxScreen, InputListener, GameEventListener {
+) : KtxScreen, InputListener, GameEventListener, MapChangeListener {
     private val characterCfgCache = Gdx.app.characterConfigurations
     private val itemCfgCache = initItemConfigurations(assets)
     private val viewport = FitViewport(16f, 9f)
@@ -68,6 +72,7 @@ class GameScreen(
             gameEventManager
         )
     private val hud = GameHUD(gameEventManager)
+    private val bundle = assets[I18nAssets.DEFAULT]
     private var gameOver = false
 
     override fun show() {
@@ -134,6 +139,8 @@ class GameScreen(
         gameEventManager.addMapChangeListener(audioService)
         // add OutOfBoundsSystem as MapChangeListener to update the boundaries of the world whenver the map changes
         gameEventManager.addMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
+        // add screen as MapChangeListener to show the map name information when changing maps
+        gameEventManager.addMapChangeListener(this)
         // set initial map
         mapManager.setMap(MapType.MAP1)
         // screen needs to be an event listener to switch to game over screen when player dies
@@ -145,6 +152,7 @@ class GameScreen(
         gameEventManager.removeInputListener(this)
         gameEventManager.removeMapChangeListener(engine.getSystem(RenderSystem::class.java))
         gameEventManager.removeMapChangeListener(engine.getSystem(CameraSystem::class.java))
+        gameEventManager.removeMapChangeListener(this)
         gameEventManager.removeMapChangeListener(audioService)
         gameEventManager.removeMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
         gameEventManager.removeGameEventListener(this)
@@ -249,5 +257,9 @@ class GameScreen(
             hud.infoWidget.activateAttackIndicator()
             audioService.play(SoundAssets.PING)
         }
+    }
+
+    override fun mapChange(newMap: Map) {
+        hud.mapInfoWidget.show(bundle["map.name.${newMap.type}"])
     }
 }
