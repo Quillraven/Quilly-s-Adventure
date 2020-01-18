@@ -574,7 +574,7 @@ fun Engine.trigger(
         try {
             with<TriggerComponent> { trigger = newTrigger }
             val fileAndMethod = triggerSetupFunctionName.split(".")
-            val file = ClassReflection.forName("com.github.quillraven.quillyjumper.trigger.${fileAndMethod[0]}Kt")
+            val file = ClassReflection.forName("com.github.quillraven.quillysadventure.trigger.${fileAndMethod[0]}Kt")
             val method = ClassReflection.getMethod(file, fileAndMethod[1], Trigger::class.java)
             method.invoke(null, newTrigger)
         } catch (e: Exception) {
