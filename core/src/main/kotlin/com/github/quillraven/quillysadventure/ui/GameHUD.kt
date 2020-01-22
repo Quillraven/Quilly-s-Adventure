@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
 import ktx.actors.onChangeEvent
+import ktx.actors.onTouchEvent
 import ktx.scene2d.*
 
 class GameHUD(private val gameEventManager: GameEventManager, skin: Skin = Scene2DSkin.defaultSkin) : Table(skin),
@@ -37,18 +38,18 @@ class GameHUD(private val gameEventManager: GameEventManager, skin: Skin = Scene
             defaults().bottom().right().fillX()
             imageButton(ImageButtonStyles.JUMP.name) {
                 it.padBottom(70f).padRight(-20f)
-            }.onTouch(
-                touchDownListener = { this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.JUMP) },
-                touchUpListener = { this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.JUMP) }
+            }.onTouchEvent(
+                downListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.JUMP) },
+                upListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.JUMP) }
             )
             verticalGroup {
-                imageButton(ImageButtonStyles.ATTACK.name).onTouch(
-                    touchDownListener = { this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.ATTACK) },
-                    touchUpListener = { this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.ATTACK) }
+                imageButton(ImageButtonStyles.ATTACK.name).onTouchEvent(
+                    downListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.ATTACK) },
+                    upListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.ATTACK) }
                 )
-                imageButton(ImageButtonStyles.FIREBALL.name).onTouch(
-                    touchDownListener = { this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.CAST) },
-                    touchUpListener = { this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.CAST) }
+                imageButton(ImageButtonStyles.FIREBALL.name).onTouchEvent(
+                    downListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.CAST) },
+                    upListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.CAST) }
                 )
                 space(20f)
             }
