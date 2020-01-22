@@ -27,10 +27,10 @@ class MenuScreen(
         audioService.play(MusicAssets.MENU)
 
         //TODO beautify UI and extract it to separate UI package to avoid creating the same table multiple times
-        stage.root.addActor(Image(Scene2DSkin.defaultSkin[Images.DIALOG_LIGHT]).apply {
+        stage.addActor(Image(Scene2DSkin.defaultSkin[Images.DIALOG_LIGHT]).apply {
             centerPosition(this@MenuScreen.stage.width, this@MenuScreen.stage.height)
         })
-        stage.root.addActor(
+        stage.addActor(
             table {
                 defaults().pad(5f, 5f, 5f, 5f)
 
@@ -57,7 +57,7 @@ class MenuScreen(
     }
 
     override fun hide() {
-        stage.root.clear()
+        stage.clear()
     }
 
     override fun resize(width: Int, height: Int) {
