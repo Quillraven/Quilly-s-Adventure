@@ -78,7 +78,7 @@ class GameScreen(
     override fun show() {
         gameOver = false
 
-        stage.root.addActor(hud)
+        stage.addActor(hud)
 
         if (engine.systems.size() == 0) {
             // initialize engine
@@ -91,9 +91,8 @@ class GameScreen(
                 addSystem(DealDamageSystem())
                 addSystem(TakeDamageSystem(gameEventManager))
                 addSystem(DeathSystem(audioService, gameEventManager))
-                // out of bounds system must be before PhysicSystem because it deals damage to the player
-                // and in order for the TakeDamageSystem to show the damage indicator at the correct location
-                // we need to run through the PhysicSystem once to update the TransformComponent accordingly
+                // out of bounds system must be before PhysicSystem because it transforms the player's body
+                // and we need to run through the PhysicSystem once to update the TransformComponent accordingly
                 addSystem(OutOfBoundsSystem(gameEventManager))
                 // player collision system must be before PhysicSystem because whenever the player collides
                 // with a portal then its body location gets transformed and we need the physic system
@@ -148,7 +147,7 @@ class GameScreen(
     }
 
     override fun hide() {
-        stage.root.clear()
+        stage.clear()
         gameEventManager.removeInputListener(this)
         gameEventManager.removeMapChangeListener(engine.getSystem(RenderSystem::class.java))
         gameEventManager.removeMapChangeListener(engine.getSystem(CameraSystem::class.java))
