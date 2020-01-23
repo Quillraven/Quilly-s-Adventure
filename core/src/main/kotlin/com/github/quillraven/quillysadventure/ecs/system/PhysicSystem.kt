@@ -13,13 +13,14 @@ import kotlin.math.min
 class PhysicSystem(
     private val world: World,
     ecsEngine: Engine,
-    private val interval: Float = 1 / 60f
+    private val interval: Float = 1 / 45f
 ) : EntitySystem() {
     private val entities = ecsEngine.getEntitiesFor(allOf(PhysicComponent::class, TransformComponent::class).get())
     private var accumulator = 0f
+    private val maxFramesToProcess = 5 * interval
 
     override fun update(deltaTime: Float) {
-        accumulator += min(0.25f, deltaTime)
+        accumulator += min(maxFramesToProcess, deltaTime)
         while (accumulator >= interval) {
             entities.forEach {
                 it.physicCmp.run {
