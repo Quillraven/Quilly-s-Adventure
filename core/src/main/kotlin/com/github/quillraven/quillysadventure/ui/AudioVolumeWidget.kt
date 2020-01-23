@@ -13,7 +13,7 @@ class AudioVolumeWidget(text: String, skin: Skin) : Table(skin), KTable {
         defaults().spaceLeft(5f)
         checkBox = checkBox("") { isChecked = true }
         audioReduceButton = textButton("-") { it.bottom() }
-        label(text) { it.space(0f, 15f, 0f, 15f).padTop(10f).width(80f) }
+        label(text, LabelStyles.LARGE.name) { it.space(0f, 15f, 0f, 15f).padTop(10f).width(110f) }
         audioIncreaseButton = textButton("+") { it.bottom() }
     }
 }

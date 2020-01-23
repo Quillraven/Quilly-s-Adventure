@@ -42,7 +42,8 @@ enum class ImageButtonStyles {
 }
 
 enum class LabelStyles {
-    MAP_INFO
+    MAP_INFO,
+    LARGE
 }
 
 operator fun Skin.get(image: Images): Drawable = this.getDrawable(image.imageName)
@@ -66,12 +67,11 @@ fun createSkin(assets: AssetManager): Skin {
 
         // default label style
         label { font = skin.getFont(FontType.DEFAULT.skinKey) }
+        label(LabelStyles.LARGE.name) { font = skin.getFont(FontType.LARGE.skinKey) }
         label(LabelStyles.MAP_INFO.name) {
             font = skin.getFont(FontType.LARGE.skinKey)
             background = skin[Images.DIALOG_TITLE]
         }
-        // default button style
-        button {}
         // default textButton style
         textButton {
             down = skin[Images.BUTTON_RECT_DOWN]
@@ -103,8 +103,6 @@ fun createSkin(assets: AssetManager): Skin {
             imageUp = skin[Images.IMAGE_FIREBALL]
             imageDown = imageUp
         }
-        // default window style
-        window { }
         // default touchpad style
         touchpad {
             knob = skin[Images.KNOB]
