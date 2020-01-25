@@ -2,6 +2,7 @@ package com.github.quillraven.quillysadventure.ui
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.utils.Align
 import ktx.scene2d.*
 
 class AudioVolumeWidget(text: String, skin: Skin) : Table(skin), KTable {
@@ -13,7 +14,10 @@ class AudioVolumeWidget(text: String, skin: Skin) : Table(skin), KTable {
         defaults().spaceLeft(5f)
         checkBox = checkBox("") { isChecked = true }
         audioReduceButton = textButton("-") { it.bottom() }
-        label(text, LabelStyles.LARGE.name) { it.space(0f, 15f, 0f, 15f).padTop(10f).width(110f) }
+        label(text, LabelStyles.LARGE.name) {
+            setAlignment(Align.center)
+            it.space(0f, 15f, 0f, 15f).padTop(10f).width(110f)
+        }
         audioIncreaseButton = textButton("+") { it.bottom() }
     }
 }

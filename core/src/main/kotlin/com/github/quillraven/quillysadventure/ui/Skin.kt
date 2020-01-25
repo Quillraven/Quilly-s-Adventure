@@ -32,7 +32,9 @@ enum class Images(val imageName: String) {
     TOUCHPAD("touchpad"),
     KNOB("knob"),
     SKULL("skull"),
-    DIALOG_TITLE("dialog_title")
+    DIALOG_TITLE("dialog_title"),
+    VSCROLL("scroll_vertical"),
+    SCROLL_KNOB("scroll_knob")
 }
 
 enum class ImageButtonStyles {
@@ -107,6 +109,11 @@ fun createSkin(assets: AssetManager): Skin {
         touchpad {
             knob = skin[Images.KNOB]
             background = skin[Images.TOUCHPAD]
+        }
+        // default scroll pane
+        scrollPane {
+            vScrollKnob = skin[Images.SCROLL_KNOB]
+            vScroll = skin[Images.VSCROLL]
         }
     }
 

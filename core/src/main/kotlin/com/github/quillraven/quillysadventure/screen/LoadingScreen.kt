@@ -66,7 +66,7 @@ class LoadingScreen(
                     stage
                 )
             )
-            game.addScreen(MenuScreen(game, audioService, stage))
+            game.addScreen(MenuScreen(game, audioService, stage, assets))
             game.addScreen(EndScreen(game))
             // go to the menu screen once everything is loaded
             game.setScreen<MenuScreen>()

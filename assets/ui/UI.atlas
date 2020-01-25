@@ -28,7 +28,7 @@ bar_green
   index: -1
 btn_chk
   rotate: false
-  xy: 1878, 276
+  xy: 1461, 207
   size: 57, 62
   orig: 57, 62
   offset: 0, 0
@@ -70,14 +70,14 @@ btn_round_up
   index: -1
 btn_unchk
   rotate: false
-  xy: 1944, 353
+  xy: 1520, 207
   size: 57, 62
   orig: 57, 62
   offset: 0, 0
   index: -1
 can_attack_indicator
   rotate: false
-  xy: 1589, 297
+  xy: 2027, 495
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
@@ -112,7 +112,7 @@ jump
   index: -1
 knob
   rotate: false
-  xy: 1395, 213
+  xy: 1898, 348
   size: 51, 56
   orig: 51, 56
   offset: 0, 0
@@ -133,9 +133,23 @@ manabar
   index: -1
 player
   rotate: false
-  xy: 1878, 340
+  xy: 1395, 205
   size: 64, 64
   orig: 64, 64
+  offset: 0, 0
+  index: -1
+scroll_knob
+  rotate: false
+  xy: 1589, 291
+  size: 17, 18
+  orig: 17, 18
+  offset: 0, 0
+  index: -1
+scroll_vertical
+  rotate: false
+  xy: 1878, 75
+  size: 18, 329
+  orig: 18, 329
   offset: 0, 0
   index: -1
 skill
