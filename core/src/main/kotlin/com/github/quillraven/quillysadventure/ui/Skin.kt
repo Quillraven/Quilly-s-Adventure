@@ -34,7 +34,8 @@ enum class Images(val imageName: String) {
     SKULL("skull"),
     DIALOG_TITLE("dialog_title"),
     VSCROLL("scroll_vertical"),
-    SCROLL_KNOB("scroll_knob")
+    SCROLL_KNOB("scroll_knob"),
+    MENU_BACKGROUND("menu_bgd")
 }
 
 enum class ImageButtonStyles {
@@ -114,6 +115,7 @@ fun createSkin(assets: AssetManager): Skin {
         scrollPane {
             vScrollKnob = skin[Images.SCROLL_KNOB]
             vScroll = skin[Images.VSCROLL]
+            // background = skin[Images.MENU_BACKGROUND]
         }
     }
 

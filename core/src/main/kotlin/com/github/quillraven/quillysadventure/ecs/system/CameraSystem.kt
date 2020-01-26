@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.github.quillraven.quillysadventure.ecs.component.CameraLockComponent
 import com.github.quillraven.quillysadventure.ecs.component.transfCmp
+import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.Map
 import com.github.quillraven.quillysadventure.map.MapChangeListener
 import ktx.ashley.allOf
@@ -15,9 +16,23 @@ import kotlin.math.min
 
 private val LOG = logger<CameraSystem>()
 
-class CameraSystem(engine: Engine, private val camera: OrthographicCamera) : EntitySystem(), MapChangeListener {
+class CameraSystem(
+    engine: Engine,
+    private val gameEventManager: GameEventManager,
+    private val camera: OrthographicCamera
+) : EntitySystem(), MapChangeListener {
     private val cameraEntities = engine.getEntitiesFor(allOf(CameraLockComponent::class).get())
     private val maxCameraPosition = vec2(0f, 0f)
+
+    override fun addedToEngine(engine: Engine?) {
+        super.addedToEngine(engine)
+        gameEventManager.addMapChangeListener(this)
+    }
+
+    override fun removedFromEngine(engine: Engine?) {
+        super.removedFromEngine(engine)
+        gameEventManager.removeMapChangeListener(this)
+    }
 
     override fun update(deltaTime: Float) {
         if (cameraEntities.size() > 0) {

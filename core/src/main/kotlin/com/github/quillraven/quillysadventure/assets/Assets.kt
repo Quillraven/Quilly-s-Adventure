@@ -61,7 +61,8 @@ enum class MapAssets(val filePath: String) {
     INTRO("map/intro.tmx"),
     MAP_1("map/map1.tmx"),
     MAP_2("map/map2.tmx"),
-    TEST_MAP("map/testmap.tmx")
+    TEST_MAP("map/testmap.tmx"),
+    MAIN_MENU("map/menuMap.tmx")
 }
 
 fun AssetManager.load(asset: MapAssets) = load<TiledMap>(asset.filePath)

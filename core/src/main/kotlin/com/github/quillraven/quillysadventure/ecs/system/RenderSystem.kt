@@ -3,6 +3,7 @@ package com.github.quillraven.quillysadventure.ecs.system
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.SortedIteratingSystem
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -15,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.quillysadventure.ShaderPrograms
 import com.github.quillraven.quillysadventure.ShaderType
 import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.Map
 import com.github.quillraven.quillysadventure.map.MapChangeListener
 import com.github.quillraven.quillysadventure.map.PROPERTY_PARALLAX_VALUE
@@ -30,6 +32,7 @@ private val LOG = logger<RenderSystem>()
 
 class RenderSystem(
     engine: Engine,
+    private val gameEventManager: GameEventManager,
     private val batch: SpriteBatch,
     private val gameViewPort: Viewport,
     private val mapRenderer: OrthogonalTiledMapRenderer,
@@ -56,7 +59,19 @@ class RenderSystem(
             ).exclude(RemoveComponent::class).get()
         )
 
+    override fun addedToEngine(engine: Engine?) {
+        super.addedToEngine(engine)
+        gameEventManager.addMapChangeListener(this)
+    }
+
+    override fun removedFromEngine(engine: Engine?) {
+        super.removedFromEngine(engine)
+        gameEventManager.removeMapChangeListener(this)
+    }
+
     override fun update(deltaTime: Float) {
+        // reset to original color in case the UI stage modified it
+        batch.color = Color.WHITE
         // Update animation timer for animated tiles
         AnimatedTiledMapTile.updateAnimationBaseTime()
         // always sort entities before rendering

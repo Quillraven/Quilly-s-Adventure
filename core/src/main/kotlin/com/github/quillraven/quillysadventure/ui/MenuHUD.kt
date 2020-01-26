@@ -1,16 +1,18 @@
 package com.github.quillraven.quillysadventure.ui
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.I18NBundle
-import ktx.actors.centerPosition
-import ktx.actors.contains
+import ktx.actors.alpha
 import ktx.actors.onChange
 import ktx.actors.onClick
+import ktx.actors.plusAssign
 import ktx.scene2d.KTable
 import ktx.scene2d.Scene2DSkin
 import ktx.scene2d.label
@@ -20,19 +22,31 @@ class MenuHUD(
     skin: Skin = Scene2DSkin.defaultSkin
 ) : Table(skin), KTable {
     val newGameLabel: Label
-    private val creditsPane = ScrollPane(
-        Label(bundle["credits.info"], skin).apply { setWrap(true) },
-        skin
-    ).apply {
-        width = 550f
-        height = 400f
-        setScrollbarsVisible(true)
-        fadeScrollBars = false
-        variableSizeKnobs = false
+    val creditsTable = Table(skin).apply {
+        this.background = skin[Images.MENU_BACKGROUND]
+        defaults().pad(15f)
+
+        add(ScrollPane(
+            Label(bundle["credits.info"], skin).apply {
+                setWrap(true)
+            },
+            skin
+        ).apply {
+            width = 550f
+            height = 400f
+            setScrollbarsVisible(true)
+            fadeScrollBars = false
+            variableSizeKnobs = false
+        }).fill().size(550f, 400f)
+
+        // need to call pack otherwise the background image is not showing up
+        this.pack()
+        this.alpha = 0f
     }
 
     init {
-        defaults().pad(5f, 70f, 5f, 5f)
+        background = skin[Images.MENU_BACKGROUND]
+        defaults().pad(5f, 70f, 5f, 25f)
 
         newGameLabel = label(bundle["newGame"], LabelStyles.LARGE.name) { cell ->
             setAlignment(Align.center)
@@ -53,11 +67,11 @@ class MenuHUD(
             setAlignment(Align.center)
             cell.fillX().row()
         }.onClick {
-            if (creditsPane in stage.root) {
-                creditsPane.remove()
+            creditsTable.clearActions()
+            creditsTable += if (creditsTable.alpha > 0f) {
+                fadeOut(0.5f)
             } else {
-                stage.addActor(creditsPane)
-                creditsPane.centerPosition(stage.width * 1.15f)
+                fadeIn(1f)
             }
         }
         label(bundle["quitGame"], LabelStyles.LARGE.name) { cell ->

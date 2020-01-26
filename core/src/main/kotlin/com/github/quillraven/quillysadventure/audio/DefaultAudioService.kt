@@ -7,17 +7,22 @@ import com.badlogic.gdx.utils.ObjectMap
 import com.github.quillraven.quillysadventure.assets.MusicAssets
 import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.assets.get
+import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.Map
 import ktx.collections.iterate
 import java.util.*
 
-class DefaultAudioService(private val assets: AssetManager) : AudioService {
+class DefaultAudioService(private val assets: AssetManager, gameEventManager: GameEventManager) : AudioService {
     private var music: Music? = null
     private var musicVolume = 1f
     private var soundVolume = 1f
     private val soundCache = EnumMap<SoundAssets, Sound>(SoundAssets::class.java)
     private val musicCache = EnumMap<MusicAssets, Music>(MusicAssets::class.java)
     private val soundQueue = ObjectMap<SoundAssets, Sound>(8)
+
+    init {
+        gameEventManager.addMapChangeListener(this)
+    }
 
     override fun play(type: MusicAssets, loop: Boolean, completeListener: Music.OnCompletionListener?) {
         // stop current music

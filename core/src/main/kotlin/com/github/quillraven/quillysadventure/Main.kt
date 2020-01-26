@@ -21,7 +21,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.github.quillraven.quillysadventure.audio.DefaultAudioService
 import com.github.quillraven.quillysadventure.audio.NullAudioService
 import com.github.quillraven.quillysadventure.configuration.CharacterConfigurations
+import com.github.quillraven.quillysadventure.configuration.ItemConfigurations
 import com.github.quillraven.quillysadventure.configuration.loadCharacterConfigurations
+import com.github.quillraven.quillysadventure.configuration.loadItemConfigurations
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.screen.LoadingScreen
 import com.github.quillraven.quillysadventure.ui.createSkin
@@ -46,17 +48,23 @@ const val FILTER_CATEGORY_LIGHT = 0x0008.toShort()
 const val FILTER_MASK_LIGHTS = FILTER_CATEGORY_SCENERY
 
 fun Application.getAudioService() = (this.applicationListener as Main).audioService
+val Application.game: Main
+    get() = (applicationListener as Main)
 val Application.world: World
-    get() = (this.applicationListener as Main).world
+    get() = game.world
 val Application.ecsEngine: Engine
-    get() = (this.applicationListener as Main).ecsEngine
+    get() = game.ecsEngine
 val Application.gameEventManager: GameEventManager
-    get() = (this.applicationListener as Main).gameEventManager
+    get() = game.gameEventManager
 val Application.characterConfigurations: CharacterConfigurations
-    get() = (this.applicationListener as Main).characterConfigurations
+    get() = game.characterConfigurations
+val Application.itemConfigurations: ItemConfigurations
+    get() = game.itemConfigurations
 
-class Main(private val disableAudio: Boolean = false,
-           private val logLevel: Int = Application.LOG_ERROR) :
+class Main(
+    private val disableAudio: Boolean = false,
+    private val logLevel: Int = Application.LOG_ERROR
+) :
     KtxGame<KtxScreen>() {
     private val ctx = Context()
     private val profiler by lazy { GLProfiler(Gdx.graphics).apply { enable() } }
@@ -64,13 +72,14 @@ class Main(private val disableAudio: Boolean = false,
         if (disableAudio) {
             NullAudioService()
         } else {
-            DefaultAudioService(ctx.inject())
+            DefaultAudioService(ctx.inject(), gameEventManager)
         }
     }
     val world by lazy { createWorld(earthGravity).apply { setContactListener(PhysicContactListener()) } }
     val ecsEngine by lazy { PooledEngine() }
     val gameEventManager by lazy { GameEventManager() }
     val characterConfigurations by lazy { loadCharacterConfigurations() }
+    val itemConfigurations by lazy { loadItemConfigurations(ctx.inject()) }
 
     override fun create() {
         Gdx.app.logLevel = logLevel

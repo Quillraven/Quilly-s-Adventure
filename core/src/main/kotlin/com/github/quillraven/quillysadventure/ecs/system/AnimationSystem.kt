@@ -156,7 +156,7 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
             }
         } else {
             // increase animation time to play animation
-            aniCmp.animationTime += deltaTime
+            aniCmp.animationTime += (deltaTime * aniCmp.animationSpeed)
         }
 
         // update sprite information with animation like texture, texture region, size, ...

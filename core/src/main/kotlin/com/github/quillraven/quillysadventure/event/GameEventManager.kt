@@ -66,9 +66,11 @@ class GameEventManager : KtxInputAdapter {
 
     fun disablePlayerInput() {
         ignoreInput = true
-        inputListeners.forEach {
-            it.move(0f, 0f)
-            it.keyReleased(Key.JUMP)
+        for (i in 0 until inputListeners.size) {
+            inputListeners[i].run {
+                move(0f, 0f)
+                keyReleased(Key.JUMP)
+            }
         }
     }
 

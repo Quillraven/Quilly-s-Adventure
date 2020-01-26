@@ -30,11 +30,13 @@ class OutOfBoundsSystem(private val gameEventManager: GameEventManager) : MapCha
     override fun addedToEngine(engine: Engine?) {
         super.addedToEngine(engine)
         gameEventManager.addGameEventListener(this)
+        gameEventManager.addMapChangeListener(this)
     }
 
     override fun removedFromEngine(engine: Engine?) {
         super.removedFromEngine(engine)
         gameEventManager.removeGameEventListener(this)
+        gameEventManager.removeMapChangeListener(this)
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {

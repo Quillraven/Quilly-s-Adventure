@@ -53,3 +53,14 @@ class ItemConfigurations(assets: AssetManager) : EnumMap<Item, ItemCfg>(Item::cl
 
 inline fun itemConfigurations(assets: AssetManager, init: ItemConfigurations.() -> Unit) =
     ItemConfigurations(assets).apply(init)
+
+fun loadItemConfigurations(assets: AssetManager): ItemConfigurations {
+    return itemConfigurations(assets) {
+        cfg(Item.POTION_GAIN_LIFE, "potion_green_plus") {
+            lifeBonus = 10
+        }
+        cfg(Item.POTION_GAIN_MANA, "potion_blue_plus") {
+            manaBonus = 3
+        }
+    }
+}

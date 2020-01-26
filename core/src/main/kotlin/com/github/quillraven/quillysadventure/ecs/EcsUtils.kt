@@ -11,12 +11,14 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Shape2D
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.StringBuilder
 import com.badlogic.gdx.utils.reflect.ClassReflection
 import com.github.quillraven.quillysadventure.*
 import com.github.quillraven.quillysadventure.ai.DefaultGlobalState
 import com.github.quillraven.quillysadventure.ai.DefaultState
 import com.github.quillraven.quillysadventure.assets.ParticleAssets
+import com.github.quillraven.quillysadventure.configuration.Character
 import com.github.quillraven.quillysadventure.configuration.CharacterCfg
 import com.github.quillraven.quillysadventure.configuration.ItemCfg
 import com.github.quillraven.quillysadventure.ecs.component.*
@@ -34,6 +36,16 @@ import ktx.log.logger
 // float array to define the vertices of a loop shape for rectangle scenery objects
 private val TMP_FLOAT_ARRAY = FloatArray(8) { 0f }
 private val LOG = logger<Engine>()
+
+fun Engine.getCharacter(type: Character, fill: Array<Entity>): Array<Entity> {
+    fill.clear()
+    entities.forEach {
+        if (it[CharacterTypeComponent.mapper]?.type == type) {
+            fill.add(it)
+        }
+    }
+    return fill
+}
 
 // helper function to check if an entity is removed. This is needed for box2d contact listener because
 // remove contact is triggered for entities that get removed and they should be ignored for the contacts events

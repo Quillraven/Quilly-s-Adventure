@@ -5,29 +5,14 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.assets.AssetManager
-import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
-import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.utils.viewport.FitViewport
-import com.github.quillraven.quillysadventure.ShaderPrograms
+import com.badlogic.gdx.utils.I18NBundle
+import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.quillysadventure.ability.Ability
-import com.github.quillraven.quillysadventure.assets.I18nAssets
 import com.github.quillraven.quillysadventure.assets.SoundAssets
-import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.audio.AudioService
-import com.github.quillraven.quillysadventure.characterConfigurations
-import com.github.quillraven.quillysadventure.configuration.Character
-import com.github.quillraven.quillysadventure.configuration.Item
-import com.github.quillraven.quillysadventure.configuration.ItemConfigurations
-import com.github.quillraven.quillysadventure.configuration.itemConfigurations
-import com.github.quillraven.quillysadventure.ecs.character
-import com.github.quillraven.quillysadventure.ecs.component.CameraLockComponent
 import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
-import com.github.quillraven.quillysadventure.ecs.system.*
+import com.github.quillraven.quillysadventure.ecs.system.RenderSystem
 import com.github.quillraven.quillysadventure.event.GameEventListener
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
@@ -39,40 +24,20 @@ import com.github.quillraven.quillysadventure.map.MapType
 import com.github.quillraven.quillysadventure.ui.GameHUD
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
-import ktx.ashley.allOf
 import ktx.ashley.get
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
-    private val assets: AssetManager,
+    private val bundle: I18NBundle,
     private val gameEventManager: GameEventManager,
     private val audioService: AudioService,
-    private val world: World,
     private val engine: Engine,
+    private val mapManager: MapManager,
     private val rayHandler: RayHandler,
-    private val shaderPrograms: ShaderPrograms,
-    private val batch: SpriteBatch,
-    private val mapRenderer: OrthogonalTiledMapRenderer,
-    private val box2DDebugRenderer: Box2DDebugRenderer,
+    private val viewport: Viewport,
     private val stage: Stage
 ) : KtxScreen, InputListener, GameEventListener, MapChangeListener {
-    private val characterCfgCache = Gdx.app.characterConfigurations
-    private val itemCfgCache = initItemConfigurations(assets)
-    private val viewport = FitViewport(16f, 9f)
-    private val playerEntities = engine.getEntitiesFor(allOf(PlayerComponent::class).get())
-    private val mapManager =
-        MapManager(
-            assets,
-            world,
-            rayHandler,
-            engine,
-            characterCfgCache,
-            itemCfgCache,
-            playerEntities,
-            gameEventManager
-        )
     private val hud = GameHUD(gameEventManager)
-    private val bundle = assets[I18nAssets.DEFAULT]
     private var gameOver = false
 
     override fun show() {
@@ -80,64 +45,8 @@ class GameScreen(
 
         stage.addActor(hud)
 
-        if (engine.systems.size() == 0) {
-            // initialize engine
-            engine.apply {
-                addSystem(TriggerSystem(gameEventManager))
-                addSystem(PhysicMoveSystem())
-                addSystem(PhysicJumpSystem())
-                addSystem(AbilitySystem(gameEventManager))
-                addSystem(AttackSystem(world, gameEventManager))
-                addSystem(DealDamageSystem())
-                addSystem(TakeDamageSystem(gameEventManager))
-                addSystem(DeathSystem(audioService, gameEventManager))
-                // out of bounds system must be before PhysicSystem because it transforms the player's body
-                // and we need to run through the PhysicSystem once to update the TransformComponent accordingly
-                addSystem(OutOfBoundsSystem(gameEventManager))
-                // player collision system must be before PhysicSystem because whenever the player collides
-                // with a portal then its body location gets transformed and we need the physic system
-                // to correctly update the TransformComponent which is e.g. used in the OutOfBoundsSystem
-                addSystem(PlayerCollisionSystem(mapManager, audioService, gameEventManager))
-                // heal system must come after take damage, death and collision system because all of these
-                // systems are creating healcomponents internally in some cases that need to be considered
-                // in the same frame
-                addSystem(HealSystem(gameEventManager))
-                addSystem(PhysicSystem(world, this))
-                addSystem(PlayerInputSystem(gameEventManager, this))
-                addSystem(StateSystem())
-                addSystem(AnimationSystem(assets, audioService))
-                addSystem(CameraSystem(this, viewport.camera as OrthographicCamera))
-                addSystem(ParticleSystem(assets, audioService))
-                addSystem(FadeSystem())
-                addSystem(RenderSystem(this, batch, viewport, mapRenderer, shaderPrograms))
-                addSystem(RenderPhysicDebugSystem(world, viewport, box2DDebugRenderer))
-                addSystem(LightSystem(rayHandler, viewport.camera as OrthographicCamera))
-                addSystem(FloatingTextSystem(batch, viewport, stage.viewport))
-                addSystem(RemoveSystem(this))
-                // create player entity
-                character(
-                    characterCfgCache[Character.PLAYER],
-                    world,
-                    0f,
-                    0f,
-                    1
-                ) {
-                    with<PlayerComponent>()
-                    with<CameraLockComponent>()
-                }
-            }
-        }
-
         // add game screen as input listener to react when the player wants to quit the game (=exit key pressed)
         gameEventManager.addInputListener(this)
-        // add RenderSystem as MapChangeListener to update the mapRenderer whenever the map changes
-        gameEventManager.addMapChangeListener(engine.getSystem(RenderSystem::class.java))
-        // add CameraSystem as MapChangeListener to update the camera boundaries whenever the map changes
-        gameEventManager.addMapChangeListener(engine.getSystem(CameraSystem::class.java))
-        // add AudioService as MapChangeListener to play the music of the map whenever it gets changed
-        gameEventManager.addMapChangeListener(audioService)
-        // add OutOfBoundsSystem as MapChangeListener to update the boundaries of the world whenver the map changes
-        gameEventManager.addMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
         // add screen as MapChangeListener to show the map name information when changing maps
         gameEventManager.addMapChangeListener(this)
         // set initial map
@@ -149,11 +58,7 @@ class GameScreen(
     override fun hide() {
         stage.clear()
         gameEventManager.removeInputListener(this)
-        gameEventManager.removeMapChangeListener(engine.getSystem(RenderSystem::class.java))
-        gameEventManager.removeMapChangeListener(engine.getSystem(CameraSystem::class.java))
         gameEventManager.removeMapChangeListener(this)
-        gameEventManager.removeMapChangeListener(audioService)
-        gameEventManager.removeMapChangeListener(engine.getSystem(OutOfBoundsSystem::class.java))
         gameEventManager.removeGameEventListener(this)
     }
 
@@ -201,17 +106,6 @@ class GameScreen(
         if (key == Key.EXIT) {
             // player pressed exit key -> go back to menu
             game.setScreen<MenuScreen>()
-        }
-    }
-
-    private fun initItemConfigurations(assets: AssetManager): ItemConfigurations {
-        return itemConfigurations(assets) {
-            cfg(Item.POTION_GAIN_LIFE, "potion_green_plus") {
-                lifeBonus = 10
-            }
-            cfg(Item.POTION_GAIN_MANA, "potion_blue_plus") {
-                manaBonus = 3
-            }
         }
     }
 

@@ -5,7 +5,6 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Interpolation
 import com.github.quillraven.quillysadventure.ecs.component.*
 import ktx.ashley.allOf
-import ktx.ashley.get
 import kotlin.math.min
 
 class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicComponent::class).get()) {
@@ -46,14 +45,6 @@ class PhysicMoveSystem : IteratingSystem(allOf(MoveComponent::class, PhysicCompo
 
             // set the value of the impulse that will be applied before each physic step call
             physic.impulse.x = physic.body.mass * (speed - velocity)
-
-            // in case the entity is rendered then flip its sprite according to the move direction
-            entity[RenderComponent.mapper]?.sprite?.run {
-                when (facing.direction) {
-                    FacingDirection.RIGHT -> setFlip(false, isFlipY)
-                    FacingDirection.LEFT -> setFlip(true, isFlipY)
-                }
-            }
         }
     }
 }

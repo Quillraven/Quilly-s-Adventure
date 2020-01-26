@@ -131,6 +131,15 @@ manabar
   orig: 168, 6
   offset: 0, 0
   index: -1
+menu_bgd
+  rotate: false
+  xy: 1898, 314
+  size: 32, 32
+  split: 10, 11, 10, 11
+  pad: 0, 0, 0, 0
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 player
   rotate: false
   xy: 1395, 205

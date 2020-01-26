@@ -39,6 +39,7 @@ class AnimationComponent(
     var modelType: ModelType = ModelType.UNKNOWN,
     var animationType: AnimationType = AnimationType.IDLE,
     var animationTime: Float = 0f,
+    var animationSpeed: Float = 1f,
     var mode: PlayMode = PlayMode.LOOP
 ) : Component, Pool.Poolable {
     // animation gets initialized in AnimationSystem
@@ -50,6 +51,8 @@ class AnimationComponent(
         modelType = ModelType.UNKNOWN
         animationType = AnimationType.IDLE
         mode = PlayMode.LOOP
+        animationSpeed = 1f
+        animationTime = 0f
     }
 
     companion object {

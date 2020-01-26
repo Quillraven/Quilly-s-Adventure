@@ -9,12 +9,12 @@ import ktx.ashley.mapperFor
 enum class FacingDirection { LEFT, RIGHT }
 
 class FacingComponent(var direction: FacingDirection = FacingDirection.RIGHT) : Component, Pool.Poolable {
-    companion object {
-        val mapper = mapperFor<FacingComponent>()
-    }
-
     override fun reset() {
         direction = FacingDirection.RIGHT
+    }
+
+    companion object {
+        val mapper = mapperFor<FacingComponent>()
     }
 }
 

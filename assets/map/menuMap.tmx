@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-up" compressionlevel="0" width="32" height="18" tilewidth="16" tileheight="16" infinite="0" nextlayerid="20" nextobjectid="48">
+ <properties>
+  <property name="Ambient" type="color" value="#e6000000"/>
+  <property name="ShadowAngle" type="float" value="245"/>
+  <property name="SunColor" type="color" value="#80fdb813"/>
+ </properties>
+ <tileset firstgid="1" source="tilesets.tsx"/>
+ <layer id="18" name="bgd0" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAG10zduw1AQhOHXOV/FlhgUfD1LjAo+niVGBd/Df7nFwFux+JodELsD8LVPIXToMWDEBVfckKNAiQo1dtjjAJWrmf3m8BDCEd+YP4cQIUaCFAsssULLjv/uU7ma2U439t7xi4wdOQqUqFBjhz28+1SuZrbT6jGENT7RsKNFhx4DRlxwhXefytXMdtqz94AjZi90RIQYCVIssIR3n8rVzHa6sveGO7bsyJCjQIkKNXbw7lO5mtlOS/6pFdY4s6NBiw49Boy4wLtP5WpmO9m38PFKR8wRIUaCFAt496lczWwn+xY27NgiQ44CJSrU8O5TuZrZTvYtnNhxRoMWHXoMGOHdp3I1s53sW3h/oyNmmCNCjAQpvPtUrma2k30LX+zYYIsMOQqUqODdp3I1s53sW/hhxwlnNGjRoccA7z6Vq5ntZN+C969696lczWwn+xa8f3Xq3PtXp869f3Xq3PtXp87/AMfFTpg=
+  </data>
+ </layer>
+ <layer id="17" name="bgd1" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAGt0VdWG1YUQFFFlSKBJCQQYKcPKKb33ru7nfnE9N57d7cznxhQNhPgSx/766x173rv3gUDgTyBUCDwE0FChIkQJUYRxZRQSpwEZZSTJEWaCjJkqaSKHNXUUMsjHlNPA4000UwLrbTRTgeddNFND7300c8AgwwxzAijjDHOBJNMMc0MT3nGHPMssMgSy6ywyhrrbLDJFtvssMse+xxwyBHHnHDKGedccMkV17znA7fckScQdgOChAgTIUqMIoopoZQ4CcooJ0mKNBVkyFJJFTmqqaGWR9RRTwONNNFMC6200U4HnXTRTQ+99NHPAIMMMcwIo4wxzgSTTDHNDE+ZZY55FlhkiWVWWGWNdTbYZIttdthlj30OOOSIY0445YxzLrjkimvec8Mtd+QJRNyAICHCRIgSo4hiSiglToIyykmSIk0FGbJUUkWOamqo5Ql11NNAI00000IrbbTTQSdddNNDL330M8AgQwwzwihjjDPBJFNMM8M7ZpljngUWWWKZFVZZY50NNtlimx122WOfAw454pgTTjnjnAsuueKaH9xwyx15AlE3IEiIMBGixCiimBJKiZOgjHKSpEhTQYYslVSRo5oa/uIJddTTQCNNNNNCK22000EnXXTTQy999DPAIEMMM8IoY4wzwSRTTPMP75hljnkWWGSJZVZYZY11Nthki2122GWPfQ445IhjTjjljHMuuOSK//jBDbfckScQcwOChAgTIUqMIoopoZQ4CcooJ0mKNBVkyFJJFTmqee7eL3jJK17zhrc81P4uQPfKwEdzPvGZL3zlG995qP1bgH6//7G//plf+JXf+J0/eKj9WYB+v/+ZOc95wUte8Zo3PNTeFqDf7/9gzkc+8ZkvfOUbD7XvBej3+/8HXrIDTA==
+  </data>
+ </layer>
+ <layer id="1" name="bgd2" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAHV1NlOE2EABeDhyo1FIy1R4/JAQvca9UpAI5REjcv7yFJaStQrAY20JGpc3kdKF/Br0kkmc1NogoaTfJnJ5G9P0jNpEJyNvDwfBK94zRv+dX7o/Mkvfv+H/psXguAWt7nDWUnzYhAc0KJNhy7JS0EwRZjT2ndaxwwp0mTIUmKJMIP2fWbz57w44fbLOlZYZY0y6zTYI8ygfb/q/cb3E/bv62hyQIs2HRKjNuC4ueadu86NE757d3VMM0OKNBkWKXHaeatjmRVWWaNMnQbDpnzOjlSoskGNTaL5o2OfJvd5wEPi+4efKfp97x3jN27r6dDlkCMC78ZI7P2I7v9O73s+EO4/5vw4E1ympnuTSfcJkkwRT9qzDFly5ClQJJro/i29oXD/WefnmOdx77P+G0ZYcL9IiaXe81jWPCuzToUqG9SIJrp/2N27hvtvOb/NDp8o6C6y675Ogz3iaXnWpkOXQ44IYttF94/2h/uPOj/GOBNc6bvqOkmCJPGkPEuTIUuOPAWiie7f68+RJ9z/kfOzzDHPk76nrgssUmLYxPev6K4S7v/Rd2+xzQ6f+7647lKnwbAZtP9fLsiRUw==
+  </data>
+ </layer>
+ <layer id="6" name="bgd3" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAHt0MsNQEAURuEbVqjAIyhLFYagLFV4BFU5FczKzFjcm3yru/iTI+L+4sT9hm2hC7y/Bt6PUlud7355JlKgRIUaDVr4uJ4dgwEjJsxY4OM2dnYcOHHhxgM9LaAFtIAW+FeBF8XTC2U=
+  </data>
+ </layer>
+ <layer id="19" name="fgd1" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAHt0MkNgEAMBEFL7B0hexEisJAgHYX5eKR6j9QiOnNZxCMgIiFDa5Wvho6BiQNaO/m6cGPhwQutbUXEwSMgIkFrO18VDR0DEzYrYAWsgBWwAn8U+AD4PgnK
+  </data>
+ </layer>
+ <objectgroup color="#ff0000" id="7" name="collision">
+  <object id="45" x="348.545" y="79.8182" width="161.758" height="23.0909"/>
+  <object id="46" x="241.152" y="176" width="84.8485" height="17.6364"/>
+ </objectgroup>
+ <objectgroup color="#d89000" id="11" name="item"/>
+ <objectgroup color="#0000ff" id="12" name="portal"/>
+ <objectgroup id="8" name="playerSpawnLocation">
+  <object id="13" name="Start" x="359.833" y="77">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#0000ff" id="9" name="enemy">
+  <object id="28" name="BLUE_SLIME" x="255.333" y="173.667">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#00aa00" id="15" name="savePoint"/>
+ <objectgroup color="#ff5500" id="16" name="npc">
+  <object id="44" name="GIRL" x="378" y="78">
+   <point/>
+  </object>
+  <object id="47" name="FLIPPY" x="490.333" y="78">
+   <point/>
+  </object>
+ </objectgroup>
+</map>
