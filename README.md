@@ -1,6 +1,6 @@
 [![Kotlin](https://img.shields.io/badge/kotlin-1.3.61-red.svg)](http://kotlinlang.org/)
 [![LibGDX](https://img.shields.io/badge/libgdx-1.9.10-blue.svg)](https://libgdx.badlogicgames.com/)
-[![LibKTX](https://img.shields.io/badge/libktx-1.9.10--SNAPSHOT-orange.svg)](https://libgdx.badlogicgames.com/)
+[![LibKTX](https://img.shields.io/badge/libktx-1.9.10--b4-orange.svg)](https://libktx.github.io/)
 
 [![JetBrains](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/JetBrains_Logo_2016.svg/100px-JetBrains_Logo_2016.svg.png)](https://www.jetbrains.com/?from=QuillyJumper)
 
