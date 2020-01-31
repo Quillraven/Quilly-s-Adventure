@@ -2,14 +2,14 @@ package com.github.quillraven.quillysadventure.ui
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
 import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.assets.load
 import com.github.quillraven.quillysadventure.ecs.system.FontType
-import ktx.freetype.generateFont
 import ktx.scene2d.Scene2DSkin
 import ktx.style.*
 
@@ -51,22 +51,20 @@ enum class LabelStyles {
 
 operator fun Skin.get(image: Images): Drawable = this.getDrawable(image.imageName)
 
-fun createSkin(assets: AssetManager): Skin {
-    // generate fonts for the skin
-    val generator = FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"))
-    val defaultFont = generator.generateFont { size = 24 }
-    val largeFont = generator.generateFont { size = 32 }
-    // dispose font generator after creating all .ttf fonts that we need
-    generator.dispose()
+private fun getBitmapFont(fntName: String, atlas: TextureAtlas) =
+    BitmapFont(Gdx.files.internal("ui/$fntName.fnt"), atlas.findRegion(fntName)).apply {
+        data.markupEnabled = true
+    }
 
+fun createSkin(assets: AssetManager): Skin {
     // load textures for skin
     assets.load(TextureAtlasAssets.UI)
     assets.finishLoading()
 
     Scene2DSkin.defaultSkin = skin(assets[TextureAtlasAssets.UI]) { skin ->
-        // add generated fonts as resources to the skin to correctly dispose them
-        add(FontType.DEFAULT.skinKey, defaultFont.apply { data.markupEnabled = true })
-        add(FontType.LARGE.skinKey, largeFont.apply { data.markupEnabled = true })
+        // fonts
+        add(FontType.DEFAULT.skinKey, getBitmapFont("font24", atlas))
+        add(FontType.LARGE.skinKey, getBitmapFont("font32", atlas))
 
         // default label style
         label { font = skin.getFont(FontType.DEFAULT.skinKey) }
@@ -79,13 +77,13 @@ fun createSkin(assets: AssetManager): Skin {
         textButton {
             down = skin[Images.BUTTON_RECT_DOWN]
             up = skin[Images.BUTTON_RECT_UP]
-            font = defaultFont
+            font = skin.getFont(FontType.DEFAULT.skinKey)
         }
         // checkbox
         checkBox {
             checkboxOn = skin[Images.BUTTON_CHECK]
             checkboxOff = skin[Images.BUTTON_UNCHECK]
-            font = defaultFont
+            font = skin.getFont(FontType.DEFAULT.skinKey)
         }
         // image button
         imageButton(ImageButtonStyles.ATTACK.name) {

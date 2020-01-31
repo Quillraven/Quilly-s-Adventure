@@ -14,10 +14,7 @@ import com.github.quillraven.quillysadventure.configuration.CharacterConfigurati
 import com.github.quillraven.quillysadventure.configuration.Item
 import com.github.quillraven.quillysadventure.configuration.ItemConfigurations
 import com.github.quillraven.quillysadventure.ecs.*
-import com.github.quillraven.quillysadventure.ecs.component.EntityType
-import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
-import com.github.quillraven.quillysadventure.ecs.component.physicCmp
-import com.github.quillraven.quillysadventure.ecs.component.typeCmp
+import com.github.quillraven.quillysadventure.ecs.component.*
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import ktx.log.logger
 import ktx.tiled.*
@@ -82,7 +79,16 @@ class MapManager(
 
     private fun movePlayerToStartLocation(map: Map) {
         playerEntities.forEach { player ->
-            player.physicCmp.body.setTransform(map.startLocation, 0f)
+            player.physicCmp.body.run {
+                setTransform(map.startLocation, 0f)
+                // also update transform component here as well because
+                // otherwise the out of bounds system might trigger and sets the player
+                // to a different location
+                player.transfCmp.let { transform ->
+                    transform.position.x = this.position.x - transform.size.x * 0.5f
+                    transform.position.y = this.position.y - transform.size.y * 0.5f
+                }
+            }
         }
     }
 

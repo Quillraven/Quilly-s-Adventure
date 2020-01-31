@@ -1,19 +1,19 @@
 
 UI.png
-size: 2048,512
+size: 2048,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 attack
   rotate: false
-  xy: 1076, 92
+  xy: 515, 53
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 bar
   rotate: false
-  xy: 824, 226
+  xy: 1338, 740
   size: 569, 83
   split: 24, 23, 24, 27
   orig: 569, 83
@@ -21,119 +21,133 @@ bar
   index: -1
 bar_green
   rotate: false
-  xy: 824, 184
+  xy: 1661, 981
   size: 329, 40
   orig: 329, 40
   offset: 0, 0
   index: -1
 btn_chk
   rotate: false
-  xy: 1461, 207
+  xy: 1783, 877
   size: 57, 62
   orig: 57, 62
   offset: 0, 0
   index: -1
 btn_close
   rotate: false
-  xy: 1783, 269
+  xy: 515, 145
   size: 93, 135
   orig: 93, 135
   offset: 0, 0
   index: -1
 btn_rect_down
   rotate: false
-  xy: 878, 2
+  xy: 1837, 825
   size: 52, 50
   orig: 52, 50
   offset: 0, 0
   index: -1
 btn_rect_up
   rotate: false
-  xy: 824, 2
+  xy: 1783, 825
   size: 52, 50
   orig: 52, 50
   offset: 0, 0
   index: -1
 btn_round_down
   rotate: false
-  xy: 1661, 284
+  xy: 1358, 618
   size: 120, 120
   orig: 120, 120
   offset: 0, 0
   index: -1
 btn_round_up
   rotate: false
-  xy: 954, 62
+  xy: 1661, 859
   size: 120, 120
   orig: 120, 120
   offset: 0, 0
   index: -1
 btn_unchk
   rotate: false
-  xy: 1520, 207
+  xy: 1548, 662
   size: 57, 62
   orig: 57, 62
   offset: 0, 0
   index: -1
 can_attack_indicator
   rotate: false
-  xy: 2027, 495
+  xy: 1992, 1009
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
 dialog_light
   rotate: false
-  xy: 1, 1
+  xy: 1, 515
   size: 821, 506
   orig: 821, 506
   offset: 0, 0
   index: -1
 dialog_title
   rotate: false
-  xy: 824, 311
+  xy: 824, 825
   size: 835, 196
   orig: 835, 196
   offset: 0, 0
   index: -1
+font24
+  rotate: false
+  xy: 1, 1
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+font32
+  rotate: false
+  xy: 824, 311
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 healthbars_background
   rotate: false
-  xy: 1395, 279
+  xy: 1783, 949
   size: 192, 30
   orig: 192, 30
   offset: 0, 0
   index: -1
 jump
   rotate: false
-  xy: 1168, 120
+  xy: 1358, 526
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 knob
   rotate: false
-  xy: 1898, 348
+  xy: 1842, 883
   size: 51, 56
   orig: 51, 56
   offset: 0, 0
   index: -1
 lifebar
   rotate: false
-  xy: 1155, 212
+  xy: 1480, 726
   size: 174, 12
   orig: 174, 12
   offset: 0, 0
   index: -1
 manabar
   rotate: false
-  xy: 1395, 271
+  xy: 1783, 941
   size: 168, 6
   orig: 168, 6
   offset: 0, 0
   index: -1
 menu_bgd
   rotate: false
-  xy: 1898, 314
+  xy: 1661, 825
   size: 32, 32
   split: 10, 11, 10, 11
   pad: 0, 0, 0, 0
@@ -142,49 +156,49 @@ menu_bgd
   index: -1
 player
   rotate: false
-  xy: 1395, 205
+  xy: 1358, 460
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 scroll_knob
   rotate: false
-  xy: 1589, 291
+  xy: 789, 495
   size: 17, 18
   orig: 17, 18
   offset: 0, 0
   index: -1
 scroll_vertical
   rotate: false
-  xy: 1878, 75
+  xy: 1338, 409
   size: 18, 329
   orig: 18, 329
   offset: 0, 0
   index: -1
 skill
   rotate: false
-  xy: 1935, 417
+  xy: 645, 320
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: 0
 skull
   rotate: false
-  xy: 1661, 406
+  xy: 515, 412
   size: 272, 101
   orig: 272, 101
   offset: 0, 0
   index: -1
 touchpad
   rotate: false
-  xy: 824, 54
+  xy: 515, 282
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 triangle
   rotate: false
-  xy: 1260, 125
+  xy: 1480, 639
   size: 66, 85
   orig: 66, 85
   offset: 0, 0

@@ -12,6 +12,7 @@ import com.github.quillraven.quillysadventure.ability.Ability
 import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
+import com.github.quillraven.quillysadventure.ecs.component.statsCmp
 import com.github.quillraven.quillysadventure.ecs.system.RenderSystem
 import com.github.quillraven.quillysadventure.event.GameEventListener
 import com.github.quillraven.quillysadventure.event.GameEventManager
@@ -53,6 +54,16 @@ class GameScreen(
         mapManager.setMap(MapType.MAP1)
         // screen needs to be an event listener to switch to game over screen when player dies
         gameEventManager.addGameEventListener(this)
+
+        // set player hud info (life, mana, attack ready, etc.)
+        engine.entities.forEach {
+            val playerCmp = it[PlayerComponent.mapper]
+            if (playerCmp != null) {
+                with(it.statsCmp) {
+                    hud.infoWidget.resetHudValues(this.life / this.maxLife, this.mana / this.maxMana)
+                }
+            }
+        }
     }
 
     override fun hide() {

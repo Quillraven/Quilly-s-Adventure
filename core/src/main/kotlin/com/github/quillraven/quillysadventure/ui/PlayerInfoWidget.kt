@@ -1,5 +1,6 @@
 package com.github.quillraven.quillysadventure.ui
 
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
@@ -30,17 +31,17 @@ class PlayerInfoWidget(
         imageManaBar.setPosition(barOffsetX + 6f, barOffsetY + 6f)
     }
 
-    fun scaleLifeBarTo(percentage: Float) {
+    fun scaleLifeBarTo(percentage: Float, scaleDuration: Float = 1f) {
         imageLifeBar.run {
             clearActions()
-            addAction(scaleToRegionWidth(percentage, 1f))
+            addAction(scaleToRegionWidth(MathUtils.clamp(percentage, 0f, 1f), scaleDuration))
         }
     }
 
-    fun scaleManaBarTo(percentage: Float) {
+    fun scaleManaBarTo(percentage: Float, scaleDuration: Float = 1f) {
         imageManaBar.run {
             clearActions()
-            addAction(scaleToRegionWidth(percentage, 1f))
+            addAction(scaleToRegionWidth(MathUtils.clamp(percentage, 0f, 1f), scaleDuration))
         }
     }
 
@@ -65,8 +66,16 @@ class PlayerInfoWidget(
         }
     }
 
-    override fun getPrefHeight(): Float = 100f
+    fun resetHudValues(lifePercentage: Float, manaPercentage: Float) {
+        scaleLifeBarTo(lifePercentage, 0f)
+        scaleManaBarTo(manaPercentage, 0f)
+        imageAttackIndicator.run {
+            clearActions()
+            this.color.a = 1f
+        }
+    }
 
+    override fun getPrefHeight(): Float = 100f
     override fun getPrefWidth(): Float = 200f
 }
 

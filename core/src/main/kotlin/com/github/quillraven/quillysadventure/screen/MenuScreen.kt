@@ -3,9 +3,13 @@ package com.github.quillraven.quillysadventure.screen
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -24,6 +28,7 @@ import ktx.actors.*
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get
+import java.util.*
 
 class MenuScreen(
     private val game: KtxGame<KtxScreen>,
@@ -34,10 +39,11 @@ class MenuScreen(
     private val rayHandler: RayHandler,
     private val gameViewport: Viewport,
     private val stage: Stage,
-    bundle: I18NBundle
+    private val bundle: I18NBundle
 ) : KtxScreen {
     private var lastSoundVolume = audioService.soundVolume
     private var lastMusicVolume = audioService.musicVolume
+    private lateinit var bannerTexture: Texture
 
     private val hud: MenuHUD = MenuHUD(bundle).apply {
         newGameLabel.onClick { game.setScreen<GameScreen>() }
@@ -81,17 +87,27 @@ class MenuScreen(
     private val tmpEntities = Array<Entity>(2)
 
     override fun show() {
+        if (bundle.locale == Locale.GERMAN) {
+            bannerTexture = Texture(Gdx.files.internal("ui/banner_de.png"))
+        } else {
+            bannerTexture = Texture(Gdx.files.internal("ui/banner_en.png"))
+        }
+        val banner = Image(bannerTexture).apply {
+            setPosition(30f, 820f)
+            this += delay(1.5f) + moveBy(0f, -310f, 2f, Interpolation.bounceOut)
+        }
         mapManager.setMap(MapType.MAIN_MENU)
         stage.addActor(hud)
         stage.addActor(hud.creditsTable)
+        stage.addActor(banner)
 
         // position UI elements
-        hud.centerPosition(width = hud.width + 50f)
-        hud.creditsTable.centerPosition(stage.width * 1.15f)
+        hud.centerPosition(hud.width + 50f, stage.height * 0.95f)
+        hud.creditsTable.centerPosition(stage.width * 1.15f, stage.height * 0.95f)
 
         // "fade in" menu hud
         hud.clearActions()
-        hud += moveBy(-200f, 0f) + moveBy(200f, 0f, 2f, Interpolation.bounceOut)
+        hud += moveBy(-400f, 0f) + moveBy(400f, 0f, 2f, Interpolation.bounceOut)
         // and update volume information
         hud.updateSoundVolume(audioService.soundVolume)
         hud.updateMusicVolume(audioService.musicVolume)
@@ -113,6 +129,7 @@ class MenuScreen(
             it[AnimationComponent.mapper]?.animationSpeed = 1f
         }
         gameEventManager.enablePlayerInput()
+        bannerTexture.dispose()
     }
 
     override fun resize(width: Int, height: Int) {
