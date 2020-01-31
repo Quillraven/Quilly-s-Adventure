@@ -10,15 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.I18NBundle
 import ktx.actors.alpha
-import ktx.actors.onChange
 import ktx.actors.onClick
 import ktx.actors.plusAssign
+import ktx.actors.txt
 import ktx.scene2d.KTable
 import ktx.scene2d.Scene2DSkin
 import ktx.scene2d.label
+import kotlin.math.roundToInt
 
 class MenuHUD(
-    bundle: I18NBundle,
+    private val bundle: I18NBundle,
     skin: Skin = Scene2DSkin.defaultSkin
 ) : Table(skin), KTable {
     val newGameLabel: Label
@@ -43,6 +44,8 @@ class MenuHUD(
         this.pack()
         this.alpha = 0f
     }
+    val musicWidget: AudioVolumeWidget
+    val soundWidget: AudioVolumeWidget
 
     init {
         background = skin[Images.MENU_BACKGROUND]
@@ -56,13 +59,8 @@ class MenuHUD(
             setAlignment(Align.center)
             cell.fillX().row()
         }
-        audioVolumeWidget(bundle["music"]) { cell ->
-            checkBox.onChange { println("${checkBox.isChecked}") }
-            audioReduceButton.onClick { println("reduce") }
-            audioIncreaseButton.onClick { println("increase") }
-            cell.fillX().padLeft(0f).row()
-        }
-        audioVolumeWidget(bundle["sound"]) { cell -> cell.fillX().padLeft(0f).row() }
+        musicWidget = audioVolumeWidget(bundle["music"]) { cell -> cell.fillX().padLeft(25f).row() }
+        soundWidget = audioVolumeWidget(bundle["sound"]) { cell -> cell.fillX().padLeft(25f).row() }
         label(bundle["credits"], LabelStyles.LARGE.name) { cell ->
             setAlignment(Align.center)
             cell.fillX().row()
@@ -80,5 +78,13 @@ class MenuHUD(
         }.onClick { Gdx.app.exit() }
         pack()
         left()
+    }
+
+    fun updateSoundVolume(value: Float) {
+        soundWidget.label.txt = "${bundle["sound"]}@${(value * 100).roundToInt()}"
+    }
+
+    fun updateMusicVolume(value: Float) {
+        musicWidget.label.txt = "${bundle["music"]}@${(value * 100).roundToInt()}"
     }
 }

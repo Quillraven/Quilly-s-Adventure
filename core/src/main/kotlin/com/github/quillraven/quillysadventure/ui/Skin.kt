@@ -115,7 +115,6 @@ fun createSkin(assets: AssetManager): Skin {
         scrollPane {
             vScrollKnob = skin[Images.SCROLL_KNOB]
             vScroll = skin[Images.VSCROLL]
-            // background = skin[Images.MENU_BACKGROUND]
         }
     }
 

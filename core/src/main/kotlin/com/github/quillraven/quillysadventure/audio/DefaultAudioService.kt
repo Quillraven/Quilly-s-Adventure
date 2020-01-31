@@ -3,6 +3,7 @@ package com.github.quillraven.quillysadventure.audio
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.ObjectMap
 import com.github.quillraven.quillysadventure.assets.MusicAssets
 import com.github.quillraven.quillysadventure.assets.SoundAssets
@@ -14,8 +15,16 @@ import java.util.*
 
 class DefaultAudioService(private val assets: AssetManager, gameEventManager: GameEventManager) : AudioService {
     private var music: Music? = null
-    private var musicVolume = 1f
-    private var soundVolume = 1f
+    private var musicType = MusicAssets.MENU
+    override var musicVolume = 1f
+        set(value) {
+            field = MathUtils.clamp(value, 0f, 1f)
+            music?.volume = field * musicType.volumeScale
+        }
+    override var soundVolume = 1f
+        set(value) {
+            field = MathUtils.clamp(value, 0f, 1f)
+        }
     private val soundCache = EnumMap<SoundAssets, Sound>(SoundAssets::class.java)
     private val musicCache = EnumMap<MusicAssets, Music>(MusicAssets::class.java)
     private val soundQueue = ObjectMap<SoundAssets, Sound>(8)
@@ -28,6 +37,7 @@ class DefaultAudioService(private val assets: AssetManager, gameEventManager: Ga
         // stop current music
         music?.stop()
         // play new music
+        musicType = type
         music = musicCache.computeIfAbsent(type) { assets[type] }.apply {
             volume = (musicVolume * type.volumeScale)
             isLooping = loop

@@ -70,7 +70,7 @@ class Main(
     private val profiler by lazy { GLProfiler(Gdx.graphics).apply { enable() } }
     val audioService by lazy {
         if (disableAudio) {
-            NullAudioService()
+            NullAudioService
         } else {
             DefaultAudioService(ctx.inject(), gameEventManager)
         }
