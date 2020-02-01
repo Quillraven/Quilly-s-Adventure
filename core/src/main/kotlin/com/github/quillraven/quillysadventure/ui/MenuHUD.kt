@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.I18NBundle
+import com.github.quillraven.quillysadventure.ui.widget.AudioVolumeWidget
+import com.github.quillraven.quillysadventure.ui.widget.audioVolumeWidget
 import ktx.actors.alpha
 import ktx.actors.onClick
 import ktx.actors.plusAssign

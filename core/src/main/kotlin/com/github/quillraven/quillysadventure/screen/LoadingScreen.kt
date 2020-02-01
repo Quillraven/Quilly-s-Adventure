@@ -11,6 +11,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.github.quillraven.quillysadventure.ShaderPrograms
 import com.github.quillraven.quillysadventure.assets.*
@@ -24,12 +27,18 @@ import com.github.quillraven.quillysadventure.ecs.system.*
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.itemConfigurations
 import com.github.quillraven.quillysadventure.map.MapManager
+import com.github.quillraven.quillysadventure.ui.LabelStyles
+import com.github.quillraven.quillysadventure.ui.widget.LoadingBarWidget
+import ktx.actors.centerPosition
+import ktx.actors.plusAssign
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.allOf
+import ktx.scene2d.Scene2DSkin
 
 class LoadingScreen(
     private val game: KtxGame<KtxScreen>,
+    private val bundle: I18NBundle,
     private val stage: Stage,
     private val assets: AssetManager,
     private val gameEventManager: GameEventManager,
@@ -42,6 +51,13 @@ class LoadingScreen(
     private val mapRenderer: OrthogonalTiledMapRenderer,
     private val box2DDebugRenderer: Box2DDebugRenderer
 ) : KtxScreen {
+    private var loaded = false
+    private val loadingBar = LoadingBarWidget(bundle)
+    private val touchToBeginInfo =
+        Label(bundle["touchToBeginInfo"], Scene2DSkin.defaultSkin, LabelStyles.LARGE.name).apply {
+            setWrap(true)
+        }
+
     override fun show() {
         // queue all assets that should be loaded
         MusicAssets.values().forEach { assets.load(it) }
@@ -51,7 +67,19 @@ class LoadingScreen(
         val particleParam = ParticleEffectLoader.ParticleEffectParameter()
         particleParam.atlasFile = TextureAtlasAssets.GAME_OBJECTS.filePath
         ParticleAssets.values().forEach { assets.load(it, particleParam) }
-        assets.load(I18nAssets.DEFAULT)
+
+        stage.clear()
+        stage.addActor(loadingBar)
+        stage.addActor(touchToBeginInfo)
+        loadingBar.centerPosition(stage.width * 0.5f, stage.height * 0.15f)
+        with(touchToBeginInfo) {
+            color.a = 0f
+            centerPosition()
+        }
+    }
+
+    override fun hide() {
+        stage.clear()
     }
 
     override fun resize(width: Int, height: Int) {
@@ -59,10 +87,18 @@ class LoadingScreen(
     }
 
     override fun render(delta: Float) {
-        if (assets.update()) {
+        assets.update()
+        if (!loaded) {
+            loadingBar.scaleTo(assets.progress)
+        }
+
+        if (assets.progress >= 1f && !loaded) {
+            loaded = true
+
+            touchToBeginInfo += forever(sequence(fadeIn(1f), fadeOut(1f)))
+
             val gameViewport = FitViewport(16f, 9f)
             val charCfgs = Gdx.app.characterConfigurations
-            val bundle = assets[I18nAssets.DEFAULT]
             // create map manager that is used for main menu and game
             val mapManager = MapManager(
                 assets,
@@ -144,6 +180,9 @@ class LoadingScreen(
                 )
             )
             game.addScreen(EndScreen(game))
+        }
+
+        if (loaded && Gdx.input.isTouched) {
             // go to the menu screen once everything is loaded
             game.setScreen<MenuScreen>()
             // cleanup loading screen stuff

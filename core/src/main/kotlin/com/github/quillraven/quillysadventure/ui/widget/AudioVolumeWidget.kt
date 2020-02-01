@@ -1,9 +1,10 @@
-package com.github.quillraven.quillysadventure.ui
+package com.github.quillraven.quillysadventure.ui.widget
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.Align
+import com.github.quillraven.quillysadventure.ui.LabelStyles
 import ktx.scene2d.*
 
 class AudioVolumeWidget(text: String, skin: Skin) : Table(skin), KTable {

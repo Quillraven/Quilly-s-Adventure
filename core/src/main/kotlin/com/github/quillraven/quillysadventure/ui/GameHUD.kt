@@ -4,6 +4,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
+import com.github.quillraven.quillysadventure.ui.widget.MapInfoWidget
+import com.github.quillraven.quillysadventure.ui.widget.PlayerInfoWidget
+import com.github.quillraven.quillysadventure.ui.widget.mapInfoWidget
+import com.github.quillraven.quillysadventure.ui.widget.playerInfoWidget
 import ktx.actors.onChangeEvent
 import ktx.actors.onTouchEvent
 import ktx.scene2d.*

@@ -18,6 +18,8 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.github.quillraven.quillysadventure.assets.I18nAssets
+import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.audio.DefaultAudioService
 import com.github.quillraven.quillysadventure.audio.NullAudioService
 import com.github.quillraven.quillysadventure.configuration.CharacterConfigurations
@@ -116,6 +118,7 @@ class Main(
         addScreen(
             LoadingScreen(
                 this, // game instance to switch screens
+                ctx.inject<AssetManager>()[I18nAssets.DEFAULT],
                 ctx.inject(), // stage
                 ctx.inject(), // assets
                 gameEventManager, // game event manager

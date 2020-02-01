@@ -1,4 +1,4 @@
-package com.github.quillraven.quillysadventure.ui
+package com.github.quillraven.quillysadventure.ui.widget
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -6,6 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup
 import com.badlogic.gdx.utils.Align
+import com.github.quillraven.quillysadventure.ui.Images
+import com.github.quillraven.quillysadventure.ui.LabelStyles
+import com.github.quillraven.quillysadventure.ui.get
 import ktx.actors.plus
 import ktx.actors.plusAssign
 import ktx.actors.txt

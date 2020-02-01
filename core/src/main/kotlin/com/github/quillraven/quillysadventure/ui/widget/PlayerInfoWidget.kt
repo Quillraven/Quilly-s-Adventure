@@ -1,11 +1,13 @@
-package com.github.quillraven.quillysadventure.ui
+package com.github.quillraven.quillysadventure.ui.widget
 
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup
+import com.github.quillraven.quillysadventure.ui.Images
 import com.github.quillraven.quillysadventure.ui.action.scaleToRegionWidth
+import com.github.quillraven.quillysadventure.ui.get
 import ktx.scene2d.KGroup
 import ktx.scene2d.KWidget
 import ktx.scene2d.Scene2DSkin

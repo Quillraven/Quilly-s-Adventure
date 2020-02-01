@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
+import com.github.quillraven.quillysadventure.assets.I18nAssets
 import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
 import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.assets.load
@@ -35,7 +36,10 @@ enum class Images(val imageName: String) {
     DIALOG_TITLE("dialog_title"),
     VSCROLL("scroll_vertical"),
     SCROLL_KNOB("scroll_knob"),
-    MENU_BACKGROUND("menu_bgd")
+    MENU_BACKGROUND("menu_bgd"),
+    BAR_BACKGROUND("bar"),
+    BAR_GREEN("bar_green"),
+    BAR_KNOB("bar_knob")
 }
 
 enum class ImageButtonStyles {
@@ -59,6 +63,7 @@ private fun getBitmapFont(fntName: String, atlas: TextureAtlas) =
 fun createSkin(assets: AssetManager): Skin {
     // load textures for skin
     assets.load(TextureAtlasAssets.UI)
+    assets.load(I18nAssets.DEFAULT)
     assets.finishLoading()
 
     Scene2DSkin.defaultSkin = skin(assets[TextureAtlasAssets.UI]) { skin ->
@@ -73,18 +78,21 @@ fun createSkin(assets: AssetManager): Skin {
             font = skin.getFont(FontType.LARGE.skinKey)
             background = skin[Images.DIALOG_TITLE]
         }
+
         // default textButton style
         textButton {
             down = skin[Images.BUTTON_RECT_DOWN]
             up = skin[Images.BUTTON_RECT_UP]
             font = skin.getFont(FontType.DEFAULT.skinKey)
         }
+
         // checkbox
         checkBox {
             checkboxOn = skin[Images.BUTTON_CHECK]
             checkboxOff = skin[Images.BUTTON_UNCHECK]
             font = skin.getFont(FontType.DEFAULT.skinKey)
         }
+
         // image button
         imageButton(ImageButtonStyles.ATTACK.name) {
             down = skin[Images.BUTTON_ROUND_DOWN]
@@ -104,11 +112,13 @@ fun createSkin(assets: AssetManager): Skin {
             imageUp = skin[Images.IMAGE_FIREBALL]
             imageDown = imageUp
         }
+
         // default touchpad style
         touchpad {
             knob = skin[Images.KNOB]
             background = skin[Images.TOUCHPAD]
         }
+
         // default scroll pane
         scrollPane {
             vScrollKnob = skin[Images.SCROLL_KNOB]
