@@ -23,9 +23,15 @@ import com.github.quillraven.quillysadventure.map.MapChangeListener
 import com.github.quillraven.quillysadventure.map.MapManager
 import com.github.quillraven.quillysadventure.map.MapType
 import com.github.quillraven.quillysadventure.ui.GameHUD
+import com.github.quillraven.quillysadventure.ui.widget.DialogWidget
+import ktx.actors.centerPosition
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get
+import ktx.log.logger
+import java.util.*
+
+private val LOG = logger<GameScreen>()
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
@@ -39,12 +45,16 @@ class GameScreen(
     private val stage: Stage
 ) : KtxScreen, InputListener, GameEventListener, MapChangeListener {
     private val hud = GameHUD(gameEventManager)
+    private val dialog = DialogWidget()
     private var gameOver = false
 
     override fun show() {
         gameOver = false
 
+        // setup game UI
         stage.addActor(hud)
+        stage.addActor(dialog)
+        dialog.centerPosition()
 
         // add game screen as input listener to react when the player wants to quit the game (=exit key pressed)
         gameEventManager.addInputListener(this)
@@ -61,6 +71,10 @@ class GameScreen(
             if (playerCmp != null) {
                 with(it.statsCmp) {
                     hud.infoWidget.resetHudValues(this.life / this.maxLife, this.mana / this.maxMana)
+                }
+                if (playerCmp.tutorialProgress == 0) {
+                    playerCmp.tutorialProgress++
+                    showTutorialInfo(0, 2f)
                 }
             }
         }
@@ -100,6 +114,7 @@ class GameScreen(
         engine.update(delta)
         // update audio manager to play any queued sound effects
         audioService.update()
+
         // render UI
         stage.viewport.apply()
         stage.act()
@@ -151,8 +166,13 @@ class GameScreen(
     }
 
     override fun characterAttack(character: Entity) {
-        if (character[PlayerComponent.mapper] != null) {
+        val playerCmp = character[PlayerComponent.mapper]
+        if (playerCmp != null) {
             hud.infoWidget.disableAttackIndicator()
+            if (playerCmp.tutorialProgress == 1) {
+                ++playerCmp.tutorialProgress
+                showTutorialInfo(1)
+            }
         }
     }
 
@@ -165,5 +185,13 @@ class GameScreen(
 
     override fun mapChange(newMap: Map) {
         hud.mapInfoWidget.show(bundle["map.name.${newMap.type}"])
+    }
+
+    private fun showTutorialInfo(tutorialNumber: Int, popupDelay: Float = 0f) {
+        try {
+            dialog.showDialog(bundle["tutorial.$tutorialNumber"], popupDelay)
+        } catch (e: MissingResourceException) {
+            LOG.error(e) { "Missing tutorial text for index $tutorialNumber" }
+        }
     }
 }
