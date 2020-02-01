@@ -15,7 +15,13 @@ import com.badlogic.gdx.utils.FloatArray
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.quillysadventure.ShaderPrograms
 import com.github.quillraven.quillysadventure.ShaderType
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.ParticleComponent
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.RenderComponent
+import com.github.quillraven.quillysadventure.ecs.component.TransformComponent
+import com.github.quillraven.quillysadventure.ecs.component.particleCmp
+import com.github.quillraven.quillysadventure.ecs.component.renderCmp
+import com.github.quillraven.quillysadventure.ecs.component.transfCmp
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.Map
 import com.github.quillraven.quillysadventure.map.MapChangeListener

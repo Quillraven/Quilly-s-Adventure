@@ -11,6 +11,7 @@ object Versions {
     const val jvm = "1.8"
     const val kotlin = "1.3.61"
     const val androidGradlePlugin = "3.5.3"
+    const val detekt = "1.5.0"
 }
 
 object Apps {

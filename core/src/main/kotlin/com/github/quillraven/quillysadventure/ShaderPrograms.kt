@@ -14,14 +14,14 @@ enum class ShaderType(val vertexName: String = "default", val fragmentName: Stri
 
 class ShaderPrograms : Disposable {
     private val defaultShader = loadShader(ShaderType.DEFAULT)
-    private val shaderPrograms = EnumMap<ShaderType, ShaderProgram>(ShaderType::class.java)
+    private val shaderMap = EnumMap<ShaderType, ShaderProgram>(ShaderType::class.java)
 
     init {
         ShaderType.values().forEach {
             if (it == ShaderType.DEFAULT) {
-                shaderPrograms[ShaderType.DEFAULT] = defaultShader
+                shaderMap[ShaderType.DEFAULT] = defaultShader
             } else {
-                shaderPrograms[it] = loadShader(it)
+                shaderMap[it] = loadShader(it)
             }
         }
     }
@@ -38,9 +38,9 @@ class ShaderPrograms : Disposable {
         }
     }
 
-    operator fun get(type: ShaderType): ShaderProgram = shaderPrograms[type] ?: defaultShader
+    operator fun get(type: ShaderType): ShaderProgram = shaderMap[type] ?: defaultShader
 
     override fun dispose() {
-        shaderPrograms.values.forEach { it.dispose() }
+        shaderMap.values.forEach { it.dispose() }
     }
 }

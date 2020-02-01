@@ -7,7 +7,17 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.StringBuilder
 import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.audio.AudioService
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.CollisionComponent
+import com.github.quillraven.quillysadventure.ecs.component.EntityType
+import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.collCmp
+import com.github.quillraven.quillysadventure.ecs.component.heal
+import com.github.quillraven.quillysadventure.ecs.component.physicCmp
+import com.github.quillraven.quillysadventure.ecs.component.portalCmp
+import com.github.quillraven.quillysadventure.ecs.component.statsCmp
+import com.github.quillraven.quillysadventure.ecs.component.transfCmp
+import com.github.quillraven.quillysadventure.ecs.component.typeCmp
 import com.github.quillraven.quillysadventure.ecs.findPortal
 import com.github.quillraven.quillysadventure.ecs.floatingText
 import com.github.quillraven.quillysadventure.ecs.isRemoved
@@ -16,6 +26,7 @@ import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.Map
 import com.github.quillraven.quillysadventure.map.MapChangeListener
 import com.github.quillraven.quillysadventure.map.MapManager
+import com.github.quillraven.quillysadventure.ui.FontType
 import ktx.ashley.allOf
 import ktx.collections.iterate
 import ktx.log.logger

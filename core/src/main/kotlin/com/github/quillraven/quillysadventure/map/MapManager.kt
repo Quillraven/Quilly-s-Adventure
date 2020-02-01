@@ -13,11 +13,26 @@ import com.github.quillraven.quillysadventure.configuration.Character
 import com.github.quillraven.quillysadventure.configuration.CharacterConfigurations
 import com.github.quillraven.quillysadventure.configuration.Item
 import com.github.quillraven.quillysadventure.configuration.ItemConfigurations
-import com.github.quillraven.quillysadventure.ecs.*
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.character
+import com.github.quillraven.quillysadventure.ecs.component.EntityType
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.physicCmp
+import com.github.quillraven.quillysadventure.ecs.component.transfCmp
+import com.github.quillraven.quillysadventure.ecs.component.typeCmp
+import com.github.quillraven.quillysadventure.ecs.globalLight
+import com.github.quillraven.quillysadventure.ecs.item
+import com.github.quillraven.quillysadventure.ecs.portal
+import com.github.quillraven.quillysadventure.ecs.portalTarget
+import com.github.quillraven.quillysadventure.ecs.scenery
+import com.github.quillraven.quillysadventure.ecs.trigger
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import ktx.log.logger
-import ktx.tiled.*
+import ktx.tiled.id
+import ktx.tiled.property
+import ktx.tiled.shape
+import ktx.tiled.type
+import ktx.tiled.x
+import ktx.tiled.y
 import java.util.*
 
 private val LOG = logger<MapManager>()
@@ -112,7 +127,11 @@ class MapManager(
                     mapObj.y * UNIT_SCALE
                 )
             } catch (e: IllegalArgumentException) {
-                LOG.error(e) { "Invalid name specified for object with ID ${mapObj.id} for map ${map.type} in layer $layer" }
+                LOG.error(e) {
+                    "Invalid name specified for object " +
+                            "with ID ${mapObj.id} for map ${map.type} " +
+                            "in layer $layer"
+                }
             }
         }
     }
@@ -134,7 +153,11 @@ class MapManager(
                     mapObj.y * UNIT_SCALE
                 )
             } catch (e: IllegalArgumentException) {
-                LOG.error(e) { "Invalid name specified for object with ID ${mapObj.id} for map ${map.type} in layer $LAYER_ITEM" }
+                LOG.error(e) {
+                    "Invalid name specified for object " +
+                            "with ID ${mapObj.id} for map ${map.type} " +
+                            "in layer $LAYER_ITEM"
+                }
             }
         }
     }
@@ -149,12 +172,20 @@ class MapManager(
                     val targetMap = MapType.valueOf(mapObj.property(PROPERTY_TARGET_MAP, ""))
                     val targetPortal = mapObj.property(PROPERTY_TARGET_PORTAL_ID, -1)
                     if (targetPortal == -1) {
-                        LOG.error { "Target portal ID not specified for object with ID ${mapObj.id} for map ${map.type}" }
+                        LOG.error {
+                            "Target portal ID not specified " +
+                                    "for object with ID ${mapObj.id} " +
+                                    "for map ${map.type}"
+                        }
                         return@forEachMapObject
                     }
                     val targetOffsetX = mapObj.property(PROPERTY_TARGET_OFFSET_X, 0)
                     if (targetOffsetX == 0 && map.type != targetMap) {
-                        LOG.error { "Target offset X not specified for object with ID ${mapObj.id} for map ${map.type}" }
+                        LOG.error {
+                            "Target offset X not specified " +
+                                    "for object with ID ${mapObj.id} " +
+                                    "for map ${map.type}"
+                        }
                         return@forEachMapObject
                     }
 
@@ -174,7 +205,11 @@ class MapManager(
                 if (!mapObj.properties.containsKey(PROPERTY_TARGET_MAP)) {
                     LOG.error { "Missing target map property for object with ID ${mapObj.id} for map ${map.type}" }
                 } else {
-                    LOG.error(e) { "Invalid map property specified for object with ID ${mapObj.id} for map ${map.type}" }
+                    LOG.error(e) {
+                        "Invalid map property specified " +
+                                "for object with ID ${mapObj.id} " +
+                                "for map ${map.type}"
+                    }
                 }
             }
         }
@@ -205,10 +240,19 @@ class MapManager(
         map.forEachMapObject(LAYER_TRIGGER) { mapObj ->
             val triggerSetupFunction = mapObj.name
             if (triggerSetupFunction.isBlank()) {
-                LOG.error { "There is no trigger setup function defined for trigger ${mapObj.id} in map ${map.type}" }
+                LOG.error {
+                    "There is no trigger setup function defined " +
+                            "for trigger ${mapObj.id} " +
+                            "in map ${map.type}"
+                }
                 return@forEachMapObject
             } else if (!triggerSetupFunction.contains('.')) {
-                LOG.error { "Wrong trigger setup function definition for trigger ${mapObj.id} in map ${map.type}. Format is FILENAME.METHOD" }
+                LOG.error {
+                    "Wrong trigger setup function definition " +
+                            "for trigger ${mapObj.id} " +
+                            "in map ${map.type}. " +
+                            "Format is FILENAME.METHOD"
+                }
                 return@forEachMapObject
             }
 

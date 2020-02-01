@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Pool
 import com.badlogic.gdx.utils.StringBuilder
-import com.github.quillraven.quillysadventure.ecs.system.FontType
+import com.github.quillraven.quillysadventure.ui.FontType
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 import ktx.math.vec2

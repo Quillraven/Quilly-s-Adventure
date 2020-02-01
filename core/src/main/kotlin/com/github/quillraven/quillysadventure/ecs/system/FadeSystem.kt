@@ -3,7 +3,11 @@ package com.github.quillraven.quillysadventure.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.MathUtils
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.FadeInComponent
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.RenderComponent
+import com.github.quillraven.quillysadventure.ecs.component.fadeinCmp
+import com.github.quillraven.quillysadventure.ecs.component.renderCmp
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import kotlin.math.min

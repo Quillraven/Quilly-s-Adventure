@@ -24,7 +24,11 @@ import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.MapManager
 import com.github.quillraven.quillysadventure.map.MapType
 import com.github.quillraven.quillysadventure.ui.MenuHUD
-import ktx.actors.*
+import ktx.actors.centerPosition
+import ktx.actors.onClick
+import ktx.actors.onClickEvent
+import ktx.actors.plus
+import ktx.actors.plusAssign
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get

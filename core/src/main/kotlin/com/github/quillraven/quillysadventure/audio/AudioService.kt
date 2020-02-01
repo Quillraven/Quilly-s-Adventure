@@ -6,7 +6,6 @@ import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.map.Map
 import com.github.quillraven.quillysadventure.map.MapChangeListener
 
-
 interface AudioService : MapChangeListener {
     var soundVolume: Float
     var musicVolume: Float
@@ -26,36 +25,27 @@ object NullAudioService : AudioService {
 
         override fun isLooping() = false
 
-        override fun setOnCompletionListener(listener: Music.OnCompletionListener?) {
-        }
+        override fun setOnCompletionListener(listener: Music.OnCompletionListener?) = Unit
 
-        override fun pause() {
-        }
+        override fun pause() = Unit
 
-        override fun setPan(pan: Float, volume: Float) {
-        }
+        override fun setPan(pan: Float, volume: Float) = Unit
 
         override fun getPosition() = 0f
 
-        override fun setLooping(isLooping: Boolean) {
-        }
+        override fun setLooping(isLooping: Boolean) = Unit
 
         override fun getVolume() = 0f
 
-        override fun play() {
-        }
+        override fun play() = Unit
 
-        override fun stop() {
-        }
+        override fun stop() = Unit
 
-        override fun setVolume(volume: Float) {
-        }
+        override fun setVolume(volume: Float) = Unit
 
-        override fun setPosition(position: Float) {
-        }
+        override fun setPosition(position: Float) = Unit
 
-        override fun dispose() {
-        }
+        override fun dispose() = Unit
     }
 
     override fun play(type: MusicAssets, loop: Boolean, completeListener: Music.OnCompletionListener?) =

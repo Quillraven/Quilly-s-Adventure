@@ -1,6 +1,9 @@
 package com.github.quillraven.quillysadventure.ui.widget
 
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin

@@ -7,7 +7,14 @@ import com.github.quillraven.quillysadventure.assets.MapAssets
 import com.github.quillraven.quillysadventure.assets.MusicAssets
 import ktx.log.logger
 import ktx.math.vec2
-import ktx.tiled.*
+import ktx.tiled.containsProperty
+import ktx.tiled.forEachMapObject
+import ktx.tiled.layer
+import ktx.tiled.property
+import ktx.tiled.totalHeight
+import ktx.tiled.totalWidth
+import ktx.tiled.x
+import ktx.tiled.y
 
 private val LOG = logger<Map>()
 
@@ -53,7 +60,10 @@ class Map(val type: MapType, val tiledMap: TiledMap) {
         // like e.g. MapManager.changeMap or OutOfBoundsSystem
         val mapObjects = tiledMap.layer(LAYER_PLAYER_SPAWN_LOCATION).objects
         if (mapObjects.count != 1) {
-            LOG.error { "There is not exactly one player start location defined for map $type. Amount: ${mapObjects.count}" }
+            LOG.error {
+                "There is not exactly one player start location " +
+                        "defined for map $type. Amount: ${mapObjects.count}"
+            }
         } else {
             with(mapObjects.first()) { startLocation.set(x * UNIT_SCALE, y * UNIT_SCALE) }
         }

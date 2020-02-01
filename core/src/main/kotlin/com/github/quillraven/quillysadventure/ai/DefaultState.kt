@@ -4,7 +4,16 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.fsm.State
 import com.badlogic.gdx.ai.msg.Telegram
 import com.badlogic.gdx.graphics.g2d.Animation
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.AnimationType
+import com.github.quillraven.quillysadventure.ecs.component.AttackOrder
+import com.github.quillraven.quillysadventure.ecs.component.JumpOrder
+import com.github.quillraven.quillysadventure.ecs.component.MoveOrder
+import com.github.quillraven.quillysadventure.ecs.component.aniCmp
+import com.github.quillraven.quillysadventure.ecs.component.attackCmp
+import com.github.quillraven.quillysadventure.ecs.component.jumpCmp
+import com.github.quillraven.quillysadventure.ecs.component.moveCmp
+import com.github.quillraven.quillysadventure.ecs.component.stateCmp
+import com.github.quillraven.quillysadventure.ecs.component.statsCmp
 
 interface EntityState : State<Entity> {
     val aniType: AnimationType

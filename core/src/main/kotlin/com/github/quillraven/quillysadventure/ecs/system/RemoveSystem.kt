@@ -4,7 +4,13 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
 import com.badlogic.ashley.systems.IteratingSystem
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.AggroComponent
+import com.github.quillraven.quillysadventure.ecs.component.CollisionComponent
+import com.github.quillraven.quillysadventure.ecs.component.DealDamageComponent
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.aggroCmp
+import com.github.quillraven.quillysadventure.ecs.component.collCmp
+import com.github.quillraven.quillysadventure.ecs.component.dealDamageCmp
 import ktx.ashley.allOf
 
 class RemoveSystem(engine: Engine) : IteratingSystem(allOf(RemoveComponent::class).get()), EntityListener {

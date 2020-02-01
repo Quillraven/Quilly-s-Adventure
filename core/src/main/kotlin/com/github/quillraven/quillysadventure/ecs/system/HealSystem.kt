@@ -4,7 +4,13 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.MathUtils
 import com.github.quillraven.quillysadventure.ai.DefaultGlobalState
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.HealComponent
+import com.github.quillraven.quillysadventure.ecs.component.MoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.StateComponent
+import com.github.quillraven.quillysadventure.ecs.component.StatsComponent
+import com.github.quillraven.quillysadventure.ecs.component.healCmp
+import com.github.quillraven.quillysadventure.ecs.component.statsCmp
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import ktx.ashley.allOf
 import ktx.ashley.get

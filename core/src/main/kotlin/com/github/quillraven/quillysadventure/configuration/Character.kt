@@ -6,7 +6,11 @@ import com.github.quillraven.quillysadventure.UNIT_SCALE
 import com.github.quillraven.quillysadventure.ability.AbilityEffect
 import com.github.quillraven.quillysadventure.ability.FireballEffect
 import com.github.quillraven.quillysadventure.ability.SpinEffect
-import com.github.quillraven.quillysadventure.ai.*
+import com.github.quillraven.quillysadventure.ai.DefaultEnemyState
+import com.github.quillraven.quillysadventure.ai.DefaultState
+import com.github.quillraven.quillysadventure.ai.EntityState
+import com.github.quillraven.quillysadventure.ai.MinotaurState
+import com.github.quillraven.quillysadventure.ai.PlayerState
 import com.github.quillraven.quillysadventure.ecs.component.EntityType
 import com.github.quillraven.quillysadventure.ecs.component.ModelType
 import ktx.log.logger

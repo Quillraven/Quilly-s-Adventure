@@ -6,16 +6,21 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-enum class EntityType {
+enum class EntityType(
+    // in case the entity type is a sensor it should still trigger
+    // player contact events in box2d. Settings the next property
+    // to true will have this effect
+    val hasPlayerCollision: Boolean = false
+) {
     PLAYER,
     SCENERY,
     ENEMY,
     NPC,
-    ITEM,
+    ITEM(true),
     SAVE_POINT,
-    PORTAL,
+    PORTAL(true),
     DAMAGE_EMITTER,
-    TRIGGER,
+    TRIGGER(true),
     OTHER;
 
     fun isEnemy(typeToCheck: EntityType): Boolean {

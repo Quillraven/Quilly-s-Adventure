@@ -6,7 +6,18 @@ import com.badlogic.gdx.utils.Pool
 import com.badlogic.gdx.utils.ReflectionPool
 import com.github.quillraven.quillysadventure.assets.MusicAssets
 import com.github.quillraven.quillysadventure.configuration.Character
-import com.github.quillraven.quillysadventure.trigger.action.*
+import com.github.quillraven.quillysadventure.trigger.action.TriggerAction
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionCreateCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionDamageCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionDeactivateTrigger
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionDelay
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionEnablePortal
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionMoveCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionPlayMusic
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionResetState
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSelectActivatingCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSetPlayerInput
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionWaitCreatedCharacterDeath
 import ktx.collections.iterate
 
 class Trigger : Pool.Poolable {

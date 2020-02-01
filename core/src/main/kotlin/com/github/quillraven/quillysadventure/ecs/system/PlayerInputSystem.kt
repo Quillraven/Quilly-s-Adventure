@@ -2,7 +2,16 @@ package com.github.quillraven.quillysadventure.ecs.system
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.EntitySystem
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.AttackOrder
+import com.github.quillraven.quillysadventure.ecs.component.CastOrder
+import com.github.quillraven.quillysadventure.ecs.component.JumpOrder
+import com.github.quillraven.quillysadventure.ecs.component.MoveOrder
+import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
+import com.github.quillraven.quillysadventure.ecs.component.abilityCmp
+import com.github.quillraven.quillysadventure.ecs.component.attackCmp
+import com.github.quillraven.quillysadventure.ecs.component.collCmp
+import com.github.quillraven.quillysadventure.ecs.component.jumpCmp
+import com.github.quillraven.quillysadventure.ecs.component.moveCmp
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
 import com.github.quillraven.quillysadventure.input.InputListener

@@ -11,7 +11,11 @@ import com.github.quillraven.quillysadventure.assets.ParticleAssets
 import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.audio.AudioService
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.ParticleComponent
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.TransformComponent
+import com.github.quillraven.quillysadventure.ecs.component.particleCmp
+import com.github.quillraven.quillysadventure.ecs.component.transfCmp
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import java.util.*
@@ -45,7 +49,7 @@ class ParticleSystem(private val assets: AssetManager, private val audioService:
         engine.removeEntityListener(this)
     }
 
-    override fun entityRemoved(entity: Entity) {}
+    override fun entityRemoved(entity: Entity) = Unit
 
     override fun entityAdded(entity: Entity) {
         // create particle effect

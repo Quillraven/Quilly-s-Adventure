@@ -12,7 +12,14 @@ import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
 import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.audio.AudioService
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.Animation
+import com.github.quillraven.quillysadventure.ecs.component.AnimationComponent
+import com.github.quillraven.quillysadventure.ecs.component.AnimationType
+import com.github.quillraven.quillysadventure.ecs.component.ModelType
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.RenderComponent
+import com.github.quillraven.quillysadventure.ecs.component.aniCmp
+import com.github.quillraven.quillysadventure.ecs.component.renderCmp
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.log.logger
@@ -64,7 +71,7 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
         entity.aniCmp.animation = defaultAnimation
     }
 
-    override fun entityRemoved(entity: Entity?) {}
+    override fun entityRemoved(entity: Entity?) = Unit
 
     /**
      * Extension method for animation cache to simply retrieve animations by calling
@@ -141,10 +148,18 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
         )
     }
 
+    private fun requiresModelChange(aniCmp: AnimationComponent) = aniCmp.modelType != aniCmp.animation.modelType
+
+    private fun requiresAnimationChange(aniCmp: AnimationComponent) =
+        aniCmp.animationType != aniCmp.animation.animationType
+
+    private fun requiresAnimationUpdate(aniCmp: AnimationComponent) =
+        aniCmp.modelType != ModelType.UNKNOWN && (requiresAnimationChange(aniCmp) || requiresModelChange(aniCmp))
+
     override fun processEntity(entity: Entity, deltaTime: Float) {
         // check if aniCmp has a valid model and if the animation has to be updated
         val aniCmp = entity.aniCmp
-        if (aniCmp.modelType != ModelType.UNKNOWN && (aniCmp.animationType != aniCmp.animation.animationType || aniCmp.modelType != aniCmp.animation.modelType)) {
+        if (requiresAnimationUpdate(aniCmp)) {
             // animation update needed -> retrieve it from cache
             // if it is not part of the cache yet then the cache will create it
             aniCmp.animation = animationCache[aniCmp.modelType, aniCmp.animationType]
@@ -165,7 +180,11 @@ class AnimationSystem(assets: AssetManager, private val audioService: AudioServi
             aniCmp.animation.playMode = aniCmp.mode
             var textureRegion = aniCmp.animation.getKeyFrame(aniCmp.animationTime)
             if (textureRegion == null) {
-                LOG.error { "Could not retrieve textureRegion for ${aniCmp.modelType}/${aniCmp.animationType} at time ${aniCmp.animationTime}" }
+                LOG.error {
+                    "Could not retrieve textureRegion " +
+                            "for ${aniCmp.modelType}/${aniCmp.animationType} " +
+                            "at time ${aniCmp.animationTime}"
+                }
                 textureRegion = defaultRegion
             }
 

@@ -1,8 +1,16 @@
 package com.github.quillraven.quillysadventure
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.physics.box2d.*
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.badlogic.gdx.physics.box2d.Contact
+import com.badlogic.gdx.physics.box2d.ContactImpulse
+import com.badlogic.gdx.physics.box2d.ContactListener
+import com.badlogic.gdx.physics.box2d.Fixture
+import com.badlogic.gdx.physics.box2d.Manifold
+import com.github.quillraven.quillysadventure.ecs.component.CollisionComponent
+import com.github.quillraven.quillysadventure.ecs.component.EntityType
+import com.github.quillraven.quillysadventure.ecs.component.aggroCmp
+import com.github.quillraven.quillysadventure.ecs.component.collCmp
+import com.github.quillraven.quillysadventure.ecs.component.typeCmp
 import com.github.quillraven.quillysadventure.ecs.isRemoved
 import ktx.ashley.get
 
@@ -25,7 +33,7 @@ class PhysicContactListener : ContactListener {
                 }
             }
             else -> {
-                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM || collEntityType == EntityType.TRIGGER) {
+                if (!collFixture.isSensor || collEntityType.hasPlayerCollision) {
                     srcEntity.collCmp.entities.add(collEntity)
                 }
             }
@@ -50,7 +58,7 @@ class PhysicContactListener : ContactListener {
                 }
             }
             else -> {
-                if (!collFixture.isSensor || collEntityType == EntityType.PORTAL || collEntityType == EntityType.ITEM || collEntityType == EntityType.TRIGGER) {
+                if (!collFixture.isSensor || collEntityType.hasPlayerCollision) {
                     srcEntity.collCmp.entities.remove(collEntity)
                 }
             }
@@ -90,10 +98,8 @@ class PhysicContactListener : ContactListener {
      * * Player and NPCs
      */
     override fun preSolve(contact: Contact, oldManifold: Manifold) {
-        val fixtureA = contact.fixtureA
-        val typeA = (fixtureA.body.userData as Entity).typeCmp.type
-        val fixtureB = contact.fixtureB
-        val typeB = (fixtureB.body.userData as Entity).typeCmp.type
+        val typeA = (contact.fixtureA.body.userData as Entity).typeCmp.type
+        val typeB = (contact.fixtureB.body.userData as Entity).typeCmp.type
 
         contact.isEnabled = when {
             typeA == EntityType.PLAYER && typeB == EntityType.ENEMY -> false
@@ -107,6 +113,5 @@ class PhysicContactListener : ContactListener {
         }
     }
 
-    override fun postSolve(contact: Contact?, impulse: ContactImpulse?) {
-    }
+    override fun postSolve(contact: Contact?, impulse: ContactImpulse?) = Unit
 }

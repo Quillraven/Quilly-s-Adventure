@@ -2,7 +2,17 @@ package com.github.quillraven.quillysadventure.ai
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.Animation
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.AnimationType
+import com.github.quillraven.quillysadventure.ecs.component.AttackOrder
+import com.github.quillraven.quillysadventure.ecs.component.FacingDirection
+import com.github.quillraven.quillysadventure.ecs.component.MoveOrder
+import com.github.quillraven.quillysadventure.ecs.component.aggroCmp
+import com.github.quillraven.quillysadventure.ecs.component.aniCmp
+import com.github.quillraven.quillysadventure.ecs.component.attackCmp
+import com.github.quillraven.quillysadventure.ecs.component.facingCmp
+import com.github.quillraven.quillysadventure.ecs.component.moveCmp
+import com.github.quillraven.quillysadventure.ecs.component.stateCmp
+import com.github.quillraven.quillysadventure.ecs.component.transfCmp
 
 enum class DefaultEnemyState(
     override val aniType: AnimationType,
@@ -86,9 +96,11 @@ enum class DefaultEnemyState(
 fun updateFacingForAttack(entity: Entity) {
     val transformA = entity.transfCmp
     val transformB = entity.aggroCmp.aggroEntities.first().transfCmp
+    val centerA = transformA.position.x + transformA.size.x * 0.5f
+    val centerB = transformB.position.x + transformB.size.x * 0.5f
 
     entity.facingCmp.direction = when {
-        transformA.position.x + transformA.size.x * 0.5f > transformB.position.x + transformB.size.x * 0.5f -> FacingDirection.LEFT
+        centerA > centerB -> FacingDirection.LEFT
         else -> FacingDirection.RIGHT
     }
 }

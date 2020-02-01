@@ -3,7 +3,11 @@ package com.github.quillraven.quillysadventure.ecs.system
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Interpolation
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.JumpComponent
+import com.github.quillraven.quillysadventure.ecs.component.JumpOrder
+import com.github.quillraven.quillysadventure.ecs.component.PhysicComponent
+import com.github.quillraven.quillysadventure.ecs.component.jumpCmp
+import com.github.quillraven.quillysadventure.ecs.component.physicCmp
 import ktx.ashley.allOf
 import kotlin.math.min
 

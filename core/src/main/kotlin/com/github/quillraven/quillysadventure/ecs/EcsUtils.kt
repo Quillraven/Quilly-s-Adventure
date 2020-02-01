@@ -14,15 +14,44 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.StringBuilder
 import com.badlogic.gdx.utils.reflect.ClassReflection
-import com.github.quillraven.quillysadventure.*
+import com.badlogic.gdx.utils.reflect.ReflectionException
+import com.github.quillraven.quillysadventure.FILTER_CATEGORY_GAME_OBJECT
+import com.github.quillraven.quillysadventure.FILTER_CATEGORY_ITEM
+import com.github.quillraven.quillysadventure.FILTER_CATEGORY_SCENERY
+import com.github.quillraven.quillysadventure.FIXTURE_TYPE_AGGRO_SENSOR
+import com.github.quillraven.quillysadventure.FIXTURE_TYPE_FOOT_SENSOR
+import com.github.quillraven.quillysadventure.UNIT_SCALE
 import com.github.quillraven.quillysadventure.ai.DefaultGlobalState
 import com.github.quillraven.quillysadventure.ai.DefaultState
 import com.github.quillraven.quillysadventure.assets.ParticleAssets
 import com.github.quillraven.quillysadventure.configuration.Character
 import com.github.quillraven.quillysadventure.configuration.CharacterCfg
 import com.github.quillraven.quillysadventure.configuration.ItemCfg
-import com.github.quillraven.quillysadventure.ecs.component.*
-import com.github.quillraven.quillysadventure.ecs.system.FontType
+import com.github.quillraven.quillysadventure.ecs.component.AbilityComponent
+import com.github.quillraven.quillysadventure.ecs.component.AggroComponent
+import com.github.quillraven.quillysadventure.ecs.component.AnimationComponent
+import com.github.quillraven.quillysadventure.ecs.component.AttackComponent
+import com.github.quillraven.quillysadventure.ecs.component.CharacterTypeComponent
+import com.github.quillraven.quillysadventure.ecs.component.CollisionComponent
+import com.github.quillraven.quillysadventure.ecs.component.DealDamageComponent
+import com.github.quillraven.quillysadventure.ecs.component.EntityType
+import com.github.quillraven.quillysadventure.ecs.component.EntityTypeComponent
+import com.github.quillraven.quillysadventure.ecs.component.FacingComponent
+import com.github.quillraven.quillysadventure.ecs.component.FloatingTextComponent
+import com.github.quillraven.quillysadventure.ecs.component.JumpComponent
+import com.github.quillraven.quillysadventure.ecs.component.LightComponent
+import com.github.quillraven.quillysadventure.ecs.component.MoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.ParticleComponent
+import com.github.quillraven.quillysadventure.ecs.component.PhysicComponent
+import com.github.quillraven.quillysadventure.ecs.component.PortalComponent
+import com.github.quillraven.quillysadventure.ecs.component.RenderComponent
+import com.github.quillraven.quillysadventure.ecs.component.StateComponent
+import com.github.quillraven.quillysadventure.ecs.component.StatsComponent
+import com.github.quillraven.quillysadventure.ecs.component.TakeDamageComponent
+import com.github.quillraven.quillysadventure.ecs.component.TransformComponent
+import com.github.quillraven.quillysadventure.ecs.component.TriggerComponent
+import com.github.quillraven.quillysadventure.ecs.component.physicCmp
+import com.github.quillraven.quillysadventure.ui.FontType
 import com.github.quillraven.quillysadventure.map.MapType
 import com.github.quillraven.quillysadventure.trigger.Trigger
 import ktx.ashley.EngineEntity
@@ -586,11 +615,12 @@ fun Engine.trigger(
         try {
             with<TriggerComponent> { trigger = newTrigger }
             val fileAndMethod = triggerSetupFunctionName.split(".")
-            val file = ClassReflection.forName("com.github.quillraven.quillysadventure.trigger.${fileAndMethod[0]}Kt")
+            val file =
+                ClassReflection.forName("com.github.quillraven.quillysadventure.trigger.${fileAndMethod[0]}Kt")
             val method = ClassReflection.getMethod(file, fileAndMethod[1], Trigger::class.java)
             method.invoke(null, newTrigger)
-        } catch (e: Exception) {
-            LOG.error(e) { "Could not setup trigger $triggerSetupFunctionName" }
+        } catch (e: ReflectionException) {
+            LOG.error(e) { "Could not setup trigger due to reflection issues: $triggerSetupFunctionName" }
         }
 
         if (reactOnCollision) {

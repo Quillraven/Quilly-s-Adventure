@@ -10,9 +10,14 @@ import com.github.quillraven.quillysadventure.assets.I18nAssets
 import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
 import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.assets.load
-import com.github.quillraven.quillysadventure.ecs.system.FontType
 import ktx.scene2d.Scene2DSkin
-import ktx.style.*
+import ktx.style.checkBox
+import ktx.style.imageButton
+import ktx.style.label
+import ktx.style.scrollPane
+import ktx.style.skin
+import ktx.style.textButton
+import ktx.style.touchpad
 
 enum class Images(val imageName: String) {
     BUTTON_RECT_DOWN("btn_rect_down"),
@@ -51,6 +56,11 @@ enum class ImageButtonStyles {
 enum class LabelStyles {
     MAP_INFO,
     LARGE
+}
+
+enum class FontType(val skinKey: String) {
+    DEFAULT("defaultFont"),
+    LARGE("largeFont")
 }
 
 operator fun Skin.get(image: Images): Drawable = this.getDrawable(image.imageName)

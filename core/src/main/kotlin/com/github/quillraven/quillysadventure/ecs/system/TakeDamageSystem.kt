@@ -5,10 +5,18 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.StringBuilder
 import com.github.quillraven.quillysadventure.assets.ParticleAssets
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.KillerComponent
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.StatsComponent
+import com.github.quillraven.quillysadventure.ecs.component.TakeDamageComponent
+import com.github.quillraven.quillysadventure.ecs.component.TransformComponent
+import com.github.quillraven.quillysadventure.ecs.component.statsCmp
+import com.github.quillraven.quillysadventure.ecs.component.takeDamageCmp
+import com.github.quillraven.quillysadventure.ecs.component.transfCmp
 import com.github.quillraven.quillysadventure.ecs.floatingText
 import com.github.quillraven.quillysadventure.ecs.particleEffect
 import com.github.quillraven.quillysadventure.event.GameEventManager
+import com.github.quillraven.quillysadventure.ui.FontType
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 

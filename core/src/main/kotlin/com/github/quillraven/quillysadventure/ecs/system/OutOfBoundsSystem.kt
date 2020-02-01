@@ -4,7 +4,13 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.Rectangle
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.EntityType
+import com.github.quillraven.quillysadventure.ecs.component.EntityTypeComponent
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.TransformComponent
+import com.github.quillraven.quillysadventure.ecs.component.physicCmp
+import com.github.quillraven.quillysadventure.ecs.component.transfCmp
+import com.github.quillraven.quillysadventure.ecs.component.typeCmp
 import com.github.quillraven.quillysadventure.event.GameEventListener
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.Map

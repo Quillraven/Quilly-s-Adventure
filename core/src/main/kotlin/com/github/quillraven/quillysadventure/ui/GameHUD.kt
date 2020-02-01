@@ -10,7 +10,12 @@ import com.github.quillraven.quillysadventure.ui.widget.mapInfoWidget
 import com.github.quillraven.quillysadventure.ui.widget.playerInfoWidget
 import ktx.actors.onChangeEvent
 import ktx.actors.onTouchEvent
-import ktx.scene2d.*
+import ktx.scene2d.KTable
+import ktx.scene2d.Scene2DSkin
+import ktx.scene2d.imageButton
+import ktx.scene2d.table
+import ktx.scene2d.touchpad
+import ktx.scene2d.verticalGroup
 
 class GameHUD(private val gameEventManager: GameEventManager, skin: Skin = Scene2DSkin.defaultSkin) : Table(skin),
     KTable {

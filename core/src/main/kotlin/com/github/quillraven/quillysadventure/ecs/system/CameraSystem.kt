@@ -38,7 +38,10 @@ class CameraSystem(
         if (cameraEntities.size() > 0) {
             // lock camera to the first entity
             if (cameraEntities.size() > 1) {
-                LOG.error { "There are more than one entities that should lock the camera. Current camera entities ${cameraEntities.size()}" }
+                LOG.error {
+                    "There are more than one entities that should lock the camera. " +
+                            "Current camera entities ${cameraEntities.size()}"
+                }
             }
 
             val entityPos = cameraEntities[0].transfCmp.interpolatedPosition

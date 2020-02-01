@@ -2,7 +2,21 @@ package com.github.quillraven.quillysadventure.ai
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.Animation
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.AnimationType
+import com.github.quillraven.quillysadventure.ecs.component.AttackOrder
+import com.github.quillraven.quillysadventure.ecs.component.CastOrder
+import com.github.quillraven.quillysadventure.ecs.component.CollisionComponent
+import com.github.quillraven.quillysadventure.ecs.component.JumpOrder
+import com.github.quillraven.quillysadventure.ecs.component.MoveOrder
+import com.github.quillraven.quillysadventure.ecs.component.PhysicComponent
+import com.github.quillraven.quillysadventure.ecs.component.abilityCmp
+import com.github.quillraven.quillysadventure.ecs.component.aniCmp
+import com.github.quillraven.quillysadventure.ecs.component.attackCmp
+import com.github.quillraven.quillysadventure.ecs.component.collCmp
+import com.github.quillraven.quillysadventure.ecs.component.jumpCmp
+import com.github.quillraven.quillysadventure.ecs.component.moveCmp
+import com.github.quillraven.quillysadventure.ecs.component.physicCmp
+import com.github.quillraven.quillysadventure.ecs.component.stateCmp
 import kotlin.math.abs
 
 enum class PlayerState(
@@ -38,11 +52,13 @@ enum class PlayerState(
         }
     },
     JUMP(AnimationType.JUMP, Animation.PlayMode.NORMAL) {
+        private fun isFalling(physic: PhysicComponent, collision: CollisionComponent) =
+            physic.body.linearVelocity.y <= 0f && collision.numGroundContacts == 0
+
         override fun update(entity: Entity) {
-            val physic = entity.physicCmp
             val collision = entity.collCmp
             with(entity.stateCmp) {
-                if ((physic.body.linearVelocity.y <= 0f && collision.numGroundContacts == 0) || stateTime >= entity.jumpCmp.maxJumpTime) {
+                if (isFalling(entity.physicCmp, collision) || stateTime >= entity.jumpCmp.maxJumpTime) {
                     // player is in mid-air and falling down OR player exceeds maximum jump time
                     stateMachine.changeState(FALL)
                 } else if (collision.numGroundContacts > 0 && entity.jumpCmp.order == JumpOrder.NONE) {

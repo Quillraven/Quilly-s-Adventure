@@ -3,7 +3,21 @@ package com.github.quillraven.quillysadventure.ai
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.math.MathUtils
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.AnimationType
+import com.github.quillraven.quillysadventure.ecs.component.AttackComponent
+import com.github.quillraven.quillysadventure.ecs.component.AttackOrder
+import com.github.quillraven.quillysadventure.ecs.component.CastOrder
+import com.github.quillraven.quillysadventure.ecs.component.MoveOrder
+import com.github.quillraven.quillysadventure.ecs.component.StateComponent
+import com.github.quillraven.quillysadventure.ecs.component.StatsComponent
+import com.github.quillraven.quillysadventure.ecs.component.abilityCmp
+import com.github.quillraven.quillysadventure.ecs.component.aggroCmp
+import com.github.quillraven.quillysadventure.ecs.component.aniCmp
+import com.github.quillraven.quillysadventure.ecs.component.attackCmp
+import com.github.quillraven.quillysadventure.ecs.component.moveCmp
+import com.github.quillraven.quillysadventure.ecs.component.stateCmp
+import com.github.quillraven.quillysadventure.ecs.component.statsCmp
+import com.github.quillraven.quillysadventure.ecs.component.transfCmp
 
 enum class MinotaurState(
     override val aniType: AnimationType,

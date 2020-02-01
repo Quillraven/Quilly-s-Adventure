@@ -6,18 +6,18 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.viewport.Viewport
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.component.FloatingTextComponent
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.TransformComponent
+import com.github.quillraven.quillysadventure.ecs.component.floatingCmp
+import com.github.quillraven.quillysadventure.ecs.component.transfCmp
+import com.github.quillraven.quillysadventure.ui.FontType
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.graphics.use
 import ktx.math.vec2
 import ktx.scene2d.Scene2DSkin
 import java.util.*
-
-enum class FontType(val skinKey: String) {
-    DEFAULT("defaultFont"),
-    LARGE("largeFont")
-}
 
 class FloatingTextSystem(
     private val batch: SpriteBatch,
