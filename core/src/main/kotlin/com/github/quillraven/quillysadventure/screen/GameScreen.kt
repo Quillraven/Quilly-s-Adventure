@@ -3,6 +3,7 @@ package com.github.quillraven.quillysadventure.screen
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -11,6 +12,10 @@ import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
 import com.github.quillraven.quillysadventure.ecs.component.statsCmp
+import com.github.quillraven.quillysadventure.ecs.system.DebugSystem
+import com.github.quillraven.quillysadventure.ecs.system.FloatingTextSystem
+import com.github.quillraven.quillysadventure.ecs.system.RenderPhysicDebugSystem
+import com.github.quillraven.quillysadventure.ecs.system.RenderSystem
 import com.github.quillraven.quillysadventure.event.GameEventListener
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
@@ -44,6 +49,7 @@ class GameScreen(
     private val hud = GameHUD(gameEventManager)
     private val dialog = DialogWidget()
     private var gameOver = false
+    private var systemsActive = true
 
     override fun show() {
         gameOver = false
@@ -93,7 +99,29 @@ class GameScreen(
         rayHandler.useCustomViewport(viewport.screenX, viewport.screenY, viewport.screenWidth, viewport.screenHeight)
     }
 
+    private fun EntitySystem.isDebugOrRenderSystem() =
+        this is DebugSystem || this is RenderPhysicDebugSystem || // debug systems
+                this is RenderSystem || this is FloatingTextSystem // render systems
+
     override fun render(delta: Float) {
+        if (dialog.color.a > 0f && systemsActive) {
+            // dialog is shown -> disable some systems to stop the game simulation until dialog is closed
+            systemsActive = false
+            engine.systems.forEach {
+                if (!it.isDebugOrRenderSystem()) {
+                    it.setProcessing(false)
+                }
+            }
+        } else if (dialog.color.a <= 0f && !systemsActive) {
+            // dialog was closed -> return to normal game simulation
+            systemsActive = true
+            engine.systems.forEach {
+                if (!it.isDebugOrRenderSystem()) {
+                    it.setProcessing(true)
+                }
+            }
+        }
+
         // update all ecs engine systems including the render system which draws stuff on the screen
         engine.update(delta)
         // update audio manager to play any queued sound effects
