@@ -3,8 +3,6 @@ package com.github.quillraven.quillysadventure.screen
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -13,7 +11,6 @@ import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
 import com.github.quillraven.quillysadventure.ecs.component.statsCmp
-import com.github.quillraven.quillysadventure.ecs.system.RenderSystem
 import com.github.quillraven.quillysadventure.event.GameEventListener
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
@@ -97,19 +94,6 @@ class GameScreen(
     }
 
     override fun render(delta: Float) {
-        // TODO remove debug stuff
-        when {
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_1) -> {
-                engine.getSystem(RenderSystem::class.java).setNormalColor()
-            }
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_2) -> {
-                engine.getSystem(RenderSystem::class.java).setGrayScale()
-            }
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_3) -> {
-                engine.getSystem(RenderSystem::class.java).setSepia()
-            }
-        }
-
         // update all ecs engine systems including the render system which draws stuff on the screen
         engine.update(delta)
         // update audio manager to play any queued sound effects

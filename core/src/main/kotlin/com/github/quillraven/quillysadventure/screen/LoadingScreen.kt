@@ -37,6 +37,7 @@ import com.github.quillraven.quillysadventure.ecs.system.AttackSystem
 import com.github.quillraven.quillysadventure.ecs.system.CameraSystem
 import com.github.quillraven.quillysadventure.ecs.system.DealDamageSystem
 import com.github.quillraven.quillysadventure.ecs.system.DeathSystem
+import com.github.quillraven.quillysadventure.ecs.system.DebugSystem
 import com.github.quillraven.quillysadventure.ecs.system.FacingSystem
 import com.github.quillraven.quillysadventure.ecs.system.FadeSystem
 import com.github.quillraven.quillysadventure.ecs.system.FloatingTextSystem
@@ -143,6 +144,7 @@ class LoadingScreen(
             )
             // create engine systems so that we have everything that we need for the main menu and game to render the characters, etc.
             ecsEngine.run {
+                addSystem(DebugSystem())
                 addSystem(TriggerSystem(gameEventManager))
                 addSystem(PhysicMoveSystem())
                 // facing system must come after move system because facing is set within move system
