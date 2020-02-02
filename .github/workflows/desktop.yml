@@ -1,0 +1,28 @@
+name: Desktop
+
+on: 
+  push:
+    paths:
+      - 'desktop/**'
+      - 'core/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2  
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - uses: actions/download-artifact@v1
+      name: Download core build
+      with:
+        name: core-build
+        path: core/build
+    - name: Assemble release
+      run: |
+          chmod +x ./gradlew
+          ./gradlew :desktop:clean :desktop:detekt :desktop:shadowJar
