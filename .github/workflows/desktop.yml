@@ -26,3 +26,8 @@ jobs:
       run: |
           chmod +x ./gradlew
           ./gradlew :desktop:clean :desktop:detekt :desktop:shadowJar
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: desktop-build
+        path: desktop/build
