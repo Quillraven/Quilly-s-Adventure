@@ -17,11 +17,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - uses: actions/download-artifact@v1
-      name: Download core build
-      with:
-        name: core-build
-        path: core/build
     - name: Assemble release
       run: |
           chmod +x ./gradlew
