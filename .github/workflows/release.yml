@@ -1,7 +1,6 @@
 name: Release
 on: create
 
-name: Release
 jobs:
   release:
     name: Release GitHub Actions
