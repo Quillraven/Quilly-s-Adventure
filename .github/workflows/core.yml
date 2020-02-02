@@ -15,9 +15,13 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: 1.8
-        run: |
-          chmod +x ./gradlew
-          ./gradlew core:clean core:build core:detekt
+
+    - name: Run detekt and build
+    - run: |
+        chmod +x ./gradlew
+        ./gradlew core:clean core:build core:detekt
+
+    - name: Upload artifact
     - uses: actions/upload-artifact@v1
       with:
         name: core-build
