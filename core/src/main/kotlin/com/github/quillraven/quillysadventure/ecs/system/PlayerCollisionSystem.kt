@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.StringBuilder
 import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.audio.AudioService
@@ -36,7 +37,8 @@ private val LOG = logger<PlayerCollisionSystem>()
 class PlayerCollisionSystem(
     private val mapManager: MapManager,
     private val audioService: AudioService,
-    private val gameEventManager: GameEventManager
+    private val gameEventManager: GameEventManager,
+    private val bundle: I18NBundle
 ) :
     IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()), MapChangeListener,
     GameEventListener {
@@ -118,14 +120,14 @@ class PlayerCollisionSystem(
                 maxLife += itemStats.life
                 // heal player to maximum when maximum life changes
                 player.heal(engine, maxLife, 0f)
-                itemInfoBuilder.append("Max life increased by ")
+                itemInfoBuilder.append(bundle["increaseLife"])
                 itemInfoBuilder.append(itemStats.life.toInt())
             }
             if (itemStats.mana != 0f) {
                 maxMana += itemStats.mana
                 // heal player to maximum when mana changes
                 player.heal(engine, 0f, maxMana)
-                itemInfoBuilder.append("Max mana increased by ")
+                itemInfoBuilder.append(bundle["increaseMana"])
                 itemInfoBuilder.append(itemStats.mana.toInt())
             }
 

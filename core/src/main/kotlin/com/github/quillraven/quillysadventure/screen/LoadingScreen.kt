@@ -161,7 +161,7 @@ class LoadingScreen(
                 // player collision system must be before PhysicSystem because whenever the player collides
                 // with a portal then its body location gets transformed and we need the physic system
                 // to correctly update the TransformComponent which is e.g. used in the OutOfBoundsSystem
-                addSystem(PlayerCollisionSystem(mapManager, audioService, gameEventManager))
+                addSystem(PlayerCollisionSystem(mapManager, audioService, gameEventManager, bundle))
                 // heal system must come after take damage, death and collision system because all of these
                 // systems are creating healcomponents internally in some cases that need to be considered
                 // in the same frame

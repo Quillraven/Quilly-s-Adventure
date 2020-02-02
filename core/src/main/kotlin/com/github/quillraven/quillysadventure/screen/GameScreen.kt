@@ -154,8 +154,13 @@ class GameScreen(
     }
 
     override fun characterDamaged(character: Entity, damage: Float, life: Float, maxLife: Float) {
-        if (character[PlayerComponent.mapper] != null) {
+        val playerCmp = character[PlayerComponent.mapper]
+        if (playerCmp != null) {
             hud.infoWidget.scaleLifeBarTo(life / maxLife)
+            if (playerCmp.tutorialProgress == 2) {
+                ++playerCmp.tutorialProgress
+                showTutorialInfo(2)
+            }
         }
     }
 
