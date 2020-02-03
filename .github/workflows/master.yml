@@ -19,21 +19,15 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 8
+          
+      - name: grant execute permission for gradlew
+        run: chmod +x gradlew
 
       - name: run gradle clean and build
-        uses: eskatos/gradle-command-action@v1
-        with:
-          wrapper-directory: gradle/wrapper
-          arguments: clean build
+        run: ./gradlew clean build
 
       - name: run gradle detekt
-        uses: eskatos/gradle-command-action@v1
-        with:
-          wrapper-directory: gradle/wrapper
-          arguments: detekt
+        run: ./gradlew detekt
           
       - name: build desktop snapshot jar
-        uses: eskatos/gradle-command-action@v1
-        with:
-          wrapper-directory: gradle/wrapper
-          arguments: shadowJar
+        run: ./gradlew shadowJar
