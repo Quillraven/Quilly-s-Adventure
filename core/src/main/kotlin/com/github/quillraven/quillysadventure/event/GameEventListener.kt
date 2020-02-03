@@ -13,4 +13,6 @@ interface GameEventListener {
     fun characterCast(character: Entity, ability: Ability, cost: Int, mana: Float, maxMana: Float) {}
     fun characterAttackReady(character: Entity) {}
     fun characterAttack(character: Entity) {}
+    fun characterLevelUp(character: Entity, level: Int, xp: Int, xpNeeded: Int) {}
+    fun characterXPGained(character: Entity, xp: Int, xpNeeded: Int) {}
 }

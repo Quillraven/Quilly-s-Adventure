@@ -4,14 +4,20 @@ import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
+import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.quillysadventure.ability.Ability
+import com.github.quillraven.quillysadventure.ability.FireballEffect
 import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
+import com.github.quillraven.quillysadventure.ecs.component.abilityCmp
 import com.github.quillraven.quillysadventure.ecs.component.statsCmp
+import com.github.quillraven.quillysadventure.ecs.system.DeathSystem
 import com.github.quillraven.quillysadventure.ecs.system.DebugSystem
 import com.github.quillraven.quillysadventure.ecs.system.FloatingTextSystem
 import com.github.quillraven.quillysadventure.ecs.system.RenderPhysicDebugSystem
@@ -25,8 +31,9 @@ import com.github.quillraven.quillysadventure.map.MapChangeListener
 import com.github.quillraven.quillysadventure.map.MapManager
 import com.github.quillraven.quillysadventure.map.MapType
 import com.github.quillraven.quillysadventure.ui.GameHUD
+import com.github.quillraven.quillysadventure.ui.ImageButtonStyles
+import com.github.quillraven.quillysadventure.ui.Images
 import com.github.quillraven.quillysadventure.ui.widget.DialogWidget
-import ktx.actors.centerPosition
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get
@@ -46,18 +53,42 @@ class GameScreen(
     private val viewport: Viewport,
     private val stage: Stage
 ) : KtxScreen, InputListener, GameEventListener, MapChangeListener {
-    private val hud = GameHUD(gameEventManager)
+    private val hud = GameHUD(gameEventManager, bundle["statsTitle"], bundle["skills"])
     private val dialog = DialogWidget()
     private var gameOver = false
     private var systemsActive = true
+
+    private val lifeTxt = bundle["life"]
+    private val manaTxt = bundle["mana"]
+    private val levelTxt = bundle["level"]
+
+    private val xpTxt = bundle["xp"]
 
     override fun show() {
         gameOver = false
 
         // setup game UI
         stage.addActor(hud)
+        stage.addActor(hud.statsWidget.apply {
+            addSkill(bundle["fireball"], bundle["requiresLvl3"], Images.IMAGE_FIREBALL)
+        })
+        hud.statsWidget.setPosition(-2000f, 0f)
+        hud.statsWidget.skill(0)?.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                if (tapCount == 2) {
+                    // when skill icon in stats menu gets double tapped then make it an active skill
+                    // for the cast button
+                    engine.entities.forEach {
+                        if (it[PlayerComponent.mapper] != null) {
+                            it.abilityCmp.addAbility(it, FireballEffect)
+                        }
+                    }
+                    skillSelected(ImageButtonStyles.FIREBALL)
+                }
+            }
+        })
         stage.addActor(dialog)
-        dialog.centerPosition()
+        dialog.setPosition(-2000f, 0f)
 
         // add game screen as input listener to react when the player wants to quit the game (=exit key pressed)
         gameEventManager.addInputListener(this)
@@ -74,6 +105,16 @@ class GameScreen(
             if (playerCmp != null) {
                 with(it.statsCmp) {
                     hud.infoWidget.resetHudValues(this.life / this.maxLife, this.mana / this.maxMana)
+                    hud.statsWidget.updateLevel(levelTxt, this.level)
+                        .updateExperience(
+                            xpTxt,
+                            this.xp,
+                            engine.getSystem(DeathSystem::class.java).getNeededExperience(this.level)
+                        )
+                        .updateLife(lifeTxt, this.life.toInt(), this.maxLife.toInt())
+                        .updateMana(manaTxt, this.mana.toInt(), this.maxMana.toInt())
+                        .updateDamage(bundle["damage"], this.damage.toInt())
+                        .updateArmor(bundle["armor"], this.armor.toInt())
                 }
                 if (playerCmp.tutorialProgress == 0) {
                     playerCmp.tutorialProgress++
@@ -81,6 +122,10 @@ class GameScreen(
                 }
             }
         }
+    }
+
+    private fun skillSelected(skillImageStyle: ImageButtonStyles) {
+        hud.skillButton.style = hud.skin.get(skillImageStyle.name, ImageButton.ImageButtonStyle::class.java)
     }
 
     override fun hide() {
@@ -157,6 +202,7 @@ class GameScreen(
         val playerCmp = character[PlayerComponent.mapper]
         if (playerCmp != null) {
             hud.infoWidget.scaleLifeBarTo(life / maxLife)
+            hud.statsWidget.updateLife(lifeTxt, life.toInt(), maxLife.toInt())
             if (playerCmp.tutorialProgress == 2) {
                 ++playerCmp.tutorialProgress
                 showTutorialInfo(2)
@@ -167,18 +213,21 @@ class GameScreen(
     override fun characterHealLife(character: Entity, healAmount: Float, life: Float, maxLife: Float) {
         if (character[PlayerComponent.mapper] != null) {
             hud.infoWidget.scaleLifeBarTo(life / maxLife)
+            hud.statsWidget.updateLife(lifeTxt, life.toInt(), maxLife.toInt())
         }
     }
 
     override fun characterHealMana(character: Entity, healAmount: Float, mana: Float, maxMana: Float) {
         if (character[PlayerComponent.mapper] != null) {
             hud.infoWidget.scaleManaBarTo(mana / maxMana)
+            hud.statsWidget.updateMana(manaTxt, mana.toInt(), maxMana.toInt())
         }
     }
 
     override fun characterCast(character: Entity, ability: Ability, cost: Int, mana: Float, maxMana: Float) {
         if (character[PlayerComponent.mapper] != null) {
             hud.infoWidget.scaleManaBarTo(mana / maxMana)
+            hud.statsWidget.updateMana(manaTxt, mana.toInt(), maxMana.toInt())
         }
     }
 
@@ -197,6 +246,23 @@ class GameScreen(
         if (character[PlayerComponent.mapper] != null) {
             hud.infoWidget.activateAttackIndicator()
             audioService.play(SoundAssets.PING)
+        }
+    }
+
+    override fun characterLevelUp(character: Entity, level: Int, xp: Int, xpNeeded: Int) {
+        if (character[PlayerComponent.mapper] != null) {
+            hud.statsWidget.updateLevel(levelTxt, level)
+                .updateExperience(xpTxt, xp, xpNeeded)
+
+            if (level == 3) {
+                hud.statsWidget.activateSkill(0)
+            }
+        }
+    }
+
+    override fun characterXPGained(character: Entity, xp: Int, xpNeeded: Int) {
+        if (character[PlayerComponent.mapper] != null) {
+            hud.statsWidget.updateExperience(xpTxt, xp, xpNeeded)
         }
     }
 

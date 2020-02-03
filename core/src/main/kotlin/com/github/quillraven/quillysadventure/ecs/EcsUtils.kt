@@ -51,9 +51,9 @@ import com.github.quillraven.quillysadventure.ecs.component.TakeDamageComponent
 import com.github.quillraven.quillysadventure.ecs.component.TransformComponent
 import com.github.quillraven.quillysadventure.ecs.component.TriggerComponent
 import com.github.quillraven.quillysadventure.ecs.component.physicCmp
-import com.github.quillraven.quillysadventure.ui.FontType
 import com.github.quillraven.quillysadventure.map.MapType
 import com.github.quillraven.quillysadventure.trigger.Trigger
+import com.github.quillraven.quillysadventure.ui.FontType
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
 import ktx.ashley.get
@@ -238,7 +238,7 @@ fun Engine.character(
             }
         }
         // ability
-        if (cfg.abilities.size > 0) {
+        if (cfg.abilities.size > 0 || cfg.characterType == Character.PLAYER) {
             with<AbilityComponent> {
                 for (ability in cfg.abilities) {
                     addAbility(this@entity.entity, ability)

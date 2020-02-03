@@ -26,20 +26,22 @@ import ktx.ashley.get
 
 class DeathSystem(
     private val audioService: AudioService,
-    private val gameEventManager: GameEventManager
+    private val gameEventManager: GameEventManager,
+    private val lvlUpText: String,
+    private val xpAbbreviation: String
 ) :
     IteratingSystem(allOf(StatsComponent::class).exclude(RemoveComponent::class).get()) {
     private val xpInfoBuilder = StringBuilder(8)
 
-    private fun canLevelUp(currentLevel: Int, currentXP: Int): Boolean {
-        return when {
-            currentLevel == 1 && currentXP >= 70f -> true
-            currentLevel == 2 && currentXP >= 190f -> true
-            currentLevel == 3 && currentXP >= 300f -> true
-            currentLevel == 4 && currentXP >= 600f -> true
-            else -> false
-        }
+    fun getNeededExperience(currentLevel: Int): Int = when (currentLevel) {
+        1 -> 70
+        2 -> 190
+        3 -> 300
+        4 -> 600
+        else -> Int.MAX_VALUE
     }
+
+    private fun canLevelUp(currentLevel: Int, currentXP: Int): Boolean = currentXP >= getNeededExperience(currentLevel)
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val entityStats = entity.statsCmp
@@ -74,12 +76,19 @@ class DeathSystem(
                 val transform = killer.transfCmp
                 // add xp of dying entity to killer entity
                 stats.xp += xpGained
+                gameEventManager.dispatchCharacterXPGained(killer, stats.xp, getNeededExperience(stats.level))
 
                 var showLevelUpInfo = false
                 while (canLevelUp(stats.level, stats.xp)) {
                     // entity has enough XP for level up -> increase level
                     stats.level++
                     showLevelUpInfo = true
+                    gameEventManager.dispatchCharacterLevelUp(
+                        killer,
+                        stats.level,
+                        stats.xp,
+                        getNeededExperience(stats.level)
+                    )
                 }
 
                 if (showLevelUpInfo) {
@@ -87,7 +96,7 @@ class DeathSystem(
 
                     // show level up information to player
                     xpInfoBuilder.clear()
-                    xpInfoBuilder.append("New Level: ")
+                    xpInfoBuilder.append("$lvlUpText: ")
                     xpInfoBuilder.append(stats.level)
                     engine.floatingText(
                         transform.position.x + transform.size.x * 0.5f,
@@ -105,7 +114,7 @@ class DeathSystem(
                 xpInfoBuilder.clear()
                 xpInfoBuilder.append("+")
                 xpInfoBuilder.append(xpGained)
-                xpInfoBuilder.append(" XP")
+                xpInfoBuilder.append(" $xpAbbreviation")
                 engine.floatingText(
                     transform.position.x + transform.size.x * 0.5f,
                     transform.position.y + transform.size.y,

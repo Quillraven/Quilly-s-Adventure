@@ -126,4 +126,12 @@ class GameEventManager : KtxInputAdapter {
     fun dispatchCharacterAttack(character: Entity) {
         gameEventListeners.forEach { it.characterAttack(character) }
     }
+
+    fun dispatchCharacterLevelUp(character: Entity, level: Int, xp: Int, xpNeeded: Int) {
+        gameEventListeners.forEach { it.characterLevelUp(character, level, xp, xpNeeded) }
+    }
+
+    fun dispatchCharacterXPGained(character: Entity, xp: Int, xpNeeded: Int) {
+        gameEventListeners.forEach { it.characterXPGained(character, xp, xpNeeded) }
+    }
 }

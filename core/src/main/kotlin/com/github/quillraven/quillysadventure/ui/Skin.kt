@@ -26,6 +26,7 @@ enum class Images(val imageName: String) {
     BUTTON_ROUND_DOWN("btn_round_down"),
     BUTTON_CHECK("btn_chk"),
     BUTTON_UNCHECK("btn_unchk"),
+    BUTTON_CLOSE("btn_close"),
     DIALOG_LIGHT("dialog_light"),
     IMAGE_ATTACK("attack"),
     IMAGE_JUMP("jump"),
@@ -43,8 +44,7 @@ enum class Images(val imageName: String) {
     SCROLL_KNOB("scroll_knob"),
     MENU_BACKGROUND("menu_bgd"),
     BAR_BACKGROUND("bar"),
-    BAR_GREEN("bar_green"),
-    BAR_KNOB("bar_knob")
+    BAR_GREEN("bar_green")
 }
 
 enum class ImageButtonStyles {
@@ -104,6 +104,10 @@ fun createSkin(assets: AssetManager): Skin {
         }
 
         // image button
+        imageButton {
+            down = skin[Images.BUTTON_ROUND_DOWN]
+            up = skin[Images.BUTTON_ROUND_UP]
+        }
         imageButton(ImageButtonStyles.ATTACK.name) {
             down = skin[Images.BUTTON_ROUND_DOWN]
             up = skin[Images.BUTTON_ROUND_UP]

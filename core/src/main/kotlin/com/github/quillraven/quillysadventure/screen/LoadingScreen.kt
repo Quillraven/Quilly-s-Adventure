@@ -144,7 +144,7 @@ class LoadingScreen(
             )
             // create engine systems so that we have everything that we need for the main menu and game to render the characters, etc.
             ecsEngine.run {
-                addSystem(DebugSystem())
+                addSystem(DebugSystem(gameEventManager))
                 addSystem(TriggerSystem(gameEventManager))
                 addSystem(PhysicMoveSystem())
                 // facing system must come after move system because facing is set within move system
@@ -154,7 +154,14 @@ class LoadingScreen(
                 addSystem(AttackSystem(world, gameEventManager))
                 addSystem(DealDamageSystem())
                 addSystem(TakeDamageSystem(gameEventManager))
-                addSystem(DeathSystem(audioService, gameEventManager))
+                addSystem(
+                    DeathSystem(
+                        audioService,
+                        gameEventManager,
+                        bundle["levelUp"],
+                        bundle["xpAbbreviation"]
+                    )
+                )
                 // out of bounds system must be before PhysicSystem because it transforms the player's body
                 // and we need to run through the PhysicSystem once to update the TransformComponent accordingly
                 addSystem(OutOfBoundsSystem(gameEventManager))

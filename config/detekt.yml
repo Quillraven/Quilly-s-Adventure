@@ -23,12 +23,13 @@ complexity:
     ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
-    thresholdInFiles: 25
-    thresholdInObjects: 25
-    thresholdInClasses: 25
+    thresholdInFiles: 30
+    thresholdInObjects: 30
+    thresholdInClasses: 30
+    thresholdInInterfaces: 30
   ComplexInterface:
     active: true
-    threshold: 10
+    threshold: 30
     includeStaticDeclarations: false
   ComplexMethod:
     active: false

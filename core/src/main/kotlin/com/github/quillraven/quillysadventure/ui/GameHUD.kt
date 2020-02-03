@@ -1,15 +1,21 @@
 package com.github.quillraven.quillysadventure.ui
 
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
 import com.github.quillraven.quillysadventure.ui.widget.MapInfoWidget
 import com.github.quillraven.quillysadventure.ui.widget.PlayerInfoWidget
+import com.github.quillraven.quillysadventure.ui.widget.StatsWidget
 import com.github.quillraven.quillysadventure.ui.widget.mapInfoWidget
 import com.github.quillraven.quillysadventure.ui.widget.playerInfoWidget
+import ktx.actors.centerPosition
 import ktx.actors.onChangeEvent
+import ktx.actors.onClick
 import ktx.actors.onTouchEvent
+import ktx.actors.plusAssign
 import ktx.scene2d.KTable
 import ktx.scene2d.Scene2DSkin
 import ktx.scene2d.imageButton
@@ -17,10 +23,32 @@ import ktx.scene2d.table
 import ktx.scene2d.touchpad
 import ktx.scene2d.verticalGroup
 
-class GameHUD(private val gameEventManager: GameEventManager, skin: Skin = Scene2DSkin.defaultSkin) : Table(skin),
+class GameHUD(
+    private val gameEventManager: GameEventManager,
+    statsTitle: String,
+    skillText: String,
+    skin: Skin = Scene2DSkin.defaultSkin
+) : Table(skin),
     KTable {
     val infoWidget: PlayerInfoWidget
     val mapInfoWidget: MapInfoWidget
+    val statsWidget = StatsWidget(statsTitle, skillText).apply { color.a = 0f }
+    val skillButton = ImageButton(skin).apply {
+        onTouchEvent(
+            downListener = { _, actor ->
+                if (actor.style.imageDown != null) {
+                    // active skill button
+                    this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.CAST)
+                }
+            },
+            upListener = { _, actor ->
+                if (actor.style.imageDown != null) {
+                    // active skill button
+                    this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.CAST)
+                }
+            }
+        )
+    }
 
     init {
         defaults().fillX().pad(10f, 10f, 10f, 10f)
@@ -41,6 +69,10 @@ class GameHUD(private val gameEventManager: GameEventManager, skin: Skin = Scene
 
         // player information for life/mana in bottom center
         infoWidget = playerInfoWidget { it.expandX().spaceLeft(275f).padBottom(30f).bottom() }
+        infoWidget.imagePlayer.onClick {
+            statsWidget.centerPosition()
+            statsWidget += fadeIn(1f)
+        }
 
         // action buttons for jumping, attacking and casting in bottom right corner
         table {
@@ -56,10 +88,7 @@ class GameHUD(private val gameEventManager: GameEventManager, skin: Skin = Scene
                     downListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.ATTACK) },
                     upListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.ATTACK) }
                 )
-                imageButton(ImageButtonStyles.FIREBALL.name).onTouchEvent(
-                    downListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.CAST) },
-                    upListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.CAST) }
-                )
+                this.addActor(this@GameHUD.skillButton)
                 space(20f)
             }
             pack()

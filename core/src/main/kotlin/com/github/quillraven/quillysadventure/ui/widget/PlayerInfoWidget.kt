@@ -16,12 +16,12 @@ import ktx.scene2d.actor
 class PlayerInfoWidget(
     skin: Skin,
     imageHealthbars: Image = Image(skin[Images.IMAGE_HEALTHBARS]),
+    val imagePlayer: Image = Image(skin[Images.IMAGE_PLAYER_ICON]),
     private val imageAttackIndicator: Image = Image(skin[Images.IMAGE_ATTACK_INDICATOR]),
     private val imageLifeBar: Image = Image(skin[Images.IMAGE_LIFEBAR]),
     private val imageManaBar: Image = Image(skin[Images.IMAGE_MANABAR])
 ) : WidgetGroup(
-    Image(skin[Images.IMAGE_PLAYER_ICON]),
-    imageAttackIndicator, imageLifeBar, imageManaBar, imageHealthbars
+    imagePlayer, imageAttackIndicator, imageLifeBar, imageManaBar, imageHealthbars
 ), KGroup {
     init {
         // offsets from player icon image

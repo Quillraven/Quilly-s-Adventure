@@ -1,5 +1,6 @@
 package com.github.quillraven.quillysadventure.ui.widget
 
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.Array
 import com.github.quillraven.quillysadventure.ui.Images
 import com.github.quillraven.quillysadventure.ui.LabelStyles
 import com.github.quillraven.quillysadventure.ui.get
+import ktx.actors.centerPosition
 import ktx.actors.onClick
 import ktx.actors.plus
 import ktx.actors.plusAssign
@@ -49,11 +51,12 @@ class DialogWidget(skin: Skin = Scene2DSkin.defaultSkin) : Table(skin) {
                 setPage(pages[++currentPageIdx])
             } else {
                 // last page reached -> close dialog
-                this += fadeOut(1f)
+                this += fadeOut(1f) + Actions.moveBy(-2000f, 0f)
             }
         }
 
         pack()
+        color.a = 0f
     }
 
     private fun setPage(page: String) {
@@ -65,6 +68,7 @@ class DialogWidget(skin: Skin = Scene2DSkin.defaultSkin) : Table(skin) {
         pages.clear()
         pages.add(firstPage)
         color.a = 0f
+        centerPosition()
         this += delay(popupDelay) + fadeIn(1f)
         setPage(firstPage)
         return this

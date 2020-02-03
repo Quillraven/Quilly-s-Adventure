@@ -3,8 +3,12 @@ package com.github.quillraven.quillysadventure.ecs.system
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
+import com.github.quillraven.quillysadventure.ecs.component.statsCmp
+import com.github.quillraven.quillysadventure.event.GameEventManager
+import ktx.ashley.get
 
-class DebugSystem : EntitySystem() {
+class DebugSystem(private val gameEventManager: GameEventManager) : EntitySystem() {
     init {
         setProcessing(true)
     }
@@ -23,6 +27,15 @@ class DebugSystem : EntitySystem() {
             }
             Gdx.input.isKeyJustPressed(Input.Keys.NUM_3) -> {
                 engine.getSystem(RenderSystem::class.java).setSepia()
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.NUM_4) -> {
+                engine.entities.forEach {
+                    val playerCmp = it[PlayerComponent.mapper]
+                    if (playerCmp != null) {
+                        it.statsCmp.level = 3
+                        gameEventManager.dispatchCharacterLevelUp(it, 3, 0, 300)
+                    }
+                }
             }
         }
     }

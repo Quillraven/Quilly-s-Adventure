@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
 import com.github.quillraven.quillysadventure.UNIT_SCALE
 import com.github.quillraven.quillysadventure.ability.AbilityEffect
-import com.github.quillraven.quillysadventure.ability.FireballEffect
 import com.github.quillraven.quillysadventure.ability.SpinEffect
 import com.github.quillraven.quillysadventure.ai.DefaultEnemyState
 import com.github.quillraven.quillysadventure.ai.DefaultState
@@ -92,7 +91,6 @@ fun loadCharacterConfigurations(): CharacterConfigurations {
             mana = 10f
             armor = 2f
             defaultState = PlayerState.IDLE
-            abilities.add(FireballEffect)
         }
         cfg(Character.BLUE_SLIME, EntityType.ENEMY, ModelType.BLUE_SLIME) {
             speed = 0.3f

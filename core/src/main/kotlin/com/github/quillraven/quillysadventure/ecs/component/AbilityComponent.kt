@@ -25,6 +25,13 @@ class AbilityComponent : Component, Pool.Poolable {
     fun canCast() = abilityToCastIdx >= 0 && abilityToCastIdx < abilities.size && abilities[abilityToCastIdx].canCast()
 
     fun addAbility(entity: Entity, abilityEffect: AbilityEffect) {
+        abilities.forEach { ability ->
+            if (ability.effect == abilityEffect) {
+                // ability already learned
+                return
+            }
+        }
+
         abilities.add(Ability.pool.obtain().apply {
             owner = entity
             effect = abilityEffect
