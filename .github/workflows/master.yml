@@ -31,3 +31,25 @@ jobs:
           
       - name: build desktop snapshot jar
         run: ./gradlew shadowJar
+      
+      - name: create snapshot
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0-SNAPSHOT
+          release_name: v1.0
+          draft: false
+          prerelease: true
+          
+      - name: upload desktop jar to snapshot assets
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./desktop/build/libs/Quilly's Adventure-1.0.jar
+          asset_name: Quilly's Adventure-v1.0-SNAPSHOT.jar
+          asset_content_type: application/java-archive
