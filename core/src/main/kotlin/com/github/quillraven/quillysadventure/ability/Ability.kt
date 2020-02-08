@@ -30,7 +30,7 @@ class Ability : Pool.Poolable {
         stats.mana -= effect.cost
         cooldown = effect.cooldown
         effect.trigger(this)
-        gameEventManager.dispatchCharacterCast(owner, this, effect.cost, stats.mana, stats.maxMana)
+        gameEventManager.dispatchCharacterCastEvent(owner, this, effect.cost, stats.mana, stats.maxMana)
     }
 
     fun update(deltaTime: Float) {

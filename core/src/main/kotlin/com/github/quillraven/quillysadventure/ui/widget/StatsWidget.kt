@@ -55,6 +55,10 @@ class StatsWidget(
 
             left()
             pack()
+
+            // group is not rotated or scaled and therefore we do not need to transform every draw call
+            // -> increased draw performance because we avoid flushing the batch
+            isTransform = false
         }
 
         addActor(table)

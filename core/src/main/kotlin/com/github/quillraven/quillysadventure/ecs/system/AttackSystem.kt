@@ -32,7 +32,7 @@ class AttackSystem(private val world: World, private val gameEventManager: GameE
             if (canAttack() && order == AttackOrder.ATTACK_ONCE) {
                 // entity wants to attack and has no cooldown on its attack
                 // 1) set cooldown
-                gameEventManager.dispatchCharacterAttack(entity)
+                gameEventManager.dispatchCharacterAttackEvent(entity)
                 attackTime = cooldown
                 // 2) create damage emitter entity
                 val transform = entity.transfCmp
@@ -57,7 +57,7 @@ class AttackSystem(private val world: World, private val gameEventManager: GameE
                 attackTime -= deltaTime
                 if (attackTime <= 0f) {
                     // ready for another attack
-                    gameEventManager.dispatchCharacterAttackReady(entity)
+                    gameEventManager.dispatchCharacterAttackReadyEvent(entity)
                 }
             }
         }

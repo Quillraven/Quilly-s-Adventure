@@ -33,7 +33,7 @@ class DebugSystem(private val gameEventManager: GameEventManager) : EntitySystem
                     val playerCmp = it[PlayerComponent.mapper]
                     if (playerCmp != null) {
                         it.statsCmp.level = 3
-                        gameEventManager.dispatchCharacterLevelUp(it, 3, 0, 300)
+                        gameEventManager.dispatchCharacterLevelUpEvent(it, 3, 0, 300)
                     }
                 }
             }

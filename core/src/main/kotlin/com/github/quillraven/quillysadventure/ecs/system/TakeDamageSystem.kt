@@ -41,7 +41,7 @@ class TakeDamageSystem(private val gameEventManager: GameEventManager) : Iterati
         stats.life -= damage.damage
         stringBuilder.clear()
         stringBuilder.append(damage.damage.toInt())
-        gameEventManager.dispatchCharacterDamaged(entity, damage.damage, stats.life, stats.maxLife)
+        gameEventManager.dispatchCharacterDamagedEvent(entity, damage.damage, stats.life, stats.maxLife)
         damage.damage = 0f
 
         // after that step if the life is still <= 0 then the entity is really dead

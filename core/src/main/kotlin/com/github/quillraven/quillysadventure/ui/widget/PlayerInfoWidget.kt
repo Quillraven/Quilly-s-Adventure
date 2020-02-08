@@ -31,6 +31,10 @@ class PlayerInfoWidget(
         imageHealthbars.setPosition(barOffsetX, barOffsetY + 0f)
         imageLifeBar.setPosition(barOffsetX + 15f, barOffsetY + 15f)
         imageManaBar.setPosition(barOffsetX + 6f, barOffsetY + 6f)
+
+        // group is not rotated or scaled and therefore we do not need to transform every draw call
+        // -> increased draw performance because we avoid flushing the batch
+        isTransform = false
     }
 
     fun scaleLifeBarTo(percentage: Float, scaleDuration: Float = 1f) {

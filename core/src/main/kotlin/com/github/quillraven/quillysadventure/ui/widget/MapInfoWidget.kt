@@ -35,6 +35,10 @@ class MapInfoWidget(
         }
         // hide map info initially until show is called
         color.a = 0f
+
+        // group is not rotated or scaled and therefore we do not need to transform every draw call
+        // -> increased draw performance because we avoid flushing the batch
+        isTransform = false
     }
 
     fun show(text: String, duration: Float = 3.5f) {

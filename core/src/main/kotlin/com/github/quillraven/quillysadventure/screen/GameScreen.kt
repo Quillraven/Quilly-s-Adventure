@@ -277,4 +277,32 @@ class GameScreen(
             LOG.error(e) { "Missing tutorial text for index $tutorialNumber" }
         }
     }
+
+    /**
+     * Function to react on dialog events from the GameEventManager.
+     * Shows a dialog by retrieving all pages of a dialog from the I18N bundle.
+     * The given dialogKey is used to lookup the localized string in the bundle
+     * by adding a ".1", ".2", ... at the end of it. If a certain number cannot be
+     * found then the dialog is shown.
+     */
+    override fun showDialogEvent(dialogKey: String) {
+        try {
+            dialog.showDialog(bundle["$dialogKey.1"])
+        } catch (e: MissingResourceException) {
+            LOG.error(e) { "There is no dialog with key $dialogKey" }
+            return
+        }
+
+        try {
+            // check for additional dialog pages that should be added
+            // to the dialog
+            var additionalPage = 2
+            while (true) {
+                dialog.addPage(bundle["$dialogKey.$additionalPage"])
+                ++additionalPage
+            }
+        } catch (e: MissingResourceException) {
+            // no more pages for given dialog key
+        }
+    }
 }

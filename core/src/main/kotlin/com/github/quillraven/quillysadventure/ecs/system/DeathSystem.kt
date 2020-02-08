@@ -46,7 +46,7 @@ class DeathSystem(
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val entityStats = entity.statsCmp
         if (!entityStats.alive) {
-            gameEventManager.dispatchCharacterDeath(entity)
+            gameEventManager.dispatchCharacterDeathEvent(entity)
 
             // entity is dead -> remove it from the game if it is a non-player entity
             // otherwise heal player and move him out of bounds to respawn at latest checkpoint
@@ -76,14 +76,14 @@ class DeathSystem(
                 val transform = killer.transfCmp
                 // add xp of dying entity to killer entity
                 stats.xp += xpGained
-                gameEventManager.dispatchCharacterXPGained(killer, stats.xp, getNeededExperience(stats.level))
+                gameEventManager.dispatchCharacterXPGainedEvent(killer, stats.xp, getNeededExperience(stats.level))
 
                 var showLevelUpInfo = false
                 while (canLevelUp(stats.level, stats.xp)) {
                     // entity has enough XP for level up -> increase level
                     stats.level++
                     showLevelUpInfo = true
-                    gameEventManager.dispatchCharacterLevelUp(
+                    gameEventManager.dispatchCharacterLevelUpEvent(
                         killer,
                         stats.level,
                         stats.xp,

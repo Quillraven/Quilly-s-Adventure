@@ -57,6 +57,10 @@ class DialogWidget(skin: Skin = Scene2DSkin.defaultSkin) : Table(skin) {
 
         pack()
         color.a = 0f
+
+        // group is not rotated or scaled and therefore we do not need to transform every draw call
+        // -> increased draw performance because we avoid flushing the batch
+        isTransform = false
     }
 
     private fun setPage(page: String) {

@@ -15,4 +15,5 @@ interface GameEventListener {
     fun characterAttack(character: Entity) {}
     fun characterLevelUp(character: Entity, level: Int, xp: Int, xpNeeded: Int) {}
     fun characterXPGained(character: Entity, xp: Int, xpNeeded: Int) {}
+    fun showDialogEvent(dialogKey: String) {}
 }

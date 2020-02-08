@@ -98,7 +98,7 @@ class PlayerCollisionSystem(
                         }
                     }
                     EntityType.TRIGGER -> {
-                        gameEventManager.dispatchPlayerTriggerContact(entity, collidingEntity)
+                        gameEventManager.dispatchPlayerTriggerContactEvent(entity, collidingEntity)
                         iterator.remove()
                     }
                     else -> {

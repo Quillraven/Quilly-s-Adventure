@@ -232,3 +232,13 @@ class TriggerActionDeactivateTrigger : TriggerAction {
         return true
     }
 }
+
+class TriggerActionShowDialog : TriggerAction {
+    private val gameEventManager = Gdx.app.gameEventManager
+    var dialogKey = ""
+
+    override fun update(deltaTime: Float): Boolean {
+        gameEventManager.dispatchShowDialogEvent(dialogKey)
+        return true
+    }
+}

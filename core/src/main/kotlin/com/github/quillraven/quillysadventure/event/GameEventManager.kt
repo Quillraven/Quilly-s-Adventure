@@ -97,41 +97,45 @@ class GameEventManager : KtxInputAdapter {
     fun dispatchGameActivateSavepointEvent(savepoint: Entity) =
         gameEventListeners.forEach { it.activateSavepoint(savepoint) }
 
-    fun dispatchPlayerTriggerContact(player: Entity, trigger: Entity) =
+    fun dispatchPlayerTriggerContactEvent(player: Entity, trigger: Entity) =
         gameEventListeners.forEach { it.playerTriggerContact(player, trigger) }
 
-    fun dispatchCharacterDeath(character: Entity) =
+    fun dispatchCharacterDeathEvent(character: Entity) =
         gameEventListeners.forEach { it.characterDeath(character) }
 
-    fun dispatchCharacterDamaged(character: Entity, damage: Float, life: Float, maxLife: Float) {
+    fun dispatchCharacterDamagedEvent(character: Entity, damage: Float, life: Float, maxLife: Float) {
         gameEventListeners.forEach { it.characterDamaged(character, damage, life, maxLife) }
     }
 
-    fun dispatchCharacterHealLife(character: Entity, healAmount: Float, life: Float, maxLife: Float) {
+    fun dispatchCharacterHealLifeEvent(character: Entity, healAmount: Float, life: Float, maxLife: Float) {
         gameEventListeners.forEach { it.characterHealLife(character, healAmount, life, maxLife) }
     }
 
-    fun dispatchCharacterHealMana(character: Entity, healAmount: Float, mana: Float, maxMana: Float) {
+    fun dispatchCharacterHealManaEvent(character: Entity, healAmount: Float, mana: Float, maxMana: Float) {
         gameEventListeners.forEach { it.characterHealMana(character, healAmount, mana, maxMana) }
     }
 
-    fun dispatchCharacterCast(character: Entity, ability: Ability, cost: Int, mana: Float, maxMana: Float) {
+    fun dispatchCharacterCastEvent(character: Entity, ability: Ability, cost: Int, mana: Float, maxMana: Float) {
         gameEventListeners.forEach { it.characterCast(character, ability, cost, mana, maxMana) }
     }
 
-    fun dispatchCharacterAttackReady(character: Entity) {
+    fun dispatchCharacterAttackReadyEvent(character: Entity) {
         gameEventListeners.forEach { it.characterAttackReady(character) }
     }
 
-    fun dispatchCharacterAttack(character: Entity) {
+    fun dispatchCharacterAttackEvent(character: Entity) {
         gameEventListeners.forEach { it.characterAttack(character) }
     }
 
-    fun dispatchCharacterLevelUp(character: Entity, level: Int, xp: Int, xpNeeded: Int) {
+    fun dispatchCharacterLevelUpEvent(character: Entity, level: Int, xp: Int, xpNeeded: Int) {
         gameEventListeners.forEach { it.characterLevelUp(character, level, xp, xpNeeded) }
     }
 
-    fun dispatchCharacterXPGained(character: Entity, xp: Int, xpNeeded: Int) {
+    fun dispatchCharacterXPGainedEvent(character: Entity, xp: Int, xpNeeded: Int) {
         gameEventListeners.forEach { it.characterXPGained(character, xp, xpNeeded) }
+    }
+
+    fun dispatchShowDialogEvent(dialogKey: String) {
+        gameEventListeners.forEach { it.showDialogEvent(dialogKey) }
     }
 }

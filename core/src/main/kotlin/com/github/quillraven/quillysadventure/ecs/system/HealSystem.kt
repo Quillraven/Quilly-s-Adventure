@@ -39,11 +39,11 @@ class HealSystem(private val gameEventManager: GameEventManager) :
         }
         if (heal.life > 0) {
             stats.life = MathUtils.clamp(stats.life + heal.life, 0f, stats.maxLife)
-            gameEventManager.dispatchCharacterHealLife(entity, heal.life, stats.life, stats.maxLife)
+            gameEventManager.dispatchCharacterHealLifeEvent(entity, heal.life, stats.life, stats.maxLife)
         }
         if (heal.mana > 0) {
             stats.mana = MathUtils.clamp(stats.mana + heal.mana, 0f, stats.maxMana)
-            gameEventManager.dispatchCharacterHealMana(entity, heal.mana, stats.mana, stats.maxMana)
+            gameEventManager.dispatchCharacterHealManaEvent(entity, heal.mana, stats.mana, stats.maxMana)
         }
 
         entity.remove(HealComponent::class.java)

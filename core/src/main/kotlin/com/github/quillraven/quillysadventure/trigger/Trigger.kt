@@ -17,6 +17,7 @@ import com.github.quillraven.quillysadventure.trigger.action.TriggerActionPlayMu
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionResetState
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSelectActivatingCharacter
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSetPlayerInput
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionShowDialog
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionWaitCreatedCharacterDeath
 import ktx.collections.iterate
 
@@ -82,13 +83,15 @@ class Trigger : Pool.Poolable {
         return this
     }
 
-    private fun lastCreatedCharacterAction(): TriggerActionCreateCharacter =
-        actions.find { it is TriggerActionCreateCharacter } as TriggerActionCreateCharacter
+    fun resetAllCreatedCharacterStates(): Trigger {
+        actions.forEach {
+            if (it is TriggerActionCreateCharacter) {
+                actions.add(ReflectionPool(TriggerActionResetState::class.java).obtain().apply {
+                    this.createCharacterAction = it
+                })
+            }
+        }
 
-    fun resetLastCreatedCharacterState(): Trigger {
-        actions.add(ReflectionPool(TriggerActionResetState::class.java).obtain().apply {
-            this.createCharacterAction = lastCreatedCharacterAction()
-        })
         return this
     }
 
@@ -146,6 +149,13 @@ class Trigger : Pool.Poolable {
 
     fun resetActions() {
         currentIdx = 0
+    }
+
+    fun showDialog(dialogKey: String): Trigger {
+        actions.add(ReflectionPool(TriggerActionShowDialog::class.java).obtain().apply {
+            this.dialogKey = dialogKey
+        })
+        return this
     }
 
     companion object {
