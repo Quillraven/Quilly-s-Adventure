@@ -289,7 +289,7 @@ class GameScreen(
         try {
             dialog.showDialog(bundle["$dialogKey.1"])
         } catch (e: MissingResourceException) {
-            LOG.error(e) { "There is no dialog with key $dialogKey" }
+            LOG.error(e) { "There is no dialog in the resourcebundle with key $dialogKey.1" }
             return
         }
 
