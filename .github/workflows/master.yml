@@ -18,7 +18,7 @@ jobs:
   gradle:
     runs-on: windows-latest
     steps:
-      - name: checkout master
+      - name: checkout repository
         uses: actions/checkout@v1
     
       - name: setup JDK8 version
