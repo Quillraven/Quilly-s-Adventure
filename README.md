@@ -1,3 +1,4 @@
+![Master](https://github.com/Quillraven/Quilly-s-Adventure/workflows/Master/badge.svg)
 [![Kotlin](https://img.shields.io/badge/kotlin-1.3.61-red.svg)](http://kotlinlang.org/)
 [![LibGDX](https://img.shields.io/badge/libgdx-1.9.10-blue.svg)](https://libgdx.badlogicgames.com/)
 [![LibKTX](https://img.shields.io/badge/libktx-1.9.10--b4-orange.svg)](https://libktx.github.io/)
