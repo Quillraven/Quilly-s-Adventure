@@ -3,6 +3,7 @@ package com.github.quillraven.quillysadventure.trigger.action
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Music
+import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pool
 import com.github.quillraven.quillysadventure.ai.DefaultState
@@ -11,8 +12,13 @@ import com.github.quillraven.quillysadventure.assets.ParticleAssets
 import com.github.quillraven.quillysadventure.characterConfigurations
 import com.github.quillraven.quillysadventure.configuration.Character
 import com.github.quillraven.quillysadventure.ecs.character
+import com.github.quillraven.quillysadventure.ecs.component.AnimationType
+import com.github.quillraven.quillysadventure.ecs.component.CharacterTypeComponent
 import com.github.quillraven.quillysadventure.ecs.component.FadeInComponent
+import com.github.quillraven.quillysadventure.ecs.component.MoveOrder
 import com.github.quillraven.quillysadventure.ecs.component.ParticleComponent
+import com.github.quillraven.quillysadventure.ecs.component.aniCmp
+import com.github.quillraven.quillysadventure.ecs.component.moveCmp
 import com.github.quillraven.quillysadventure.ecs.component.physicCmp
 import com.github.quillraven.quillysadventure.ecs.component.portalCmp
 import com.github.quillraven.quillysadventure.ecs.component.stateCmp
@@ -25,6 +31,7 @@ import com.github.quillraven.quillysadventure.gameEventManager
 import com.github.quillraven.quillysadventure.getAudioService
 import com.github.quillraven.quillysadventure.trigger.Trigger
 import com.github.quillraven.quillysadventure.world
+import ktx.ashley.get
 import ktx.collections.iterate
 import ktx.math.vec2
 
@@ -186,9 +193,28 @@ class TriggerActionWaitCreatedCharacterDeath : TriggerAction, GameEventListener 
     }
 }
 
-class TriggerActionSelectActivatingCharacter : TriggerAction {
-    lateinit var trigger: Trigger
+abstract class TriggerActionSelectCharacter : TriggerAction {
     lateinit var character: Entity
+}
+
+class TriggerActionSelectCharacterByType : TriggerActionSelectCharacter() {
+    private val engine = Gdx.app.ecsEngine
+    var type: Character = Character.PLAYER
+
+    override fun update(deltaTime: Float): Boolean {
+        engine.entities.forEach {
+            val typeCmp = it[CharacterTypeComponent.mapper]
+            if (typeCmp != null && typeCmp.type == this.type) {
+                character = it
+                return@forEach
+            }
+        }
+        return true
+    }
+}
+
+class TriggerActionSelectActivatingCharacter : TriggerActionSelectCharacter() {
+    lateinit var trigger: Trigger
 
     override fun update(deltaTime: Float): Boolean {
         character = trigger.activatingCharacter
@@ -197,7 +223,7 @@ class TriggerActionSelectActivatingCharacter : TriggerAction {
 }
 
 class TriggerActionMoveCharacter : TriggerAction {
-    lateinit var selectCharacterAction: TriggerActionSelectActivatingCharacter
+    lateinit var selectCharacterAction: TriggerActionSelectCharacter
     var targetLocation = vec2()
 
     override fun update(deltaTime: Float): Boolean {
@@ -210,7 +236,7 @@ class TriggerActionMoveCharacter : TriggerAction {
 }
 
 class TriggerActionDamageCharacter : TriggerAction {
-    lateinit var selectCharacterAction: TriggerActionSelectActivatingCharacter
+    lateinit var selectCharacterAction: TriggerActionSelectCharacter
     var damage = 0f
 
     override fun update(deltaTime: Float): Boolean {
@@ -240,5 +266,54 @@ class TriggerActionShowDialog : TriggerAction {
     override fun update(deltaTime: Float): Boolean {
         gameEventManager.dispatchShowDialogEvent(dialogKey)
         return true
+    }
+}
+
+class TriggerActionMoveOrderCharacter : TriggerAction {
+    lateinit var selectCharacterAction: TriggerActionSelectCharacter
+    var order = MoveOrder.NONE
+
+    override fun update(deltaTime: Float): Boolean {
+        selectCharacterAction.character.moveCmp.order = order
+        selectCharacterAction.character.aniCmp.animationType = AnimationType.RUN
+        return true
+    }
+}
+
+class TriggerActionPlayAnimationCharacter : TriggerAction {
+    lateinit var selectCharacterAction: TriggerActionSelectCharacter
+    var type = AnimationType.IDLE
+    var waitForCompletion = false
+    var mode = Animation.PlayMode.NORMAL
+    private var storeOrigSettings = true
+    private var origMode = Animation.PlayMode.NORMAL
+    private var origType = AnimationType.IDLE
+
+    override fun update(deltaTime: Float): Boolean {
+        val aniCmp = selectCharacterAction.character.aniCmp
+        if (storeOrigSettings) {
+            storeOrigSettings = false
+            origMode = aniCmp.mode
+            origType = aniCmp.animationType
+
+            aniCmp.animationType = type
+            aniCmp.mode = mode
+        }
+
+        val result = when {
+            waitForCompletion -> aniCmp.isAnimationFinished()
+            else -> true
+        }
+        if (result) {
+            // restore original values
+            aniCmp.mode = origMode
+            aniCmp.animationType = origType
+        }
+        return result
+    }
+
+    override fun reset() {
+        storeOrigSettings = true
+        waitForCompletion = false
     }
 }

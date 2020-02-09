@@ -2,6 +2,7 @@ package com.github.quillraven.quillysadventure.event
 
 import com.badlogic.ashley.core.Entity
 import com.github.quillraven.quillysadventure.ability.Ability
+import com.github.quillraven.quillysadventure.trigger.Trigger
 
 interface GameEventListener {
     fun activateSavepoint(savepoint: Entity) {}
@@ -16,4 +17,5 @@ interface GameEventListener {
     fun characterLevelUp(character: Entity, level: Int, xp: Int, xpNeeded: Int) {}
     fun characterXPGained(character: Entity, xp: Int, xpNeeded: Int) {}
     fun showDialogEvent(dialogKey: String) {}
+    fun triggerFinishEvent(trigger: Trigger) {}
 }

@@ -219,11 +219,25 @@ class LoadingScreen(
                     bundle
                 )
             )
+            game.addScreen(
+                IntroScreen(
+                    game,
+                    bundle,
+                    audioService,
+                    gameEventManager,
+                    ecsEngine,
+                    mapManager,
+                    rayHandler,
+                    gameViewport,
+                    stage
+                )
+            )
             game.addScreen(EndScreen(game))
         }
 
         if (loaded && Gdx.input.isTouched) {
             // go to the menu screen once everything is loaded
+            // game.setScreen<MenuScreen>()
             game.setScreen<MenuScreen>()
             // cleanup loading screen stuff
             game.removeScreen<LoadingScreen>()

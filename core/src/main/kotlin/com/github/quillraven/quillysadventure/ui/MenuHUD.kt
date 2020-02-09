@@ -25,6 +25,7 @@ class MenuHUD(
     skin: Skin = Scene2DSkin.defaultSkin
 ) : Table(skin), KTable {
     val newGameLabel: Label
+    val continueLabel: Label
     val creditsTable = Table(skin).apply {
         this.background = skin[Images.MENU_BACKGROUND]
         defaults().pad(15f)
@@ -57,7 +58,7 @@ class MenuHUD(
             setAlignment(Align.center)
             cell.fillX().row()
         }
-        label(bundle["continue"], LabelStyles.LARGE.name) { cell ->
+        continueLabel = label(bundle["continue"], LabelStyles.LARGE.name) { cell ->
             setAlignment(Align.center)
             cell.fillX().row()
         }

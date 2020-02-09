@@ -134,6 +134,7 @@ fun loadCharacterConfigurations(): CharacterConfigurations {
         cfg(Character.SAVE_POINT, EntityType.SAVE_POINT, ModelType.EYE_MONSTER)
         cfg(Character.GIRL, EntityType.NPC, ModelType.GIRL) {
             size(0.5f, 0.6f)
+            speed = 0.9f
         }
         cfg(Character.MINOTAUR, EntityType.ENEMY, ModelType.MINOTAUR) {
             speed = 0.90f

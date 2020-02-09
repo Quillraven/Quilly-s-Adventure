@@ -36,21 +36,22 @@ import java.util.*
 
 class MenuScreen(
     private val game: KtxGame<KtxScreen>,
-    private val ecsEngine: Engine,
+    ecsEngine: Engine,
     private val mapManager: MapManager,
-    private val gameEventManager: GameEventManager,
-    private val audioService: AudioService,
-    private val rayHandler: RayHandler,
-    private val gameViewport: Viewport,
-    private val stage: Stage,
-    private val bundle: I18NBundle
-) : KtxScreen {
+    gameEventManager: GameEventManager,
+    audioService: AudioService,
+    rayHandler: RayHandler,
+    gameViewport: Viewport,
+    stage: Stage,
+    bundle: I18NBundle
+) : Screen(ecsEngine, audioService, bundle, stage, gameEventManager, rayHandler, gameViewport) {
     private var lastSoundVolume = audioService.soundVolume
     private var lastMusicVolume = audioService.musicVolume
     private lateinit var bannerTexture: Texture
 
     private val hud: MenuHUD = MenuHUD(bundle).apply {
-        newGameLabel.onClick { game.setScreen<GameScreen>() }
+        newGameLabel.onClick { game.setScreen<IntroScreen>() }
+        continueLabel.onClick { game.setScreen<GameScreen>() }
         // sound buttons increase / decrease sound volume
         soundWidget.audioIncreaseButton.onClick {
             audioService.soundVolume += 0.05f
@@ -91,10 +92,11 @@ class MenuScreen(
     private val tmpEntities = Array<Entity>(2)
 
     override fun show() {
-        if (bundle.locale == Locale.GERMAN) {
-            bannerTexture = Texture(Gdx.files.internal("ui/banner_de.png"))
+        super.show()
+        bannerTexture = if (bundle.locale == Locale.GERMAN) {
+            Texture(Gdx.files.internal("ui/banner_de.png"))
         } else {
-            bannerTexture = Texture(Gdx.files.internal("ui/banner_en.png"))
+            Texture(Gdx.files.internal("ui/banner_en.png"))
         }
         val banner = Image(bannerTexture).apply {
             setPosition(30f, 820f)
@@ -117,45 +119,22 @@ class MenuScreen(
         hud.updateMusicVolume(audioService.musicVolume)
 
         // adjust some characters to fit the menu scene
-        ecsEngine.getCharacter(Character.GIRL, tmpEntities).forEach {
+        engine.getCharacter(Character.GIRL, tmpEntities).forEach {
             it.facingCmp.direction = FacingDirection.LEFT
         }
-        ecsEngine.entities.forEach {
+        engine.entities.forEach {
             it[AnimationComponent.mapper]?.animationSpeed = 0.75f
         }
         gameEventManager.disablePlayerInput()
     }
 
     override fun hide() {
-        stage.clear()
+        super.hide()
         // reset menu specific character cfgs
-        ecsEngine.entities.forEach {
+        engine.entities.forEach {
             it[AnimationComponent.mapper]?.animationSpeed = 1f
         }
         gameEventManager.enablePlayerInput()
         bannerTexture.dispose()
-    }
-
-    override fun resize(width: Int, height: Int) {
-        stage.viewport.update(width, height, true)
-        if (width != stage.viewport.screenWidth || height != stage.viewport.screenHeight) {
-            rayHandler.resizeFBO(width / 4, height / 4)
-        }
-        gameViewport.update(width, height, true)
-        rayHandler.useCustomViewport(
-            gameViewport.screenX,
-            gameViewport.screenY,
-            gameViewport.screenWidth,
-            gameViewport.screenHeight
-        )
-    }
-
-    override fun render(delta: Float) {
-        ecsEngine.update(delta)
-        audioService.update()
-
-        stage.viewport.apply()
-        stage.act()
-        stage.draw()
     }
 }
