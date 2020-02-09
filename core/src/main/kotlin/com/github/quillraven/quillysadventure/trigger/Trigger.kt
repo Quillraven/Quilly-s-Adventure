@@ -1,11 +1,14 @@
 package com.github.quillraven.quillysadventure.trigger
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pool
 import com.badlogic.gdx.utils.ReflectionPool
 import com.github.quillraven.quillysadventure.assets.MusicAssets
 import com.github.quillraven.quillysadventure.configuration.Character
+import com.github.quillraven.quillysadventure.ecs.component.AnimationType
+import com.github.quillraven.quillysadventure.ecs.component.MoveOrder
 import com.github.quillraven.quillysadventure.trigger.action.TriggerAction
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionCreateCharacter
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionDamageCharacter
@@ -13,9 +16,13 @@ import com.github.quillraven.quillysadventure.trigger.action.TriggerActionDeacti
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionDelay
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionEnablePortal
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionMoveCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionMoveOrderCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionPlayAnimationCharacter
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionPlayMusic
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionResetState
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSelectActivatingCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSelectCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSelectCharacterByType
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSetPlayerInput
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionShowDialog
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionWaitCreatedCharacterDeath
@@ -120,8 +127,15 @@ class Trigger : Pool.Poolable {
         return this
     }
 
-    private fun lastSelectedCharacterAction(): TriggerActionSelectActivatingCharacter =
-        actions.find { it is TriggerActionSelectActivatingCharacter } as TriggerActionSelectActivatingCharacter
+    fun selectCharacterByType(type: Character): Trigger {
+        actions.add(ReflectionPool(TriggerActionSelectCharacterByType::class.java).obtain().apply {
+            this.type = type
+        })
+        return this
+    }
+
+    private fun lastSelectedCharacterAction(): TriggerActionSelectCharacter =
+        actions.findLast { it is TriggerActionSelectCharacter } as TriggerActionSelectCharacter
 
     fun moveSelectedCharacterTo(x: Float, y: Float): Trigger {
         actions.add(ReflectionPool(TriggerActionMoveCharacter::class.java).obtain().apply {
@@ -154,6 +168,28 @@ class Trigger : Pool.Poolable {
     fun showDialog(dialogKey: String): Trigger {
         actions.add(ReflectionPool(TriggerActionShowDialog::class.java).obtain().apply {
             this.dialogKey = dialogKey
+        })
+        return this
+    }
+
+    fun orderMoveSelecedCharacter(moveOrder: MoveOrder): Trigger {
+        actions.add(ReflectionPool(TriggerActionMoveOrderCharacter::class.java).obtain().apply {
+            selectCharacterAction = lastSelectedCharacterAction()
+            order = moveOrder
+        })
+        return this
+    }
+
+    fun playAnimationSelectedCharacter(
+        animationType: AnimationType,
+        playMode: Animation.PlayMode,
+        waitForCompletion: Boolean
+    ): Trigger {
+        actions.add(ReflectionPool(TriggerActionPlayAnimationCharacter::class.java).obtain().apply {
+            selectCharacterAction = lastSelectedCharacterAction()
+            this.mode = playMode
+            type = animationType
+            this.waitForCompletion = waitForCompletion
         })
         return this
     }

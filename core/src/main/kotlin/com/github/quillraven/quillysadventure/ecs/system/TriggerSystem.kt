@@ -28,6 +28,7 @@ class TriggerSystem(private val gameEventManager: GameEventManager) :
             if (trigger.active && trigger.update(deltaTime)) {
                 // trigger is active and completed all of its actions -> remove it
                 entity.add(engine.createComponent(RemoveComponent::class.java))
+                gameEventManager.dispatchTriggerFinishedEvent(trigger)
             }
         }
     }

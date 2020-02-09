@@ -8,6 +8,7 @@ import com.github.quillraven.quillysadventure.ability.Ability
 import com.github.quillraven.quillysadventure.input.InputListener
 import com.github.quillraven.quillysadventure.map.Map
 import com.github.quillraven.quillysadventure.map.MapChangeListener
+import com.github.quillraven.quillysadventure.trigger.Trigger
 import ktx.app.KtxInputAdapter
 
 enum class Key {
@@ -137,5 +138,9 @@ class GameEventManager : KtxInputAdapter {
 
     fun dispatchShowDialogEvent(dialogKey: String) {
         gameEventListeners.forEach { it.showDialogEvent(dialogKey) }
+    }
+
+    fun dispatchTriggerFinishedEvent(trigger: Trigger) {
+        gameEventListeners.forEach { it.triggerFinishEvent(trigger) }
     }
 }
