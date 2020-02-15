@@ -17,6 +17,7 @@ import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
 import com.github.quillraven.quillysadventure.ecs.component.abilityCmp
 import com.github.quillraven.quillysadventure.ecs.component.statsCmp
 import com.github.quillraven.quillysadventure.ecs.system.DeathSystem
+import com.github.quillraven.quillysadventure.ecs.system.TutorialSystem
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
 import com.github.quillraven.quillysadventure.input.InputListener
@@ -30,10 +31,6 @@ import com.github.quillraven.quillysadventure.ui.Images
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get
-import ktx.log.logger
-import java.util.*
-
-private val LOG = logger<GameScreen>()
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
@@ -49,6 +46,8 @@ class GameScreen(
     MapChangeListener {
     private val hud = GameHUD(gameEventManager, bundle["statsTitle"], bundle["skills"])
     private var gameOver = false
+
+    private val tutorialSystem = TutorialSystem(gameEventManager)
 
     private val lifeTxt = bundle["life"]
     private val manaTxt = bundle["mana"]
@@ -76,7 +75,8 @@ class GameScreen(
                             it.abilityCmp.addAbility(it, FireballEffect)
                         }
                     }
-                    skillSelected(ImageButtonStyles.FIREBALL)
+                    hud.skillButton.style =
+                        hud.skin.get(ImageButtonStyles.FIREBALL.name, ImageButton.ImageButtonStyle::class.java)
                 }
             }
         })
@@ -88,6 +88,7 @@ class GameScreen(
         // set initial map
         mapManager.setMap(MapType.MAP1)
 
+        engine.addSystem(tutorialSystem)
         // set player hud info (life, mana, attack ready, etc.)
         engine.entities.forEach {
             val playerCmp = it[PlayerComponent.mapper]
@@ -105,22 +106,15 @@ class GameScreen(
                         .updateDamage(bundle["damage"], this.damage.toInt())
                         .updateArmor(bundle["armor"], this.armor.toInt())
                 }
-                if (playerCmp.tutorialProgress == 0) {
-                    playerCmp.tutorialProgress++
-                    showTutorialInfo(0, 2f)
-                }
             }
         }
-    }
-
-    private fun skillSelected(skillImageStyle: ImageButtonStyles) {
-        hud.skillButton.style = hud.skin.get(skillImageStyle.name, ImageButton.ImageButtonStyle::class.java)
     }
 
     override fun hide() {
         super.hide()
         gameEventManager.removeInputListener(this)
         gameEventManager.removeMapChangeListener(this)
+        engine.removeSystem(tutorialSystem)
     }
 
     override fun render(delta: Float) {
@@ -152,10 +146,6 @@ class GameScreen(
         if (playerCmp != null) {
             hud.infoWidget.scaleLifeBarTo(life / maxLife)
             hud.statsWidget.updateLife(lifeTxt, life.toInt(), maxLife.toInt())
-            if (playerCmp.tutorialProgress == 2) {
-                ++playerCmp.tutorialProgress
-                showTutorialInfo(2)
-            }
         }
     }
 
@@ -184,10 +174,6 @@ class GameScreen(
         val playerCmp = character[PlayerComponent.mapper]
         if (playerCmp != null) {
             hud.infoWidget.disableAttackIndicator()
-            if (playerCmp.tutorialProgress == 1) {
-                ++playerCmp.tutorialProgress
-                showTutorialInfo(1)
-            }
         }
     }
 
@@ -217,13 +203,5 @@ class GameScreen(
 
     override fun mapChange(newMap: Map) {
         hud.mapInfoWidget.show(bundle["map.name.${newMap.type}"])
-    }
-
-    private fun showTutorialInfo(tutorialNumber: Int, popupDelay: Float = 0f) {
-        try {
-            dialog.showDialog(bundle["tutorial.$tutorialNumber"], popupDelay)
-        } catch (e: MissingResourceException) {
-            LOG.error(e) { "Missing tutorial text for index $tutorialNumber" }
-        }
     }
 }
