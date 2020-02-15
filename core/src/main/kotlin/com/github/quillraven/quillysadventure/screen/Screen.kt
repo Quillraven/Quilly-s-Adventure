@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.ecs.system.DebugSystem
 import com.github.quillraven.quillysadventure.ecs.system.FloatingTextSystem
+import com.github.quillraven.quillysadventure.ecs.system.LightSystem
 import com.github.quillraven.quillysadventure.ecs.system.RenderPhysicDebugSystem
 import com.github.quillraven.quillysadventure.ecs.system.RenderSystem
 import com.github.quillraven.quillysadventure.event.GameEventListener
@@ -53,8 +54,9 @@ abstract class Screen(
     }
 
     private fun EntitySystem.isDebugOrRenderSystem() =
-        this is DebugSystem || this is RenderPhysicDebugSystem || // debug systems
-                this is RenderSystem || this is FloatingTextSystem // render systems
+        this is DebugSystem || this is RenderPhysicDebugSystem  // debug systems
+                || this is RenderSystem || this is FloatingTextSystem // render systems
+                || this is LightSystem // box2d light system
 
 
     override fun render(delta: Float) {
