@@ -123,5 +123,16 @@ enum class PlayerState(
             entity.moveCmp.lockMovement = false
             super.exit(entity)
         }
-    };
+    },
+    FAKE_DEATH(AnimationType.DEATH, Animation.PlayMode.NORMAL) {
+        override fun enter(entity: Entity) {
+            super.enter(entity)
+            entity.aniCmp.animationSpeed = 0.5f
+        }
+
+        override fun exit(entity: Entity) {
+            super.exit(entity)
+            entity.aniCmp.animationSpeed = 1f
+        }
+    }
 }

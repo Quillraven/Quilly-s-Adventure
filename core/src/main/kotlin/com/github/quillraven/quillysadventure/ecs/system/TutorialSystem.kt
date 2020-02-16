@@ -10,6 +10,7 @@ import com.github.quillraven.quillysadventure.event.GameEventListener
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import ktx.ashley.allOf
 import ktx.ashley.exclude
+import ktx.ashley.get
 
 private const val WELCOME_TUTORIAL_DELAY = 2.0f
 
@@ -53,11 +54,15 @@ class TutorialSystem(private val gameEventManager: GameEventManager) :
     }
 
     override fun characterAttack(character: Entity) {
-        showTutorialType = TutorialType.Attack
+        if (character[PlayerComponent.mapper] != null) {
+            showTutorialType = TutorialType.Attack
+        }
     }
 
     override fun characterDamaged(character: Entity, damage: Float, life: Float, maxLife: Float) {
-        showTutorialType = TutorialType.Damaged
+        if (character[PlayerComponent.mapper] != null) {
+            showTutorialType = TutorialType.Damaged
+        }
     }
 
     override fun characterLevelUp(character: Entity, level: Int, xp: Int, xpNeeded: Int) {

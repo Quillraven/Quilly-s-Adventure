@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-up" compressionlevel="0" width="32" height="18" tilewidth="16" tileheight="16" infinite="0" nextlayerid="35" nextobjectid="118">
+ <tileset firstgid="1" source="tilesets.tsx"/>
+ <layer id="28" name="bgd0" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAFjYBgFoyEwGgKjITAaAqMhMBoCoyEwskIAAAkAAAE=
+  </data>
+ </layer>
+ <layer id="29" name="bgd1" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAHtkEEKwDAIBL320H/2E/17yWEgl8UtNc1FQQxRZ9WItr5AX6DqAvcZMXyFuVy3zp2RnTIueaLLz+oU7zoiZqeOmHHdvOLN2uONjXqcvy/xrT5aqo+8GxVH7Q9X9ZF3o+L8pa/mzPRVX9X/bv2qPXZyHlxEGDk=
+  </data>
+ </layer>
+ <layer id="30" name="bgd2" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAHtlVlugzAQhv3YJX3oGSBLL5YzFLM0y/UizJKmPU4/S7FkEQ8hJIoUqQ+fDDbz/zPDCPI3pfIRRM9KxTCFMfH/MZf3bUmvLY/Yu5K8zZ1z33l+0QvzCtf0ThOfQiborNnfwFY4H+rt5+3HGHQrqAX9A/s/8Cuc+1qXXJ+r22l90e8VrL2+u7Nr1lDd+pV3ARnkUMAe3284dPylfko5ncwqekVH0+BXQQ0NtLAHq9k3B8mTUhpSkPy7s9rg3Xb84wnfXpjBHBbwAVazbw5KfA1UPf4neQXqT/DSkEJmfaGw6/FfIs3BmP9GqP4SLwMV1NBAC84/NAfu7BZrRJ0xTGEGc1jALbSHaHzilYCGFDIYEhd6ZshMhuLs3juzEUJ6PrQ/aiaP9TpvX9fu+fd913+q3zjH
+  </data>
+ </layer>
+ <layer id="31" name="bgd3" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAHFltdOQkEQhtc7CwcQAV/KltjuNAJK86WssV3bFXwp64V+k/CTyeagRI1O8uVsm53Znd3Z0xgLfbkYDeESrjIhXEMNNiEHefiJZMZDSCALeSjAFDSc/QzlBLZ6xH4U8G0QRfpKUIZpSJOE9izkIN/D29/AbgWqzgfzRX7U0RlEk74WtGEb0qRCexVqsNnD7DehBW24gEu4ghvQXtj3nf0KEyHcous5JTZn0KG9Cw+QJv340n/dw+zfQwe6EMfJ/JEPS9hehknaPCEJYQSKtJegDGkS25/D5690bB75cIztEzB/amC+23cZ2yvg9zHNvs5XFp0D5jmEr3RsnnPGx3Gx+NyB4mRlv49p9v35esX2Gwyz/gniHsfF7pHdofg+FWkrQZpoHXa+59n7BRhm/WlzfafN1iEf7PwcDBn/79j6TMfH4S/XL5/8ORwm/tL7re8M+z4Ldv/+Y/072N2FPShBGabBJM7RGdoTyHFX6nwboDdAfaoXGaNylrLpqO7fhkfmeIJnaEEbtsEkztEbtFegxly3fO9Ab4D6VG8yRuUqZdNR3b8N3n6H+brwACbKkfvoKket0LcKk+S4AvjcP6i8yPglUL9/G/z5i3OW+l6wrxyl90U5X3NbfQwb46BY6F/hiLZjkE58zpVP7R/A5yzdTTubylF6X/QOaW6rrzFuHRQL/bNYn70P0onPufLpB+tvmQ4=
+  </data>
+ </layer>
+ <layer id="32" name="bgd4" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAHt0MENABAAQ9E/gCt2xI7YTLfoQZv0/JMHUAs0veuODXWnvkz9re7Rr6nvME8zAhGIQAQi8LPAA3mCBDA=
+  </data>
+ </layer>
+ <layer id="33" name="fgd" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eAFjYBgFoyEwGgKjITAaAqMhgBoCYZwMDOFATA7Yw8XAsBeIKQGrgXavIdN+QW4GBiEgpggA3c9IoR8osn9UM81DAABJaAQE
+  </data>
+ </layer>
+ <objectgroup color="#ff0000" id="7" name="collision">
+  <object id="70" x="76.1114" y="224.2" width="377.694" height="40.2727"/>
+ </objectgroup>
+ <objectgroup color="#d89000" id="11" name="item"/>
+ <objectgroup color="#0000ff" id="12" name="portal"/>
+ <objectgroup id="8" name="playerSpawnLocation">
+  <object id="117" x="272" y="222">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#0000ff" id="9" name="enemy">
+  <object id="116" name="MINOTAUR" x="237.333" y="222">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#00aa00" id="15" name="savePoint"/>
+ <objectgroup color="#ff5500" id="16" name="npc"/>
+ <objectgroup color="#339c9c" id="34" name="trigger"/>
+</map>

@@ -18,7 +18,8 @@ enum class MusicAssets(val filePath: String, val volumeScale: Float = 0.15f) {
     LEVEL_1_REMASTERED("music/level1_remastered.ogg"),
     LEVEL_2("music/cave.mp3"),
     BOSS_1("music/boss1.mp3"),
-    FANFARE("music/fanfare.mp3")
+    FANFARE("music/fanfare.mp3"),
+    GAME_OVER("music/gameover.ogg")
 }
 
 fun AssetManager.load(asset: MusicAssets) = load<Music>(asset.filePath)
@@ -62,7 +63,8 @@ enum class MapAssets(val filePath: String) {
     MAP_1("map/map1.tmx"),
     MAP_2("map/map2.tmx"),
     TEST_MAP("map/testmap.tmx"),
-    MAIN_MENU("map/menuMap.tmx")
+    MAIN_MENU("map/menuMap.tmx"),
+    GAME_OVER("map/gameover.tmx")
 }
 
 fun AssetManager.load(asset: MapAssets) = load<TiledMap>(asset.filePath)

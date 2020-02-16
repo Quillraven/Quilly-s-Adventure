@@ -9,7 +9,8 @@ import java.util.*
 enum class ShaderType(val vertexName: String = "default", val fragmentName: String = "default") {
     DEFAULT,
     GRAYSCALE(fragmentName = "grayScale"),
-    SEPIA(fragmentName = "sepia")
+    SEPIA(fragmentName = "sepia"),
+    COLOR(fragmentName = "color")
 }
 
 class ShaderPrograms : Disposable {

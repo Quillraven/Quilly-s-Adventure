@@ -438,90 +438,90 @@ MINOTAUR/ATTACK
   orig: 96, 64
   offset: 0, 0
   index: 7
-MINOTAUR/ATTACK
-  rotate: false
-  xy: 1902, 138
-  size: 96, 64
-  orig: 96, 64
-  offset: 0, 0
-  index: 8
-MINOTAUR/ATTACK3
+MINOTAUR/ATTACK2
   rotate: false
   xy: 1902, 138
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
   index: 0
-MINOTAUR/IDLE
-  rotate: false
-  xy: 1902, 138
-  size: 96, 64
-  orig: 96, 64
-  offset: 0, 0
-  index: 1
 MINOTAUR/ATTACK2
   rotate: false
   xy: 2, 206
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 0
+  index: 1
 MINOTAUR/ATTACK2
   rotate: false
   xy: 102, 206
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 1
+  index: 2
 MINOTAUR/ATTACK2
   rotate: false
   xy: 202, 206
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 2
+  index: 3
 MINOTAUR/ATTACK2
   rotate: false
   xy: 302, 206
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 3
+  index: 4
 MINOTAUR/ATTACK2
   rotate: false
   xy: 402, 206
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 4
+  index: 5
 MINOTAUR/ATTACK2
   rotate: false
   xy: 502, 206
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 5
+  index: 6
 MINOTAUR/ATTACK2
   rotate: false
   xy: 602, 206
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 6
+  index: 7
 MINOTAUR/ATTACK2
   rotate: false
   xy: 702, 206
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 7
-MINOTAUR/ATTACK2
+  index: 8
+MINOTAUR/ATTACK3
+  rotate: false
+  xy: 802, 206
+  size: 96, 64
+  orig: 96, 64
+  offset: 0, 0
+  index: 0
+MINOTAUR/ATTACK
   rotate: false
   xy: 802, 206
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
   index: 8
+MINOTAUR/IDLE
+  rotate: false
+  xy: 802, 206
+  size: 96, 64
+  orig: 96, 64
+  offset: 0, 0
+  index: 1
 MINOTAUR/ATTACK3
   rotate: false
   xy: 902, 206
@@ -592,466 +592,459 @@ MINOTAUR/DEATH
   orig: 96, 64
   offset: 0, 0
   index: 5
-MINOTAUR/IDLE
+MINOTAUR/GUARD
   rotate: false
   xy: 1902, 206
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
   index: 0
-MINOTAUR/IDLE
+MINOTAUR/GUARD
   rotate: false
   xy: 2, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 2
-MINOTAUR/IDLE
+  index: 1
+MINOTAUR/GUARD
   rotate: false
   xy: 102, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 3
-MINOTAUR/IDLE
+  index: 2
+MINOTAUR/GUARD
   rotate: false
   xy: 202, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 4
-MINOTAUR/RUN
+  index: 3
+MINOTAUR/GUARD
   rotate: false
   xy: 302, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 0
-MINOTAUR/RUN
+  index: 4
+MINOTAUR/GUARD
   rotate: false
   xy: 402, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 1
-MINOTAUR/RUN
+  index: 5
+MINOTAUR/IDLE
   rotate: false
   xy: 502, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 2
-MINOTAUR/RUN
+  index: 0
+MINOTAUR/IDLE
   rotate: false
   xy: 602, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 3
-MINOTAUR/RUN
+  index: 2
+MINOTAUR/IDLE
   rotate: false
   xy: 702, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 4
-MINOTAUR/RUN
+  index: 3
+MINOTAUR/IDLE
   rotate: false
   xy: 802, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 5
+  index: 4
 MINOTAUR/RUN
   rotate: false
   xy: 902, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 6
+  index: 0
 MINOTAUR/RUN
   rotate: false
   xy: 1002, 274
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
-  index: 7
-ORANGE_SLIME/ATTACK
+  index: 1
+MINOTAUR/RUN
   rotate: false
   xy: 1102, 274
-  size: 16, 16
-  orig: 16, 16
+  size: 96, 64
+  orig: 96, 64
   offset: 0, 0
-  index: 0
-ORANGE_SLIME/ATTACK
+  index: 2
+MINOTAUR/RUN
   rotate: false
   xy: 1202, 274
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 1
-ORANGE_SLIME/ATTACK
-  rotate: false
-  xy: 1302, 274
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 2
-ORANGE_SLIME/DEATH
-  rotate: false
-  xy: 1402, 274
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 1
-ORANGE_SLIME/DEATH
-  rotate: false
-  xy: 1502, 274
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 2
-ORANGE_SLIME/DEATH
-  rotate: false
-  xy: 1602, 274
-  size: 16, 16
-  orig: 16, 16
+  size: 96, 64
+  orig: 96, 64
   offset: 0, 0
   index: 3
-ORANGE_SLIME/DEATH
+MINOTAUR/RUN
+  rotate: false
+  xy: 1302, 274
+  size: 96, 64
+  orig: 96, 64
+  offset: 0, 0
+  index: 4
+MINOTAUR/RUN
+  rotate: false
+  xy: 1402, 274
+  size: 96, 64
+  orig: 96, 64
+  offset: 0, 0
+  index: 5
+MINOTAUR/RUN
+  rotate: false
+  xy: 1502, 274
+  size: 96, 64
+  orig: 96, 64
+  offset: 0, 0
+  index: 6
+MINOTAUR/RUN
+  rotate: false
+  xy: 1602, 274
+  size: 96, 64
+  orig: 96, 64
+  offset: 0, 0
+  index: 7
+ORANGE_SLIME/ATTACK
   rotate: false
   xy: 1702, 274
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: 4
-ORANGE_SLIME/IDLE
+  index: 0
+ORANGE_SLIME/ATTACK
   rotate: false
   xy: 1802, 274
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: 0
-ORANGE_SLIME/DEATH
-  rotate: false
-  xy: 1802, 274
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 0
-ORANGE_SLIME/RUN
+  index: 1
+ORANGE_SLIME/ATTACK
   rotate: false
   xy: 1902, 274
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
-  index: 0
-ORANGE_SLIME/RUN
+  index: 2
+ORANGE_SLIME/DEATH
   rotate: false
   xy: 2, 342
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 1
-PLAYER/ATTACK
+ORANGE_SLIME/DEATH
   rotate: false
   xy: 102, 342
-  size: 50, 37
-  orig: 50, 37
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
-  index: 0
-PLAYER/ATTACK
+  index: 2
+ORANGE_SLIME/DEATH
   rotate: false
   xy: 202, 342
-  size: 50, 37
-  orig: 50, 37
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+ORANGE_SLIME/DEATH
+  rotate: false
+  xy: 302, 342
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 4
+ORANGE_SLIME/IDLE
+  rotate: false
+  xy: 402, 342
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+ORANGE_SLIME/DEATH
+  rotate: false
+  xy: 402, 342
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+ORANGE_SLIME/RUN
+  rotate: false
+  xy: 502, 342
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+ORANGE_SLIME/RUN
+  rotate: false
+  xy: 602, 342
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: 1
 PLAYER/ATTACK
-  rotate: false
-  xy: 302, 342
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 2
-PLAYER/ATTACK
-  rotate: false
-  xy: 402, 342
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 3
-PLAYER/ATTACK
-  rotate: false
-  xy: 502, 342
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 4
-PLAYER/CAST
-  rotate: false
-  xy: 602, 342
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 0
-PLAYER/CAST
   rotate: false
   xy: 702, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-PLAYER/CAST
+  index: 0
+PLAYER/ATTACK
   rotate: false
   xy: 802, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
-PLAYER/CAST
+  index: 1
+PLAYER/ATTACK
   rotate: false
   xy: 902, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-PLAYER/CAST
+  index: 2
+PLAYER/ATTACK
   rotate: false
   xy: 1002, 342
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+PLAYER/ATTACK
+  rotate: false
+  xy: 1102, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 4
 PLAYER/CAST
-  rotate: false
-  xy: 1002, 342
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 6
-PLAYER/CAST
-  rotate: false
-  xy: 1102, 342
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 5
-PLAYER/CAST
-  rotate: false
-  xy: 1102, 342
-  size: 50, 37
-  orig: 50, 37
-  offset: 0, 0
-  index: 7
-PLAYER/DEATH
   rotate: false
   xy: 1202, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 1302, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 1402, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 2
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 1502, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 3
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 1602, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 4
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 1602, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 6
-PLAYER/DEATH
+PLAYER/CAST
   rotate: false
   xy: 1702, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 5
-PLAYER/FALL
+PLAYER/CAST
+  rotate: false
+  xy: 1702, 342
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 7
+PLAYER/DEATH
   rotate: false
   xy: 1802, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
-PLAYER/FALL
+PLAYER/DEATH
   rotate: false
   xy: 1902, 342
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
-PLAYER/IDLE
+PLAYER/DEATH
   rotate: false
   xy: 2, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
-PLAYER/IDLE
+  index: 2
+PLAYER/DEATH
   rotate: false
   xy: 102, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-PLAYER/IDLE
+  index: 3
+PLAYER/DEATH
   rotate: false
   xy: 202, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
-PLAYER/IDLE
+  index: 4
+PLAYER/DEATH
+  rotate: false
+  xy: 202, 410
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 6
+PLAYER/DEATH
   rotate: false
   xy: 302, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-PLAYER/JUMP
+  index: 5
+PLAYER/FALL
   rotate: false
   xy: 402, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 0
-PLAYER/JUMP
+PLAYER/FALL
   rotate: false
   xy: 502, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
   index: 1
-PLAYER/JUMP
+PLAYER/IDLE
   rotate: false
   xy: 602, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
-PLAYER/JUMP
+  index: 0
+PLAYER/IDLE
   rotate: false
   xy: 702, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-PLAYER/RUN
+  index: 1
+PLAYER/IDLE
   rotate: false
   xy: 802, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 0
-PLAYER/RUN
+  index: 2
+PLAYER/IDLE
   rotate: false
   xy: 902, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 1
-PLAYER/RUN
+  index: 3
+PLAYER/JUMP
   rotate: false
   xy: 1002, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 2
-PLAYER/RUN
+  index: 0
+PLAYER/JUMP
   rotate: false
   xy: 1102, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 3
-PLAYER/RUN
+  index: 1
+PLAYER/JUMP
   rotate: false
   xy: 1202, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 4
-PLAYER/RUN
+  index: 2
+PLAYER/JUMP
   rotate: false
   xy: 1302, 410
   size: 50, 37
   orig: 50, 37
   offset: 0, 0
-  index: 5
-SKELETAL/ATTACK
+  index: 3
+PLAYER/RUN
   rotate: false
   xy: 1402, 410
-  size: 43, 37
-  orig: 43, 37
+  size: 50, 37
+  orig: 50, 37
   offset: 0, 0
   index: 0
-SKELETAL/ATTACK
-  rotate: false
-  xy: 1402, 410
-  size: 43, 37
-  orig: 43, 37
-  offset: 0, 0
-  index: 17
-SKELETAL/ATTACK
+PLAYER/RUN
   rotate: false
   xy: 1502, 410
-  size: 43, 37
-  orig: 43, 37
+  size: 50, 37
+  orig: 50, 37
   offset: 0, 0
   index: 1
-SKELETAL/ATTACK
+PLAYER/RUN
   rotate: false
   xy: 1602, 410
-  size: 43, 37
-  orig: 43, 37
+  size: 50, 37
+  orig: 50, 37
   offset: 0, 0
   index: 2
-SKELETAL/ATTACK
+PLAYER/RUN
   rotate: false
   xy: 1702, 410
-  size: 43, 37
-  orig: 43, 37
+  size: 50, 37
+  orig: 50, 37
   offset: 0, 0
   index: 3
-SKELETAL/ATTACK
+PLAYER/RUN
   rotate: false
   xy: 1802, 410
-  size: 43, 37
-  orig: 43, 37
+  size: 50, 37
+  orig: 50, 37
   offset: 0, 0
   index: 4
-SKELETAL/ATTACK
+PLAYER/RUN
   rotate: false
   xy: 1902, 410
-  size: 43, 37
-  orig: 43, 37
+  size: 50, 37
+  orig: 50, 37
   offset: 0, 0
   index: 5
 SKELETAL/ATTACK
@@ -1060,388 +1053,437 @@ SKELETAL/ATTACK
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 6
+  index: 0
+SKELETAL/ATTACK
+  rotate: false
+  xy: 2, 478
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 17
 SKELETAL/ATTACK
   rotate: false
   xy: 102, 478
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 7
+  index: 1
 SKELETAL/ATTACK
   rotate: false
   xy: 202, 478
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 8
+  index: 2
 SKELETAL/ATTACK
   rotate: false
   xy: 302, 478
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 9
+  index: 3
 SKELETAL/ATTACK
   rotate: false
   xy: 402, 478
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 10
+  index: 4
 SKELETAL/ATTACK
   rotate: false
   xy: 502, 478
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 11
+  index: 5
 SKELETAL/ATTACK
   rotate: false
   xy: 602, 478
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 12
+  index: 6
 SKELETAL/ATTACK
   rotate: false
   xy: 702, 478
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 13
+  index: 7
 SKELETAL/ATTACK
   rotate: false
   xy: 802, 478
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 14
+  index: 8
 SKELETAL/ATTACK
   rotate: false
   xy: 902, 478
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 15
+  index: 9
 SKELETAL/ATTACK
   rotate: false
   xy: 1002, 478
   size: 43, 37
   orig: 43, 37
   offset: 0, 0
-  index: 16
-SKELETAL/DEATH
+  index: 10
+SKELETAL/ATTACK
   rotate: false
   xy: 1102, 478
-  size: 33, 32
-  orig: 33, 32
+  size: 43, 37
+  orig: 43, 37
   offset: 0, 0
-  index: 0
-SKELETAL/DEATH
+  index: 11
+SKELETAL/ATTACK
   rotate: false
   xy: 1202, 478
-  size: 33, 32
-  orig: 33, 32
+  size: 43, 37
+  orig: 43, 37
   offset: 0, 0
-  index: 1
-SKELETAL/DEATH
+  index: 12
+SKELETAL/ATTACK
   rotate: false
   xy: 1302, 478
-  size: 33, 32
-  orig: 33, 32
+  size: 43, 37
+  orig: 43, 37
   offset: 0, 0
-  index: 2
-SKELETAL/DEATH
+  index: 13
+SKELETAL/ATTACK
   rotate: false
   xy: 1402, 478
-  size: 33, 32
-  orig: 33, 32
+  size: 43, 37
+  orig: 43, 37
   offset: 0, 0
-  index: 5
-SKELETAL/DEATH
-  rotate: false
-  xy: 1402, 478
-  size: 33, 32
-  orig: 33, 32
-  offset: 0, 0
-  index: 4
-SKELETAL/DEATH
-  rotate: false
-  xy: 1402, 478
-  size: 33, 32
-  orig: 33, 32
-  offset: 0, 0
-  index: 3
-SKELETAL/DEATH
+  index: 14
+SKELETAL/ATTACK
   rotate: false
   xy: 1502, 478
-  size: 33, 32
-  orig: 33, 32
+  size: 43, 37
+  orig: 43, 37
   offset: 0, 0
-  index: 6
-SKELETAL/DEATH
+  index: 15
+SKELETAL/ATTACK
   rotate: false
   xy: 1602, 478
-  size: 33, 32
-  orig: 33, 32
+  size: 43, 37
+  orig: 43, 37
   offset: 0, 0
-  index: 7
+  index: 16
 SKELETAL/DEATH
   rotate: false
   xy: 1702, 478
   size: 33, 32
   orig: 33, 32
   offset: 0, 0
-  index: 8
+  index: 0
 SKELETAL/DEATH
   rotate: false
   xy: 1802, 478
   size: 33, 32
   orig: 33, 32
   offset: 0, 0
-  index: 9
+  index: 1
 SKELETAL/DEATH
   rotate: false
   xy: 1902, 478
   size: 33, 32
   orig: 33, 32
   offset: 0, 0
-  index: 10
+  index: 2
 SKELETAL/DEATH
   rotate: false
   xy: 2, 546
   size: 33, 32
   orig: 33, 32
   offset: 0, 0
-  index: 11
+  index: 3
+SKELETAL/DEATH
+  rotate: false
+  xy: 2, 546
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 5
+SKELETAL/DEATH
+  rotate: false
+  xy: 2, 546
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 4
 SKELETAL/DEATH
   rotate: false
   xy: 102, 546
   size: 33, 32
   orig: 33, 32
   offset: 0, 0
-  index: 12
+  index: 6
 SKELETAL/DEATH
   rotate: false
   xy: 202, 546
   size: 33, 32
   orig: 33, 32
   offset: 0, 0
-  index: 13
+  index: 7
 SKELETAL/DEATH
   rotate: false
   xy: 302, 546
   size: 33, 32
   orig: 33, 32
   offset: 0, 0
-  index: 14
-SKELETAL/IDLE
+  index: 8
+SKELETAL/DEATH
   rotate: false
   xy: 402, 546
-  size: 24, 32
-  orig: 24, 32
+  size: 33, 32
+  orig: 33, 32
   offset: 0, 0
-  index: 1
-SKELETAL/IDLE
+  index: 9
+SKELETAL/DEATH
   rotate: false
   xy: 502, 546
-  size: 24, 32
-  orig: 24, 32
+  size: 33, 32
+  orig: 33, 32
   offset: 0, 0
-  index: 2
-SKELETAL/IDLE
+  index: 10
+SKELETAL/DEATH
   rotate: false
   xy: 602, 546
-  size: 24, 32
-  orig: 24, 32
+  size: 33, 32
+  orig: 33, 32
   offset: 0, 0
-  index: 3
-SKELETAL/IDLE
+  index: 11
+SKELETAL/DEATH
   rotate: false
   xy: 702, 546
-  size: 24, 32
-  orig: 24, 32
+  size: 33, 32
+  orig: 33, 32
   offset: 0, 0
-  index: 4
-SKELETAL/IDLE
+  index: 12
+SKELETAL/DEATH
   rotate: false
   xy: 802, 546
-  size: 24, 32
-  orig: 24, 32
+  size: 33, 32
+  orig: 33, 32
   offset: 0, 0
-  index: 5
-SKELETAL/IDLE
+  index: 13
+SKELETAL/DEATH
   rotate: false
   xy: 902, 546
-  size: 24, 32
-  orig: 24, 32
+  size: 33, 32
+  orig: 33, 32
   offset: 0, 0
-  index: 6
+  index: 14
 SKELETAL/IDLE
   rotate: false
   xy: 1002, 546
   size: 24, 32
   orig: 24, 32
   offset: 0, 0
-  index: 7
+  index: 1
 SKELETAL/IDLE
   rotate: false
   xy: 1102, 546
   size: 24, 32
   orig: 24, 32
   offset: 0, 0
-  index: 8
+  index: 2
 SKELETAL/IDLE
   rotate: false
   xy: 1202, 546
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 3
+SKELETAL/IDLE
+  rotate: false
+  xy: 1302, 546
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 4
+SKELETAL/IDLE
+  rotate: false
+  xy: 1402, 546
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 5
+SKELETAL/IDLE
+  rotate: false
+  xy: 1502, 546
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 6
+SKELETAL/IDLE
+  rotate: false
+  xy: 1602, 546
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 7
+SKELETAL/IDLE
+  rotate: false
+  xy: 1702, 546
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 8
+SKELETAL/IDLE
+  rotate: false
+  xy: 1802, 546
   size: 24, 32
   orig: 24, 32
   offset: 0, 0
   index: 9
 SKELETAL/IDLE
   rotate: false
-  xy: 1202, 546
+  xy: 1802, 546
   size: 24, 32
   orig: 24, 32
   offset: 0, 0
   index: 0
 SKELETAL/IDLE
   rotate: false
-  xy: 1202, 546
+  xy: 1802, 546
   size: 24, 32
   orig: 24, 32
   offset: 0, 0
   index: 10
-SKELETAL/RUN
-  rotate: false
-  xy: 1302, 546
-  size: 22, 33
-  orig: 22, 33
-  offset: 0, 0
-  index: 0
-SKELETAL/RUN
-  rotate: false
-  xy: 1402, 546
-  size: 22, 33
-  orig: 22, 33
-  offset: 0, 0
-  index: 1
-SKELETAL/RUN
-  rotate: false
-  xy: 1502, 546
-  size: 22, 33
-  orig: 22, 33
-  offset: 0, 0
-  index: 2
-SKELETAL/RUN
-  rotate: false
-  xy: 1602, 546
-  size: 22, 33
-  orig: 22, 33
-  offset: 0, 0
-  index: 3
-SKELETAL/RUN
-  rotate: false
-  xy: 1702, 546
-  size: 22, 33
-  orig: 22, 33
-  offset: 0, 0
-  index: 4
-SKELETAL/RUN
-  rotate: false
-  xy: 1802, 546
-  size: 22, 33
-  orig: 22, 33
-  offset: 0, 0
-  index: 5
 SKELETAL/RUN
   rotate: false
   xy: 1902, 546
   size: 22, 33
   orig: 22, 33
   offset: 0, 0
-  index: 6
+  index: 0
 SKELETAL/RUN
   rotate: false
   xy: 2, 614
   size: 22, 33
   orig: 22, 33
   offset: 0, 0
-  index: 7
+  index: 1
 SKELETAL/RUN
   rotate: false
   xy: 102, 614
   size: 22, 33
   orig: 22, 33
   offset: 0, 0
-  index: 8
+  index: 2
 SKELETAL/RUN
   rotate: false
   xy: 202, 614
   size: 22, 33
   orig: 22, 33
   offset: 0, 0
-  index: 9
+  index: 3
 SKELETAL/RUN
   rotate: false
   xy: 302, 614
   size: 22, 33
   orig: 22, 33
   offset: 0, 0
-  index: 10
+  index: 4
 SKELETAL/RUN
   rotate: false
   xy: 402, 614
   size: 22, 33
   orig: 22, 33
   offset: 0, 0
-  index: 11
+  index: 5
 SKELETAL/RUN
   rotate: false
   xy: 502, 614
   size: 22, 33
   orig: 22, 33
   offset: 0, 0
+  index: 6
+SKELETAL/RUN
+  rotate: false
+  xy: 602, 614
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 7
+SKELETAL/RUN
+  rotate: false
+  xy: 702, 614
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 8
+SKELETAL/RUN
+  rotate: false
+  xy: 802, 614
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 9
+SKELETAL/RUN
+  rotate: false
+  xy: 902, 614
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 10
+SKELETAL/RUN
+  rotate: false
+  xy: 1002, 614
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 11
+SKELETAL/RUN
+  rotate: false
+  xy: 1102, 614
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
   index: 12
 bloodsplat
   rotate: false
-  xy: 602, 614
+  xy: 1202, 614
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 error
   rotate: false
-  xy: 702, 614
+  xy: 1302, 614
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 fireball
   rotate: false
-  xy: 802, 614
+  xy: 1402, 614
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 portal
   rotate: false
-  xy: 902, 614
+  xy: 1502, 614
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 potion_blue_plus
   rotate: false
-  xy: 1002, 614
+  xy: 1602, 614
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 potion_green_plus
   rotate: false
-  xy: 1102, 614
+  xy: 1702, 614
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
