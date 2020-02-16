@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.FloatArray
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -51,6 +52,12 @@ class RenderSystem(
     private val resolutionVector = vec2()
     private var sepiaVignetteRadius = 0.1f
 
+    private var colorActive = false
+    var grayness = 1f
+        set(value) {
+            field = MathUtils.clamp(value, 0f, 1f)
+        }
+
     private val camera = gameViewPort.camera as OrthographicCamera
 
     private val mapBackgroundLayers = Array<TiledMapTileLayer>()
@@ -90,6 +97,9 @@ class RenderSystem(
                 resolutionVector.set(gameViewPort.screenWidth.toFloat(), gameViewPort.screenHeight.toFloat())
                 batch.shader.setUniformf("resolution", resolutionVector)
                 batch.shader.setUniformf("radius", sepiaVignetteRadius)
+            } else if (colorActive) {
+                // set mandatory uniforms for color effect
+                batch.shader.setUniformf("grayness", grayness)
             }
 
             // set view of map renderer. Internally sets the projection matrix of the sprite batch
@@ -178,16 +188,25 @@ class RenderSystem(
     fun setGrayScale() {
         batch.shader = shaderPrograms[ShaderType.GRAYSCALE]
         vignetteActive = false
+        colorActive = false
     }
 
     fun setSepia(vignetteRadius: Float = 0.1f) {
         batch.shader = shaderPrograms[ShaderType.SEPIA]
         vignetteActive = true
+        colorActive = false
         this.sepiaVignetteRadius = vignetteRadius
     }
 
     fun setNormalColor() {
         batch.shader = shaderPrograms[ShaderType.DEFAULT]
+        colorActive = false
         vignetteActive = false
+    }
+
+    fun setColorShader() {
+        batch.shader = shaderPrograms[ShaderType.COLOR]
+        colorActive = true
+        grayness = 1f
     }
 }

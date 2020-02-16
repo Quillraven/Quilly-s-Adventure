@@ -232,7 +232,19 @@ class LoadingScreen(
                     stage
                 )
             )
-            game.addScreen(EndScreen(game))
+            game.addScreen(
+                EndScreen(
+                    game,
+                    ecsEngine,
+                    mapManager,
+                    audioService,
+                    bundle,
+                    stage,
+                    gameEventManager,
+                    rayHandler,
+                    gameViewport
+                )
+            )
         }
 
         if (loaded && Gdx.input.isTouched) {

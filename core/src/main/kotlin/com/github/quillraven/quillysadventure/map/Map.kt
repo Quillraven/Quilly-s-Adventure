@@ -47,7 +47,8 @@ enum class MapType(val asset: MapAssets, val music: MusicAssets) {
     MAP1(MapAssets.MAP_1, MusicAssets.LEVEL_1_REMASTERED),
     MAP2(MapAssets.MAP_2, MusicAssets.LEVEL_2),
     MAIN_MENU(MapAssets.MAIN_MENU, MusicAssets.MENU),
-    TEST_MAP(MapAssets.TEST_MAP, MusicAssets.LEVEL_1)
+    GAME_OVER(MapAssets.GAME_OVER, MusicAssets.GAME_OVER),
+    TEST_MAP(MapAssets.TEST_MAP, MusicAssets.GAME_OVER)
 }
 
 class Map(val type: MapType, val tiledMap: TiledMap) {
