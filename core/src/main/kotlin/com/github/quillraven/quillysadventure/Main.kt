@@ -8,7 +8,9 @@ import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import com.badlogic.gdx.graphics.profiling.GLProfiler
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
@@ -31,8 +33,10 @@ import com.github.quillraven.quillysadventure.screen.LoadingScreen
 import com.github.quillraven.quillysadventure.ui.createSkin
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
+import ktx.app.clearScreen
 import ktx.box2d.createWorld
 import ktx.box2d.earthGravity
+import ktx.graphics.use
 import ktx.inject.Context
 import ktx.log.logger
 
@@ -83,8 +87,17 @@ class Main(
     val characterConfigurations by lazy { loadCharacterConfigurations() }
     val itemConfigurations by lazy { loadItemConfigurations(ctx.inject()) }
 
+    private lateinit var currentFrameBuffer: FrameBuffer
+    private lateinit var nextFrameBuffer: FrameBuffer
+    private var transitionScreens = false
+    private val maxTransitionTime = 1f
+    private var transitionTime = 0f
+
     override fun create() {
         Gdx.app.logLevel = logLevel
+
+        currentFrameBuffer = FrameBuffer(Pixmap.Format.RGB888, 1280, 720, false)
+        nextFrameBuffer = FrameBuffer(Pixmap.Format.RGB888, 1280, 720, false)
 
         // init Box2D - the next call avoids some issues with older devices where the box2d libraries were not loaded correctly
         Box2D.init()
@@ -135,9 +148,59 @@ class Main(
         setScreen<LoadingScreen>()
     }
 
+    override fun <Type : KtxScreen> setScreen(type: Class<Type>) {
+        if (transitionScreens) return
+
+        transitionScreens = true
+
+        // render current screen to FBO
+        currentFrameBuffer.bind()
+        clearScreen(0f, 0f, 0f, 1f)
+        currentScreen.render(1 / 30f)
+
+        // change screen
+        super.setScreen(type)
+
+        // render next screen to FBO
+        nextFrameBuffer.bind()
+        clearScreen(0f, 0f, 0f, 1f)
+        currentScreen.render(1 / 30f)
+
+        // return to original framebuffer for rendering
+        FrameBuffer.unbind()
+        transitionScreens = false
+        transitionTime = 0f
+    }
+
+    override fun resize(width: Int, height: Int) {
+        super.resize(width, height)
+        currentFrameBuffer.dispose()
+        currentFrameBuffer = FrameBuffer(Pixmap.Format.RGB888, width, height, false)
+        nextFrameBuffer.dispose()
+        nextFrameBuffer = FrameBuffer(Pixmap.Format.RGB888, width, height, false)
+    }
+
     override fun render() {
         profiler.reset()
-        super.render()
+        if (transitionTime <= maxTransitionTime) {
+            // mix previous and current screen snapshot together
+            // screenshots are taken within setScreen method
+            clearScreen(0f, 0f, 0f, 1f)
+            transitionTime += Gdx.graphics.deltaTime
+            // render the screenshots without any special viewport because the screenshot is a perfect
+            // 1:1 pixel matching texture for the entire screen
+            Gdx.gl20.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height)
+            ctx.inject<SpriteBatch>().use {
+                it.projectionMatrix = it.projectionMatrix.idt()
+                it.setColor(1f, 1f, 1f, 1f - transitionTime)
+                it.draw(currentFrameBuffer.colorBufferTexture, -1f, 1f, 2f, -2f)
+                it.setColor(1f, 1f, 1f, transitionTime)
+                it.draw(nextFrameBuffer.colorBufferTexture, -1f, 1f, 2f, -2f)
+            }
+        } else {
+            // no screen transition -> render current active screen
+            super.render()
+        }
     }
 
     override fun dispose() {
@@ -146,6 +209,8 @@ class Main(
         LOG.debug { "Sprites in batch: ${ctx.inject<SpriteBatch>().maxSpritesInBatch}" }
 
         // dispose all disposables which are mostly part of our context
+        currentFrameBuffer.dispose()
+        nextFrameBuffer.dispose()
         world.dispose()
         ctx.dispose()
     }

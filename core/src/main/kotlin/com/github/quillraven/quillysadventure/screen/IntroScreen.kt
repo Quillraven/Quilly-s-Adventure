@@ -32,9 +32,12 @@ class IntroScreen(
     viewport: Viewport,
     stage: Stage
 ) : Screen(engine, audioService, bundle, stage, gameEventManager, rayHandler, viewport) {
+    private var switchToGameScreen = false
+
     override fun show() {
         super.show()
 
+        switchToGameScreen = false
         mapManager.setMap(MapType.INTRO)
         engine.getSystem(RenderSystem::class.java).setSepia()
 
@@ -69,7 +72,16 @@ class IntroScreen(
         }
     }
 
+    override fun render(delta: Float) {
+        super.render(delta)
+        if (switchToGameScreen) {
+            // this needs to happen at the end of the frame due to our screen transition logic in the Main class.
+            // Otherwise, a nested engine.update is triggered which crashes the game
+            game.setScreen<GameScreen>()
+        }
+    }
+
     override fun triggerFinishEvent(trigger: Trigger) {
-        game.setScreen<GameScreen>()
+        switchToGameScreen = true
     }
 }

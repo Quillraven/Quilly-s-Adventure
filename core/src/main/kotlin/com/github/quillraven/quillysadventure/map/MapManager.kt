@@ -102,6 +102,7 @@ class MapManager(
                 player.transfCmp.let { transform ->
                     transform.position.x = this.position.x - transform.size.x * 0.5f
                     transform.position.y = this.position.y - transform.size.y * 0.5f
+                    transform.interpolatedPosition.set(transform.position)
                 }
             }
         }

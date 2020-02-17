@@ -37,6 +37,14 @@ abstract class Screen(
         stage.addActor(dialog)
         dialog.setPosition(-2000f, 0f)
         gameEventManager.addGameEventListener(this)
+
+        dialog.hideDialog(0f)
+        systemsActive = true
+        engine.systems.forEach {
+            if (!it.isDebugOrRenderSystem()) {
+                it.setProcessing(true)
+            }
+        }
     }
 
     override fun hide() {
