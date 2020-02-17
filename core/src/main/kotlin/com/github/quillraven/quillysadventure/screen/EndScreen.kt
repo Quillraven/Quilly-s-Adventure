@@ -81,7 +81,7 @@ class EndScreen(
 
         // change renderer to grayScale
         grayness = 0f
-        renderSystem.setColorShader()
+        renderSystem.setColorShader(grayness)
 
         // disable player input
         gameEventManager.disablePlayerInput()
@@ -133,7 +133,7 @@ class EndScreen(
             ani.mode = Animation.PlayMode.LOOP
         }
 
-        if (Gdx.input.isTouched) {
+        if (Gdx.input.justTouched()) {
             game.setScreen<MenuScreen>()
         }
     }

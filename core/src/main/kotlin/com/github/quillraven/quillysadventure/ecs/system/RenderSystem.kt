@@ -3,6 +3,7 @@ package com.github.quillraven.quillysadventure.ecs.system
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.SortedIteratingSystem
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -94,7 +95,7 @@ class RenderSystem(
         batch.use {
             if (vignetteActive) {
                 // set mandatory uniforms for vignette effect
-                resolutionVector.set(gameViewPort.screenWidth.toFloat(), gameViewPort.screenHeight.toFloat())
+                resolutionVector.set(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
                 batch.shader.setUniformf("resolution", resolutionVector)
                 batch.shader.setUniformf("radius", sepiaVignetteRadius)
             } else if (colorActive) {
@@ -204,9 +205,9 @@ class RenderSystem(
         vignetteActive = false
     }
 
-    fun setColorShader() {
+    fun setColorShader(grayness: Float = 1f) {
         batch.shader = shaderPrograms[ShaderType.COLOR]
         colorActive = true
-        grayness = 1f
+        this.grayness = grayness
     }
 }
