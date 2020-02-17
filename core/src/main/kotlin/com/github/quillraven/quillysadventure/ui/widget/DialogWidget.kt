@@ -51,8 +51,7 @@ class DialogWidget(skin: Skin = Scene2DSkin.defaultSkin) : Table(skin) {
                 setPage(pages[++currentPageIdx])
             } else {
                 // last page reached -> close dialog
-                this.clearActions()
-                this += fadeOut(1f) + Actions.moveBy(-2000f, 0f)
+                hideDialog()
             }
         }
 
@@ -78,6 +77,11 @@ class DialogWidget(skin: Skin = Scene2DSkin.defaultSkin) : Table(skin) {
         this += delay(popupDelay) + fadeIn(1f)
         setPage(firstPage)
         return this
+    }
+
+    fun hideDialog(fadeTime: Float = 1f) {
+        this.clearActions()
+        this += fadeOut(fadeTime) + Actions.moveBy(-2000f, 0f)
     }
 
     fun addPage(page: String): DialogWidget {
