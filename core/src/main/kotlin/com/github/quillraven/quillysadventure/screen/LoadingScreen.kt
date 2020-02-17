@@ -247,7 +247,7 @@ class LoadingScreen(
             )
         }
 
-        if (loaded && Gdx.input.isTouched) {
+        if (loaded && Gdx.input.justTouched()) {
             // go to the menu screen once everything is loaded
             // game.setScreen<MenuScreen>()
             game.setScreen<MenuScreen>()
