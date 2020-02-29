@@ -27,12 +27,12 @@ class StatsWidget(
     private val skin: Skin = Scene2DSkin.defaultSkin
 ) : WidgetGroup() {
     private val table: Table
-    private val levelLabel = Label("Level 1", skin)
-    private val xpLabel = Label("Experience 100/400", skin)
+    private val levelLabel = Label("", skin)
+    private val xpLabel = Label("", skin)
     private val lifeLabel = Label("", skin)
-    private val manaLabel = Label("Mana 40/40", skin)
-    private val damageLabel = Label("Damage 12", skin)
-    private val armorLabel = Label("Armor 4", skin)
+    private val manaLabel = Label("", skin)
+    private val damageLabel = Label("", skin)
+    private val armorLabel = Label("", skin)
     private val skills = Array<VerticalGroup>(3)
 
     init {
@@ -70,8 +70,8 @@ class StatsWidget(
 
     fun addSkill(name: String, requirementText: String, image: Images) {
         val skillGroup = VerticalGroup().apply {
-            this.addActor(Label(name, skin))
-            this.addActor(Label(requirementText, skin))
+            this.addActor(Label("[BLACK]$name[]", skin))
+            this.addActor(Label("[BLACK]$requirementText[]", skin))
             this.addActor(Image(skin[image]).apply {
                 setColor(0.25f, 0.25f, 0.25f, 0.75f)
                 this.touchable = Touchable.disabled
@@ -98,32 +98,32 @@ class StatsWidget(
     }
 
     fun updateLife(lifeText: String, life: Int, maxLife: Int): StatsWidget {
-        lifeLabel.txt = "$lifeText: $life / $maxLife"
+        lifeLabel.txt = "[BLACK]$lifeText: $life / $maxLife[]"
         return this
     }
 
     fun updateMana(manaText: String, mana: Int, maxMana: Int): StatsWidget {
-        manaLabel.txt = "$manaText: $mana / $maxMana"
+        manaLabel.txt = "[BLACK]$manaText: $mana / $maxMana[]"
         return this
     }
 
-    fun updateExperience(xpText: String, xp: Int, xpNeeded: Int): StatsWidget {
-        xpLabel.txt = "$xpText: $xp / $xpNeeded"
+    fun updateExperience(xpText: String, xpAbbreviation: String, xp: Int, xpNeeded: Int): StatsWidget {
+        xpLabel.txt = "[BLACK]$xpText ($xpAbbreviation): $xp / $xpNeeded[]"
         return this
     }
 
     fun updateLevel(levelText: String, level: Int): StatsWidget {
-        levelLabel.txt = "$levelText: $level"
+        levelLabel.txt = "[BLACK]$levelText: $level[]"
         return this
     }
 
     fun updateDamage(damageText: String, damage: Int): StatsWidget {
-        damageLabel.txt = "$damageText: $damage"
+        damageLabel.txt = "[BLACK]$damageText: $damage[]"
         return this
     }
 
     fun updateArmor(armorText: String, armor: Int): StatsWidget {
-        armorLabel.txt = "$armorText: $armor"
+        armorLabel.txt = "[BLACK]$armorText: $armor[]"
         return this
     }
 

@@ -139,12 +139,12 @@ class PlayerCollisionSystem(
             engine.floatingText(
                 position.x,
                 position.y + size.y,
-                FontType.DEFAULT,
+                FontType.LARGE,
                 itemInfoBuilder,
-                Color.FIREBRICK,
+                Color.SCARLET,
                 0f,
-                -1f,
-                3f
+                -0.6f,
+                4f
             )
         }
 
