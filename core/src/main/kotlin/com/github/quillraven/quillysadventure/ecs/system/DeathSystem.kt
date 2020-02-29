@@ -118,7 +118,7 @@ class DeathSystem(
                 engine.floatingText(
                     transform.position.x + transform.size.x * 0.5f,
                     transform.position.y + transform.size.y,
-                    FontType.DEFAULT,
+                    FontType.LARGE,
                     xpInfoBuilder,
                     Color.PURPLE,
                     0f,

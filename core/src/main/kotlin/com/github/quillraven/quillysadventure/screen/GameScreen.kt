@@ -54,6 +54,7 @@ class GameScreen(
     private val levelTxt = bundle["level"]
 
     private val xpTxt = bundle["xp"]
+    private val xpAbbreviation = bundle["xpAbbreviation"]
 
     override fun show() {
         super.show()
@@ -98,6 +99,7 @@ class GameScreen(
                     hud.statsWidget.updateLevel(levelTxt, this.level)
                         .updateExperience(
                             xpTxt,
+                            xpAbbreviation,
                             this.xp,
                             engine.getSystem(DeathSystem::class.java).getNeededExperience(this.level)
                         )
@@ -187,7 +189,7 @@ class GameScreen(
     override fun characterLevelUp(character: Entity, level: Int, xp: Int, xpNeeded: Int) {
         if (character[PlayerComponent.mapper] != null) {
             hud.statsWidget.updateLevel(levelTxt, level)
-                .updateExperience(xpTxt, xp, xpNeeded)
+                .updateExperience(xpTxt, xpAbbreviation, xp, xpNeeded)
 
             if (level == 3) {
                 hud.statsWidget.activateSkill(0)
@@ -197,7 +199,7 @@ class GameScreen(
 
     override fun characterXPGained(character: Entity, xp: Int, xpNeeded: Int) {
         if (character[PlayerComponent.mapper] != null) {
-            hud.statsWidget.updateExperience(xpTxt, xp, xpNeeded)
+            hud.statsWidget.updateExperience(xpTxt, xpAbbreviation, xp, xpNeeded)
         }
     }
 
