@@ -6,13 +6,16 @@ import com.badlogic.gdx.utils.Pool
 import com.github.quillraven.quillysadventure.ecs.system.TutorialType
 import ktx.ashley.get
 import ktx.ashley.mapperFor
+import ktx.math.vec2
 import java.util.*
 
 class PlayerComponent : Component, Pool.Poolable {
-    val tutorials = EnumSet.noneOf(TutorialType::class.java)
+    val tutorials: EnumSet<TutorialType> = EnumSet.noneOf(TutorialType::class.java)
+    val checkpoint = vec2()
 
     override fun reset() {
         tutorials.clear()
+        checkpoint.set(0f, 0f)
     }
 
     companion object {
@@ -22,4 +25,4 @@ class PlayerComponent : Component, Pool.Poolable {
 
 val Entity.playerCmp: PlayerComponent
     get() = this[PlayerComponent.mapper]
-        ?: throw KotlinNullPointerException("Trying to access a player component which is null")
+            ?: throw KotlinNullPointerException("Trying to access a player component which is null")

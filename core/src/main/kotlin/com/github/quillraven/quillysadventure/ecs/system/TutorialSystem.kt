@@ -20,11 +20,12 @@ enum class TutorialType {
     Attack,
     Damaged,
     LevelUp,
-    NewSkill
+    NewSkill,
+    Checkpoint
 }
 
 class TutorialSystem(private val gameEventManager: GameEventManager) :
-    IteratingSystem(allOf(PlayerComponent::class).exclude(RemoveComponent::class).get()), GameEventListener {
+        IteratingSystem(allOf(PlayerComponent::class).exclude(RemoveComponent::class).get()), GameEventListener {
     private var welcomeDelay = WELCOME_TUTORIAL_DELAY
     private var showTutorialType = TutorialType.None
 
@@ -71,5 +72,9 @@ class TutorialSystem(private val gameEventManager: GameEventManager) :
             3 -> TutorialType.NewSkill
             else -> TutorialType.None
         }
+    }
+
+    override fun activateSavepoint(savepoint: Entity) {
+        showTutorialType = TutorialType.Checkpoint
     }
 }
