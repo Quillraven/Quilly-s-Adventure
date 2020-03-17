@@ -30,7 +30,7 @@ abstract class Screen(
     private val rayHandler: RayHandler,
     private val viewport: Viewport
 ) : KtxScreen, GameEventListener {
-    val dialog = DialogWidget()
+    private val dialog = DialogWidget()
     private var systemsActive = true
 
     override fun show() {
