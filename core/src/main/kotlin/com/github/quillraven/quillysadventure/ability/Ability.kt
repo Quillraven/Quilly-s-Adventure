@@ -76,7 +76,7 @@ class Ability : Pool.Poolable {
     }
 
     companion object {
-        val pool = ReflectionPool<Ability>(Ability::class.java, 32)
+        val pool = ReflectionPool(Ability::class.java, 32)
     }
 }
 

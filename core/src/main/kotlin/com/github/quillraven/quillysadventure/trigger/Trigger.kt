@@ -195,6 +195,6 @@ class Trigger : Pool.Poolable {
     }
 
     companion object {
-        val pool = ReflectionPool<Trigger>(Trigger::class.java, 8)
+        val pool = ReflectionPool(Trigger::class.java, 8)
     }
 }

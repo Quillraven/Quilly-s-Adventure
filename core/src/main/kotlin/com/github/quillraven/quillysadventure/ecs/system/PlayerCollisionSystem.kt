@@ -15,6 +15,7 @@ import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
 import com.github.quillraven.quillysadventure.ecs.component.collCmp
 import com.github.quillraven.quillysadventure.ecs.component.heal
 import com.github.quillraven.quillysadventure.ecs.component.physicCmp
+import com.github.quillraven.quillysadventure.ecs.component.playerCmp
 import com.github.quillraven.quillysadventure.ecs.component.portalCmp
 import com.github.quillraven.quillysadventure.ecs.component.statsCmp
 import com.github.quillraven.quillysadventure.ecs.component.transfCmp
@@ -35,13 +36,13 @@ import ktx.log.logger
 private val LOG = logger<PlayerCollisionSystem>()
 
 class PlayerCollisionSystem(
-    private val mapManager: MapManager,
-    private val audioService: AudioService,
-    private val gameEventManager: GameEventManager,
-    private val bundle: I18NBundle
+        private val mapManager: MapManager,
+        private val audioService: AudioService,
+        private val gameEventManager: GameEventManager,
+        private val bundle: I18NBundle
 ) :
-    IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()), MapChangeListener,
-    GameEventListener {
+        IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()), MapChangeListener,
+        GameEventListener {
     private val itemInfoBuilder = StringBuilder(64)
     private var lastSavepoint: Entity? = null
 
@@ -91,6 +92,7 @@ class PlayerCollisionSystem(
                         if (collidingEntity.flags == ENTITY_FLAG_SAVE_POINT_NOT_ACTIVE) {
                             lastSavepoint?.flags = ENTITY_FLAG_SAVE_POINT_NOT_ACTIVE
                             collidingEntity.flags = ENTITY_FLAG_SAVE_POINT_ACTIVE
+                            entity.playerCmp.checkpoint.set(collidingEntity.transfCmp.position)
                             activateSavePoint(collidingEntity)
                             // also heal the player
                             val stats = entity.statsCmp
@@ -137,14 +139,14 @@ class PlayerCollisionSystem(
         // show information to player about the changed stats
         with(player.transfCmp) {
             engine.floatingText(
-                position.x,
-                position.y + size.y,
-                FontType.LARGE,
-                itemInfoBuilder,
-                Color.SCARLET,
-                0f,
-                -0.6f,
-                4f
+                    position.x,
+                    position.y + size.y,
+                    FontType.LARGE,
+                    itemInfoBuilder,
+                    Color.SCARLET,
+                    0f,
+                    -0.6f,
+                    4f
             )
         }
 

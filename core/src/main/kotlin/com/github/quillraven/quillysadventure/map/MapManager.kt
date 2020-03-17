@@ -17,6 +17,7 @@ import com.github.quillraven.quillysadventure.ecs.character
 import com.github.quillraven.quillysadventure.ecs.component.EntityType
 import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
 import com.github.quillraven.quillysadventure.ecs.component.physicCmp
+import com.github.quillraven.quillysadventure.ecs.component.playerCmp
 import com.github.quillraven.quillysadventure.ecs.component.transfCmp
 import com.github.quillraven.quillysadventure.ecs.component.typeCmp
 import com.github.quillraven.quillysadventure.ecs.globalLight
@@ -38,14 +39,14 @@ import java.util.*
 private val LOG = logger<MapManager>()
 
 class MapManager(
-    private val assets: AssetManager,
-    private val world: World,
-    private val rayHandler: RayHandler,
-    private val ecsEngine: Engine,
-    private val characterConfigurations: CharacterConfigurations,
-    private val itemConfigurations: ItemConfigurations,
-    private val playerEntities: ImmutableArray<Entity>,
-    private val gameEventManager: GameEventManager
+        private val assets: AssetManager,
+        private val world: World,
+        private val rayHandler: RayHandler,
+        private val ecsEngine: Engine,
+        private val characterConfigurations: CharacterConfigurations,
+        private val itemConfigurations: ItemConfigurations,
+        private val playerEntities: ImmutableArray<Entity>,
+        private val gameEventManager: GameEventManager
 ) {
     private var currentMapType = MapType.TEST_MAP
     private val mapCache = EnumMap<MapType, Map>(MapType::class.java)
@@ -91,11 +92,10 @@ class MapManager(
         }
     }
 
-
-    private fun movePlayerToStartLocation(map: Map) {
+    private fun movePlayer(x: Float, y: Float) {
         playerEntities.forEach { player ->
             player.physicCmp.body.run {
-                setTransform(map.startLocation, 0f)
+                setTransform(x, y, 0f)
                 // also update transform component here as well because
                 // otherwise the out of bounds system might trigger and sets the player
                 // to a different location
@@ -105,7 +105,27 @@ class MapManager(
                     transform.interpolatedPosition.set(transform.position)
                 }
             }
+            // set player checkpoint to map spawn location
+            player.playerCmp.checkpoint.set(x, y)
         }
+    }
+
+    private fun movePlayerToStartLocation(map: Map) {
+        movePlayer(map.startLocation.x, map.startLocation.y)
+    }
+
+    private fun movePlayerToPortal(map: Map, targetPortal: Int, targetOffsetX: Int) {
+        map.forEachMapObject(LAYER_PORTAL) { mapObj ->
+            if (mapObj.id == targetPortal) {
+                // found target portal by ID -> move player to that location
+                movePlayer(mapObj.x * UNIT_SCALE + targetOffsetX, mapObj.y * UNIT_SCALE)
+                return
+            }
+        }
+
+        // could not find portal -> move player to start location instead
+        LOG.error { "Could not find portal $targetPortal for map ${map.type}" }
+        movePlayerToStartLocation(map)
     }
 
     private fun createSceneryEntities(map: Map) {
@@ -122,10 +142,10 @@ class MapManager(
             try {
                 val charKey = Character.valueOf(mapObj.name)
                 ecsEngine.character(
-                    characterConfigurations[charKey],
-                    world,
-                    mapObj.x * UNIT_SCALE,
-                    mapObj.y * UNIT_SCALE
+                        characterConfigurations[charKey],
+                        world,
+                        mapObj.x * UNIT_SCALE,
+                        mapObj.y * UNIT_SCALE
                 )
             } catch (e: IllegalArgumentException) {
                 LOG.error(e) {
@@ -148,10 +168,10 @@ class MapManager(
             try {
                 val itemKey = Item.valueOf(mapObj.name)
                 ecsEngine.item(
-                    itemConfigurations[itemKey],
-                    world,
-                    mapObj.x * UNIT_SCALE,
-                    mapObj.y * UNIT_SCALE
+                        itemConfigurations[itemKey],
+                        world,
+                        mapObj.x * UNIT_SCALE,
+                        mapObj.y * UNIT_SCALE
                 )
             } catch (e: IllegalArgumentException) {
                 LOG.error(e) {
@@ -162,6 +182,7 @@ class MapManager(
             }
         }
     }
+
 
     private fun createPortalEntities(map: Map) {
         map.forEachMapObject(LAYER_PORTAL) { mapObj ->
@@ -192,14 +213,14 @@ class MapManager(
 
                     // create portal entity
                     ecsEngine.portal(
-                        world,
-                        mapObj.shape,
-                        mapObj.id,
-                        mapObj.property(PROPERTY_PORTAL_ACTIVE, true),
-                        targetMap,
-                        targetPortal,
-                        targetOffsetX,
-                        mapObj.property(PROPERTY_FLIP_PARTICLE_FX, false)
+                            world,
+                            mapObj.shape,
+                            mapObj.id,
+                            mapObj.property(PROPERTY_PORTAL_ACTIVE, true),
+                            targetMap,
+                            targetPortal,
+                            targetOffsetX,
+                            mapObj.property(PROPERTY_FLIP_PARTICLE_FX, false)
                     )
                 }
             } catch (e: IllegalArgumentException) {
@@ -214,27 +235,6 @@ class MapManager(
                 }
             }
         }
-    }
-
-
-    private fun movePlayerToPortal(map: Map, targetPortal: Int, targetOffsetX: Int) {
-        map.forEachMapObject(LAYER_PORTAL) { mapObj ->
-            if (mapObj.id == targetPortal) {
-                // found target portal by ID -> move player to that location
-                playerEntities.forEach { player ->
-                    player.physicCmp.body.setTransform(
-                        mapObj.x * UNIT_SCALE + targetOffsetX,
-                        mapObj.y * UNIT_SCALE,
-                        0f
-                    )
-                }
-                return
-            }
-        }
-
-        // could not find portal -> move player to start location instead
-        LOG.error { "Could not find portal $targetPortal for map ${map.type}" }
-        movePlayerToStartLocation(map)
     }
 
     private fun createTriggers(map: Map) {
@@ -258,10 +258,10 @@ class MapManager(
             }
 
             ecsEngine.trigger(
-                triggerSetupFunction,
-                mapObj.property(PROPERTY_TRIGGER_REACT_ON_COLLISION, false),
-                world,
-                mapObj.shape
+                    triggerSetupFunction,
+                    mapObj.property(PROPERTY_TRIGGER_REACT_ON_COLLISION, false),
+                    world,
+                    mapObj.shape
             )
         }
     }
@@ -275,9 +275,9 @@ class MapManager(
             rayHandler.setBlurNum(2)
             // create point light entity
             ecsEngine.globalLight(
-                rayHandler,
-                map.property(PROPERTY_SUN_COLOR, Color.WHITE),
-                map.property(PROPERTY_SHADOW_ANGLE, 0f)
+                    rayHandler,
+                    map.property(PROPERTY_SUN_COLOR, Color.WHITE),
+                    map.property(PROPERTY_SHADOW_ANGLE, 0f)
             )
         } else {
             rayHandler.setBlur(false)
