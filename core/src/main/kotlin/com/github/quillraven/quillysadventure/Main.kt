@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -42,20 +43,24 @@ import ktx.log.logger
 
 private val LOG = logger<Main>()
 
+private const val PREF_NAME = "quilly-jumper"
 const val UNIT_SCALE = 1 / 32f
 const val FIXTURE_TYPE_FOOT_SENSOR = 1
 const val FIXTURE_TYPE_AGGRO_SENSOR = 2 shl 0
+
 // category = "I am a ..."
 const val FILTER_CATEGORY_SCENERY = 0x0001.toShort()
 const val FILTER_CATEGORY_GAME_OBJECT = 0x0002.toShort()
 const val FILTER_CATEGORY_ITEM = 0x0004.toShort()
 const val FILTER_CATEGORY_LIGHT = 0x0008.toShort()
+
 // mask = "I will collide with ..."
 const val FILTER_MASK_LIGHTS = FILTER_CATEGORY_SCENERY
 
-fun Application.getAudioService() = (this.applicationListener as Main).audioService
 val Application.game: Main
     get() = (applicationListener as Main)
+
+fun Application.getAudioService() = game.audioService
 val Application.world: World
     get() = game.world
 val Application.ecsEngine: Engine
@@ -66,6 +71,8 @@ val Application.characterConfigurations: CharacterConfigurations
     get() = game.characterConfigurations
 val Application.itemConfigurations: ItemConfigurations
     get() = game.itemConfigurations
+val Application.preferences: Preferences
+    get() = game.preferences
 
 class Main(
     private val disableAudio: Boolean = false,
@@ -86,6 +93,7 @@ class Main(
     val gameEventManager by lazy { GameEventManager() }
     val characterConfigurations by lazy { loadCharacterConfigurations() }
     val itemConfigurations by lazy { loadItemConfigurations(ctx.inject()) }
+    val preferences: Preferences by lazy { Gdx.app.getPreferences(PREF_NAME) }
 
     private lateinit var currentFrameBuffer: FrameBuffer
     private lateinit var nextFrameBuffer: FrameBuffer

@@ -4,6 +4,7 @@ import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.scenes.scene2d.Stage
@@ -23,6 +24,7 @@ import com.github.quillraven.quillysadventure.ecs.getCharacter
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.MapManager
 import com.github.quillraven.quillysadventure.map.MapType
+import com.github.quillraven.quillysadventure.preferences
 import com.github.quillraven.quillysadventure.ui.MenuHUD
 import ktx.actors.centerPosition
 import ktx.actors.onClick
@@ -34,6 +36,11 @@ import ktx.app.KtxScreen
 import ktx.ashley.get
 import java.util.*
 
+private const val KEY_SOUND_VOLUME = "soundVolume"
+private const val KEY_MUSIC_VOLUME = "musicVolume"
+private const val KEY_SOUND_ENABLED = "soundEnabled"
+private const val KEY_MUSIC_ENABLED = "musicEnabled"
+
 class MenuScreen(
     private val game: KtxGame<KtxScreen>,
     ecsEngine: Engine,
@@ -43,7 +50,8 @@ class MenuScreen(
     rayHandler: RayHandler,
     gameViewport: Viewport,
     stage: Stage,
-    bundle: I18NBundle
+    bundle: I18NBundle,
+    private val preferences: Preferences = Gdx.app.preferences
 ) : Screen(ecsEngine, audioService, bundle, stage, gameEventManager, rayHandler, gameViewport) {
     private var lastSoundVolume = audioService.soundVolume
     private var lastMusicVolume = audioService.musicVolume
@@ -114,9 +122,6 @@ class MenuScreen(
         // "fade in" menu hud
         hud.clearActions()
         hud += moveBy(-400f, 0f) + moveBy(400f, 0f, 2f, Interpolation.bounceOut)
-        // and update volume information
-        hud.updateSoundVolume(audioService.soundVolume)
-        hud.updateMusicVolume(audioService.musicVolume)
 
         // adjust some characters to fit the menu scene
         engine.getCharacter(Character.GIRL, tmpEntities).forEach {
@@ -126,6 +131,24 @@ class MenuScreen(
             it[AnimationComponent.mapper]?.animationSpeed = 0.75f
         }
         gameEventManager.disablePlayerInput()
+
+        // read menu settings from preferences and update UI
+        lastSoundVolume = preferences.getFloat(KEY_SOUND_VOLUME, 1f)
+        lastMusicVolume = preferences.getFloat(KEY_MUSIC_VOLUME, 1f)
+        audioService.soundVolume = lastSoundVolume
+        audioService.musicVolume = lastMusicVolume
+        hud.run {
+            updateSoundVolume(audioService.soundVolume)
+            updateMusicVolume(audioService.musicVolume)
+            soundWidget.checkBox.isChecked = preferences.getBoolean(KEY_SOUND_ENABLED, true)
+            if (!soundWidget.checkBox.isChecked) {
+                audioService.soundVolume = 0f
+            }
+            musicWidget.checkBox.isChecked = preferences.getBoolean(KEY_MUSIC_ENABLED, true)
+            if (!musicWidget.checkBox.isChecked) {
+                audioService.musicVolume = 0f
+            }
+        }
     }
 
     override fun hide() {
@@ -136,5 +159,14 @@ class MenuScreen(
         }
         gameEventManager.enablePlayerInput()
         bannerTexture.dispose()
+
+        // store menu settings
+        preferences.run {
+            putFloat(KEY_SOUND_VOLUME, audioService.soundVolume)
+            putFloat(KEY_MUSIC_VOLUME, audioService.musicVolume)
+            putBoolean(KEY_SOUND_ENABLED, hud.soundWidget.checkBox.isChecked)
+            putBoolean(KEY_MUSIC_ENABLED, hud.musicWidget.checkBox.isChecked)
+            flush()
+        }
     }
 }
