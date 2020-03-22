@@ -221,5 +221,6 @@ class Main(
         nextFrameBuffer.dispose()
         world.dispose()
         ctx.dispose()
+        super.dispose()
     }
 }
