@@ -9,7 +9,7 @@ object Versions {
     const val shadowJar = "5.2.0"
     val java = JavaVersion.VERSION_1_8
     const val jvm = "1.8"
-    const val kotlin = "1.3.61"
+    const val kotlin = "1.3.71"
     const val androidGradlePlugin = "3.5.3"
     const val detekt = "1.5.0"
 }
