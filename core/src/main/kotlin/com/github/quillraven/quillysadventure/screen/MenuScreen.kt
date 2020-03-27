@@ -34,6 +34,9 @@ import ktx.actors.plusAssign
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get
+import ktx.preferences.flush
+import ktx.preferences.get
+import ktx.preferences.set
 import java.util.*
 
 private const val KEY_SOUND_VOLUME = "soundVolume"
@@ -133,18 +136,18 @@ class MenuScreen(
         gameEventManager.disablePlayerInput()
 
         // read menu settings from preferences and update UI
-        lastSoundVolume = preferences.getFloat(KEY_SOUND_VOLUME, 1f)
-        lastMusicVolume = preferences.getFloat(KEY_MUSIC_VOLUME, 1f)
+        lastSoundVolume = preferences[KEY_SOUND_VOLUME, 1f]
+        lastMusicVolume = preferences[KEY_MUSIC_VOLUME, 1f]
         audioService.soundVolume = lastSoundVolume
         audioService.musicVolume = lastMusicVolume
         hud.run {
             updateSoundVolume(audioService.soundVolume)
             updateMusicVolume(audioService.musicVolume)
-            soundWidget.checkBox.isChecked = preferences.getBoolean(KEY_SOUND_ENABLED, true)
+            soundWidget.checkBox.isChecked = preferences[KEY_SOUND_ENABLED, true]
             if (!soundWidget.checkBox.isChecked) {
                 audioService.soundVolume = 0f
             }
-            musicWidget.checkBox.isChecked = preferences.getBoolean(KEY_MUSIC_ENABLED, true)
+            musicWidget.checkBox.isChecked = preferences[KEY_MUSIC_ENABLED, true]
             if (!musicWidget.checkBox.isChecked) {
                 audioService.musicVolume = 0f
             }
@@ -161,12 +164,11 @@ class MenuScreen(
         bannerTexture.dispose()
 
         // store menu settings
-        preferences.run {
-            putFloat(KEY_SOUND_VOLUME, audioService.soundVolume)
-            putFloat(KEY_MUSIC_VOLUME, audioService.musicVolume)
-            putBoolean(KEY_SOUND_ENABLED, hud.soundWidget.checkBox.isChecked)
-            putBoolean(KEY_MUSIC_ENABLED, hud.musicWidget.checkBox.isChecked)
-            flush()
+        preferences.flush {
+            this[KEY_SOUND_VOLUME] = audioService.soundVolume
+            this[KEY_MUSIC_VOLUME] = audioService.musicVolume
+            this[KEY_SOUND_ENABLED] = hud.soundWidget.checkBox.isChecked
+            this[KEY_MUSIC_ENABLED] = hud.musicWidget.checkBox.isChecked
         }
     }
 }

@@ -10,7 +10,14 @@ allprojects {
     repositories {
         jcenter()
         google()
-        maven("https://oss.sonatype.org/content/repositories/snapshots/")
+        exclusiveContent {
+            forRepository {
+                maven("https://oss.sonatype.org/content/repositories/snapshots/")
+            }
+            filter {
+                includeGroup("io.github.libktx")
+            }
+        }
     }
 }
 
