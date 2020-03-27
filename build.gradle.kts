@@ -11,9 +11,9 @@ allprojects {
     apply(plugin = "io.gitlab.arturbosch.detekt")
 
     repositories {
-        maven("https://oss.sonatype.org/content/repositories/snapshots/")
         jcenter()
         google()
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 
     detekt {

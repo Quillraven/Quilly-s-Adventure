@@ -8,9 +8,9 @@ val copyAndroidNatives by tasks.registering(Task::class)
 
 allprojects {
     repositories {
-        maven("https://oss.sonatype.org/content/repositories/snapshots/")
         jcenter()
         google()
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 }
 
