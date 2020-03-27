@@ -21,6 +21,7 @@ dependencies {
     api("io.github.libktx:ktx-i18n:${Versions.ktx}")
     api("io.github.libktx:ktx-log:${Versions.ktx}")
     api("io.github.libktx:ktx-math:${Versions.ktx}")
+    api("io.github.libktx:ktx-preferences:${Versions.ktx}")
     api("io.github.libktx:ktx-scene2d:${Versions.ktx}")
     api("io.github.libktx:ktx-style:${Versions.ktx}")
     api("io.github.libktx:ktx-tiled:${Versions.ktx}")
