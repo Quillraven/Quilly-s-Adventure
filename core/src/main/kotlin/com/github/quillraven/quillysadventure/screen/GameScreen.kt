@@ -29,6 +29,7 @@ import com.github.quillraven.quillysadventure.ecs.system.KEY_SAVE_STATE
 import com.github.quillraven.quillysadventure.ecs.system.LightSystem
 import com.github.quillraven.quillysadventure.ecs.system.RenderSystem
 import com.github.quillraven.quillysadventure.ecs.system.SaveState
+import com.github.quillraven.quillysadventure.ecs.system.SaveSystem
 import com.github.quillraven.quillysadventure.ecs.system.TutorialSystem
 import com.github.quillraven.quillysadventure.ecs.system.TutorialType
 import com.github.quillraven.quillysadventure.event.GameEventManager
@@ -64,10 +65,15 @@ class GameScreen(
     private val preferences: Preferences = Gdx.app.preferences
 ) : Screen(engine, audioService, bundle, stage, gameEventManager, rayHandler, viewport), InputListener,
     MapChangeListener {
-    private val hud = GameHUD(gameEventManager, bundle["statsTitle"], bundle["skills"])
+    private val hud = GameHUD(gameEventManager, bundle["statsTitle"], bundle["skills"]).apply {
+        statsWidget.apply {
+            addSkill(bundle["fireball"], bundle["requiresLvl3"], Images.IMAGE_FIREBALL)
+        }
+    }
     private var gameOver = false
 
     private val tutorialSystem = TutorialSystem(gameEventManager)
+    private val saveSystem = SaveSystem(preferences, mapManager)
 
     private val lifeTxt = bundle["life"]
     private val manaTxt = bundle["mana"]
@@ -110,7 +116,10 @@ class GameScreen(
         // set initial map
         initMapManager(saveState)
 
+        // game screen specific systems
         engine.addSystem(tutorialSystem)
+        engine.addSystem(saveSystem)
+
         // set player hud info (life, mana, attack ready, etc.)
         engine.entities.forEach { entity ->
             val playerCmp = entity[PlayerComponent.mapper]
@@ -173,7 +182,7 @@ class GameScreen(
             mapManager.movePlayer(x, y)
             playerCmp.tutorials.clear()
             for (i in 0 until saveState.tutorials.size) {
-                playerCmp.tutorials.add(TutorialType.values()[i])
+                playerCmp.tutorials.add(TutorialType.values()[saveState.tutorials[i]])
             }
         }
     }
@@ -194,9 +203,7 @@ class GameScreen(
 
     private fun setupGameUI() {
         stage.addActor(hud)
-        stage.addActor(hud.statsWidget.apply {
-            addSkill(bundle["fireball"], bundle["requiresLvl3"], Images.IMAGE_FIREBALL)
-        })
+        stage.addActor(hud.statsWidget)
         hud.statsWidget.setPosition(-2000f, 0f)
         hud.statsWidget.skill(0)?.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -220,6 +227,7 @@ class GameScreen(
         gameEventManager.removeInputListener(this)
         gameEventManager.removeMapChangeListener(this)
         engine.removeSystem(tutorialSystem)
+        engine.removeSystem(saveSystem)
     }
 
     override fun resize(width: Int, height: Int) {

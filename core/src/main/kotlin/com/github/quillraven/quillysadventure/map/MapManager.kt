@@ -161,7 +161,7 @@ class MapManager(
 
     private fun entityInCache(mapObject: MapObject, map: Map): Boolean {
         val entities = mapEntityCache[map.type]
-        return entities != null && entities.contains(mapObject.id)
+        return entities == null || entities.contains(mapObject.id)
     }
 
     private fun createCharacterEntities(map: Map, layer: String) {

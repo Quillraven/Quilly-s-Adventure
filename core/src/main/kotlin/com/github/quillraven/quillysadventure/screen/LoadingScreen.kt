@@ -53,14 +53,12 @@ import com.github.quillraven.quillysadventure.ecs.system.PlayerInputSystem
 import com.github.quillraven.quillysadventure.ecs.system.RemoveSystem
 import com.github.quillraven.quillysadventure.ecs.system.RenderPhysicDebugSystem
 import com.github.quillraven.quillysadventure.ecs.system.RenderSystem
-import com.github.quillraven.quillysadventure.ecs.system.SaveSystem
 import com.github.quillraven.quillysadventure.ecs.system.StateSystem
 import com.github.quillraven.quillysadventure.ecs.system.TakeDamageSystem
 import com.github.quillraven.quillysadventure.ecs.system.TriggerSystem
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.itemConfigurations
 import com.github.quillraven.quillysadventure.map.MapManager
-import com.github.quillraven.quillysadventure.preferences
 import com.github.quillraven.quillysadventure.ui.LabelStyles
 import com.github.quillraven.quillysadventure.ui.widget.LoadingBarWidget
 import ktx.actors.centerPosition
@@ -187,7 +185,6 @@ class LoadingScreen(
                 addSystem(LightSystem(rayHandler, gameViewport.camera as OrthographicCamera))
                 addSystem(FloatingTextSystem(batch, gameViewport, stage.viewport))
                 addSystem(RemoveSystem(this))
-                addSystem(SaveSystem(Gdx.app.preferences, mapManager))
             }
             // create player entity that is shown in the menu and used in the game
             ecsEngine.character(charCfgs[Character.PLAYER], world, 0f, 0f, 1) {
