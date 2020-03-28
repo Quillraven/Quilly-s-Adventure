@@ -86,6 +86,8 @@ class GameEventManager : KtxInputAdapter {
 
     fun removeMapChangeListener(listener: MapChangeListener) = mapListeners.removeValue(listener, true)
 
+    fun dispatchBeforeMapChangeEvent() = mapListeners.forEach { it.beforeMapChange() }
+
     fun dispatchMapChangeEvent(newMap: Map) = mapListeners.forEach { it.mapChange(newMap) }
 
     // game event related stuff

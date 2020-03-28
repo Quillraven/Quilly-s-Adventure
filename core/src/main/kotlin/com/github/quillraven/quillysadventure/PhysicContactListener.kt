@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.Manifold
 import com.github.quillraven.quillysadventure.ecs.component.CollisionComponent
 import com.github.quillraven.quillysadventure.ecs.component.EntityType
+import com.github.quillraven.quillysadventure.ecs.component.EntityTypeComponent
 import com.github.quillraven.quillysadventure.ecs.component.aggroCmp
 import com.github.quillraven.quillysadventure.ecs.component.collCmp
 import com.github.quillraven.quillysadventure.ecs.component.typeCmp
@@ -41,13 +42,23 @@ class PhysicContactListener : ContactListener {
     }
 
     /**
+     * Special `isRemoved` method for ContactListener because it seems to get triggered strangely from
+     * time to time and entities are not 100% cleaned removed at that time.
+     * Therefore two additional checks are added that it is really a relevant **collision entity** with a certain **type**.
+     */
+    private fun isRemoved(entity: Entity) =
+        entity.isRemoved() || entity[CollisionComponent.mapper] == null || entity[EntityTypeComponent.mapper] == null
+
+    /**
      * @param srcFixture the fixture of the entity for which you want to update the collision data
      * @param srcEntity the entity of the srcFixture
      * @param collFixture the fixture of the colliding entity from [endContact] method
      * @param collEntity the colliding entity from [endContact] method
      */
     private fun removeCollisionData(srcFixture: Fixture, srcEntity: Entity, collFixture: Fixture, collEntity: Entity) {
-        if (srcEntity.isRemoved() || collEntity.isRemoved() || srcEntity[CollisionComponent.mapper] == null) return
+        if (isRemoved(srcEntity) || isRemoved(collEntity)) {
+            return
+        }
 
         val collEntityType = collEntity.typeCmp.type
         when (srcFixture.userData) {

@@ -1,5 +1,6 @@
 package com.github.quillraven.quillysadventure.map
 
 interface MapChangeListener {
-    fun mapChange(newMap: Map)
+    fun beforeMapChange() = Unit
+    fun mapChange(newMap: Map) = Unit
 }
