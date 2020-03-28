@@ -240,9 +240,7 @@ fun Engine.character(
         // ability
         if (cfg.abilities.size > 0 || cfg.characterType == Character.PLAYER) {
             with<AbilityComponent> {
-                for (ability in cfg.abilities) {
-                    addAbility(this@entity.entity, ability)
-                }
+                cfg.abilities.forEach { addAbility(this@entity.entity, it) }
             }
         }
         // stats

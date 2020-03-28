@@ -61,6 +61,7 @@ class MapManager(
             // 2) check for new map if there is already existing data in the save file.
             //    Otherwise, load data from TiledMap.tmx file
 
+            gameEventManager.dispatchBeforeMapChangeEvent()
             // remove all non-player entities of the current loaded map
             ecsEngine.entities.forEach { entity ->
                 if (entity.typeCmp.type != EntityType.PLAYER) {

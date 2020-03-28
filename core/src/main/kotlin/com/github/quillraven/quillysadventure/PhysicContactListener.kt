@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.Manifold
 import com.github.quillraven.quillysadventure.ecs.component.CollisionComponent
 import com.github.quillraven.quillysadventure.ecs.component.EntityType
+import com.github.quillraven.quillysadventure.ecs.component.EntityTypeComponent
 import com.github.quillraven.quillysadventure.ecs.component.aggroCmp
 import com.github.quillraven.quillysadventure.ecs.component.collCmp
 import com.github.quillraven.quillysadventure.ecs.component.typeCmp
@@ -47,7 +48,12 @@ class PhysicContactListener : ContactListener {
      * @param collEntity the colliding entity from [endContact] method
      */
     private fun removeCollisionData(srcFixture: Fixture, srcEntity: Entity, collFixture: Fixture, collEntity: Entity) {
-        if (srcEntity.isRemoved() || collEntity.isRemoved() || srcEntity[CollisionComponent.mapper] == null) return
+        if (srcEntity.isRemoved() || collEntity.isRemoved() // entity removed -> this is not 100% safe because sometimes entities still have components
+            || srcEntity[CollisionComponent.mapper] == null // safety check if above fails
+            || collEntity[EntityTypeComponent.mapper] == null // another safety check
+        ) {
+            return
+        }
 
         val collEntityType = collEntity.typeCmp.type
         when (srcFixture.userData) {

@@ -3,6 +3,10 @@ package com.github.quillraven.quillysadventure.screen
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Pixmap
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
@@ -13,10 +17,14 @@ import com.github.quillraven.quillysadventure.ability.Ability
 import com.github.quillraven.quillysadventure.ability.FireballEffect
 import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.audio.AudioService
+import com.github.quillraven.quillysadventure.drawTransitionFBOs
 import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
 import com.github.quillraven.quillysadventure.ecs.component.abilityCmp
 import com.github.quillraven.quillysadventure.ecs.component.statsCmp
 import com.github.quillraven.quillysadventure.ecs.system.DeathSystem
+import com.github.quillraven.quillysadventure.ecs.system.FloatingTextSystem
+import com.github.quillraven.quillysadventure.ecs.system.LightSystem
+import com.github.quillraven.quillysadventure.ecs.system.RenderSystem
 import com.github.quillraven.quillysadventure.ecs.system.TutorialSystem
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
@@ -30,6 +38,7 @@ import com.github.quillraven.quillysadventure.ui.ImageButtonStyles
 import com.github.quillraven.quillysadventure.ui.Images
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
+import ktx.app.clearScreen
 import ktx.ashley.get
 
 class GameScreen(
@@ -41,7 +50,8 @@ class GameScreen(
     private val mapManager: MapManager,
     rayHandler: RayHandler,
     viewport: Viewport,
-    stage: Stage
+    stage: Stage,
+    private val batch: Batch = stage.batch
 ) : Screen(engine, audioService, bundle, stage, gameEventManager, rayHandler, viewport), InputListener,
     MapChangeListener {
     private val hud = GameHUD(gameEventManager, bundle["statsTitle"], bundle["skills"])
@@ -55,6 +65,22 @@ class GameScreen(
 
     private val xpTxt = bundle["xp"]
     private val xpAbbreviation = bundle["xpAbbreviation"]
+
+    private var ignoreMapTransition = false
+    private val maxMapTransitionTime = 1f
+    private var mapTransitionTime = maxMapTransitionTime
+    private var prevMapFrameBuffer = FrameBuffer(
+        Pixmap.Format.RGB888,
+        Gdx.graphics.width,
+        Gdx.graphics.height,
+        false
+    )
+    private var currentMapFrameBuffer = FrameBuffer(
+        Pixmap.Format.RGB888,
+        Gdx.graphics.width,
+        Gdx.graphics.height,
+        false
+    )
 
     override fun show() {
         super.show()
@@ -87,6 +113,8 @@ class GameScreen(
         // add screen as MapChangeListener to show the map name information when changing maps
         gameEventManager.addMapChangeListener(this)
         // set initial map
+        mapTransitionTime = maxMapTransitionTime
+        ignoreMapTransition = true
         mapManager.setMap(MapType.MAP1)
 
         engine.addSystem(tutorialSystem)
@@ -119,14 +147,48 @@ class GameScreen(
         engine.removeSystem(tutorialSystem)
     }
 
-    override fun render(delta: Float) {
-        super.render(delta)
+    override fun resize(width: Int, height: Int) {
+        super.resize(width, height)
+        prevMapFrameBuffer.dispose()
+        prevMapFrameBuffer = FrameBuffer(Pixmap.Format.RGB888, width, height, false)
+        currentMapFrameBuffer.dispose()
+        currentMapFrameBuffer = FrameBuffer(Pixmap.Format.RGB888, width, height, false)
+    }
 
-        if (gameOver) {
-            // process gameover at the end of a frame because switching screens within engine.update is a bad idea.
-            // The reason is that the hide method of GameScreen will be called and therefore some game events
-            // will not be processed correctly because listeners are removed
-            game.setScreen<EndScreen>()
+    override fun render(delta: Float) {
+        if (mapTransitionTime >= maxMapTransitionTime) {
+            // no map transition -> render current active screen
+            super.render(delta)
+
+            if (gameOver) {
+                // process gameover at the end of a frame because switching screens within engine.update is a bad idea.
+                // The reason is that the hide method of GameScreen will be called and therefore some game events
+                // will not be processed correctly because listeners are removed
+                game.setScreen<EndScreen>()
+            }
+        }
+
+        if (mapTransitionTime < maxMapTransitionTime) {
+            if (mapTransitionTime == 0f) {
+                // render current screen to FBO
+                currentMapFrameBuffer.bind()
+                clearScreen(0f, 0f, 0f, 1f)
+                engine.update(1 / 30f)
+
+                // return to original framebuffer for rendering
+                FrameBuffer.unbind()
+            }
+
+            // mix previous and current screen snapshot together
+            // screenshots are taken within beforeMapChange and mapChange method
+            mapTransitionTime += delta
+            batch.drawTransitionFBOs(
+                prevMapFrameBuffer,
+                currentMapFrameBuffer,
+                mapTransitionTime / maxMapTransitionTime
+            )
+            stage.viewport.apply()
+            stage.draw()
         }
     }
 
@@ -203,7 +265,29 @@ class GameScreen(
         }
     }
 
+    override fun beforeMapChange() {
+        if (ignoreMapTransition) return
+
+        // render current screen to FBO
+        prevMapFrameBuffer.bind()
+        clearScreen(0f, 0f, 0f, 1f)
+        engine.getSystem(RenderSystem::class.java).update(0f)
+        engine.getSystem(LightSystem::class.java).update(0f)
+        engine.getSystem(FloatingTextSystem::class.java).update(0f)
+
+        // return to original framebuffer for rendering
+        FrameBuffer.unbind()
+        mapTransitionTime = 0f
+    }
+
     override fun mapChange(newMap: Map) {
+        ignoreMapTransition = false
         hud.mapInfoWidget.show(bundle["map.name.${newMap.type}"])
+    }
+
+    override fun dispose() {
+        super.dispose()
+        currentMapFrameBuffer.dispose()
+        prevMapFrameBuffer.dispose()
     }
 }

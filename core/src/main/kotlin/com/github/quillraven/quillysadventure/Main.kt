@@ -10,6 +10,7 @@ import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Pixmap
+import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import com.badlogic.gdx.graphics.profiling.GLProfiler
@@ -43,6 +44,8 @@ import ktx.log.logger
 
 private val LOG = logger<Main>()
 
+const val VIRTUAL_W = 1280
+const val VIRTUAL_H = 720
 private const val PREF_NAME = "quilly-jumper"
 const val UNIT_SCALE = 1 / 32f
 const val FIXTURE_TYPE_FOOT_SENSOR = 1
@@ -74,6 +77,20 @@ val Application.itemConfigurations: ItemConfigurations
 val Application.preferences: Preferences
     get() = game.preferences
 
+fun Batch.drawTransitionFBOs(prevFBO: FrameBuffer, nextFBO: FrameBuffer, alpha: Float) {
+    clearScreen(0f, 0f, 0f, 1f)
+    // render the buffers without any special viewport because they contain a
+    // 1:1 pixel matching texture for the entire screen
+    Gdx.gl20.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height)
+    use {
+        it.projectionMatrix = it.projectionMatrix.idt()
+        it.setColor(1f, 1f, 1f, 1f - alpha)
+        it.draw(prevFBO.colorBufferTexture, -1f, 1f, 2f, -2f)
+        it.setColor(1f, 1f, 1f, alpha)
+        it.draw(nextFBO.colorBufferTexture, -1f, 1f, 2f, -2f)
+    }
+}
+
 class Main(
     private val disableAudio: Boolean = false,
     private val logLevel: Int = Application.LOG_ERROR
@@ -99,13 +116,13 @@ class Main(
     private lateinit var nextFrameBuffer: FrameBuffer
     private var transitionScreens = false
     private val maxTransitionTime = 1f
-    private var transitionTime = 0f
+    private var transitionTime = maxTransitionTime
 
     override fun create() {
         Gdx.app.logLevel = logLevel
 
-        currentFrameBuffer = FrameBuffer(Pixmap.Format.RGB888, 1280, 720, false)
-        nextFrameBuffer = FrameBuffer(Pixmap.Format.RGB888, 1280, 720, false)
+        currentFrameBuffer = FrameBuffer(Pixmap.Format.RGB888, VIRTUAL_W, VIRTUAL_H, false)
+        nextFrameBuffer = FrameBuffer(Pixmap.Format.RGB888, VIRTUAL_W, VIRTUAL_H, false)
 
         // init Box2D - the next call avoids some issues with older devices where the box2d libraries were not loaded correctly
         Box2D.init()
@@ -120,7 +137,7 @@ class Main(
                 // load/unload .tmx files
                 setLoader(TiledMap::class.java, TmxMapLoader(fileHandleResolver))
             })
-            bindSingleton(Stage(FitViewport(1280f, 720f), ctx.inject<SpriteBatch>()))
+            bindSingleton(Stage(FitViewport(VIRTUAL_W.toFloat(), VIRTUAL_H.toFloat()), ctx.inject<SpriteBatch>()))
             bindSingleton(createSkin(ctx.inject()))
             bindSingleton(RayHandler(world))
             bindSingleton(Box2DDebugRenderer())
@@ -190,21 +207,12 @@ class Main(
 
     override fun render() {
         profiler.reset()
-        if (transitionTime <= maxTransitionTime) {
+        if (transitionTime < maxTransitionTime) {
             // mix previous and current screen snapshot together
             // screenshots are taken within setScreen method
-            clearScreen(0f, 0f, 0f, 1f)
             transitionTime += Gdx.graphics.deltaTime
-            // render the screenshots without any special viewport because the screenshot is a perfect
-            // 1:1 pixel matching texture for the entire screen
-            Gdx.gl20.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height)
-            ctx.inject<SpriteBatch>().use {
-                it.projectionMatrix = it.projectionMatrix.idt()
-                it.setColor(1f, 1f, 1f, 1f - transitionTime)
-                it.draw(currentFrameBuffer.colorBufferTexture, -1f, 1f, 2f, -2f)
-                it.setColor(1f, 1f, 1f, transitionTime)
-                it.draw(nextFrameBuffer.colorBufferTexture, -1f, 1f, 2f, -2f)
-            }
+            ctx.inject<SpriteBatch>()
+                .drawTransitionFBOs(currentFrameBuffer, nextFrameBuffer, transitionTime / maxTransitionTime)
         } else {
             // no screen transition -> render current active screen
             super.render()
