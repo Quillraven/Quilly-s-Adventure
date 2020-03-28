@@ -47,7 +47,9 @@ class PhysicContactListener : ContactListener {
      * Therefore two additional checks are added that it is really a relevant **collision entity** with a certain **type**.
      */
     private fun isRemoved(srcEntity: Entity, collEntity: Entity) =
-        srcEntity.isRemoved() || collEntity.isRemoved() || srcEntity[CollisionComponent.mapper] == null || collEntity[EntityTypeComponent.mapper] == null
+        srcEntity.isRemoved() || collEntity.isRemoved()
+                || srcEntity[CollisionComponent.mapper] == null
+                || collEntity[EntityTypeComponent.mapper] == null
 
     /**
      * @param srcFixture the fixture of the entity for which you want to update the collision data

@@ -12,6 +12,7 @@ import com.github.quillraven.quillysadventure.ecs.component.CollisionComponent
 import com.github.quillraven.quillysadventure.ecs.component.EntityType
 import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
 import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.SaveComponent
 import com.github.quillraven.quillysadventure.ecs.component.collCmp
 import com.github.quillraven.quillysadventure.ecs.component.heal
 import com.github.quillraven.quillysadventure.ecs.component.physicCmp
@@ -36,13 +37,13 @@ import ktx.log.logger
 private val LOG = logger<PlayerCollisionSystem>()
 
 class PlayerCollisionSystem(
-        private val mapManager: MapManager,
-        private val audioService: AudioService,
-        private val gameEventManager: GameEventManager,
-        private val bundle: I18NBundle
+    private val mapManager: MapManager,
+    private val audioService: AudioService,
+    private val gameEventManager: GameEventManager,
+    private val bundle: I18NBundle
 ) :
-        IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()), MapChangeListener,
-        GameEventListener {
+    IteratingSystem(allOf(PlayerComponent::class, CollisionComponent::class).get()), MapChangeListener,
+    GameEventListener {
     private val itemInfoBuilder = StringBuilder(64)
     private var lastSavepoint: Entity? = null
 
@@ -97,6 +98,8 @@ class PlayerCollisionSystem(
                             // also heal the player
                             val stats = entity.statsCmp
                             entity.heal(engine, stats.maxLife, stats.maxMana)
+                            // and save the game
+                            entity.add(engine.createComponent(SaveComponent::class.java))
                         }
                     }
                     EntityType.TRIGGER -> {
@@ -139,14 +142,14 @@ class PlayerCollisionSystem(
         // show information to player about the changed stats
         with(player.transfCmp) {
             engine.floatingText(
-                    position.x,
-                    position.y + size.y,
-                    FontType.LARGE,
-                    itemInfoBuilder,
-                    Color.SCARLET,
-                    0f,
-                    -0.6f,
-                    4f
+                position.x,
+                position.y + size.y,
+                FontType.LARGE,
+                itemInfoBuilder,
+                Color.SCARLET,
+                0f,
+                -0.6f,
+                4f
             )
         }
 
