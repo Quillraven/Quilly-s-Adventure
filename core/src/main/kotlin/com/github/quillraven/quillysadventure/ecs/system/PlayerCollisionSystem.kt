@@ -79,6 +79,8 @@ class PlayerCollisionSystem(
                                     }
                                 } else {
                                     mapManager.setMap(targetMap, targetPortal, targetOffsetX)
+                                    // and save the game
+                                    entity.add(engine.createComponent(SaveComponent::class.java))
                                 }
                                 // ignore any other collisions for that frame because the player got moved to a new map
                                 return
