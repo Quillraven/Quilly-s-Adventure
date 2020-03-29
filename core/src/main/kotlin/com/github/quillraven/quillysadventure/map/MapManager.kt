@@ -62,6 +62,7 @@ class MapManager(
         val currentMap = mapCache[currentMapType]
         if (currentMap != null) {
             storeMapEntities(currentMapType)
+            LOG.debug { "Storing map entities of map $currentMapType: ${mapEntityCache[currentMapType]}" }
 
             gameEventManager.dispatchBeforeMapChangeEvent()
             // remove all non-player entities of the current loaded map
@@ -230,7 +231,11 @@ class MapManager(
             try {
                 // retrieve and validate portal properties
                 if (mapObj.type == "PortalTarget") {
-                    ecsEngine.portalTarget(mapObj.x * UNIT_SCALE, mapObj.y * UNIT_SCALE, mapObj.id)
+                    ecsEngine.portalTarget(
+                        mapObj.x * UNIT_SCALE,
+                        mapObj.y * UNIT_SCALE,
+                        mapObj.id
+                    )
                 } else {
                     val targetMap = MapType.valueOf(mapObj.property(PROPERTY_TARGET_MAP, ""))
                     val targetPortal = mapObj.property(PROPERTY_TARGET_PORTAL_ID, -1)
