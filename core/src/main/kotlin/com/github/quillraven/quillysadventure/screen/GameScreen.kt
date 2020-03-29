@@ -165,6 +165,7 @@ class GameScreen(
             player.abilityCmp.run {
                 this.abilityToCastIdx = saveState.abilityToCastIdx
                 if (this.abilityToCastIdx == 0) {
+                    hud.statsWidget.activateSkill(0)
                     hud.skillButton.style =
                         hud.skin.get(
                             ImageButtonStyles.FIREBALL.name,
