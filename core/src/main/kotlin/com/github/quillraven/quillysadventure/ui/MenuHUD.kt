@@ -52,11 +52,11 @@ class MenuHUD(
 
     init {
         background = skin[Images.MENU_BACKGROUND]
-        defaults().pad(5f, 70f, 5f, 25f)
+        defaults().pad(5f, 70f, 25f, 25f)
 
         newGameLabel = label(bundle["newGame"], LabelStyles.LARGE.name) { cell ->
             setAlignment(Align.center)
-            cell.fillX().row()
+            cell.fillX().padTop(25f).row()
         }
         continueLabel = label(bundle["continue"], LabelStyles.LARGE.name) { cell ->
             setAlignment(Align.center)
