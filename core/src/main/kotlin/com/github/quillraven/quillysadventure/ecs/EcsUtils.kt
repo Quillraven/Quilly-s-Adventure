@@ -430,6 +430,9 @@ fun Engine.portalTarget(
         with<PortalComponent> {
             this.portalID = portalID
         }
+        with<TmxMapComponent> {
+            id = portalID
+        }
     }
 }
 
