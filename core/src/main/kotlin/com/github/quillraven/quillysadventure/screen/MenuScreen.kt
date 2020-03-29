@@ -4,10 +4,12 @@ import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -21,11 +23,13 @@ import com.github.quillraven.quillysadventure.ecs.component.AnimationComponent
 import com.github.quillraven.quillysadventure.ecs.component.FacingDirection
 import com.github.quillraven.quillysadventure.ecs.component.facingCmp
 import com.github.quillraven.quillysadventure.ecs.getCharacter
+import com.github.quillraven.quillysadventure.ecs.system.KEY_SAVE_STATE
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.MapManager
 import com.github.quillraven.quillysadventure.map.MapType
 import com.github.quillraven.quillysadventure.preferences
 import com.github.quillraven.quillysadventure.ui.MenuHUD
+import com.github.quillraven.quillysadventure.ui.widget.ConfirmDialogWidget
 import ktx.actors.centerPosition
 import ktx.actors.onClick
 import ktx.actors.onClickEvent
@@ -60,8 +64,31 @@ class MenuScreen(
     private var lastMusicVolume = audioService.musicVolume
     private lateinit var bannerTexture: Texture
 
+    private val newGameConfirmDialog = ConfirmDialogWidget(
+        bundle["clearGameState.info"],
+        bundle["yes"],
+        bundle["no"]
+    ).apply {
+        yesLabel.onClick {
+            preferences.flush { this.remove(KEY_SAVE_STATE) }
+            stage.root.removeActor(this)
+            game.setScreen<IntroScreen>()
+        }
+        noLabel.onClick {
+            stage.root.removeActor(this)
+        }
+    }
+
     private val hud: MenuHUD = MenuHUD(bundle).apply {
-        newGameLabel.onClick { game.setScreen<IntroScreen>() }
+        newGameLabel.onClick {
+            if (KEY_SAVE_STATE in preferences) {
+                stage.addActor(newGameConfirmDialog)
+                newGameConfirmDialog.centerPosition()
+                newGameConfirmDialog.toFront()
+            } else {
+                game.setScreen<IntroScreen>()
+            }
+        }
         continueLabel.onClick { game.setScreen<GameScreen>() }
         // sound buttons increase / decrease sound volume
         soundWidget.audioIncreaseButton.onClick {
@@ -119,7 +146,7 @@ class MenuScreen(
         stage.addActor(banner)
 
         // position UI elements
-        hud.centerPosition(hud.width + 50f, stage.height * 0.95f)
+        hud.centerPosition(hud.width + 50f, stage.height * 0.80f)
         hud.creditsTable.centerPosition(stage.width * 1.15f, stage.height * 0.95f)
 
         // "fade in" menu hud
@@ -151,6 +178,14 @@ class MenuScreen(
             if (!musicWidget.checkBox.isChecked) {
                 audioService.musicVolume = 0f
             }
+
+            if (KEY_SAVE_STATE in preferences) {
+                hud.continueLabel.setColor(1f, 1f, 1f, 1f)
+                hud.continueLabel.touchable = Touchable.enabled
+            } else {
+                hud.continueLabel.setColor(1f, 1f, 1f, 0.5f)
+                hud.continueLabel.touchable = Touchable.disabled
+            }
         }
     }
 
@@ -169,6 +204,14 @@ class MenuScreen(
             this[KEY_MUSIC_VOLUME] = audioService.musicVolume
             this[KEY_SOUND_ENABLED] = hud.soundWidget.checkBox.isChecked
             this[KEY_MUSIC_ENABLED] = hud.musicWidget.checkBox.isChecked
+        }
+    }
+
+    override fun render(delta: Float) {
+        super.render(delta)
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+            hide()
+            show()
         }
     }
 }

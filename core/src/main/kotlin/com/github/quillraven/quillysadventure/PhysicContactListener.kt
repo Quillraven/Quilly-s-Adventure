@@ -46,8 +46,10 @@ class PhysicContactListener : ContactListener {
      * time to time and entities are not 100% cleaned removed at that time.
      * Therefore two additional checks are added that it is really a relevant **collision entity** with a certain **type**.
      */
-    private fun isRemoved(entity: Entity) =
-        entity.isRemoved() || entity[CollisionComponent.mapper] == null || entity[EntityTypeComponent.mapper] == null
+    private fun isRemoved(srcEntity: Entity, collEntity: Entity) =
+        srcEntity.isRemoved() || collEntity.isRemoved()
+                || srcEntity[CollisionComponent.mapper] == null
+                || collEntity[EntityTypeComponent.mapper] == null
 
     /**
      * @param srcFixture the fixture of the entity for which you want to update the collision data
@@ -56,7 +58,7 @@ class PhysicContactListener : ContactListener {
      * @param collEntity the colliding entity from [endContact] method
      */
     private fun removeCollisionData(srcFixture: Fixture, srcEntity: Entity, collFixture: Fixture, collEntity: Entity) {
-        if (isRemoved(srcEntity) || isRemoved(collEntity)) {
+        if (isRemoved(srcEntity, collEntity)) {
             return
         }
 

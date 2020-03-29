@@ -48,6 +48,7 @@ import com.github.quillraven.quillysadventure.ecs.component.RenderComponent
 import com.github.quillraven.quillysadventure.ecs.component.StateComponent
 import com.github.quillraven.quillysadventure.ecs.component.StatsComponent
 import com.github.quillraven.quillysadventure.ecs.component.TakeDamageComponent
+import com.github.quillraven.quillysadventure.ecs.component.TmxMapComponent
 import com.github.quillraven.quillysadventure.ecs.component.TransformComponent
 import com.github.quillraven.quillysadventure.ecs.component.TriggerComponent
 import com.github.quillraven.quillysadventure.ecs.component.physicCmp
@@ -282,7 +283,13 @@ fun Engine.character(
     }
 }
 
-fun Engine.item(cfg: ItemCfg, world: World, posX: Float, posY: Float): Entity {
+fun Engine.item(
+    cfg: ItemCfg,
+    world: World,
+    posX: Float,
+    posY: Float,
+    compData: EngineEntity.() -> Unit = { Unit }
+): Entity {
     return this.entity {
         // transform
         with<TransformComponent> {
@@ -325,6 +332,8 @@ fun Engine.item(cfg: ItemCfg, world: World, posX: Float, posY: Float): Entity {
         with<EntityTypeComponent> {
             this.type = EntityType.ITEM
         }
+
+        this.compData()
     }
 }
 
@@ -421,6 +430,9 @@ fun Engine.portalTarget(
         with<PortalComponent> {
             this.portalID = portalID
         }
+        with<TmxMapComponent> {
+            id = portalID
+        }
     }
 }
 
@@ -462,6 +474,10 @@ fun Engine.portal(
             this.targetMap = targetMap
             this.targetOffsetX = targetOffsetX
             this.targetPortal = targetPortal
+        }
+        // tmx map info
+        with<TmxMapComponent> {
+            id = portalID
         }
     }
 }
@@ -600,6 +616,7 @@ fun Engine.missile(
 }
 
 fun Engine.trigger(
+    triggerID: Int,
     triggerSetupFunctionName: String,
     reactOnCollision: Boolean,
     world: World,
@@ -625,6 +642,10 @@ fun Engine.trigger(
             newTrigger.active = false
             withDefaultStaticPhysic(world, shape)
             with<CollisionComponent>()
+        }
+
+        with<TmxMapComponent> {
+            id = triggerID
         }
     }
 }

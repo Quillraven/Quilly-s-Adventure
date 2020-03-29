@@ -6,7 +6,9 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.utils.IntArray
 import com.github.quillraven.quillysadventure.UNIT_SCALE
 import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.configuration.Character
@@ -16,6 +18,7 @@ import com.github.quillraven.quillysadventure.configuration.ItemConfigurations
 import com.github.quillraven.quillysadventure.ecs.character
 import com.github.quillraven.quillysadventure.ecs.component.EntityType
 import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.TmxMapComponent
 import com.github.quillraven.quillysadventure.ecs.component.physicCmp
 import com.github.quillraven.quillysadventure.ecs.component.playerCmp
 import com.github.quillraven.quillysadventure.ecs.component.transfCmp
@@ -27,6 +30,7 @@ import com.github.quillraven.quillysadventure.ecs.portalTarget
 import com.github.quillraven.quillysadventure.ecs.scenery
 import com.github.quillraven.quillysadventure.ecs.trigger
 import com.github.quillraven.quillysadventure.event.GameEventManager
+import ktx.ashley.get
 import ktx.log.logger
 import ktx.tiled.id
 import ktx.tiled.property
@@ -39,27 +43,26 @@ import java.util.*
 private val LOG = logger<MapManager>()
 
 class MapManager(
-        private val assets: AssetManager,
-        private val world: World,
-        private val rayHandler: RayHandler,
-        private val ecsEngine: Engine,
-        private val characterConfigurations: CharacterConfigurations,
-        private val itemConfigurations: ItemConfigurations,
-        private val playerEntities: ImmutableArray<Entity>,
-        private val gameEventManager: GameEventManager
+    private val assets: AssetManager,
+    private val world: World,
+    private val rayHandler: RayHandler,
+    private val ecsEngine: Engine,
+    private val characterConfigurations: CharacterConfigurations,
+    private val itemConfigurations: ItemConfigurations,
+    private val playerEntities: ImmutableArray<Entity>,
+    private val gameEventManager: GameEventManager
 ) {
     private var currentMapType = MapType.TEST_MAP
     private val mapCache = EnumMap<MapType, Map>(MapType::class.java)
+    val mapEntityCache = EnumMap<MapType, IntArray>(MapType::class.java)
 
     fun currentMap() = currentMapType
 
     fun setMap(mapType: MapType, targetPortal: Int = -1, targetOffsetX: Int = -1) {
         val currentMap = mapCache[currentMapType]
         if (currentMap != null) {
-            //TODO
-            // 1) save current entity data to a file
-            // 2) check for new map if there is already existing data in the save file.
-            //    Otherwise, load data from TiledMap.tmx file
+            storeMapEntities(currentMapType)
+            LOG.debug { "Storing map entities of map $currentMapType: ${mapEntityCache[currentMapType]}" }
 
             gameEventManager.dispatchBeforeMapChangeEvent()
             // remove all non-player entities of the current loaded map
@@ -93,7 +96,26 @@ class MapManager(
         }
     }
 
-    private fun movePlayer(x: Float, y: Float) {
+    fun storeMapEntities(mapType: MapType) {
+        mapEntityCache.computeIfAbsent(mapType) { IntArray(32) }.apply {
+            this.clear()
+            ecsEngine.entities.forEach { entity ->
+                val tmxMapCmp = entity[TmxMapComponent.mapper]
+                if (tmxMapCmp != null) {
+                    this.add(tmxMapCmp.id)
+                }
+            }
+        }
+    }
+
+    fun storeMapEntities(mapType: MapType, entities: IntArray) {
+        mapEntityCache.computeIfAbsent(mapType) { IntArray(32) }.apply {
+            this.clear()
+            this.addAll(entities)
+        }
+    }
+
+    fun movePlayer(x: Float, y: Float) {
         playerEntities.forEach { player ->
             player.physicCmp.body.run {
                 setTransform(x, y, 0f)
@@ -138,16 +160,27 @@ class MapManager(
         }
     }
 
+    private fun entityInCache(mapObject: MapObject, map: Map): Boolean {
+        val entities = mapEntityCache[map.type]
+        return entities == null || entities.contains(mapObject.id)
+    }
+
     private fun createCharacterEntities(map: Map, layer: String) {
         map.forEachMapObject(layer) { mapObj ->
+            if (!entityInCache(mapObj, map)) return@forEachMapObject
+
             try {
                 val charKey = Character.valueOf(mapObj.name)
                 ecsEngine.character(
-                        characterConfigurations[charKey],
-                        world,
-                        mapObj.x * UNIT_SCALE,
-                        mapObj.y * UNIT_SCALE
-                )
+                    characterConfigurations[charKey],
+                    world,
+                    mapObj.x * UNIT_SCALE,
+                    mapObj.y * UNIT_SCALE
+                ) {
+                    with<TmxMapComponent> {
+                        id = mapObj.id
+                    }
+                }
             } catch (e: IllegalArgumentException) {
                 LOG.error(e) {
                     "Invalid name specified for object " +
@@ -166,14 +199,20 @@ class MapManager(
 
     private fun createItemEntities(map: Map) {
         map.forEachMapObject(LAYER_ITEM) { mapObj ->
+            if (!entityInCache(mapObj, map)) return@forEachMapObject
+
             try {
                 val itemKey = Item.valueOf(mapObj.name)
                 ecsEngine.item(
-                        itemConfigurations[itemKey],
-                        world,
-                        mapObj.x * UNIT_SCALE,
-                        mapObj.y * UNIT_SCALE
-                )
+                    itemConfigurations[itemKey],
+                    world,
+                    mapObj.x * UNIT_SCALE,
+                    mapObj.y * UNIT_SCALE
+                ) {
+                    with<TmxMapComponent> {
+                        id = mapObj.id
+                    }
+                }
             } catch (e: IllegalArgumentException) {
                 LOG.error(e) {
                     "Invalid name specified for object " +
@@ -187,10 +226,16 @@ class MapManager(
 
     private fun createPortalEntities(map: Map) {
         map.forEachMapObject(LAYER_PORTAL) { mapObj ->
+            if (!entityInCache(mapObj, map)) return@forEachMapObject
+
             try {
                 // retrieve and validate portal properties
                 if (mapObj.type == "PortalTarget") {
-                    ecsEngine.portalTarget(mapObj.x * UNIT_SCALE, mapObj.y * UNIT_SCALE, mapObj.id)
+                    ecsEngine.portalTarget(
+                        mapObj.x * UNIT_SCALE,
+                        mapObj.y * UNIT_SCALE,
+                        mapObj.id
+                    )
                 } else {
                     val targetMap = MapType.valueOf(mapObj.property(PROPERTY_TARGET_MAP, ""))
                     val targetPortal = mapObj.property(PROPERTY_TARGET_PORTAL_ID, -1)
@@ -214,14 +259,14 @@ class MapManager(
 
                     // create portal entity
                     ecsEngine.portal(
-                            world,
-                            mapObj.shape,
-                            mapObj.id,
-                            mapObj.property(PROPERTY_PORTAL_ACTIVE, true),
-                            targetMap,
-                            targetPortal,
-                            targetOffsetX,
-                            mapObj.property(PROPERTY_FLIP_PARTICLE_FX, false)
+                        world,
+                        mapObj.shape,
+                        mapObj.id,
+                        mapObj.property(PROPERTY_PORTAL_ACTIVE, true),
+                        targetMap,
+                        targetPortal,
+                        targetOffsetX,
+                        mapObj.property(PROPERTY_FLIP_PARTICLE_FX, false)
                     )
                 }
             } catch (e: IllegalArgumentException) {
@@ -240,6 +285,8 @@ class MapManager(
 
     private fun createTriggers(map: Map) {
         map.forEachMapObject(LAYER_TRIGGER) { mapObj ->
+            if (!entityInCache(mapObj, map)) return@forEachMapObject
+
             val triggerSetupFunction = mapObj.name
             if (triggerSetupFunction.isBlank()) {
                 LOG.error {
@@ -259,10 +306,11 @@ class MapManager(
             }
 
             ecsEngine.trigger(
-                    triggerSetupFunction,
-                    mapObj.property(PROPERTY_TRIGGER_REACT_ON_COLLISION, false),
-                    world,
-                    mapObj.shape
+                mapObj.id,
+                triggerSetupFunction,
+                mapObj.property(PROPERTY_TRIGGER_REACT_ON_COLLISION, false),
+                world,
+                mapObj.shape
             )
         }
     }
@@ -276,9 +324,9 @@ class MapManager(
             rayHandler.setBlurNum(2)
             // create point light entity
             ecsEngine.globalLight(
-                    rayHandler,
-                    map.property(PROPERTY_SUN_COLOR, Color.WHITE),
-                    map.property(PROPERTY_SHADOW_ANGLE, 0f)
+                rayHandler,
+                map.property(PROPERTY_SUN_COLOR, Color.WHITE),
+                map.property(PROPERTY_SHADOW_ANGLE, 0f)
             )
         } else {
             rayHandler.setBlur(false)

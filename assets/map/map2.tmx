@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-up" compressionlevel="0" width="32" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="35" nextobjectid="116">
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-up" compressionlevel="0" width="32" height="96" tilewidth="16" tileheight="16" infinite="0" nextlayerid="35" nextobjectid="117">
  <tileset firstgid="1" source="tilesets.tsx"/>
  <layer id="28" name="bgd0" width="32" height="96">
   <data encoding="base64" compression="zlib">
@@ -151,6 +151,11 @@
   <object id="112" name="TriggerMap2.setupBossPitRight" x="430.25" y="1514.25" width="58.5" height="20.5">
    <properties>
     <property name="TriggerReactOnCollision" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="116" name="TriggerMap2.setupAfterBoss" x="76.25" y="1299.83" width="49.5" height="31">
+   <properties>
+    <property name="TriggerReactOnCollision" type="bool" value="false"/>
    </properties>
   </object>
  </objectgroup>

@@ -46,7 +46,7 @@ private val LOG = logger<Main>()
 
 const val VIRTUAL_W = 1280
 const val VIRTUAL_H = 720
-private const val PREF_NAME = "quilly-jumper"
+private const val PREF_NAME = "quilly-adventure"
 const val UNIT_SCALE = 1 / 32f
 const val FIXTURE_TYPE_FOOT_SENSOR = 1
 const val FIXTURE_TYPE_AGGRO_SENSOR = 2 shl 0

@@ -4,11 +4,13 @@ import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.I18NBundle
@@ -20,12 +22,17 @@ import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.drawTransitionFBOs
 import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
 import com.github.quillraven.quillysadventure.ecs.component.abilityCmp
+import com.github.quillraven.quillysadventure.ecs.component.playerCmp
 import com.github.quillraven.quillysadventure.ecs.component.statsCmp
 import com.github.quillraven.quillysadventure.ecs.system.DeathSystem
 import com.github.quillraven.quillysadventure.ecs.system.FloatingTextSystem
+import com.github.quillraven.quillysadventure.ecs.system.KEY_SAVE_STATE
 import com.github.quillraven.quillysadventure.ecs.system.LightSystem
 import com.github.quillraven.quillysadventure.ecs.system.RenderSystem
+import com.github.quillraven.quillysadventure.ecs.system.SaveState
+import com.github.quillraven.quillysadventure.ecs.system.SaveSystem
 import com.github.quillraven.quillysadventure.ecs.system.TutorialSystem
+import com.github.quillraven.quillysadventure.ecs.system.TutorialType
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.event.Key
 import com.github.quillraven.quillysadventure.input.InputListener
@@ -33,13 +40,22 @@ import com.github.quillraven.quillysadventure.map.Map
 import com.github.quillraven.quillysadventure.map.MapChangeListener
 import com.github.quillraven.quillysadventure.map.MapManager
 import com.github.quillraven.quillysadventure.map.MapType
+import com.github.quillraven.quillysadventure.preferences
 import com.github.quillraven.quillysadventure.ui.GameHUD
 import com.github.quillraven.quillysadventure.ui.ImageButtonStyles
 import com.github.quillraven.quillysadventure.ui.Images
+import com.github.quillraven.quillysadventure.ui.get
+import com.github.quillraven.quillysadventure.ui.widget.ConfirmDialogWidget
+import ktx.actors.centerPosition
+import ktx.actors.onClick
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.app.clearScreen
 import ktx.ashley.get
+import ktx.math.component1
+import ktx.math.component2
+import ktx.preferences.get
+import ktx.scene2d.Scene2DSkin
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
@@ -51,13 +67,34 @@ class GameScreen(
     rayHandler: RayHandler,
     viewport: Viewport,
     stage: Stage,
-    private val batch: Batch = stage.batch
+    private val batch: Batch = stage.batch,
+    private val preferences: Preferences = Gdx.app.preferences
 ) : Screen(engine, audioService, bundle, stage, gameEventManager, rayHandler, viewport), InputListener,
     MapChangeListener {
-    private val hud = GameHUD(gameEventManager, bundle["statsTitle"], bundle["skills"])
+    private val closeButton = Image(Scene2DSkin.defaultSkin[Images.BUTTON_CLOSE]).apply { setScale(0.75f) }
+    private val hud = GameHUD(gameEventManager, bundle["statsTitle"], bundle["skills"]).apply {
+        statsWidget.apply {
+            addSkill(bundle["fireball"], bundle["requiresLvl3"], Images.IMAGE_FIREBALL)
+        }
+    }
+    private val backToMenuConfirmDialog = ConfirmDialogWidget(
+        bundle["backToMenu.info"],
+        bundle["yes"],
+        bundle["no"]
+    ).apply {
+        yesLabel.onClick {
+            stage.root.removeActor(this)
+            game.setScreen<MenuScreen>()
+        }
+        noLabel.onClick {
+            stage.root.removeActor(this)
+        }
+    }
+
     private var gameOver = false
 
     private val tutorialSystem = TutorialSystem(gameEventManager)
+    private val saveSystem = SaveSystem(preferences, mapManager)
 
     private val lifeTxt = bundle["life"]
     private val manaTxt = bundle["mana"]
@@ -87,10 +124,116 @@ class GameScreen(
         gameOver = false
 
         // setup game UI
+        setupGameUI()
+
+        // get save state to reset to last save state values
+        val saveState: SaveState? = preferences[KEY_SAVE_STATE]
+
+        // add game screen as input listener to react when the player wants to quit the game (=exit key pressed)
+        gameEventManager.addInputListener(this)
+        // add screen as MapChangeListener to show the map name information when changing maps
+        gameEventManager.addMapChangeListener(this)
+
+        // set initial map
+        initMapManager(saveState)
+
+        // game screen specific systems
+        engine.addSystem(tutorialSystem)
+        engine.addSystem(saveSystem)
+
+        // set player hud info (life, mana, attack ready, etc.)
+        engine.entities.forEach { entity ->
+            val playerCmp = entity[PlayerComponent.mapper]
+            if (playerCmp != null) {
+                initPlayerProperties(saveState, entity)
+                updatePlayerHUD(entity)
+            }
+        }
+    }
+
+    private fun updatePlayerHUD(player: Entity) {
+        with(player.statsCmp) {
+            hud.infoWidget.resetHudValues(this.life / this.maxLife, this.mana / this.maxMana)
+            hud.statsWidget.updateLevel(levelTxt, this.level)
+                .updateExperience(
+                    xpTxt,
+                    xpAbbreviation,
+                    this.xp,
+                    engine.getSystem(DeathSystem::class.java).getNeededExperience(this.level)
+                )
+                .updateLife(lifeTxt, this.life.toInt(), this.maxLife.toInt())
+                .updateMana(manaTxt, this.mana.toInt(), this.maxMana.toInt())
+                .updateDamage(bundle["damage"], this.damage.toInt())
+                .updateArmor(bundle["armor"], this.armor.toInt())
+
+            if (level >= 3) {
+                hud.statsWidget.activateSkill(0)
+            }
+        }
+
+        if (player.abilityCmp.hasAbility(FireballEffect)) {
+            hud.skillButton.style =
+                hud.skin.get(
+                    ImageButtonStyles.FIREBALL.name,
+                    ImageButton.ImageButtonStyle::class.java
+                )
+        }
+    }
+
+    private fun initPlayerProperties(
+        saveState: SaveState?,
+        player: Entity
+    ) {
+        if (saveState != null) {
+            val statsCmp = player.statsCmp
+            statsCmp.damage = saveState.damage
+            statsCmp.life = saveState.life
+            statsCmp.maxLife = saveState.maxLife
+            statsCmp.mana = saveState.mana
+            statsCmp.maxMana = saveState.maxMana
+            statsCmp.armor = saveState.armor
+            statsCmp.level = saveState.level
+            statsCmp.xp = saveState.xp
+
+            player.abilityCmp.run {
+                this.abilityToCastIdx = saveState.abilityToCastIdx
+                saveState.abilities.forEach {
+                    this.addAbility(player, it)
+                }
+            }
+
+            val playerCmp = player.playerCmp
+            val (x, y) = saveState.checkpoint
+            playerCmp.checkpoint.set(x, y)
+            mapManager.movePlayer(x, y)
+            playerCmp.tutorials.clear()
+            for (i in 0 until saveState.tutorials.size) {
+                playerCmp.tutorials.add(TutorialType.values()[saveState.tutorials[i]])
+            }
+        }
+    }
+
+    private fun initMapManager(saveState: SaveState?) {
+        mapTransitionTime = maxMapTransitionTime
+        ignoreMapTransition = true
+        mapManager.mapEntityCache.clear()
+        if (saveState != null) {
+            saveState.mapEntities.forEach {
+                mapManager.storeMapEntities(MapType.values()[it.key], it.value)
+            }
+            mapManager.setMap(saveState.currentMap)
+        } else {
+            mapManager.setMap(MapType.MAP1)
+        }
+    }
+
+    private fun setupGameUI() {
+        stage.addActor(closeButton)
+        closeButton.setPosition(0f, stage.height - closeButton.height * closeButton.scaleY)
+        closeButton.onClick { switchToMenuScreen() }
+
         stage.addActor(hud)
-        stage.addActor(hud.statsWidget.apply {
-            addSkill(bundle["fireball"], bundle["requiresLvl3"], Images.IMAGE_FIREBALL)
-        })
+        stage.addActor(hud.statsWidget)
         hud.statsWidget.setPosition(-2000f, 0f)
         hud.statsWidget.skill(0)?.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -107,37 +250,6 @@ class GameScreen(
                 }
             }
         })
-
-        // add game screen as input listener to react when the player wants to quit the game (=exit key pressed)
-        gameEventManager.addInputListener(this)
-        // add screen as MapChangeListener to show the map name information when changing maps
-        gameEventManager.addMapChangeListener(this)
-        // set initial map
-        mapTransitionTime = maxMapTransitionTime
-        ignoreMapTransition = true
-        mapManager.setMap(MapType.MAP1)
-
-        engine.addSystem(tutorialSystem)
-        // set player hud info (life, mana, attack ready, etc.)
-        engine.entities.forEach {
-            val playerCmp = it[PlayerComponent.mapper]
-            if (playerCmp != null) {
-                with(it.statsCmp) {
-                    hud.infoWidget.resetHudValues(this.life / this.maxLife, this.mana / this.maxMana)
-                    hud.statsWidget.updateLevel(levelTxt, this.level)
-                        .updateExperience(
-                            xpTxt,
-                            xpAbbreviation,
-                            this.xp,
-                            engine.getSystem(DeathSystem::class.java).getNeededExperience(this.level)
-                        )
-                        .updateLife(lifeTxt, this.life.toInt(), this.maxLife.toInt())
-                        .updateMana(manaTxt, this.mana.toInt(), this.maxMana.toInt())
-                        .updateDamage(bundle["damage"], this.damage.toInt())
-                        .updateArmor(bundle["armor"], this.armor.toInt())
-                }
-            }
-        }
     }
 
     override fun hide() {
@@ -145,6 +257,7 @@ class GameScreen(
         gameEventManager.removeInputListener(this)
         gameEventManager.removeMapChangeListener(this)
         engine.removeSystem(tutorialSystem)
+        engine.removeSystem(saveSystem)
     }
 
     override fun resize(width: Int, height: Int) {
@@ -195,8 +308,14 @@ class GameScreen(
     override fun keyPressed(key: Key) {
         if (key == Key.EXIT) {
             // player pressed exit key -> go back to menu
-            game.setScreen<MenuScreen>()
+            switchToMenuScreen()
         }
+    }
+
+    private fun switchToMenuScreen() {
+        stage.addActor(backToMenuConfirmDialog)
+        backToMenuConfirmDialog.centerPosition()
+        backToMenuConfirmDialog.toFront()
     }
 
     override fun characterDeath(character: Entity) {
