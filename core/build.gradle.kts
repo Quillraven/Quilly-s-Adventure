@@ -25,6 +25,9 @@ dependencies {
     api("io.github.libktx:ktx-scene2d:${Versions.ktx}")
     api("io.github.libktx:ktx-style:${Versions.ktx}")
     api("io.github.libktx:ktx-tiled:${Versions.ktx}")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:${Versions.junit}")
+    testImplementation("io.mockk:mockk:${Versions.mockk}")
 }
 
 tasks.withType<JavaCompile> {
@@ -38,4 +41,11 @@ configure<JavaPluginConvention> {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = Versions.jvm
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
