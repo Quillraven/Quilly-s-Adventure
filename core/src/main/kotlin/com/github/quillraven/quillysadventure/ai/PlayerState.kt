@@ -31,30 +31,27 @@ enum class PlayerState(
                     entity.attackCmp.order == AttackOrder.START -> changeState(ATTACK)
                     entity.jumpCmp.order == JumpOrder.JUMP -> changeState(JUMP)
                     entity.moveCmp.order != MoveOrder.NONE -> changeState(RUN)
-                    entity.physicCmp.body.linearVelocity.y <= 0f && entity.collCmp.numGroundContacts == 0 ->
-                        changeState(FALL)
+                    isFalling(entity.physicCmp, entity.collCmp) -> changeState(FALL)
                 }
             }
         }
     },
     RUN(AnimationType.RUN) {
         override fun update(entity: Entity) {
-            val velocity = entity.physicCmp.body.linearVelocity
+            val physicCmp = entity.physicCmp
+            val velocity = physicCmp.body.linearVelocity
             with(entity.stateCmp.stateMachine) {
                 when {
                     entity.abilityCmp.order == CastOrder.BEGIN_CAST -> changeState(CAST)
                     entity.attackCmp.order == AttackOrder.START -> changeState(ATTACK)
                     entity.jumpCmp.order == JumpOrder.JUMP -> changeState(JUMP)
-                    velocity.y <= 0f && entity.collCmp.numGroundContacts == 0 -> changeState(FALL)
+                    isFalling(physicCmp, entity.collCmp) -> changeState(FALL)
                     entity.moveCmp.order == MoveOrder.NONE && abs(velocity.x) <= 0.5f -> changeState(IDLE)
                 }
             }
         }
     },
     JUMP(AnimationType.JUMP, Animation.PlayMode.NORMAL) {
-        private fun isFalling(physic: PhysicComponent, collision: CollisionComponent) =
-            physic.body.linearVelocity.y <= 0f && collision.numGroundContacts == 0
-
         override fun update(entity: Entity) {
             val collision = entity.collCmp
             with(entity.stateCmp) {
@@ -134,5 +131,8 @@ enum class PlayerState(
             super.exit(entity)
             entity.aniCmp.animationSpeed = 1f
         }
-    }
+    };
+
+    fun isFalling(physic: PhysicComponent, collision: CollisionComponent) =
+        physic.body.linearVelocity.y < 0f && collision.numGroundContacts == 0
 }
