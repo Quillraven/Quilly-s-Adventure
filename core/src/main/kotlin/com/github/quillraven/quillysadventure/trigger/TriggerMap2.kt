@@ -40,3 +40,17 @@ fun setupBossPitRight(trigger: Trigger) {
         .damageSelectedCharacter(3f)
         .deactivateTrigger(true)
 }
+
+/**
+ * This trigger is used if the game is loaded after the boss fight.
+ * It will activate the "Portal to Cave Top" portal and in the future
+ * create the path to the next map again
+ */
+@Suppress("unused")
+fun setupAfterBoss(trigger: Trigger) {
+    trigger.conditions {
+        isEntityDead(91)
+    }
+        .enablePortal(97)
+        .deactivateTrigger(true)
+}

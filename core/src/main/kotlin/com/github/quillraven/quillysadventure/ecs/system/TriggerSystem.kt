@@ -25,10 +25,16 @@ class TriggerSystem(private val gameEventManager: GameEventManager) :
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         with(entity.triggerCmp) {
-            if (trigger.active && trigger.update(deltaTime)) {
-                // trigger is active and completed all of its actions -> remove it
-                entity.add(engine.createComponent(RemoveComponent::class.java))
-                gameEventManager.dispatchTriggerFinishedEvent(trigger)
+            if (trigger.active) {
+                // trigger is active
+                if (!trigger.checkConditions()) {
+                    // but conditions are not met -> set to inactive
+                    trigger.active = false
+                } else if (trigger.update(deltaTime)) {
+                    // conditions met and completed all of its actions -> remove it
+                    entity.add(engine.createComponent(RemoveComponent::class.java))
+                    gameEventManager.dispatchTriggerFinishedEvent(trigger)
+                }
             }
         }
     }

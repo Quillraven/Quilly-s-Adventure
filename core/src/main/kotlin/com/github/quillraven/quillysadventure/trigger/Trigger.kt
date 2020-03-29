@@ -26,9 +26,12 @@ import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSelect
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSetPlayerInput
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionShowDialog
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionWaitCreatedCharacterDeath
+import com.github.quillraven.quillysadventure.trigger.condition.TriggerCondition
+import com.github.quillraven.quillysadventure.trigger.condition.TriggerConditionIsEntityAlive
 import ktx.collections.iterate
 
 class Trigger : Pool.Poolable {
+    private val conditions = Array<TriggerCondition>(4)
     private val actions = Array<TriggerAction>(8)
     private var currentIdx = 0
     lateinit var activatingCharacter: Entity
@@ -40,6 +43,14 @@ class Trigger : Pool.Poolable {
         }
 
         return currentIdx >= actions.size
+    }
+
+    fun checkConditions(): Boolean {
+        conditions.forEach {
+            if (!it.evaluate()) return false
+        }
+
+        return true
     }
 
     override fun reset() {
@@ -193,6 +204,17 @@ class Trigger : Pool.Poolable {
         })
         return this
     }
+
+    fun conditions(condition: Trigger.() -> TriggerCondition): Trigger {
+        conditions.add(this.condition())
+        return this
+    }
+
+    fun isEntityDead(tmxMapID: Int): TriggerCondition =
+        ReflectionPool(TriggerConditionIsEntityAlive::class.java).obtain().apply {
+            this.tmxMapID = tmxMapID
+            this.checkAlive = false
+        }
 
     companion object {
         val pool = ReflectionPool(Trigger::class.java, 8)
