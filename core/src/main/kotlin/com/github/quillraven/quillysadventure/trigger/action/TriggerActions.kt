@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pool
 import com.github.quillraven.quillysadventure.ai.DefaultState
@@ -42,12 +43,13 @@ interface TriggerAction : Pool.Poolable {
     }
 }
 
-class TriggerActionPlayMusic : TriggerAction, Music.OnCompletionListener {
+data class TriggerActionPlayMusic(
+    var musicType: MusicAssets = MusicAssets.MENU,
+    var loop: Boolean = false,
+    var waitForMusicCompletion: Boolean = false
+) : TriggerAction, Music.OnCompletionListener {
     private val audioService = Gdx.app.getAudioService()
     private var step = 0
-    var musicType = MusicAssets.MENU
-    var loop = false
-    var waitForMusicCompletion = false
 
     override fun update(deltaTime: Float): Boolean {
         if (step == 0) {
@@ -74,15 +76,16 @@ class TriggerActionPlayMusic : TriggerAction, Music.OnCompletionListener {
     }
 }
 
-class TriggerActionCreateCharacter : TriggerAction {
+data class TriggerActionCreateCharacter(
+    var type: Character = Character.PLAYER,
+    var spawnLocation: Vector2 = vec2(),
+    var fadeTime: Float = 0f,
+    var holdPosition: Boolean = false
+) : TriggerAction {
     private val characterCfgs = Gdx.app.characterConfigurations
     private val world = Gdx.app.world
     private val engine = Gdx.app.ecsEngine
     private lateinit var createdCharacter: Entity
-    var type = Character.PLAYER
-    var spawnLocation = vec2()
-    var fadeTime = 0f
-    var holdPosition = false
 
     override fun update(deltaTime: Float): Boolean {
         createdCharacter = engine.character(
@@ -106,9 +109,8 @@ class TriggerActionCreateCharacter : TriggerAction {
     fun character() = createdCharacter
 }
 
-class TriggerActionSetPlayerInput : TriggerAction {
+data class TriggerActionSetPlayerInput(var enable: Boolean = true) : TriggerAction {
     private val gameEventManager = Gdx.app.gameEventManager
-    var enable = true
 
     override fun update(deltaTime: Float): Boolean {
         if (enable) gameEventManager.enablePlayerInput() else gameEventManager.disablePlayerInput()
@@ -120,9 +122,7 @@ class TriggerActionSetPlayerInput : TriggerAction {
     }
 }
 
-class TriggerActionDelay : TriggerAction {
-    var delay = 0f
-
+data class TriggerActionDelay(var delay: Float = 0f) : TriggerAction {
     override fun update(deltaTime: Float): Boolean {
         delay -= deltaTime
         return delay <= 0f
@@ -144,9 +144,8 @@ class TriggerActionResetState : TriggerAction {
     }
 }
 
-class TriggerActionEnablePortal : TriggerAction {
+data class TriggerActionEnablePortal(var portalID: Int = 0) : TriggerAction {
     private val engine = Gdx.app.ecsEngine
-    var portalID = 0
 
     override fun update(deltaTime: Float): Boolean {
         engine.findPortal(portalID) { portal ->
@@ -164,13 +163,14 @@ class TriggerActionEnablePortal : TriggerAction {
     }
 }
 
-class TriggerActionWaitCreatedCharacterDeath : TriggerAction, GameEventListener {
+data class TriggerActionWaitCreatedCharacterDeath(
+    val createCharacterActions: Array<TriggerActionCreateCharacter> = Array<TriggerActionCreateCharacter>(3)
+) : TriggerAction, GameEventListener {
     private val gameEventManager = Gdx.app.gameEventManager
     private var step = 0
-    val createCharacterAction = Array<TriggerActionCreateCharacter>(3)
 
     override fun update(deltaTime: Float): Boolean {
-        if (createCharacterAction.isEmpty) step = 2
+        if (createCharacterActions.isEmpty) step = 2
 
         if (step == 0) {
             gameEventManager.addGameEventListener(this)
@@ -182,12 +182,12 @@ class TriggerActionWaitCreatedCharacterDeath : TriggerAction, GameEventListener 
 
     override fun reset() {
         gameEventManager.removeGameEventListener(this)
-        createCharacterAction.clear()
+        createCharacterActions.clear()
         step = 0
     }
 
     override fun characterDeath(character: Entity) {
-        createCharacterAction.iterate { action, iterator ->
+        createCharacterActions.iterate { action, iterator ->
             if (action.character() == character) iterator.remove()
         }
     }
@@ -197,9 +197,8 @@ abstract class TriggerActionSelectCharacter : TriggerAction {
     lateinit var character: Entity
 }
 
-class TriggerActionSelectCharacterByType : TriggerActionSelectCharacter() {
+data class TriggerActionSelectCharacterByType(var type: Character = Character.PLAYER) : TriggerActionSelectCharacter() {
     private val engine = Gdx.app.ecsEngine
-    var type: Character = Character.PLAYER
 
     override fun update(deltaTime: Float): Boolean {
         engine.entities.forEach {
@@ -222,9 +221,8 @@ class TriggerActionSelectActivatingCharacter : TriggerActionSelectCharacter() {
     }
 }
 
-class TriggerActionMoveCharacter : TriggerAction {
+data class TriggerActionMoveCharacter(var targetLocation: Vector2 = vec2()) : TriggerAction {
     lateinit var selectCharacterAction: TriggerActionSelectCharacter
-    var targetLocation = vec2()
 
     override fun update(deltaTime: Float): Boolean {
         selectCharacterAction.character.run {
@@ -235,9 +233,8 @@ class TriggerActionMoveCharacter : TriggerAction {
     }
 }
 
-class TriggerActionDamageCharacter : TriggerAction {
+data class TriggerActionDamageCharacter(var damage: Float = 0f) : TriggerAction {
     lateinit var selectCharacterAction: TriggerActionSelectCharacter
-    var damage = 0f
 
     override fun update(deltaTime: Float): Boolean {
         selectCharacterAction.character.takeDamageCmp.run {
@@ -248,9 +245,8 @@ class TriggerActionDamageCharacter : TriggerAction {
     }
 }
 
-class TriggerActionDeactivateTrigger : TriggerAction {
+data class TriggerActionDeactivateTrigger(var reset: Boolean = false) : TriggerAction {
     lateinit var trigger: Trigger
-    var reset = false
 
     override fun update(deltaTime: Float): Boolean {
         trigger.active = false
@@ -259,9 +255,9 @@ class TriggerActionDeactivateTrigger : TriggerAction {
     }
 }
 
-class TriggerActionShowDialog : TriggerAction {
+data class TriggerActionShowDialog(var dialogKey: String = "") : TriggerAction {
     private val gameEventManager = Gdx.app.gameEventManager
-    var dialogKey = ""
+
 
     override fun update(deltaTime: Float): Boolean {
         gameEventManager.dispatchShowDialogEvent(dialogKey)
@@ -269,9 +265,9 @@ class TriggerActionShowDialog : TriggerAction {
     }
 }
 
-class TriggerActionMoveOrderCharacter : TriggerAction {
+data class TriggerActionMoveOrderCharacter(var order: MoveOrder = MoveOrder.NONE) : TriggerAction {
     lateinit var selectCharacterAction: TriggerActionSelectCharacter
-    var order = MoveOrder.NONE
+
 
     override fun update(deltaTime: Float): Boolean {
         selectCharacterAction.character.moveCmp.order = order
@@ -280,11 +276,12 @@ class TriggerActionMoveOrderCharacter : TriggerAction {
     }
 }
 
-class TriggerActionPlayAnimationCharacter : TriggerAction {
+data class TriggerActionPlayAnimationCharacter(
+    var type: AnimationType = AnimationType.IDLE,
+    var waitForCompletion: Boolean = false,
+    var mode: Animation.PlayMode = Animation.PlayMode.NORMAL
+) : TriggerAction {
     lateinit var selectCharacterAction: TriggerActionSelectCharacter
-    var type = AnimationType.IDLE
-    var waitForCompletion = false
-    var mode = Animation.PlayMode.NORMAL
     private var storeOrigSettings = true
     private var origMode = Animation.PlayMode.NORMAL
     private var origType = AnimationType.IDLE
