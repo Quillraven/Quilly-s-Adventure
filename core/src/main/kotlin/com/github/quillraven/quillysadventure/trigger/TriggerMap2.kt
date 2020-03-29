@@ -2,43 +2,107 @@ package com.github.quillraven.quillysadventure.trigger
 
 import com.github.quillraven.quillysadventure.assets.MusicAssets
 import com.github.quillraven.quillysadventure.configuration.Character
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionCreateCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionDamageCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionDeactivateTrigger
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionDelay
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionEnablePortal
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionMoveCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionPlayMusic
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionResetState
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSelectActivatingCharacter
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSetPlayerInput
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionShowDialog
+import com.github.quillraven.quillysadventure.trigger.action.TriggerActionWaitCreatedCharacterDeath
+import com.github.quillraven.quillysadventure.trigger.condition.TriggerConditionIsEntityAlive
 
 @Suppress("unused")
 fun setupBossTrigger(trigger: Trigger) {
-    trigger.enablePlayerInput(false)
-        .playMusic(MusicAssets.BOSS_1, loop = true)
-        .createCharacter(Character.MINOTAUR, 8.5f, 2.5f, 2f, true)
-        .delay(2.5f)
-        .showDialog("Boss1Dialog1")
-        .createCharacter(Character.SKELETAL, 7.8f, 2f, 1f, true)
-        .delay(2f)
-        .showDialog("Boss1Dialog2")
-        .resetAllCreatedCharacterStates()
-        .enablePlayerInput(true)
-        .waitForCreatedUnitsDeath()
-        .enablePlayerInput(false)
-        .showDialog("Boss1Dialog3")
-        .playMusic(MusicAssets.FANFARE, loop = false, waitForCompletion = true)
-        .playMusic(MusicAssets.LEVEL_2, true)
-        .enablePlayerInput(true)
-        .delay(1f)
-        .enablePortal(97)
+    trigger.actions {
+        action<TriggerActionSetPlayerInput> { enable = false }
+        action<TriggerActionPlayMusic> {
+            loop = true
+            musicType = MusicAssets.BOSS_1
+            waitForMusicCompletion = false
+        }
+        val createAction1 = action<TriggerActionCreateCharacter> {
+            type = Character.MINOTAUR
+            spawnLocation.set(8.5f, 2.5f)
+            fadeTime = 2f
+            holdPosition = true
+        }
+        action<TriggerActionDelay> { delay = 2.5f }
+        action<TriggerActionShowDialog> { dialogKey = "Boss1Dialog1" }
+        val createAction2 = action<TriggerActionCreateCharacter> {
+            type = Character.SKELETAL
+            spawnLocation.set(7.8f, 2f)
+            fadeTime = 1f
+            holdPosition = true
+        }
+        action<TriggerActionDelay> { delay = 2f }
+        action<TriggerActionShowDialog> { dialogKey = "Boss1Dialog2" }
+        action<TriggerActionResetState> { createCharacterAction = createAction1 }
+        action<TriggerActionResetState> { createCharacterAction = createAction2 }
+        action<TriggerActionSetPlayerInput> { enable = true }
+        action<TriggerActionWaitCreatedCharacterDeath> {}
+        action<TriggerActionWaitCreatedCharacterDeath> {
+            createCharacterActions.add(createAction1)
+            createCharacterActions.add(createAction2)
+        }
+        action<TriggerActionSetPlayerInput> { enable = false }
+        action<TriggerActionShowDialog> { dialogKey = "Boss1Dialog3" }
+        action<TriggerActionPlayMusic> {
+            loop = false
+            musicType = MusicAssets.FANFARE
+            waitForMusicCompletion = true
+        }
+        action<TriggerActionPlayMusic> {
+            loop = true
+            musicType = MusicAssets.LEVEL_2
+            waitForMusicCompletion = false
+        }
+        action<TriggerActionSetPlayerInput> { enable = true }
+        action<TriggerActionDelay> { delay = 1f }
+        action<TriggerActionEnablePortal> { portalID = 97 }
+    }
 }
 
 @Suppress("unused")
 fun setupBossPitLeft(trigger: Trigger) {
-    trigger.selectActivatingCharacter()
-        .moveSelectedCharacterTo(3f, 2.5f)
-        .damageSelectedCharacter(3f)
-        .deactivateTrigger(true)
+    trigger.actions {
+        val selectAction = action<TriggerActionSelectActivatingCharacter> { this.trigger = trigger }
+        action<TriggerActionMoveCharacter> {
+            selectCharacterAction = selectAction
+            targetLocation.set(3f, 2.5f)
+        }
+        action<TriggerActionDamageCharacter> {
+            selectCharacterAction = selectAction
+            damage = 3f
+        }
+        action<TriggerActionDeactivateTrigger> {
+            this.trigger = trigger
+            reset = true
+        }
+    }
 }
 
 @Suppress("unused")
 fun setupBossPitRight(trigger: Trigger) {
-    trigger.selectActivatingCharacter()
-        .moveSelectedCharacterTo(13f, 2.5f)
-        .damageSelectedCharacter(3f)
-        .deactivateTrigger(true)
+    trigger.actions {
+        val selectAction = action<TriggerActionSelectActivatingCharacter> { this.trigger = trigger }
+        action<TriggerActionMoveCharacter> {
+            selectCharacterAction = selectAction
+            targetLocation.set(13f, 2.5f)
+        }
+        action<TriggerActionDamageCharacter> {
+            selectCharacterAction = selectAction
+            damage = 3f
+        }
+        action<TriggerActionDeactivateTrigger> {
+            this.trigger = trigger
+            reset = true
+        }
+    }
 }
 
 /**
@@ -49,8 +113,15 @@ fun setupBossPitRight(trigger: Trigger) {
 @Suppress("unused")
 fun setupAfterBoss(trigger: Trigger) {
     trigger.conditions {
-        isEntityDead(91)
+        condition<TriggerConditionIsEntityAlive> {
+            checkAlive = false
+            tmxMapID = 91
+        }
+    }.actions {
+        action<TriggerActionEnablePortal> { portalID = 97 }
+        action<TriggerActionDeactivateTrigger> {
+            this.trigger = trigger
+            reset = true
+        }
     }
-        .enablePortal(97)
-        .deactivateTrigger(true)
 }
