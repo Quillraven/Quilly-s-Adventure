@@ -38,3 +38,5 @@ Due to the reason that Intellij does not like it when using an android plugin in
 Therefore, you need to import the main `build.gradle.kts` first to get the `desktop` and `core` module running.
 Afterwards open your module page `File -> Project Structure -> Modules` and add the android folder as a new module using the `+` icon (import as gradle). 
 After that you should be ready to go! 😊
+
+![image](https://user-images.githubusercontent.com/93260/77858359-55e8a600-7203-11ea-848c-39f90af4e4a6.png)
