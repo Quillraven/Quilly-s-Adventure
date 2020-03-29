@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.I18NBundle
@@ -43,6 +44,10 @@ import com.github.quillraven.quillysadventure.preferences
 import com.github.quillraven.quillysadventure.ui.GameHUD
 import com.github.quillraven.quillysadventure.ui.ImageButtonStyles
 import com.github.quillraven.quillysadventure.ui.Images
+import com.github.quillraven.quillysadventure.ui.get
+import com.github.quillraven.quillysadventure.ui.widget.ConfirmDialogWidget
+import ktx.actors.centerPosition
+import ktx.actors.onClick
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.app.clearScreen
@@ -50,6 +55,7 @@ import ktx.ashley.get
 import ktx.math.component1
 import ktx.math.component2
 import ktx.preferences.get
+import ktx.scene2d.Scene2DSkin
 
 class GameScreen(
     private val game: KtxGame<KtxScreen>,
@@ -65,11 +71,26 @@ class GameScreen(
     private val preferences: Preferences = Gdx.app.preferences
 ) : Screen(engine, audioService, bundle, stage, gameEventManager, rayHandler, viewport), InputListener,
     MapChangeListener {
+    private val closeButton = Image(Scene2DSkin.defaultSkin[Images.BUTTON_CLOSE]).apply { setScale(0.75f) }
     private val hud = GameHUD(gameEventManager, bundle["statsTitle"], bundle["skills"]).apply {
         statsWidget.apply {
             addSkill(bundle["fireball"], bundle["requiresLvl3"], Images.IMAGE_FIREBALL)
         }
     }
+    private val backToMenuConfirmDialog = ConfirmDialogWidget(
+        bundle["backToMenu.info"],
+        bundle["yes"],
+        bundle["no"]
+    ).apply {
+        yesLabel.onClick {
+            stage.root.removeActor(this)
+            game.setScreen<MenuScreen>()
+        }
+        noLabel.onClick {
+            stage.root.removeActor(this)
+        }
+    }
+
     private var gameOver = false
 
     private val tutorialSystem = TutorialSystem(gameEventManager)
@@ -203,6 +224,10 @@ class GameScreen(
     }
 
     private fun setupGameUI() {
+        stage.addActor(closeButton)
+        closeButton.setPosition(0f, stage.height - closeButton.height * closeButton.scaleY)
+        closeButton.onClick { switchToMenuScreen() }
+
         stage.addActor(hud)
         stage.addActor(hud.statsWidget)
         hud.statsWidget.setPosition(-2000f, 0f)
@@ -279,8 +304,14 @@ class GameScreen(
     override fun keyPressed(key: Key) {
         if (key == Key.EXIT) {
             // player pressed exit key -> go back to menu
-            game.setScreen<MenuScreen>()
+            switchToMenuScreen()
         }
+    }
+
+    private fun switchToMenuScreen() {
+        stage.addActor(backToMenuConfirmDialog)
+        backToMenuConfirmDialog.centerPosition()
+        backToMenuConfirmDialog.toFront()
     }
 
     override fun characterDeath(character: Entity) {
