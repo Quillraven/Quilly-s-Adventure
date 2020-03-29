@@ -125,3 +125,4 @@ Thumbs.db
 /buildSrc/build/
 
 android/local.properties
+/android/release/
