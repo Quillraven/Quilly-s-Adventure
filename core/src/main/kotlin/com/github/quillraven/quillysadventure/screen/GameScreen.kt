@@ -151,8 +151,8 @@ class GameScreen(
         }
     }
 
-    private fun updatePlayerHUD(entity: Entity) {
-        with(entity.statsCmp) {
+    private fun updatePlayerHUD(player: Entity) {
+        with(player.statsCmp) {
             hud.infoWidget.resetHudValues(this.life / this.maxLife, this.mana / this.maxMana)
             hud.statsWidget.updateLevel(levelTxt, this.level)
                 .updateExperience(
@@ -165,6 +165,18 @@ class GameScreen(
                 .updateMana(manaTxt, this.mana.toInt(), this.maxMana.toInt())
                 .updateDamage(bundle["damage"], this.damage.toInt())
                 .updateArmor(bundle["armor"], this.armor.toInt())
+
+            if (level >= 3) {
+                hud.statsWidget.activateSkill(0)
+            }
+        }
+
+        if (player.abilityCmp.hasAbility(FireballEffect)) {
+            hud.skillButton.style =
+                hud.skin.get(
+                    ImageButtonStyles.FIREBALL.name,
+                    ImageButton.ImageButtonStyle::class.java
+                )
         }
     }
 
@@ -185,14 +197,6 @@ class GameScreen(
 
             player.abilityCmp.run {
                 this.abilityToCastIdx = saveState.abilityToCastIdx
-                if (this.abilityToCastIdx == 0) {
-                    hud.statsWidget.activateSkill(0)
-                    hud.skillButton.style =
-                        hud.skin.get(
-                            ImageButtonStyles.FIREBALL.name,
-                            ImageButton.ImageButtonStyle::class.java
-                        )
-                }
                 saveState.abilities.forEach {
                     this.addAbility(player, it)
                 }

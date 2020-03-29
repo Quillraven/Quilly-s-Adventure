@@ -24,6 +24,15 @@ class AbilityComponent : Component, Pool.Poolable {
 
     fun canCast() = abilityToCastIdx >= 0 && abilityToCastIdx < abilities.size && abilities[abilityToCastIdx].canCast()
 
+    fun hasAbility(abilityEffect: AbilityEffect): Boolean {
+        abilities.forEach { ability ->
+            if (ability.effect == abilityEffect) {
+                return true
+            }
+        }
+        return false
+    }
+
     fun addAbility(entity: Entity, abilityEffect: AbilityEffect) {
         abilities.forEach { ability ->
             if (ability.effect == abilityEffect) {
