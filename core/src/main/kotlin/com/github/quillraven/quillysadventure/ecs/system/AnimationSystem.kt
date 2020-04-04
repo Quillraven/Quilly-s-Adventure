@@ -4,13 +4,11 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
 import com.badlogic.ashley.systems.IteratingSystem
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Array
 import com.github.quillraven.quillysadventure.UNIT_SCALE
 import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
-import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.ecs.component.Animation
 import com.github.quillraven.quillysadventure.ecs.component.AnimationComponent
@@ -22,6 +20,7 @@ import com.github.quillraven.quillysadventure.ecs.component.aniCmp
 import com.github.quillraven.quillysadventure.ecs.component.renderCmp
 import ktx.ashley.allOf
 import ktx.ashley.exclude
+import ktx.assets.async.AssetStorage
 import ktx.log.logger
 import java.util.*
 
@@ -39,12 +38,13 @@ private const val DEFAULT_REGION_KEY = "error"
  * Example for a player idle animation with two frames would be PLAYER/IDLE_0 and PLAYER/IDLE_1
  * as keys for the regions of the atlas.
  */
-class AnimationSystem(assets: AssetManager, private val audioService: AudioService) :
+class AnimationSystem(assets: AssetStorage, private val audioService: AudioService) :
     IteratingSystem(allOf(AnimationComponent::class, RenderComponent::class).exclude(RemoveComponent::class).get()),
     EntityListener {
     private val animationFamily = allOf(AnimationComponent::class).get()
     private val animationCache = EnumMap<ModelType, EnumMap<AnimationType, Animation>>(ModelType::class.java)
-    private val textureAtlas = assets[TextureAtlasAssets.GAME_OBJECTS]
+    private val textureAtlas: TextureAtlas = assets[TextureAtlasAssets.GAME_OBJECTS.filePath]
+
     // default texture region must not be null because we always want to render at least something
     // even if the real animation is missing or wrongly defined
     private val defaultRegion = textureAtlas.findRegion(DEFAULT_REGION_KEY)!!

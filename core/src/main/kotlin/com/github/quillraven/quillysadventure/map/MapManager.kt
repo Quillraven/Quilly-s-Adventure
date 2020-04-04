@@ -4,13 +4,11 @@ import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.utils.ImmutableArray
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.IntArray
 import com.github.quillraven.quillysadventure.UNIT_SCALE
-import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.configuration.Character
 import com.github.quillraven.quillysadventure.configuration.CharacterConfigurations
 import com.github.quillraven.quillysadventure.configuration.Item
@@ -31,6 +29,7 @@ import com.github.quillraven.quillysadventure.ecs.scenery
 import com.github.quillraven.quillysadventure.ecs.trigger
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import ktx.ashley.get
+import ktx.assets.async.AssetStorage
 import ktx.log.logger
 import ktx.tiled.id
 import ktx.tiled.property
@@ -43,7 +42,7 @@ import java.util.*
 private val LOG = logger<MapManager>()
 
 class MapManager(
-    private val assets: AssetManager,
+    private val assets: AssetStorage,
     private val world: World,
     private val rayHandler: RayHandler,
     private val ecsEngine: Engine,
@@ -76,7 +75,7 @@ class MapManager(
 
         // check if new map is already existing. Otherwise, create it
         currentMapType = mapType
-        mapCache.computeIfAbsent(mapType) { Map(mapType, assets[mapType.asset]) }.apply {
+        mapCache.computeIfAbsent(mapType) { Map(mapType, assets[mapType.asset.filePath]) }.apply {
             if (targetPortal == -1) {
                 // target portal is not specified -> move to default player start location
                 movePlayerToStartLocation(this)

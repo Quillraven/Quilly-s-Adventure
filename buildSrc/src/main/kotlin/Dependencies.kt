@@ -14,6 +14,7 @@ object Versions {
     const val detekt = "1.5.0"
     const val junit = "5.6.1"
     const val mockk = "1.9.3"
+    const val coroutines = "1.3.4"
 }
 
 object Apps {

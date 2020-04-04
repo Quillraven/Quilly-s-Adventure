@@ -3,7 +3,6 @@ package com.github.quillraven.quillysadventure.screen
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -24,7 +23,7 @@ import com.github.quillraven.quillysadventure.assets.MusicAssets
 import com.github.quillraven.quillysadventure.assets.ParticleAssets
 import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
-import com.github.quillraven.quillysadventure.assets.load
+import com.github.quillraven.quillysadventure.assets.loadAsync
 import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.characterConfigurations
 import com.github.quillraven.quillysadventure.configuration.Character
@@ -66,13 +65,14 @@ import ktx.actors.plusAssign
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.allOf
+import ktx.assets.async.AssetStorage
 import ktx.scene2d.Scene2DSkin
 
 class LoadingScreen(
     private val game: KtxGame<KtxScreen>,
     private val bundle: I18NBundle,
     private val stage: Stage,
-    private val assets: AssetManager,
+    private val assets: AssetStorage,
     private val gameEventManager: GameEventManager,
     private val audioService: AudioService,
     private val world: World,
@@ -90,15 +90,20 @@ class LoadingScreen(
             setWrap(true)
         }
 
+    @Suppress("DeferredResultUnused")
     override fun show() {
         // queue all assets that should be loaded
-        MusicAssets.values().forEach { assets.load(it) }
-        SoundAssets.values().forEach { if (it != SoundAssets.UNKNOWN) assets.load(it) }
-        TextureAtlasAssets.values().forEach { if (it != TextureAtlasAssets.UI) assets.load(it) }
-        MapAssets.values().forEach { assets.load(it) }
-        val particleParam = ParticleEffectLoader.ParticleEffectParameter()
-        particleParam.atlasFile = TextureAtlasAssets.GAME_OBJECTS.filePath
-        ParticleAssets.values().forEach { assets.load(it, particleParam) }
+        MusicAssets.values().forEach { assets.loadAsync(it) }
+        SoundAssets.values().forEach { if (it != SoundAssets.UNKNOWN) assets.loadAsync(it) }
+        TextureAtlasAssets.values()
+            .forEach { if (it != TextureAtlasAssets.UI) assets.loadAsync(it) }
+        MapAssets.values().forEach { assets.loadAsync(it) }
+        ParticleAssets.values().forEach {
+            assets.loadAsync(it, ParticleEffectLoader.ParticleEffectParameter().apply {
+                atlasFile = TextureAtlasAssets.GAME_OBJECTS.filePath
+            }
+            )
+        }
 
         stage.clear()
         stage.addActor(loadingBar)
@@ -119,12 +124,9 @@ class LoadingScreen(
     }
 
     override fun render(delta: Float) {
-        assets.update()
-        if (!loaded) {
-            loadingBar.scaleTo(assets.progress)
-        }
+        loadingBar.scaleTo(assets.progress.percent)
 
-        if (assets.progress >= 1f && !loaded) {
+        if (assets.progress.isFinished && !loaded) {
             loaded = true
 
             touchToBeginInfo += forever(sequence(fadeIn(1f), fadeOut(1f)))

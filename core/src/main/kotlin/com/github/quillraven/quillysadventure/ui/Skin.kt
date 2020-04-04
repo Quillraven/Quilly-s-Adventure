@@ -1,15 +1,10 @@
 package com.github.quillraven.quillysadventure.ui
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
-import com.github.quillraven.quillysadventure.assets.I18nAssets
-import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
-import com.github.quillraven.quillysadventure.assets.get
-import com.github.quillraven.quillysadventure.assets.load
 import ktx.scene2d.Scene2DSkin
 import ktx.style.checkBox
 import ktx.style.imageButton
@@ -70,13 +65,8 @@ private fun getBitmapFont(fntName: String, atlas: TextureAtlas) =
         data.markupEnabled = true
     }
 
-fun createSkin(assets: AssetManager): Skin {
-    // load textures for skin
-    assets.load(TextureAtlasAssets.UI)
-    assets.load(I18nAssets.DEFAULT)
-    assets.finishLoading()
-
-    Scene2DSkin.defaultSkin = skin(assets[TextureAtlasAssets.UI]) { skin ->
+fun createSkin(atlas: TextureAtlas): Skin {
+    Scene2DSkin.defaultSkin = skin(atlas) { skin ->
         // fonts
         add(FontType.DEFAULT.skinKey, getBitmapFont("font24", atlas))
         add(FontType.LARGE.skinKey, getBitmapFont("font32", atlas))

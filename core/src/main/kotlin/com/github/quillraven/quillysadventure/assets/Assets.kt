@@ -1,6 +1,5 @@
 package com.github.quillraven.quillysadventure.assets
 
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
@@ -8,8 +7,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.utils.I18NBundle
-import ktx.assets.getAsset
-import ktx.assets.load
+import ktx.assets.async.AssetStorage
 
 // music
 enum class MusicAssets(val filePath: String, val volumeScale: Float = 0.15f) {
@@ -22,8 +20,8 @@ enum class MusicAssets(val filePath: String, val volumeScale: Float = 0.15f) {
     GAME_OVER("music/gameover.ogg")
 }
 
-fun AssetManager.load(asset: MusicAssets) = load<Music>(asset.filePath)
-operator fun AssetManager.get(asset: MusicAssets) = this.getAsset<Music>(asset.filePath)
+fun AssetStorage.loadAsync(asset: MusicAssets) = loadAsync<Music>(asset.filePath)
+operator fun AssetStorage.get(asset: MusicAssets) = get<Music>(asset.filePath)
 
 // sound
 enum class SoundAssets(val filePath: String, val volumeScale: Float = 1f) {
@@ -45,8 +43,8 @@ enum class SoundAssets(val filePath: String, val volumeScale: Float = 1f) {
     PING("sounds/ping.ogg")
 }
 
-fun AssetManager.load(asset: SoundAssets) = load<Sound>(asset.filePath)
-operator fun AssetManager.get(asset: SoundAssets) = this.getAsset<Sound>(asset.filePath)
+fun AssetStorage.loadAsync(asset: SoundAssets) = loadAsync<Sound>(asset.filePath)
+operator fun AssetStorage.get(asset: SoundAssets) = get<Sound>(asset.filePath)
 
 // texture atlas
 enum class TextureAtlasAssets(val filePath: String) {
@@ -54,8 +52,8 @@ enum class TextureAtlasAssets(val filePath: String) {
     UI("ui/UI.atlas")
 }
 
-fun AssetManager.load(asset: TextureAtlasAssets) = load<TextureAtlas>(asset.filePath)
-operator fun AssetManager.get(asset: TextureAtlasAssets) = this.getAsset<TextureAtlas>(asset.filePath)
+fun AssetStorage.loadAsync(asset: TextureAtlasAssets) = loadAsync<TextureAtlas>(asset.filePath)
+operator fun AssetStorage.get(asset: TextureAtlasAssets) = get<TextureAtlas>(asset.filePath)
 
 // tiled map
 enum class MapAssets(val filePath: String) {
@@ -67,8 +65,8 @@ enum class MapAssets(val filePath: String) {
     GAME_OVER("map/gameover.tmx")
 }
 
-fun AssetManager.load(asset: MapAssets) = load<TiledMap>(asset.filePath)
-operator fun AssetManager.get(asset: MapAssets) = this.getAsset<TiledMap>(asset.filePath)
+fun AssetStorage.loadAsync(asset: MapAssets) = loadAsync<TiledMap>(asset.filePath)
+operator fun AssetStorage.get(asset: MapAssets) = get<TiledMap>(asset.filePath)
 
 // particle effects
 enum class ParticleAssets(val filePath: String, val scale: Float = 1f, val sound: SoundAssets = SoundAssets.UNKNOWN) {
@@ -78,16 +76,14 @@ enum class ParticleAssets(val filePath: String, val scale: Float = 1f, val sound
     FIREBALL("particles/fireball.p", 0.3f, SoundAssets.FIRE_BALL)
 }
 
-fun AssetManager.load(asset: ParticleAssets, params: ParticleEffectLoader.ParticleEffectParameter) =
-    load(asset.filePath, ParticleEffect::class.java, params)
+fun AssetStorage.loadAsync(asset: ParticleAssets, params: ParticleEffectLoader.ParticleEffectParameter) =
+    loadAsync<ParticleEffect>(asset.filePath, params)
 
-operator fun AssetManager.get(asset: ParticleAssets) = this.getAsset<ParticleEffect>(asset.filePath)
+operator fun AssetStorage.get(asset: ParticleAssets) = get<ParticleEffect>(asset.filePath)
 
 enum class I18nAssets(val filePath: String) {
     DEFAULT("ui/i18n")
 }
 
-fun AssetManager.load(asset: I18nAssets) =
-    load(asset.filePath, I18NBundle::class.java)
-
-operator fun AssetManager.get(asset: I18nAssets) = this.getAsset<I18NBundle>(asset.filePath)
+fun AssetStorage.loadAsync(asset: I18nAssets) = loadAsync<I18NBundle>(asset.filePath)
+operator fun AssetStorage.get(asset: I18nAssets) = get<I18NBundle>(asset.filePath)
