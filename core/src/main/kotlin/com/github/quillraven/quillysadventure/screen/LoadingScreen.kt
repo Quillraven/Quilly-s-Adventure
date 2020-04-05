@@ -93,7 +93,6 @@ class LoadingScreen(
             setWrap(true)
         }
 
-    @Suppress("DeferredResultUnused")
     override fun show() {
         // queue all assets that should be loaded
         val assetReferences = listOf(
