@@ -60,12 +60,15 @@ import com.github.quillraven.quillysadventure.itemConfigurations
 import com.github.quillraven.quillysadventure.map.MapManager
 import com.github.quillraven.quillysadventure.ui.LabelStyles
 import com.github.quillraven.quillysadventure.ui.widget.LoadingBarWidget
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.launch
 import ktx.actors.centerPosition
 import ktx.actors.plusAssign
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.allOf
 import ktx.assets.async.AssetStorage
+import ktx.async.KtxAsync
 import ktx.scene2d.Scene2DSkin
 
 class LoadingScreen(
@@ -93,17 +96,16 @@ class LoadingScreen(
     @Suppress("DeferredResultUnused")
     override fun show() {
         // queue all assets that should be loaded
-        MusicAssets.values().forEach { assets.loadAsync(it) }
-        SoundAssets.values().forEach { if (it != SoundAssets.UNKNOWN) assets.loadAsync(it) }
-        TextureAtlasAssets.values()
-            .forEach { if (it != TextureAtlasAssets.UI) assets.loadAsync(it) }
-        MapAssets.values().forEach { assets.loadAsync(it) }
-        ParticleAssets.values().forEach {
-            assets.loadAsync(it, ParticleEffectLoader.ParticleEffectParameter().apply {
-                atlasFile = TextureAtlasAssets.GAME_OBJECTS.filePath
-            }
-            )
-        }
+        val assetReferences = listOf(
+            MusicAssets.values().map { assets.loadAsync(it) },
+            SoundAssets.values().filter { it != SoundAssets.UNKNOWN }.map { assets.loadAsync(it) },
+            TextureAtlasAssets.values().filter { it != TextureAtlasAssets.UI }.map { assets.loadAsync(it) },
+            MapAssets.values().map { assets.loadAsync(it) },
+            ParticleAssets.values().map {
+                assets.loadAsync(it, ParticleEffectLoader.ParticleEffectParameter().apply {
+                    atlasFile = TextureAtlasAssets.GAME_OBJECTS.filePath
+                })
+            }).flatten()
 
         stage.clear()
         stage.addActor(loadingBar)
@@ -112,6 +114,12 @@ class LoadingScreen(
         with(touchToBeginInfo) {
             color.a = 0f
             centerPosition()
+        }
+
+        KtxAsync.launch {
+            // Awaiting until all assets are loaded:
+            assetReferences.joinAll()
+            initiateResources()
         }
     }
 
@@ -126,129 +134,6 @@ class LoadingScreen(
     override fun render(delta: Float) {
         loadingBar.scaleTo(assets.progress.percent)
 
-        if (assets.progress.isFinished && !loaded) {
-            loaded = true
-
-            touchToBeginInfo += forever(sequence(fadeIn(1f), fadeOut(1f)))
-
-            val gameViewport = FitViewport(16f, 9f)
-            val charCfgs = Gdx.app.characterConfigurations
-            // create map manager that is used for main menu and game
-            val mapManager = MapManager(
-                assets,
-                world,
-                rayHandler,
-                ecsEngine,
-                charCfgs,
-                Gdx.app.itemConfigurations,
-                ecsEngine.getEntitiesFor(allOf(PlayerComponent::class).get()),
-                gameEventManager
-            )
-            // create engine systems so that we have everything that we need for the main menu and game to render the characters, etc.
-            ecsEngine.run {
-                addSystem(DebugSystem(gameEventManager))
-                addSystem(TriggerSystem(gameEventManager))
-                addSystem(PhysicMoveSystem())
-                // facing system must come after move system because facing is set within move system
-                addSystem(FacingSystem())
-                addSystem(PhysicJumpSystem())
-                addSystem(AbilitySystem(gameEventManager))
-                addSystem(AttackSystem(world, gameEventManager))
-                addSystem(DealDamageSystem())
-                addSystem(TakeDamageSystem(gameEventManager))
-                addSystem(
-                    DeathSystem(
-                        audioService,
-                        gameEventManager,
-                        bundle["levelUp"],
-                        bundle["xpAbbreviation"]
-                    )
-                )
-                // out of bounds system must be before PhysicSystem because it transforms the player's body
-                // and we need to run through the PhysicSystem once to update the TransformComponent accordingly
-                addSystem(OutOfBoundsSystem(gameEventManager))
-                // player collision system must be before PhysicSystem because whenever the player collides
-                // with a portal then its body location gets transformed and we need the physic system
-                // to correctly update the TransformComponent which is e.g. used in the OutOfBoundsSystem
-                addSystem(PlayerCollisionSystem(mapManager, audioService, gameEventManager, bundle))
-                // heal system must come after take damage, death and collision system because all of these
-                // systems are creating healcomponents internally in some cases that need to be considered
-                // in the same frame
-                addSystem(HealSystem(gameEventManager))
-                addSystem(PhysicSystem(world, this))
-                addSystem(PlayerInputSystem(gameEventManager, this))
-                addSystem(StateSystem())
-                addSystem(AnimationSystem(assets, audioService))
-                addSystem(CameraSystem(this, gameEventManager, gameViewport.camera as OrthographicCamera))
-                addSystem(ParticleSystem(assets, audioService))
-                addSystem(FadeSystem())
-                addSystem(RenderSystem(this, gameEventManager, batch, gameViewport, mapRenderer, shaderPrograms))
-                addSystem(RenderPhysicDebugSystem(world, gameViewport, box2DDebugRenderer))
-                addSystem(LightSystem(rayHandler, gameViewport.camera as OrthographicCamera))
-                addSystem(FloatingTextSystem(batch, gameViewport, stage.viewport))
-                addSystem(RemoveSystem(this))
-            }
-            // create player entity that is shown in the menu and used in the game
-            ecsEngine.character(charCfgs[Character.PLAYER], world, 0f, 0f, 1) {
-                with<PlayerComponent>()
-                with<CameraLockComponent>()
-            }
-            // all assets are loaded -> add remaining screens to our game now because
-            // now they can access the different assets that they need
-            game.addScreen(
-                GameScreen(
-                    game,
-                    bundle,
-                    gameEventManager,
-                    audioService,
-                    ecsEngine,
-                    mapManager,
-                    rayHandler,
-                    gameViewport,
-                    stage
-                )
-            )
-            game.addScreen(
-                MenuScreen(
-                    game,
-                    ecsEngine,
-                    mapManager,
-                    gameEventManager,
-                    audioService,
-                    rayHandler,
-                    gameViewport,
-                    stage,
-                    bundle
-                )
-            )
-            game.addScreen(
-                IntroScreen(
-                    game,
-                    bundle,
-                    audioService,
-                    gameEventManager,
-                    ecsEngine,
-                    mapManager,
-                    rayHandler,
-                    gameViewport,
-                    stage
-                )
-            )
-            game.addScreen(
-                EndScreen(
-                    game,
-                    ecsEngine,
-                    mapManager,
-                    audioService,
-                    bundle,
-                    stage,
-                    gameEventManager,
-                    rayHandler,
-                    gameViewport
-                )
-            )
-        }
-
         if (loaded && Gdx.input.justTouched()) {
             // go to the menu screen once everything is loaded
             // game.setScreen<MenuScreen>()
@@ -262,5 +147,127 @@ class LoadingScreen(
         stage.viewport.apply()
         stage.act()
         stage.draw()
+    }
+
+    private fun initiateResources() {
+        touchToBeginInfo += forever(sequence(fadeIn(1f), fadeOut(1f)))
+
+        val gameViewport = FitViewport(16f, 9f)
+        val charCfgs = Gdx.app.characterConfigurations
+        // create map manager that is used for main menu and game
+        val mapManager = MapManager(
+            assets,
+            world,
+            rayHandler,
+            ecsEngine,
+            charCfgs,
+            Gdx.app.itemConfigurations,
+            ecsEngine.getEntitiesFor(allOf(PlayerComponent::class).get()),
+            gameEventManager
+        )
+        // create engine systems so that we have everything that we need for the main menu and game to render the characters, etc.
+        ecsEngine.run {
+            addSystem(DebugSystem(gameEventManager))
+            addSystem(TriggerSystem(gameEventManager))
+            addSystem(PhysicMoveSystem())
+            // facing system must come after move system because facing is set within move system
+            addSystem(FacingSystem())
+            addSystem(PhysicJumpSystem())
+            addSystem(AbilitySystem(gameEventManager))
+            addSystem(AttackSystem(world, gameEventManager))
+            addSystem(DealDamageSystem())
+            addSystem(TakeDamageSystem(gameEventManager))
+            addSystem(
+                DeathSystem(
+                    audioService,
+                    gameEventManager,
+                    bundle["levelUp"],
+                    bundle["xpAbbreviation"]
+                )
+            )
+            // out of bounds system must be before PhysicSystem because it transforms the player's body
+            // and we need to run through the PhysicSystem once to update the TransformComponent accordingly
+            addSystem(OutOfBoundsSystem(gameEventManager))
+            // player collision system must be before PhysicSystem because whenever the player collides
+            // with a portal then its body location gets transformed and we need the physic system
+            // to correctly update the TransformComponent which is e.g. used in the OutOfBoundsSystem
+            addSystem(PlayerCollisionSystem(mapManager, audioService, gameEventManager, bundle))
+            // heal system must come after take damage, death and collision system because all of these
+            // systems are creating healcomponents internally in some cases that need to be considered
+            // in the same frame
+            addSystem(HealSystem(gameEventManager))
+            addSystem(PhysicSystem(world, this))
+            addSystem(PlayerInputSystem(gameEventManager, this))
+            addSystem(StateSystem())
+            addSystem(AnimationSystem(assets, audioService))
+            addSystem(CameraSystem(this, gameEventManager, gameViewport.camera as OrthographicCamera))
+            addSystem(ParticleSystem(assets, audioService))
+            addSystem(FadeSystem())
+            addSystem(RenderSystem(this, gameEventManager, batch, gameViewport, mapRenderer, shaderPrograms))
+            addSystem(RenderPhysicDebugSystem(world, gameViewport, box2DDebugRenderer))
+            addSystem(LightSystem(rayHandler, gameViewport.camera as OrthographicCamera))
+            addSystem(FloatingTextSystem(batch, gameViewport, stage.viewport))
+            addSystem(RemoveSystem(this))
+        }
+        // create player entity that is shown in the menu and used in the game
+        ecsEngine.character(charCfgs[Character.PLAYER], world, 0f, 0f, 1) {
+            with<PlayerComponent>()
+            with<CameraLockComponent>()
+        }
+        // all assets are loaded -> add remaining screens to our game now because
+        // now they can access the different assets that they need
+        game.addScreen(
+            GameScreen(
+                game,
+                bundle,
+                gameEventManager,
+                audioService,
+                ecsEngine,
+                mapManager,
+                rayHandler,
+                gameViewport,
+                stage
+            )
+        )
+        game.addScreen(
+            MenuScreen(
+                game,
+                ecsEngine,
+                mapManager,
+                gameEventManager,
+                audioService,
+                rayHandler,
+                gameViewport,
+                stage,
+                bundle
+            )
+        )
+        game.addScreen(
+            IntroScreen(
+                game,
+                bundle,
+                audioService,
+                gameEventManager,
+                ecsEngine,
+                mapManager,
+                rayHandler,
+                gameViewport,
+                stage
+            )
+        )
+        game.addScreen(
+            EndScreen(
+                game,
+                ecsEngine,
+                mapManager,
+                audioService,
+                bundle,
+                stage,
+                gameEventManager,
+                rayHandler,
+                gameViewport
+            )
+        )
+        loaded = true
     }
 }
