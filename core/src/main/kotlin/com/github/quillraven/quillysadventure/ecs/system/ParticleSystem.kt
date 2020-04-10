@@ -4,12 +4,11 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
 import com.badlogic.ashley.systems.IteratingSystem
-import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool
 import com.github.quillraven.quillysadventure.UNIT_SCALE
 import com.github.quillraven.quillysadventure.assets.ParticleAssets
 import com.github.quillraven.quillysadventure.assets.SoundAssets
-import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.ecs.component.ParticleComponent
 import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
@@ -18,16 +17,18 @@ import com.github.quillraven.quillysadventure.ecs.component.particleCmp
 import com.github.quillraven.quillysadventure.ecs.component.transfCmp
 import ktx.ashley.allOf
 import ktx.ashley.exclude
+import ktx.assets.async.AssetStorage
 import java.util.*
 
-class ParticleSystem(private val assets: AssetManager, private val audioService: AudioService) :
+class ParticleSystem(private val assets: AssetStorage, private val audioService: AudioService) :
     IteratingSystem(allOf(ParticleComponent::class, TransformComponent::class).exclude(RemoveComponent::class).get()),
     EntityListener {
     private val effectPools = EnumMap<ParticleAssets, ParticleEffectPool>(ParticleAssets::class.java)
 
     init {
         ParticleAssets.values().forEach {
-            assets[it].run {
+            val particleEffect: ParticleEffect = assets[it.filePath]
+            particleEffect.run {
                 // in case of additive effects this increases the performance
                 // because the sprite batch will not automatically switch its
                 // blend mode. This means, we have to take care of the
@@ -54,7 +55,7 @@ class ParticleSystem(private val assets: AssetManager, private val audioService:
     override fun entityAdded(entity: Entity) {
         // create particle effect
         with(entity.particleCmp) {
-            effect = effectPools.computeIfAbsent(type) { ParticleEffectPool(assets[type], 1, 2) }.obtain()
+            effect = effectPools.computeIfAbsent(type) { ParticleEffectPool(assets[type.filePath], 1, 2) }.obtain()
             if (flipBy180Deg) {
                 // change all angles by 180 degrees
                 effect.emitters.forEach {
