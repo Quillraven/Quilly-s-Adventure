@@ -13,14 +13,7 @@ allprojects {
     repositories {
         jcenter()
         google()
-        exclusiveContent {
-            forRepository {
-                maven("https://oss.sonatype.org/content/repositories/snapshots/")
-            }
-            filter {
-                includeGroup("io.github.libktx")
-            }
-        }
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 
     detekt {
