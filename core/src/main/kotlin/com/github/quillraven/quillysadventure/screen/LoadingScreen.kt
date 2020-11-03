@@ -67,6 +67,7 @@ import ktx.actors.plusAssign
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.allOf
+import ktx.ashley.with
 import ktx.assets.async.AssetStorage
 import ktx.async.KtxAsync
 import ktx.scene2d.Scene2DSkin
@@ -90,7 +91,7 @@ class LoadingScreen(
     private val loadingBar = LoadingBarWidget(bundle)
     private val touchToBeginInfo =
         Label(bundle["touchToBeginInfo"], Scene2DSkin.defaultSkin, LabelStyles.LARGE.name).apply {
-            setWrap(true)
+            wrap = true
         }
 
     override fun show() {

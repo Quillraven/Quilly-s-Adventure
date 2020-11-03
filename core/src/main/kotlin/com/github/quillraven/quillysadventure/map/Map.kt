@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.github.quillraven.quillysadventure.UNIT_SCALE
 import com.github.quillraven.quillysadventure.assets.MapAssets
 import com.github.quillraven.quillysadventure.assets.MusicAssets
+import ktx.log.error
 import ktx.log.logger
 import ktx.math.vec2
 import ktx.tiled.containsProperty

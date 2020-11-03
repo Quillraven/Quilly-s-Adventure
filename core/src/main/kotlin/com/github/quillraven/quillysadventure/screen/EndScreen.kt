@@ -48,7 +48,7 @@ class EndScreen(
     Screen(engine, audioService, bundle, stage, gameEventManager, rayHandler, viewport) {
     private val touchForMenuInfo =
         Label(bundle["touchForMenuInfo"], Scene2DSkin.defaultSkin, LabelStyles.LARGE.name).apply {
-            setWrap(true)
+            wrap = true
         }
     private lateinit var ripTexture: Texture
     private lateinit var minotaur: Entity

@@ -1,13 +1,13 @@
 package com.github.quillraven.quillysadventure.ui.widget
 
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.Align
 import com.github.quillraven.quillysadventure.ui.LabelStyles
-import ktx.scene2d.KCheckBox
 import ktx.scene2d.KTable
-import ktx.scene2d.KTextButton
 import ktx.scene2d.KWidget
 import ktx.scene2d.Scene2DSkin
 import ktx.scene2d.actor
@@ -16,9 +16,9 @@ import ktx.scene2d.label
 import ktx.scene2d.textButton
 
 class AudioVolumeWidget(text: String, skin: Skin) : Table(skin), KTable {
-    val checkBox: KCheckBox
-    val audioReduceButton: KTextButton
-    val audioIncreaseButton: KTextButton
+    val checkBox: CheckBox
+    val audioReduceButton: TextButton
+    val audioIncreaseButton: TextButton
     val label: Label
 
     init {

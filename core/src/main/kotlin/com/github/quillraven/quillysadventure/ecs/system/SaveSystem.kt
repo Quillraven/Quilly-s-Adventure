@@ -45,10 +45,10 @@ class SaveSystem(
     private val mapManager: MapManager
 ) : IteratingSystem(allOf(PlayerComponent::class, SaveComponent::class).get()) {
     private val saveState = SaveState().apply {
-        mapEntities = IntMap<IntArray>()
+        mapEntities = IntMap()
         tutorials = IntArray()
         checkpoint = vec2()
-        abilities = Array<AbilityEffect>()
+        abilities = Array()
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {

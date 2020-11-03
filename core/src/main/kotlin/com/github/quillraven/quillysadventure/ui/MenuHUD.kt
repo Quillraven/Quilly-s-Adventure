@@ -32,7 +32,7 @@ class MenuHUD(
 
         add(ScrollPane(
             Label(bundle["credits.info"], skin).apply {
-                setWrap(true)
+                wrap = true
             },
             skin
         ).apply {

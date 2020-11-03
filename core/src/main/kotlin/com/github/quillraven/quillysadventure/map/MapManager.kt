@@ -29,7 +29,10 @@ import com.github.quillraven.quillysadventure.ecs.scenery
 import com.github.quillraven.quillysadventure.ecs.trigger
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import ktx.ashley.get
+import ktx.ashley.with
 import ktx.assets.async.AssetStorage
+import ktx.log.debug
+import ktx.log.error
 import ktx.log.logger
 import ktx.tiled.id
 import ktx.tiled.property

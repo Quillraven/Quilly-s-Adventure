@@ -21,6 +21,8 @@ import com.github.quillraven.quillysadventure.ecs.component.renderCmp
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.assets.async.AssetStorage
+import ktx.log.debug
+import ktx.log.error
 import ktx.log.logger
 import java.util.*
 

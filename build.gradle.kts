@@ -1,7 +1,8 @@
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
-    kotlin("jvm") version Versions.kotlin apply false
+    kotlin("multiplatform") version Versions.kotlin apply false
+    id("com.android.application") version Versions.androidGradlePlugin apply (false)
     id("io.gitlab.arturbosch.detekt").version(Versions.detekt)
 }
 

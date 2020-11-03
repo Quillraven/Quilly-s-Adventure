@@ -83,11 +83,11 @@ class GameScreen(
         bundle["no"]
     ).apply {
         yesLabel.onClick {
-            stage.root.removeActor(this)
+            stage.root.removeActor(this@apply)
             game.setScreen<MenuScreen>()
         }
         noLabel.onClick {
-            stage.root.removeActor(this)
+            stage.root.removeActor(this@apply)
         }
     }
 

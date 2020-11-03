@@ -1,7 +1,7 @@
 ![Master](https://github.com/Quillraven/Quilly-s-Adventure/workflows/Master/badge.svg)
-[![Kotlin](https://img.shields.io/badge/kotlin-1.3.71-red.svg)](http://kotlinlang.org/)
-[![LibGDX](https://img.shields.io/badge/libgdx-1.9.10-blue.svg)](https://libgdx.badlogicgames.com/)
-[![LibKTX](https://img.shields.io/badge/libktx-1.9.10--b5-orange.svg)](https://libktx.github.io/)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.4.10-red.svg)](http://kotlinlang.org/)
+[![LibGDX](https://img.shields.io/badge/libgdx-1.9.11-blue.svg)](https://libgdx.badlogicgames.com/)
+[![LibKTX](https://img.shields.io/badge/libktx-1.9.11--b2-orange.svg)](https://libktx.github.io/)
 
 [![JetBrains](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/JetBrains_Logo_2016.svg/100px-JetBrains_Logo_2016.svg.png)](https://www.jetbrains.com/?from=QuillyJumper)
 
@@ -28,15 +28,5 @@ part will be finished ;)
 Until then feel free to check out the game or use the framework behind it for your own games!
 
 ![image](https://user-images.githubusercontent.com/93260/77850983-764e3b80-71d6-11ea-8f14-27e9c596cda4.png)
-
----
-
-### Import to Intellij
-
-Due to the reason that Intellij does not like it when using an android plugin in a subproject (it makes all other projects an android project in that case), the android project became its own main project.
-
-Therefore, you need to import the main `build.gradle.kts` first to get the `desktop` and `core` module running.
-Afterwards open your module page `File -> Project Structure -> Modules` and add the android folder as a new module using the `+` icon (import as gradle). 
-After that you should be ready to go! 😊
 
 ![image](https://user-images.githubusercontent.com/93260/77858359-55e8a600-7203-11ea-848c-39f90af4e4a6.png)

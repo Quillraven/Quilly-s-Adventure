@@ -33,6 +33,7 @@ import com.github.quillraven.quillysadventure.getAudioService
 import com.github.quillraven.quillysadventure.trigger.Trigger
 import com.github.quillraven.quillysadventure.world
 import ktx.ashley.get
+import ktx.ashley.with
 import ktx.collections.iterate
 import ktx.math.vec2
 
@@ -164,7 +165,7 @@ data class TriggerActionEnablePortal(var portalID: Int = 0) : TriggerAction {
 }
 
 data class TriggerActionWaitCreatedCharacterDeath(
-    val createCharacterActions: Array<TriggerActionCreateCharacter> = Array<TriggerActionCreateCharacter>(3)
+    val createCharacterActions: Array<TriggerActionCreateCharacter> = Array(3)
 ) : TriggerAction, GameEventListener {
     private val gameEventManager = Gdx.app.gameEventManager
     private var step = 0

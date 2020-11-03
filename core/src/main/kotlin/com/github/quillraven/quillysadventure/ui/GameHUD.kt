@@ -35,14 +35,14 @@ class GameHUD(
     val statsWidget = StatsWidget(statsTitle, skillText).apply { color.a = 0f }
     val skillButton = ImageButton(skin).apply {
         onTouchEvent(
-            downListener = { _, actor ->
-                if (actor.style.imageDown != null) {
+            onDown = { _ ->
+                if (this.style.imageDown != null) {
                     // active skill button
                     this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.CAST)
                 }
             },
-            upListener = { _, actor ->
-                if (actor.style.imageDown != null) {
+            onUp = {
+                if (this.style.imageDown != null) {
                     // active skill button
                     this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.CAST)
                 }
@@ -63,8 +63,8 @@ class GameHUD(
         // touch pad on bottom left corner
         touchpad(0f) { cell ->
             cell.left().size(250f, 250f)
-        }.onChangeEvent { _, actor ->
-            gameEventManager.dispatchInputMoveEvent(actor.knobPercentX, actor.knobPercentY)
+        }.onChangeEvent {
+            gameEventManager.dispatchInputMoveEvent(this.knobPercentX, this.knobPercentY)
         }
 
         // player information for life/mana in bottom center
@@ -80,13 +80,13 @@ class GameHUD(
             imageButton(ImageButtonStyles.JUMP.name) {
                 it.padBottom(70f).padRight(-20f)
             }.onTouchEvent(
-                downListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.JUMP) },
-                upListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.JUMP) }
+                onDown = { _ -> this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.JUMP) },
+                onUp = { this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.JUMP) }
             )
             verticalGroup {
                 imageButton(ImageButtonStyles.ATTACK.name).onTouchEvent(
-                    downListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.ATTACK) },
-                    upListener = { _, _ -> this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.ATTACK) }
+                    onDown = { _ -> this@GameHUD.gameEventManager.dispatchInputKeyPressEvent(Key.ATTACK) },
+                    onUp = { this@GameHUD.gameEventManager.dispatchInputKeyReleaseEvent(Key.ATTACK) }
                 )
                 this.addActor(this@GameHUD.skillButton)
                 space(20f)

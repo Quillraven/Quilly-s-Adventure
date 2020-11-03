@@ -58,9 +58,14 @@ import com.github.quillraven.quillysadventure.ui.FontType
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
 import ktx.ashley.get
+import ktx.ashley.with
 import ktx.box2d.BodyDefinition
 import ktx.box2d.FixtureDefinition
 import ktx.box2d.body
+import ktx.box2d.box
+import ktx.box2d.chain
+import ktx.box2d.loop
+import ktx.log.error
 import ktx.log.logger
 
 // float array to define the vertices of a loop shape for rectangle scenery objects

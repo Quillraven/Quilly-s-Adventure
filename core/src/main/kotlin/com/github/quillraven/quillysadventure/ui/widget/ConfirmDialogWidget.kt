@@ -17,7 +17,7 @@ class ConfirmDialogWidget(
     skin: Skin = Scene2DSkin.defaultSkin
 ) : Table(skin) {
     private val textLabel = Label("[BLACK]$infoTxt[]", skin).apply {
-        setWrap(true)
+        wrap = true
         setAlignment(Align.topLeft)
     }
     private val scrollPane = ScrollPane(textLabel, skin).apply {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
 import com.github.quillraven.quillysadventure.assets.get
 import ktx.assets.async.AssetStorage
+import ktx.log.error
 import ktx.log.logger
 import java.util.*
 

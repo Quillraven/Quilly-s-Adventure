@@ -145,4 +145,8 @@ class GameEventManager : KtxInputAdapter {
     fun dispatchTriggerFinishedEvent(trigger: Trigger) {
         gameEventListeners.forEach { it.triggerFinishEvent(trigger) }
     }
+
+    override fun scrolled(amountX: Float, amountY: Float) = false
+
+    override fun scrolled(amount: Int) = false
 }

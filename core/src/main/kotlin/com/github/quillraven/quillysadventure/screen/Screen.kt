@@ -16,6 +16,7 @@ import com.github.quillraven.quillysadventure.event.GameEventListener
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.ui.widget.DialogWidget
 import ktx.app.KtxScreen
+import ktx.log.error
 import ktx.log.logger
 import java.util.*
 

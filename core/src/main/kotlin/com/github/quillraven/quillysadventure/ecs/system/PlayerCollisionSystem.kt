@@ -32,6 +32,7 @@ import com.github.quillraven.quillysadventure.map.MapManager
 import com.github.quillraven.quillysadventure.ui.FontType
 import ktx.ashley.allOf
 import ktx.collections.iterate
+import ktx.log.debug
 import ktx.log.logger
 
 private val LOG = logger<PlayerCollisionSystem>()

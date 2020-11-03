@@ -10,12 +10,12 @@ application {
 }
 
 dependencies {
+    implementation(kotlin("stdlib"))
     implementation(project(":core"))
-    api("com.badlogicgames.gdx:gdx-backend-lwjgl3:${Versions.gdx}")
-    api("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-desktop")
-    api("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-desktop")
-    api("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-desktop")
-    api("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("com.badlogicgames.gdx:gdx-backend-lwjgl3:${Versions.gdx}")
+    implementation("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-desktop")
+    implementation("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-desktop")
+    implementation("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-desktop")
 }
 
 configure<JavaPluginConvention> {

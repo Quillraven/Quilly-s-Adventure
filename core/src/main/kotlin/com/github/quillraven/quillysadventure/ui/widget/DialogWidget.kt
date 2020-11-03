@@ -24,7 +24,7 @@ import ktx.scene2d.Scene2DSkin
 
 class DialogWidget(skin: Skin = Scene2DSkin.defaultSkin) : Table(skin) {
     private val textLabel = Label("", skin).apply {
-        setWrap(true)
+        wrap = true
         setAlignment(Align.topLeft)
     }
     private val scrollPane = ScrollPane(textLabel, skin).apply {

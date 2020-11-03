@@ -32,7 +32,6 @@ import com.github.quillraven.quillysadventure.ui.MenuHUD
 import com.github.quillraven.quillysadventure.ui.widget.ConfirmDialogWidget
 import ktx.actors.centerPosition
 import ktx.actors.onClick
-import ktx.actors.onClickEvent
 import ktx.actors.plus
 import ktx.actors.plusAssign
 import ktx.app.KtxGame
@@ -71,11 +70,11 @@ class MenuScreen(
     ).apply {
         yesLabel.onClick {
             preferences.flush { this.remove(KEY_SAVE_STATE) }
-            stage.root.removeActor(this)
+            stage.root.removeActor(this@apply)
             game.setScreen<IntroScreen>()
         }
         noLabel.onClick {
-            stage.root.removeActor(this)
+            stage.root.removeActor(this@apply)
         }
     }
 
@@ -94,15 +93,15 @@ class MenuScreen(
         soundWidget.audioIncreaseButton.onClick {
             audioService.soundVolume += 0.05f
             audioService.play(SoundAssets.PING)
-            updateSoundVolume(audioService.soundVolume)
+            this@apply.updateSoundVolume(audioService.soundVolume)
         }
         soundWidget.audioReduceButton.onClick {
             audioService.soundVolume -= 0.05f
             audioService.play(SoundAssets.PING)
-            updateSoundVolume(audioService.soundVolume)
+            this@apply.updateSoundVolume(audioService.soundVolume)
         }
-        soundWidget.checkBox.onClickEvent { _, actor ->
-            if (actor.isChecked) {
+        soundWidget.checkBox.onClick {
+            if (this.isChecked) {
                 audioService.soundVolume = lastSoundVolume
             } else {
                 lastSoundVolume = audioService.soundVolume
@@ -112,14 +111,14 @@ class MenuScreen(
         // music buttons increase / decrease music volume
         musicWidget.audioIncreaseButton.onClick {
             audioService.musicVolume += 0.05f
-            updateMusicVolume(audioService.musicVolume)
+            this@apply.updateMusicVolume(audioService.musicVolume)
         }
         musicWidget.audioReduceButton.onClick {
             audioService.musicVolume -= 0.05f
-            updateMusicVolume(audioService.musicVolume)
+            this@apply.updateMusicVolume(audioService.musicVolume)
         }
-        musicWidget.checkBox.onClickEvent { _, actor ->
-            if (actor.isChecked) {
+        musicWidget.checkBox.onClick {
+            if (this.isChecked) {
                 audioService.musicVolume = lastMusicVolume
             } else {
                 lastMusicVolume = audioService.musicVolume

@@ -32,6 +32,7 @@ import com.github.quillraven.quillysadventure.map.TILED_LAYER_BACKGROUND_PREFIX
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 import ktx.graphics.use
+import ktx.log.error
 import ktx.log.logger
 import ktx.math.vec2
 import ktx.tiled.property

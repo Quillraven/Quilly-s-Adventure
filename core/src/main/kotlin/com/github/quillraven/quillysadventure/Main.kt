@@ -43,6 +43,8 @@ import ktx.box2d.createWorld
 import ktx.box2d.earthGravity
 import ktx.graphics.use
 import ktx.inject.Context
+import ktx.inject.register
+import ktx.log.debug
 import ktx.log.logger
 
 private val LOG = logger<Main>()

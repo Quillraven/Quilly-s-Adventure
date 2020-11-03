@@ -10,6 +10,7 @@ import com.github.quillraven.quillysadventure.ecs.component.abilityCmp
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import ktx.ashley.allOf
 import ktx.ashley.exclude
+import ktx.log.error
 import ktx.log.logger
 
 private val LOG = logger<AbilitySystem>()

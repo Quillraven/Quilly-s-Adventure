@@ -12,6 +12,7 @@ import com.github.quillraven.quillysadventure.ai.MinotaurState
 import com.github.quillraven.quillysadventure.ai.PlayerState
 import com.github.quillraven.quillysadventure.ecs.component.EntityType
 import com.github.quillraven.quillysadventure.ecs.component.ModelType
+import ktx.log.error
 import ktx.log.logger
 import ktx.math.vec2
 import java.util.*

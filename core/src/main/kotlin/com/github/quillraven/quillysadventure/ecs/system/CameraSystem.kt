@@ -9,6 +9,7 @@ import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.Map
 import com.github.quillraven.quillysadventure.map.MapChangeListener
 import ktx.ashley.allOf
+import ktx.log.error
 import ktx.log.logger
 import ktx.math.vec2
 import kotlin.math.max
