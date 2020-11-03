@@ -1,6 +1,6 @@
 ![Master](https://github.com/Quillraven/Quilly-s-Adventure/workflows/Master/badge.svg)
 [![Kotlin](https://img.shields.io/badge/kotlin-1.4.10-red.svg)](http://kotlinlang.org/)
-[![LibGDX](https://img.shields.io/badge/libgdx-1.9.12-SNAPSHOT-blue.svg)](https://libgdx.badlogicgames.com/)
+[![LibGDX](https://img.shields.io/badge/libgdx-1.9.12--SNAPSHOT-blue.svg)](https://libgdx.badlogicgames.com/)
 [![LibKTX](https://img.shields.io/badge/libktx-1.9.11--b2-orange.svg)](https://libktx.github.io/)
 
 [![JetBrains](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/JetBrains_Logo_2016.svg/100px-JetBrains_Logo_2016.svg.png)](https://www.jetbrains.com/?from=QuillyJumper)
