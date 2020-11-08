@@ -1,12 +1,10 @@
 plugins {
     application
     kotlin("jvm")
-    // use shadow/shadowJar task to create executable jar file of the game
-    id("com.github.johnrengelman.shadow") version Versions.shadowJar
 }
 
 application {
-    mainClassName = "${Apps.packageName}.DesktopLauncherKt"
+    mainClass.set("${Apps.packageName}.DesktopLauncherKt")
 }
 
 dependencies {
@@ -23,9 +21,10 @@ configure<JavaPluginConvention> {
     targetCompatibility = Versions.java
 }
 
+val assetsDir = rootProject.files("assets")
 sourceSets {
     main {
-        resources.srcDir(rootProject.files("assets"))
+        resources.srcDir(assetsDir)
     }
 }
 
@@ -34,9 +33,14 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 tasks {
-    shadowJar {
+    named<Jar>("jar") {
+        from(files(sourceSets.main.get().output.classesDirs))
+        from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+
         archiveBaseName.set(Apps.name)
-        archiveVersion.set(Apps.versionName)
-        archiveClassifier.set("")
+
+        manifest {
+            attributes["Main-Class"] = application.mainClass.get()
+        }
     }
 }
