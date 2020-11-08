@@ -36,4 +36,4 @@ jobs:
         run: ./gradlew detekt
           
       - name: build desktop snapshot jar
-        run: ./gradlew shadowJar
+        run: ./gradlew jar
