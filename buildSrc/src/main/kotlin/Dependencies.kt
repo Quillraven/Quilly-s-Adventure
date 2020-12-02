@@ -2,7 +2,7 @@ import org.gradle.api.JavaVersion
 
 object Versions {
     const val gdx = "1.9.12"
-    const val ktx = "1.9.12-SNAPSHOT"
+    const val ktx = "1.9.12-b1"
     const val box2DLight = "1.4"
     const val ashley = "1.7.3"
     const val gdxAI = "1.8.2"
