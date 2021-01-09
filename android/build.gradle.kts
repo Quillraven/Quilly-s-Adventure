@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Apps.compileSdk)
+    compileSdkVersion(29)
     sourceSets {
         named("main") {
             java.srcDirs("src/main/kotlin")
@@ -14,11 +14,11 @@ android {
     }
 
     defaultConfig {
-        applicationId = Apps.packageName
-        minSdkVersion(Apps.minSdk)
-        targetSdkVersion(Apps.targetSdk)
-        versionCode = Apps.versionCode
-        versionName = Apps.versionName
+        applicationId = "${project.property("packageName")}"
+        minSdkVersion(24)
+        targetSdkVersion(29)
+        versionCode = 2
+        versionName = "1.1"
     }
 
     buildTypes {
@@ -29,12 +29,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = Versions.java
-        targetCompatibility = Versions.java
+        sourceCompatibility = JavaVersion.valueOf("${project.property("java")}")
+        targetCompatibility = JavaVersion.valueOf("${project.property("java")}")
     }
 
     kotlinOptions {
-        jvmTarget = Versions.jvm
+        jvmTarget = "${project.property("jvmTarget")}"
     }
 }
 
@@ -42,27 +42,27 @@ val natives: Configuration by configurations.creating
 
 dependencies {
     implementation(project(":core"))
-    api("com.badlogicgames.gdx:gdx-backend-android:${Versions.gdx}")
-    natives("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-armeabi")
-    natives("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-armeabi-v7a")
-    natives("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-arm64-v8a")
-    natives("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-x86")
-    natives("com.badlogicgames.gdx:gdx-platform:${Versions.gdx}:natives-x86_64")
-    api("com.badlogicgames.gdx:gdx-box2d:${Versions.gdx}")
-    natives("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-armeabi")
-    natives("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-armeabi-v7a")
-    natives("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-arm64-v8a")
-    natives("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-x86")
-    natives("com.badlogicgames.gdx:gdx-box2d-platform:${Versions.gdx}:natives-x86_64")
-    api("com.badlogicgames.gdx:gdx-freetype:${Versions.gdx}")
-    natives("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-armeabi")
-    natives("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-armeabi-v7a")
-    natives("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-arm64-v8a")
-    natives("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-x86")
-    natives("com.badlogicgames.gdx:gdx-freetype-platform:${Versions.gdx}:natives-x86_64")
-    api("com.badlogicgames.box2dlights:box2dlights:${Versions.box2DLight}")
-    api("com.badlogicgames.ashley:ashley:${Versions.ashley}")
-    api("com.badlogicgames.gdx:gdx-ai:${Versions.gdxAI}")
+    api("com.badlogicgames.gdx:gdx-backend-android:${project.property("gdx")}")
+    natives("com.badlogicgames.gdx:gdx-platform:${project.property("gdx")}:natives-armeabi")
+    natives("com.badlogicgames.gdx:gdx-platform:${project.property("gdx")}:natives-armeabi-v7a")
+    natives("com.badlogicgames.gdx:gdx-platform:${project.property("gdx")}:natives-arm64-v8a")
+    natives("com.badlogicgames.gdx:gdx-platform:${project.property("gdx")}:natives-x86")
+    natives("com.badlogicgames.gdx:gdx-platform:${project.property("gdx")}:natives-x86_64")
+    api("com.badlogicgames.gdx:gdx-box2d:${project.property("gdx")}")
+    natives("com.badlogicgames.gdx:gdx-box2d-platform:${project.property("gdx")}:natives-armeabi")
+    natives("com.badlogicgames.gdx:gdx-box2d-platform:${project.property("gdx")}:natives-armeabi-v7a")
+    natives("com.badlogicgames.gdx:gdx-box2d-platform:${project.property("gdx")}:natives-arm64-v8a")
+    natives("com.badlogicgames.gdx:gdx-box2d-platform:${project.property("gdx")}:natives-x86")
+    natives("com.badlogicgames.gdx:gdx-box2d-platform:${project.property("gdx")}:natives-x86_64")
+    api("com.badlogicgames.gdx:gdx-freetype:${project.property("gdx")}")
+    natives("com.badlogicgames.gdx:gdx-freetype-platform:${project.property("gdx")}:natives-armeabi")
+    natives("com.badlogicgames.gdx:gdx-freetype-platform:${project.property("gdx")}:natives-armeabi-v7a")
+    natives("com.badlogicgames.gdx:gdx-freetype-platform:${project.property("gdx")}:natives-arm64-v8a")
+    natives("com.badlogicgames.gdx:gdx-freetype-platform:${project.property("gdx")}:natives-x86")
+    natives("com.badlogicgames.gdx:gdx-freetype-platform:${project.property("gdx")}:natives-x86_64")
+    api("com.badlogicgames.box2dlights:box2dlights:${project.property("box2DLight")}")
+    api("com.badlogicgames.ashley:ashley:${project.property("ashley")}")
+    api("com.badlogicgames.gdx:gdx-ai:${project.property("gdxAI")}")
     api("org.jetbrains.kotlin:kotlin-stdlib")
 }
 

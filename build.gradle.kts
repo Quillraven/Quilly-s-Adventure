@@ -1,14 +1,12 @@
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
-    kotlin("multiplatform") version Versions.kotlin apply false
-    id("com.android.application") version Versions.androidGradlePlugin apply false
-    id("io.gitlab.arturbosch.detekt").version(Versions.detekt)
+    kotlin("multiplatform") version "1.4.21" apply false
+    id("com.android.application") version "4.0.2" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.7.4"
 }
 
 subprojects {
-    version = Apps.versionName
-
     apply(plugin = "io.gitlab.arturbosch.detekt")
 
     repositories {
@@ -33,6 +31,6 @@ subprojects {
 tasks {
     withType<Detekt> {
         // Target version of the generated JVM bytecode. It is used for type resolution.
-        this.jvmTarget = Versions.jvm
+        this.jvmTarget = "${project.property("jvmTarget")}"
     }
 }
