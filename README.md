@@ -3,8 +3,6 @@
 [![LibGDX](https://img.shields.io/badge/libgdx-1.9.13-blue.svg)](https://libgdx.badlogicgames.com/)
 [![LibKTX](https://img.shields.io/badge/libktx-1.9.13--b1-orange.svg)](https://libktx.github.io/)
 
-[![JetBrains](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/JetBrains_Logo_2016.svg/100px-JetBrains_Logo_2016.svg.png)](https://www.jetbrains.com/?from=QuillyJumper)
-
 ![image](https://user-images.githubusercontent.com/93260/77850937-2a9b9200-71d6-11ea-9517-29f7c7d9a276.png)
 
 # Quilly's Adventure
