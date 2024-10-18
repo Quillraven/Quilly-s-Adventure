@@ -32,4 +32,11 @@ dependencies {
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
   }
+
+  testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+  testImplementation "io.mockk:mockk:$mockkVersion"
+}
+
+test {
+  useJUnitPlatform()
 }
