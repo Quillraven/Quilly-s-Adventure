@@ -35,13 +35,13 @@ class Animation(
     frameDuration: Float = 1 / 10f
 ) : com.badlogic.gdx.graphics.g2d.Animation<TextureAtlas.AtlasRegion>(frameDuration, regionKeys)
 
-class AnimationComponent(
-    var modelType: ModelType = ModelType.UNKNOWN,
-    var animationType: AnimationType = AnimationType.IDLE,
-    var animationTime: Float = 0f,
-    var animationSpeed: Float = 1f,
+class AnimationComponent : Component, Pool.Poolable {
+    var modelType: ModelType = ModelType.UNKNOWN
+    var animationType: AnimationType = AnimationType.IDLE
+    var animationTime: Float = 0f
+    var animationSpeed: Float = 1f
     var mode: PlayMode = PlayMode.LOOP
-) : Component, Pool.Poolable {
+
     // animation gets initialized in AnimationSystem
     lateinit var animation: Animation
 

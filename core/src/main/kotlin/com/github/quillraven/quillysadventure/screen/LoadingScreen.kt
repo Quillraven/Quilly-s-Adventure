@@ -3,6 +3,7 @@ package com.github.quillraven.quillysadventure.screen
 import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -10,73 +11,37 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.forever
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.github.quillraven.quillysadventure.ShaderPrograms
-import com.github.quillraven.quillysadventure.assets.MapAssets
-import com.github.quillraven.quillysadventure.assets.MusicAssets
-import com.github.quillraven.quillysadventure.assets.ParticleAssets
-import com.github.quillraven.quillysadventure.assets.SoundAssets
-import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
-import com.github.quillraven.quillysadventure.assets.loadAsync
+import com.github.quillraven.quillysadventure.assets.*
 import com.github.quillraven.quillysadventure.audio.AudioService
 import com.github.quillraven.quillysadventure.characterConfigurations
 import com.github.quillraven.quillysadventure.configuration.Character
 import com.github.quillraven.quillysadventure.ecs.character
 import com.github.quillraven.quillysadventure.ecs.component.CameraLockComponent
 import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
-import com.github.quillraven.quillysadventure.ecs.system.AbilitySystem
-import com.github.quillraven.quillysadventure.ecs.system.AnimationSystem
-import com.github.quillraven.quillysadventure.ecs.system.AttackSystem
-import com.github.quillraven.quillysadventure.ecs.system.CameraSystem
-import com.github.quillraven.quillysadventure.ecs.system.DealDamageSystem
-import com.github.quillraven.quillysadventure.ecs.system.DeathSystem
-import com.github.quillraven.quillysadventure.ecs.system.DebugSystem
-import com.github.quillraven.quillysadventure.ecs.system.FacingSystem
-import com.github.quillraven.quillysadventure.ecs.system.FadeSystem
-import com.github.quillraven.quillysadventure.ecs.system.FloatingTextSystem
-import com.github.quillraven.quillysadventure.ecs.system.HealSystem
-import com.github.quillraven.quillysadventure.ecs.system.LightSystem
-import com.github.quillraven.quillysadventure.ecs.system.OutOfBoundsSystem
-import com.github.quillraven.quillysadventure.ecs.system.ParticleSystem
-import com.github.quillraven.quillysadventure.ecs.system.PhysicJumpSystem
-import com.github.quillraven.quillysadventure.ecs.system.PhysicMoveSystem
-import com.github.quillraven.quillysadventure.ecs.system.PhysicSystem
-import com.github.quillraven.quillysadventure.ecs.system.PlayerCollisionSystem
-import com.github.quillraven.quillysadventure.ecs.system.PlayerInputSystem
-import com.github.quillraven.quillysadventure.ecs.system.RemoveSystem
-import com.github.quillraven.quillysadventure.ecs.system.RenderPhysicDebugSystem
-import com.github.quillraven.quillysadventure.ecs.system.RenderSystem
-import com.github.quillraven.quillysadventure.ecs.system.StateSystem
-import com.github.quillraven.quillysadventure.ecs.system.TakeDamageSystem
-import com.github.quillraven.quillysadventure.ecs.system.TriggerSystem
+import com.github.quillraven.quillysadventure.ecs.system.*
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.itemConfigurations
 import com.github.quillraven.quillysadventure.map.MapManager
 import com.github.quillraven.quillysadventure.ui.LabelStyles
 import com.github.quillraven.quillysadventure.ui.widget.LoadingBarWidget
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
 import ktx.actors.centerPosition
 import ktx.actors.plusAssign
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.allOf
 import ktx.ashley.with
-import ktx.assets.async.AssetStorage
-import ktx.async.KtxAsync
 import ktx.scene2d.Scene2DSkin
 
 class LoadingScreen(
     private val game: KtxGame<KtxScreen>,
     private val bundle: I18NBundle,
     private val stage: Stage,
-    private val assets: AssetStorage,
+    private val assets: AssetManager,
     private val gameEventManager: GameEventManager,
     private val audioService: AudioService,
     private val world: World,
@@ -96,16 +61,15 @@ class LoadingScreen(
 
     override fun show() {
         // queue all assets that should be loaded
-        val assetReferences = listOf(
-            MusicAssets.values().map { assets.loadAsync(it) },
-            SoundAssets.values().filter { it != SoundAssets.UNKNOWN }.map { assets.loadAsync(it) },
-            TextureAtlasAssets.values().filter { it != TextureAtlasAssets.UI }.map { assets.loadAsync(it) },
-            MapAssets.values().map { assets.loadAsync(it) },
-            ParticleAssets.values().map {
-                assets.loadAsync(it, ParticleEffectLoader.ParticleEffectParameter().apply {
-                    atlasFile = TextureAtlasAssets.GAME_OBJECTS.filePath
-                })
-            }).flatten()
+        MusicAssets.entries.forEach { assets.load(it) }
+        SoundAssets.entries.filter { it != SoundAssets.UNKNOWN }.map { assets.load(it) }
+        TextureAtlasAssets.entries.filter { it != TextureAtlasAssets.UI }.map { assets.load(it) }
+        MapAssets.entries.map { assets.load(it) }
+        ParticleAssets.entries.map {
+            assets.load(it, ParticleEffectLoader.ParticleEffectParameter().apply {
+                atlasFile = TextureAtlasAssets.GAME_OBJECTS.filePath
+            })
+        }
 
         stage.clear()
         stage.addActor(loadingBar)
@@ -116,11 +80,6 @@ class LoadingScreen(
             centerPosition()
         }
 
-        KtxAsync.launch {
-            // Awaiting until all assets are loaded:
-            assetReferences.joinAll()
-            initiateResources()
-        }
     }
 
     override fun hide() {
@@ -132,7 +91,12 @@ class LoadingScreen(
     }
 
     override fun render(delta: Float) {
-        loadingBar.scaleTo(assets.progress.percent)
+        if (assets.update() && !loaded) {
+            // Awaiting until all assets are loaded:
+            initiateResources()
+        }
+
+        loadingBar.scaleTo(assets.progress)
 
         if (loaded && Gdx.input.justTouched()) {
             // go to the menu screen once everything is loaded

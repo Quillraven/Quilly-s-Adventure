@@ -9,13 +9,13 @@ import ktx.ashley.mapperFor
 
 enum class AttackOrder { NONE, START, ATTACK_ONCE }
 
-class AttackComponent(
-    var range: Float = 1f,
-    var cooldown: Float = 1f,
-    var attackTime: Float = 0f,
-    var order: AttackOrder = AttackOrder.NONE,
+class AttackComponent : Component, Pool.Poolable {
+    var range: Float = 1f
+    var cooldown: Float = 1f
+    var attackTime: Float = 0f
+    var order: AttackOrder = AttackOrder.NONE
     var damageDelay: Float = 0f
-) : Component, Pool.Poolable {
+
     companion object {
         val mapper = mapperFor<AttackComponent>()
         val attackBoundingArea = Rectangle()

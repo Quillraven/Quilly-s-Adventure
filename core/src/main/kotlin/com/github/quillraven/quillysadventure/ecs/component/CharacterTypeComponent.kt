@@ -5,7 +5,9 @@ import com.badlogic.gdx.utils.Pool
 import com.github.quillraven.quillysadventure.configuration.Character
 import ktx.ashley.mapperFor
 
-class CharacterTypeComponent(var type: Character = Character.PLAYER) : Component, Pool.Poolable {
+class CharacterTypeComponent : Component, Pool.Poolable {
+    var type: Character = Character.PLAYER
+
     override fun reset() {
         type = Character.PLAYER
     }

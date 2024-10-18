@@ -6,13 +6,12 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class FadeInComponent(
-    var targetAlpha: Float = 1f,
-    var startAlpha: Float = 0f,
-    var fadeTime: Float = 0f,
+class FadeInComponent : Component, Pool.Poolable {
+    var targetAlpha: Float = 1f
+    var startAlpha: Float = 0f
+    var fadeTime: Float = 0f
     var maxFadeTime: Float = 1f
-) : Component,
-    Pool.Poolable {
+
     companion object {
         val mapper = mapperFor<FadeInComponent>()
     }

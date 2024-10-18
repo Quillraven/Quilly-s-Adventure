@@ -8,7 +8,9 @@ import ktx.ashley.mapperFor
 
 enum class FacingDirection { LEFT, RIGHT }
 
-class FacingComponent(var direction: FacingDirection = FacingDirection.RIGHT) : Component, Pool.Poolable {
+class FacingComponent : Component, Pool.Poolable {
+    var direction: FacingDirection = FacingDirection.RIGHT
+
     override fun reset() {
         direction = FacingDirection.RIGHT
     }

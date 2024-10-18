@@ -4,7 +4,6 @@ import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Interpolation
@@ -37,6 +36,7 @@ import ktx.actors.plusAssign
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.ashley.get
+import ktx.log.logger
 import ktx.preferences.flush
 import ktx.preferences.get
 import ktx.preferences.set
@@ -139,7 +139,9 @@ class MenuScreen(
             setPosition(30f, 820f)
             this += delay(1.5f) + moveBy(0f, -310f, 2f, Interpolation.bounceOut)
         }
+        LOG.debug { "Setting main menu map" }
         mapManager.setMap(MapType.MAIN_MENU)
+        LOG.debug { "Setting up main menu hud" }
         stage.addActor(hud)
         stage.addActor(hud.creditsTable)
         stage.addActor(banner)
@@ -162,8 +164,10 @@ class MenuScreen(
         gameEventManager.disablePlayerInput()
 
         // read menu settings from preferences and update UI
+        LOG.debug { "Reading sound and music volume values" }
         lastSoundVolume = preferences[KEY_SOUND_VOLUME, 1f]
         lastMusicVolume = preferences[KEY_MUSIC_VOLUME, 1f]
+        LOG.debug { "Sound=$lastSoundVolume, Music=$lastMusicVolume" }
         audioService.soundVolume = lastSoundVolume
         audioService.musicVolume = lastMusicVolume
         hud.run {
@@ -206,11 +210,7 @@ class MenuScreen(
         }
     }
 
-    override fun render(delta: Float) {
-        super.render(delta)
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            hide()
-            show()
-        }
+    companion object {
+        private val LOG = logger<MenuScreen>()
     }
 }

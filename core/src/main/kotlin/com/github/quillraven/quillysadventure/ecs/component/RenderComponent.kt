@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class RenderComponent(var sprite: Sprite = Sprite()) : Component {
+class RenderComponent : Component {
+    var sprite: Sprite = Sprite()
+
     companion object {
         val mapper = mapperFor<RenderComponent>()
     }

@@ -1,10 +1,9 @@
 package com.github.quillraven.quillysadventure.configuration
 
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
 import com.github.quillraven.quillysadventure.assets.get
-import ktx.assets.async.AssetStorage
-import ktx.log.error
 import ktx.log.logger
 import java.util.*
 
@@ -20,7 +19,7 @@ class ItemCfg(val region: TextureAtlas.AtlasRegion) {
     var manaBonus = 0
 }
 
-class ItemConfigurations(assets: AssetStorage) : EnumMap<Item, ItemCfg>(Item::class.java) {
+class ItemConfigurations(assets: AssetManager) : EnumMap<Item, ItemCfg>(Item::class.java) {
     private val atlas = assets[TextureAtlasAssets.GAME_OBJECTS]
     private val defaultRegion = atlas.findRegion("error")!!
     private val defaultCfg = ItemCfg(defaultRegion)
@@ -28,7 +27,7 @@ class ItemConfigurations(assets: AssetStorage) : EnumMap<Item, ItemCfg>(Item::cl
     fun cfg(
         id: Item,
         regionKey: String,
-        init: ItemCfg.() -> Unit = { Unit }
+        init: ItemCfg.() -> Unit = { }
     ) {
         if (this.containsKey(id)) {
             LOG.error { "Item configuration for id $id is already existing!" }
@@ -52,10 +51,10 @@ class ItemConfigurations(assets: AssetStorage) : EnumMap<Item, ItemCfg>(Item::cl
     }
 }
 
-inline fun itemConfigurations(assets: AssetStorage, init: ItemConfigurations.() -> Unit) =
+inline fun itemConfigurations(assets: AssetManager, init: ItemConfigurations.() -> Unit) =
     ItemConfigurations(assets).apply(init)
 
-fun loadItemConfigurations(assets: AssetStorage): ItemConfigurations {
+fun loadItemConfigurations(assets: AssetManager): ItemConfigurations {
     return itemConfigurations(assets) {
         cfg(Item.POTION_GAIN_LIFE, "potion_green_plus") {
             lifeBonus = 10

@@ -10,11 +10,11 @@ enum class MoveOrder {
     LEFT, RIGHT, NONE;
 }
 
-class MoveComponent(
-    var moveTime: Float = 0f,
-    var maxSpeed: Float = 1f,
+class MoveComponent : Component, Pool.Poolable {
+    var moveTime: Float = 0f
+    var maxSpeed: Float = 1f
     var lockMovement: Boolean = false
-) : Component, Pool.Poolable {
+
     var order: MoveOrder = MoveOrder.NONE
         set(value) {
             if (value != field) moveTime = 0f

@@ -1,12 +1,14 @@
 package com.github.quillraven.quillysadventure.teavm
 
-import java.io.File
+import com.github.quillraven.quillysadventure.VIRTUAL_H
+import com.github.quillraven.quillysadventure.VIRTUAL_W
 import com.github.xpenatan.gdx.backends.teavm.config.AssetFileHandle
 import com.github.xpenatan.gdx.backends.teavm.config.TeaBuildConfiguration
 import com.github.xpenatan.gdx.backends.teavm.config.TeaBuilder
 import com.github.xpenatan.gdx.backends.teavm.config.plugins.TeaReflectionSupplier
 import com.github.xpenatan.gdx.backends.teavm.gen.SkipClass
 import org.teavm.vm.TeaVMOptimizationLevel
+import java.io.File
 
 /** Builds the TeaVM/HTML application. */
 @SkipClass
@@ -17,10 +19,13 @@ object TeaVMBuilder {
             webappPath = File("build/dist").canonicalPath
             // Register any extra classpath assets here:
             // additionalAssetsClasspathFiles += "com/github/quillraven/quillysadventure/asset.extension"
+            htmlTitle = "Quilly's Adventure"
+            htmlWidth = VIRTUAL_W
+            htmlHeight = VIRTUAL_H
         }
 
         // Register any classes or packages that require reflection here:
-        // TeaReflectionSupplier.addReflectionClass("com.github.quillraven.quillysadventure.reflect")
+        TeaReflectionSupplier.addReflectionClass("com.github.quillraven.quillysadventure.ecs.component")
 
         val tool = TeaBuilder.config(teaBuildConfiguration)
         tool.mainClass = "com.github.quillraven.quillysadventure.teavm.TeaVMLauncher"

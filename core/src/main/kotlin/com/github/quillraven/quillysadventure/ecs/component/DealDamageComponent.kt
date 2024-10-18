@@ -7,13 +7,12 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class DealDamageComponent(
-    var damage: Float = 0f,
-    var lifeSpan: Float = 0f,
-    val damagedEntities: ObjectSet<Entity> = ObjectSet(4),
+class DealDamageComponent : Component, Pool.Poolable {
+    var damage: Float = 0f
+    var lifeSpan: Float = 0f
+    val damagedEntities: ObjectSet<Entity> = ObjectSet(4)
     var damageDelay: Float = 0f
-) :
-    Component, Pool.Poolable {
+
     lateinit var source: Entity
 
     companion object {

@@ -8,16 +8,17 @@ import com.github.quillraven.quillysadventure.assets.ParticleAssets
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class ParticleComponent(
-    var type: ParticleAssets = ParticleAssets.BLOOD,
+class ParticleComponent : Component, Pool.Poolable {
+    var type: ParticleAssets = ParticleAssets.BLOOD
+
     // offset values for particle effects e.g. for our missiles because
     // missiles are using a box2d body and therefore the x/y coordinate of the
     // transform component is the bottom left corner but we want to render of course
     // in the center of the box2d body
-    var offsetX: Float = 0f,
-    var offsetY: Float = 0f,
+    var offsetX: Float = 0f
+    var offsetY: Float = 0f
     var flipBy180Deg: Boolean = false
-) : Component, Pool.Poolable {
+
     lateinit var effect: ParticleEffectPool.PooledEffect
 
     companion object {

@@ -13,9 +13,7 @@ dependencies {
   api "io.github.libktx:ktx-actors:$ktxVersion"
   api "io.github.libktx:ktx-app:$ktxVersion"
   api "io.github.libktx:ktx-ashley:$ktxVersion"
-  // async assets requires coroutines
-  api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion"
-  api "io.github.libktx:ktx-assets-async:$ktxVersion"
+  api "io.github.libktx:ktx-assets:$ktxVersion"
   api "io.github.libktx:ktx-box2d:$ktxVersion"
   api "io.github.libktx:ktx-collections:$ktxVersion"
   api "io.github.libktx:ktx-freetype:$ktxVersion"

@@ -11,13 +11,13 @@ import ktx.ashley.get
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 
-class FloatingTextComponent(
-    val stringBuilder: StringBuilder = StringBuilder(4),
-    val speed: Vector2 = vec2(),
-    var lifeSpan: Float = 0f,
-    var color: Color = Color.WHITE,
+class FloatingTextComponent : Component, Pool.Poolable {
+    val stringBuilder: StringBuilder = StringBuilder(4)
+    val speed: Vector2 = vec2()
+    var lifeSpan: Float = 0f
+    var color: Color = Color.WHITE
     var fontType: FontType = FontType.DEFAULT
-) : Component, Pool.Poolable {
+
     companion object {
         val mapper = mapperFor<FloatingTextComponent>()
     }

@@ -1,0 +1,45 @@
+name: Verify project via Gradle
+
+on:
+  push:
+    branches: [ "master" ]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - '.gitignore'
+  pull_request:
+    branches: [ "master" ]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - '.gitignore'
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v2
+
+      - name: Verify with Gradle Wrapper
+        run: ./gradlew core:check
+
+  publish-gh-pages:
+    # only publish after 'build' was successful, and this workflow is running on master branch
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    uses: ./.github/workflows/publish-gh-pages.yml

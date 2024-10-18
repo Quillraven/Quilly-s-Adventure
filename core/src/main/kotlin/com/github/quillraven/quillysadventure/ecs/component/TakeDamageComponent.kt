@@ -6,7 +6,8 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class TakeDamageComponent(var damage: Float = 0f) : Component, Pool.Poolable {
+class TakeDamageComponent : Component, Pool.Poolable {
+    var damage: Float = 0f
     lateinit var source: Entity
 
     companion object {

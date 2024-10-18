@@ -32,7 +32,9 @@ enum class EntityType(
     }
 }
 
-class EntityTypeComponent(var type: EntityType = EntityType.OTHER) : Component, Pool.Poolable {
+class EntityTypeComponent : Component, Pool.Poolable {
+    var type: EntityType = EntityType.OTHER
+
     companion object {
         val mapper = mapperFor<EntityTypeComponent>()
     }

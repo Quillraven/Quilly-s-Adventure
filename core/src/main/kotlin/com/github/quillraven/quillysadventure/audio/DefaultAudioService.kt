@@ -1,5 +1,6 @@
 package com.github.quillraven.quillysadventure.audio
 
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.math.MathUtils
@@ -9,11 +10,10 @@ import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.assets.get
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.map.Map
-import ktx.assets.async.AssetStorage
 import ktx.collections.iterate
 import java.util.*
 
-class DefaultAudioService(private val assets: AssetStorage, gameEventManager: GameEventManager) : AudioService {
+class DefaultAudioService(private val assets: AssetManager, gameEventManager: GameEventManager) : AudioService {
     private var music: Music? = null
     private var musicType = MusicAssets.MENU
     override var musicVolume = 1f

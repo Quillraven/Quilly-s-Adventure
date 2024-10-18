@@ -7,10 +7,10 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class CollisionComponent(
-    val entities: ObjectSet<Entity> = ObjectSet(4),
+class CollisionComponent : Component, Pool.Poolable {
+    val entities: ObjectSet<Entity> = ObjectSet(4)
     var numGroundContacts: Int = 0
-) : Component, Pool.Poolable {
+
     companion object {
         val mapper = mapperFor<CollisionComponent>()
     }

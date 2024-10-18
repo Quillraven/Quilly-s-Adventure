@@ -4,6 +4,7 @@ import box2dLight.RayHandler
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.utils.ImmutableArray
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.physics.box2d.World
@@ -13,39 +14,19 @@ import com.github.quillraven.quillysadventure.configuration.Character
 import com.github.quillraven.quillysadventure.configuration.CharacterConfigurations
 import com.github.quillraven.quillysadventure.configuration.Item
 import com.github.quillraven.quillysadventure.configuration.ItemConfigurations
-import com.github.quillraven.quillysadventure.ecs.character
-import com.github.quillraven.quillysadventure.ecs.component.EntityType
-import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
-import com.github.quillraven.quillysadventure.ecs.component.TmxMapComponent
-import com.github.quillraven.quillysadventure.ecs.component.physicCmp
-import com.github.quillraven.quillysadventure.ecs.component.playerCmp
-import com.github.quillraven.quillysadventure.ecs.component.transfCmp
-import com.github.quillraven.quillysadventure.ecs.component.typeCmp
-import com.github.quillraven.quillysadventure.ecs.globalLight
-import com.github.quillraven.quillysadventure.ecs.item
-import com.github.quillraven.quillysadventure.ecs.portal
-import com.github.quillraven.quillysadventure.ecs.portalTarget
-import com.github.quillraven.quillysadventure.ecs.scenery
-import com.github.quillraven.quillysadventure.ecs.trigger
+import com.github.quillraven.quillysadventure.ecs.*
+import com.github.quillraven.quillysadventure.ecs.component.*
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import ktx.ashley.get
 import ktx.ashley.with
-import ktx.assets.async.AssetStorage
-import ktx.log.debug
-import ktx.log.error
 import ktx.log.logger
-import ktx.tiled.id
-import ktx.tiled.property
-import ktx.tiled.shape
-import ktx.tiled.type
-import ktx.tiled.x
-import ktx.tiled.y
+import ktx.tiled.*
 import java.util.*
 
 private val LOG = logger<MapManager>()
 
 class MapManager(
-    private val assets: AssetStorage,
+    private val assets: AssetManager,
     private val world: World,
     private val rayHandler: RayHandler,
     private val ecsEngine: Engine,
@@ -61,7 +42,9 @@ class MapManager(
     fun currentMap() = currentMapType
 
     fun setMap(mapType: MapType, targetPortal: Int = -1, targetOffsetX: Int = -1) {
+        LOG.debug { "Setting map $mapType" }
         val currentMap = mapCache[currentMapType]
+        LOG.debug { "Current map is $currentMap" }
         if (currentMap != null) {
             storeMapEntities(currentMapType)
             LOG.debug { "Storing map entities of map $currentMapType: ${mapEntityCache[currentMapType]}" }
@@ -79,6 +62,7 @@ class MapManager(
         // check if new map is already existing. Otherwise, create it
         currentMapType = mapType
         mapCache.computeIfAbsent(mapType) { Map(mapType, assets[mapType.asset.filePath]) }.apply {
+            LOG.debug { "Update player position with targetPortal=$targetPortal" }
             if (targetPortal == -1) {
                 // target portal is not specified -> move to default player start location
                 movePlayerToStartLocation(this)
@@ -86,15 +70,25 @@ class MapManager(
                 // move player to target portal position
                 movePlayerToPortal(this, targetPortal, targetOffsetX)
             }
+            LOG.debug { "Create scenery" }
             createSceneryEntities(this)
+            LOG.debug { "Create enemies" }
             createEnemyEntities(this)
+            LOG.debug { "Create save points" }
             createSavepoints(this)
+            LOG.debug { "Create NPCs" }
             createNPCs(this)
+            LOG.debug { "Create items" }
             createItemEntities(this)
+            LOG.debug { "Create portals" }
             createPortalEntities(this)
+            LOG.debug { "Create triggers" }
             createTriggers(this)
+            LOG.debug { "Create ambient light" }
             updateAmbientLight(this)
+            LOG.debug { "Dispatch map change event" }
             gameEventManager.dispatchMapChangeEvent(this)
+            LOG.debug { "setMap is done!" }
         }
     }
 
@@ -186,8 +180,8 @@ class MapManager(
             } catch (e: IllegalArgumentException) {
                 LOG.error(e) {
                     "Invalid name specified for object " +
-                            "with ID ${mapObj.id} for map ${map.type} " +
-                            "in layer $layer"
+                        "with ID ${mapObj.id} for map ${map.type} " +
+                        "in layer $layer"
                 }
             }
         }
@@ -218,8 +212,8 @@ class MapManager(
             } catch (e: IllegalArgumentException) {
                 LOG.error(e) {
                     "Invalid name specified for object " +
-                            "with ID ${mapObj.id} for map ${map.type} " +
-                            "in layer $LAYER_ITEM"
+                        "with ID ${mapObj.id} for map ${map.type} " +
+                        "in layer $LAYER_ITEM"
                 }
             }
         }
@@ -244,8 +238,8 @@ class MapManager(
                     if (targetPortal == -1) {
                         LOG.error {
                             "Target portal ID not specified " +
-                                    "for object with ID ${mapObj.id} " +
-                                    "for map ${map.type}"
+                                "for object with ID ${mapObj.id} " +
+                                "for map ${map.type}"
                         }
                         return@forEachMapObject
                     }
@@ -253,8 +247,8 @@ class MapManager(
                     if (targetOffsetX == 0 && map.type != targetMap) {
                         LOG.error {
                             "Target offset X not specified " +
-                                    "for object with ID ${mapObj.id} " +
-                                    "for map ${map.type}"
+                                "for object with ID ${mapObj.id} " +
+                                "for map ${map.type}"
                         }
                         return@forEachMapObject
                     }
@@ -277,8 +271,8 @@ class MapManager(
                 } else {
                     LOG.error(e) {
                         "Invalid map property specified " +
-                                "for object with ID ${mapObj.id} " +
-                                "for map ${map.type}"
+                            "for object with ID ${mapObj.id} " +
+                            "for map ${map.type}"
                     }
                 }
             }
@@ -293,16 +287,16 @@ class MapManager(
             if (triggerSetupFunction.isBlank()) {
                 LOG.error {
                     "There is no trigger setup function defined " +
-                            "for trigger ${mapObj.id} " +
-                            "in map ${map.type}"
+                        "for trigger ${mapObj.id} " +
+                        "in map ${map.type}"
                 }
                 return@forEachMapObject
             } else if (!triggerSetupFunction.contains('.')) {
                 LOG.error {
                     "Wrong trigger setup function definition " +
-                            "for trigger ${mapObj.id} " +
-                            "in map ${map.type}. " +
-                            "Format is FILENAME.METHOD"
+                        "for trigger ${mapObj.id} " +
+                        "in map ${map.type}. " +
+                        "Format is FILENAME.METHOD"
                 }
                 return@forEachMapObject
             }

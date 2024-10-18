@@ -8,10 +8,10 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.get
 import ktx.ashley.mapperFor
 
-class StateComponent(
-    var stateTime: Float = 0f,
+class StateComponent : Component, Pool.Poolable {
+    var stateTime: Float = 0f
     val stateMachine: DefaultStateMachine<Entity, State<Entity>> = DefaultStateMachine()
-) : Component, Pool.Poolable {
+
     companion object {
         val mapper = mapperFor<StateComponent>()
     }

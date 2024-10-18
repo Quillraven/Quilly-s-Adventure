@@ -4,25 +4,16 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
 import com.badlogic.ashley.systems.IteratingSystem
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Array
 import com.github.quillraven.quillysadventure.UNIT_SCALE
 import com.github.quillraven.quillysadventure.assets.SoundAssets
 import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
 import com.github.quillraven.quillysadventure.audio.AudioService
-import com.github.quillraven.quillysadventure.ecs.component.Animation
-import com.github.quillraven.quillysadventure.ecs.component.AnimationComponent
-import com.github.quillraven.quillysadventure.ecs.component.AnimationType
-import com.github.quillraven.quillysadventure.ecs.component.ModelType
-import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
-import com.github.quillraven.quillysadventure.ecs.component.RenderComponent
-import com.github.quillraven.quillysadventure.ecs.component.aniCmp
-import com.github.quillraven.quillysadventure.ecs.component.renderCmp
+import com.github.quillraven.quillysadventure.ecs.component.*
 import ktx.ashley.allOf
 import ktx.ashley.exclude
-import ktx.assets.async.AssetStorage
-import ktx.log.debug
-import ktx.log.error
 import ktx.log.logger
 import java.util.*
 
@@ -40,7 +31,7 @@ private const val DEFAULT_REGION_KEY = "error"
  * Example for a player idle animation with two frames would be PLAYER/IDLE_0 and PLAYER/IDLE_1
  * as keys for the regions of the atlas.
  */
-class AnimationSystem(assets: AssetStorage, private val audioService: AudioService) :
+class AnimationSystem(assets: AssetManager, private val audioService: AudioService) :
     IteratingSystem(allOf(AnimationComponent::class, RenderComponent::class).exclude(RemoveComponent::class).get()),
     EntityListener {
     private val animationFamily = allOf(AnimationComponent::class).get()
@@ -97,24 +88,29 @@ class AnimationSystem(assets: AssetStorage, private val audioService: AudioServi
                 AnimationType.JUMP -> SoundAssets.PLAYER_JUMP
                 else -> SoundAssets.UNKNOWN
             }
+
             ModelType.ORANGE_SLIME -> when (animationType) {
                 AnimationType.DEATH -> SoundAssets.SLIME_DEATH
                 else -> SoundAssets.UNKNOWN
             }
+
             ModelType.BLUE_SLIME -> when (animationType) {
                 AnimationType.DEATH -> SoundAssets.SLIME_DEATH
                 else -> SoundAssets.UNKNOWN
             }
+
             ModelType.DWARF -> when (animationType) {
                 AnimationType.DEATH -> SoundAssets.GNOME_DEATH
                 AnimationType.ATTACK -> SoundAssets.SWING2
                 else -> SoundAssets.UNKNOWN
             }
+
             ModelType.SKELETAL -> when (animationType) {
                 AnimationType.ATTACK -> SoundAssets.BIG_SWING2
                 AnimationType.DEATH -> SoundAssets.SKELETAL_DEATH
                 else -> SoundAssets.UNKNOWN
             }
+
             ModelType.MINOTAUR -> when (animationType) {
                 AnimationType.DEATH -> SoundAssets.MINOTAUR_DEATH
                 AnimationType.ATTACK3 -> SoundAssets.SMALL_SWING
@@ -122,6 +118,7 @@ class AnimationSystem(assets: AssetStorage, private val audioService: AudioServi
                 AnimationType.ATTACK2 -> SoundAssets.SWING2
                 else -> SoundAssets.UNKNOWN
             }
+
             else -> SoundAssets.UNKNOWN
         }
     }
@@ -184,8 +181,8 @@ class AnimationSystem(assets: AssetStorage, private val audioService: AudioServi
             if (textureRegion == null) {
                 LOG.error {
                     "Could not retrieve textureRegion " +
-                            "for ${aniCmp.modelType}/${aniCmp.animationType} " +
-                            "at time ${aniCmp.animationTime}"
+                        "for ${aniCmp.modelType}/${aniCmp.animationType} " +
+                        "at time ${aniCmp.animationTime}"
                 }
                 textureRegion = defaultRegion
             }

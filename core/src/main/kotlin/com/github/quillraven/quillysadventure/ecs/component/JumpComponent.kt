@@ -10,11 +10,11 @@ enum class JumpOrder {
     JUMP, NONE
 }
 
-class JumpComponent(
-    var order: JumpOrder = JumpOrder.NONE,
-    var jumpTime: Float = 0f,
+class JumpComponent : Component, Pool.Poolable {
+    var order: JumpOrder = JumpOrder.NONE
+    var jumpTime: Float = 0f
     var maxJumpTime: Float = 1.1f
-) : Component, Pool.Poolable {
+
     companion object {
         val mapper = mapperFor<JumpComponent>()
     }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.Preferences
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -23,7 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.github.quillraven.quillysadventure.assets.I18nAssets
 import com.github.quillraven.quillysadventure.assets.TextureAtlasAssets
-import com.github.quillraven.quillysadventure.assets.loadAsync
+import com.github.quillraven.quillysadventure.assets.get
+import com.github.quillraven.quillysadventure.assets.load
 import com.github.quillraven.quillysadventure.audio.DefaultAudioService
 import com.github.quillraven.quillysadventure.audio.NullAudioService
 import com.github.quillraven.quillysadventure.configuration.CharacterConfigurations
@@ -33,18 +35,14 @@ import com.github.quillraven.quillysadventure.configuration.loadItemConfiguratio
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import com.github.quillraven.quillysadventure.screen.LoadingScreen
 import com.github.quillraven.quillysadventure.ui.createSkin
-import kotlinx.coroutines.launch
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.app.clearScreen
-import ktx.assets.async.AssetStorage
-import ktx.async.KtxAsync
 import ktx.box2d.createWorld
 import ktx.box2d.earthGravity
 import ktx.graphics.use
 import ktx.inject.Context
 import ktx.inject.register
-import ktx.log.debug
 import ktx.log.logger
 
 private val LOG = logger<Main>()
@@ -132,57 +130,55 @@ class Main(
         // init Box2D - the next call avoids some issues with older devices where the box2d libraries were not loaded correctly
         Box2D.init()
 
-        KtxAsync.initiate()
-        val assetStorage = AssetStorage().apply {
+        val assetManager = AssetManager().apply {
             // we use tmx tiled maps created via the Tiled tool and therefore
             // we use the TmxMapLoader to be able to load/unload .tmx files
-            setLoader<TiledMap> { TmxMapLoader(this.fileResolver) }
+            setLoader(TiledMap::class.java, TmxMapLoader(fileHandleResolver))
         }
-        KtxAsync.launch {
-            // load textures for skin
-            val uiAtlas = assetStorage.loadAsync(TextureAtlasAssets.UI)
-            val bundle = assetStorage.loadAsync(I18nAssets.DEFAULT)
+        // load textures for skin
+        assetManager.load(TextureAtlasAssets.UI)
+        assetManager.load(I18nAssets.DEFAULT)
+        assetManager.finishLoading()
 
-            // setup context and register stuff that should also be disposed at the end of the game lifecycle
-            ctx.register {
-                bindSingleton(ShaderPrograms())
-                bindSingleton(SpriteBatch(2048))
-                bindSingleton(assetStorage)
-                bindSingleton(Stage(FitViewport(VIRTUAL_W.toFloat(), VIRTUAL_H.toFloat()), ctx.inject<SpriteBatch>()))
-                bindSingleton(createSkin(uiAtlas.await()))
-                bindSingleton(RayHandler(world))
-                bindSingleton(Box2DDebugRenderer())
-                bindSingleton(OrthogonalTiledMapRenderer(null, UNIT_SCALE, ctx.inject<SpriteBatch>()))
-            }
+        // setup context and register stuff that should also be disposed at the end of the game lifecycle
+        ctx.register {
+            bindSingleton(ShaderPrograms())
+            bindSingleton(SpriteBatch(2048))
+            bindSingleton(assetManager)
+            bindSingleton(Stage(FitViewport(VIRTUAL_W.toFloat(), VIRTUAL_H.toFloat()), ctx.inject<SpriteBatch>()))
+            bindSingleton(createSkin(assetManager[TextureAtlasAssets.UI]))
+            bindSingleton(RayHandler(world))
+            bindSingleton(Box2DDebugRenderer())
+            bindSingleton(OrthogonalTiledMapRenderer(null, UNIT_SCALE, ctx.inject<SpriteBatch>()))
+        }
 
-            // we need a multiplexer to react on the following input events
-            // UI widget --> Stage
-            // keyboard --> InputProcessor (GameEventManager)
-            Gdx.input.inputProcessor = InputMultiplexer(gameEventManager, ctx.inject<Stage>())
+        // we need a multiplexer to react on the following input events
+        // UI widget --> Stage
+        // keyboard --> InputProcessor (GameEventManager)
+        Gdx.input.inputProcessor = InputMultiplexer(gameEventManager, ctx.inject<Stage>())
 
-            // box2d light should not create shadows for dynamic game objects
-            Light.setGlobalContactFilter(FILTER_CATEGORY_LIGHT, 0, FILTER_MASK_LIGHTS)
+        // box2d light should not create shadows for dynamic game objects
+        Light.setGlobalContactFilter(FILTER_CATEGORY_LIGHT, 0, FILTER_MASK_LIGHTS)
 
-            // initial screen is the loading screen which is loading all assets for the game
-            addScreen(
-                LoadingScreen(
-                    this@Main, // game instance to switch screens
-                    bundle.await(),
-                    ctx.inject(), // stage
-                    ctx.inject(), // assets
-                    gameEventManager, // game event manager
-                    audioService,
-                    world, // physic world
-                    ecsEngine, // entity component engine
-                    ctx.inject(), // ray handler
-                    ctx.inject(), // shaders
-                    ctx.inject(), // sprite batch
-                    ctx.inject(), // tiled map renderer
-                    ctx.inject() // box2d debug renderer
-                )
+        // initial screen is the loading screen which is loading all assets for the game
+        addScreen(
+            LoadingScreen(
+                this@Main, // game instance to switch screens
+                assetManager[I18nAssets.DEFAULT],
+                ctx.inject(), // stage
+                ctx.inject(), // assets
+                gameEventManager, // game event manager
+                audioService,
+                world, // physic world
+                ecsEngine, // entity component engine
+                ctx.inject(), // ray handler
+                ctx.inject(), // shaders
+                ctx.inject(), // sprite batch
+                ctx.inject(), // tiled map renderer
+                ctx.inject() // box2d debug renderer
             )
-            setScreen<LoadingScreen>()
-        }
+        )
+        setScreen<LoadingScreen>()
     }
 
     override fun <Type : KtxScreen> setScreen(type: Class<Type>) {
