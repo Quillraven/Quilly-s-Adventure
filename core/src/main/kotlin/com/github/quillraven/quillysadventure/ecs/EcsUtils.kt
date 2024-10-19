@@ -13,8 +13,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.StringBuilder
-import com.badlogic.gdx.utils.reflect.ClassReflection
-import com.badlogic.gdx.utils.reflect.ReflectionException
 import com.github.quillraven.quillysadventure.FILTER_CATEGORY_GAME_OBJECT
 import com.github.quillraven.quillysadventure.FILTER_CATEGORY_ITEM
 import com.github.quillraven.quillysadventure.FILTER_CATEGORY_SCENERY
@@ -50,11 +48,16 @@ import com.github.quillraven.quillysadventure.ecs.component.StatsComponent
 import com.github.quillraven.quillysadventure.ecs.component.TakeDamageComponent
 import com.github.quillraven.quillysadventure.ecs.component.TmxMapComponent
 import com.github.quillraven.quillysadventure.ecs.component.TransformComponent
-import com.github.quillraven.quillysadventure.ecs.component.TriggerComponent
 import com.github.quillraven.quillysadventure.ecs.component.physicCmp
 import com.github.quillraven.quillysadventure.map.MapType
 import com.github.quillraven.quillysadventure.trigger.Trigger
+import com.github.quillraven.quillysadventure.trigger.setupAfterBoss
+import com.github.quillraven.quillysadventure.trigger.setupBossPitLeft
+import com.github.quillraven.quillysadventure.trigger.setupBossPitRight
+import com.github.quillraven.quillysadventure.trigger.setupBossTrigger
+import com.github.quillraven.quillysadventure.trigger.setupSceneTrigger
 import com.github.quillraven.quillysadventure.ui.FontType
+import ktx.app.gdxError
 import ktx.ashley.EngineEntity
 import ktx.ashley.entity
 import ktx.ashley.get
@@ -65,7 +68,6 @@ import ktx.box2d.body
 import ktx.box2d.box
 import ktx.box2d.chain
 import ktx.box2d.loop
-import ktx.log.error
 import ktx.log.logger
 
 // float array to define the vertices of a loop shape for rectangle scenery objects
@@ -364,6 +366,7 @@ private fun BodyDefinition.shape2D(shape: Shape2D, init: FixtureDefinition.() ->
             TMP_FLOAT_ARRAY[7] = -height * 0.5f
             loop(TMP_FLOAT_ARRAY).init()
         }
+
         is Polyline -> {
             val x = shape.x
             val y = shape.y
@@ -377,6 +380,7 @@ private fun BodyDefinition.shape2D(shape: Shape2D, init: FixtureDefinition.() ->
             // restore position
             shape.setPosition(x, y)
         }
+
         is Polygon -> {
             val x = shape.x
             val y = shape.y
@@ -390,6 +394,7 @@ private fun BodyDefinition.shape2D(shape: Shape2D, init: FixtureDefinition.() ->
             // restore position
             shape.setPosition(x, y)
         }
+
         else -> {
             LOG.error { "Unsupported shape ${shape::class.java} for scenery object." }
         }
@@ -632,15 +637,13 @@ fun Engine.trigger(
         // trigger component uses reflection which might fail if Tiled map object settings
         // are not correct (e.g. wrong classname or wrong package name)
         val newTrigger = Trigger.pool.obtain()
-        try {
-            with<TriggerComponent> { trigger = newTrigger }
-            val fileAndMethod = triggerSetupFunctionName.split(".")
-            val file =
-                ClassReflection.forName("com.github.quillraven.quillysadventure.trigger.${fileAndMethod[0]}Kt")
-            val method = ClassReflection.getMethod(file, fileAndMethod[1], Trigger::class.java)
-            method.invoke(null, newTrigger)
-        } catch (e: ReflectionException) {
-            LOG.error(e) { "Could not setup trigger due to reflection issues: $triggerSetupFunctionName" }
+        when (triggerSetupFunctionName) {
+            "TriggerIntro.setupSceneTrigger" -> setupSceneTrigger(newTrigger)
+            "TriggerMap2.setupBossTrigger" -> setupBossTrigger(newTrigger)
+            "TriggerMap2.setupBossPitLeft" -> setupBossPitLeft(newTrigger)
+            "TriggerMap2.setupBossPitRight" -> setupBossPitRight(newTrigger)
+            "TriggerMap2.setpAfterBoss" -> setupAfterBoss(newTrigger)
+            else -> gdxError("No trigger setup for name: $triggerSetupFunctionName")
         }
 
         if (reactOnCollision) {
