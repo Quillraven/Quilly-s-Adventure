@@ -53,7 +53,7 @@ class Trigger : Pool.Poolable {
 
     fun addAction(action: TriggerAction) = mutableActions.add(action)
 
-    inline fun <reified T : TriggerAction> action(init: T.() -> Unit = {}): T {
+    inline fun <reified T : TriggerAction> action(init: T.() -> Unit): T {
         val newAction = ReflectionPool(T::class.java).obtain()
         newAction.init()
         addAction(newAction)
@@ -67,7 +67,7 @@ class Trigger : Pool.Poolable {
 
     fun addCondition(condition: TriggerCondition) = mutableConditions.add(condition)
 
-    inline fun <reified T : TriggerCondition> condition(init: T.() -> Unit = {}): T {
+    inline fun <reified T : TriggerCondition> condition(init: T.() -> Unit): T {
         val newCondition = ReflectionPool(T::class.java).obtain()
         newCondition.init()
         addCondition(newCondition)
