@@ -637,6 +637,8 @@ fun Engine.trigger(
         // trigger component uses reflection which might fail if Tiled map object settings
         // are not correct (e.g. wrong classname or wrong package name)
         val newTrigger = Trigger.pool.obtain()
+        with<TriggerComponent> { trigger = newTrigger }
+
         when (triggerSetupFunctionName) {
             "TriggerIntro.setupSceneTrigger" -> setupSceneTrigger(newTrigger)
             "TriggerMap2.setupBossTrigger" -> setupBossTrigger(newTrigger)
