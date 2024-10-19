@@ -48,6 +48,7 @@ import com.github.quillraven.quillysadventure.ecs.component.StatsComponent
 import com.github.quillraven.quillysadventure.ecs.component.TakeDamageComponent
 import com.github.quillraven.quillysadventure.ecs.component.TmxMapComponent
 import com.github.quillraven.quillysadventure.ecs.component.TransformComponent
+import com.github.quillraven.quillysadventure.ecs.component.TriggerComponent
 import com.github.quillraven.quillysadventure.ecs.component.physicCmp
 import com.github.quillraven.quillysadventure.map.MapType
 import com.github.quillraven.quillysadventure.trigger.Trigger
@@ -660,12 +661,15 @@ fun Engine.trigger(
     }
 }
 
-fun Engine.findPortal(portalID: Int, lambda: (Entity) -> Unit) {
+fun Engine.findPortal(portalID: Int, lambda: (Entity) -> Unit): Entity? {
     this.entities.forEach {
         it[PortalComponent.mapper]?.let { portal ->
             if (portal.portalID == portalID) {
                 lambda(it)
+                return it
             }
         }
     }
+
+    return null
 }
