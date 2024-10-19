@@ -4,6 +4,7 @@ import com.github.quillraven.quillysadventure.VIRTUAL_H
 import com.github.quillraven.quillysadventure.VIRTUAL_W
 import com.github.quillraven.quillysadventure.ability.Ability
 import com.github.quillraven.quillysadventure.trigger.Trigger
+import com.github.quillraven.quillysadventure.ui.action.ScaleToRegionWidth
 import com.github.xpenatan.gdx.backends.teavm.config.AssetFileHandle
 import com.github.xpenatan.gdx.backends.teavm.config.TeaBuildConfiguration
 import com.github.xpenatan.gdx.backends.teavm.config.TeaBuilder
@@ -30,6 +31,7 @@ object TeaVMBuilder {
         TeaReflectionSupplier.addReflectionClass("com.github.quillraven.quillysadventure.ecs.component")
         TeaReflectionSupplier.addReflectionClass(Ability::class.java)
         TeaReflectionSupplier.addReflectionClass(Trigger::class.java)
+        TeaReflectionSupplier.addReflectionClass(ScaleToRegionWidth::class.java)
 
         val tool = TeaBuilder.config(teaBuildConfiguration)
         tool.mainClass = "com.github.quillraven.quillysadventure.teavm.TeaVMLauncher"

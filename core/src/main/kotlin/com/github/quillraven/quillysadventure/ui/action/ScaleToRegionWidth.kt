@@ -8,10 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 
-class ScaleToRegionWidth(
-    var targetPercentage: Float = 0f,
-    duration: Float = 0f
-) : TemporalAction(duration) {
+class ScaleToRegionWidth : TemporalAction(0f) {
+    var targetPercentage: Float = 0f
     private var startWidth = 0f
     private var origWidth = 0
     private lateinit var atlasRegion: TextureAtlas.AtlasRegion
