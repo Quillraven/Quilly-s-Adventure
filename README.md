@@ -7,6 +7,17 @@
 
 # Quilly's Adventure
 
+### Update 2024
+
+I updated the project to the newest (to date October 2024) LibGDX, Kotlin, 
+Gradle and LibKTX versions. I removed the Android backend (because it is annoying
+to maintain) and replaced it with a new TeaVM backend which now allows the game
+to be run in the browser. [Here](https://quillraven.github.io/Quilly-s-Adventure/) is the link.
+TeaVM required a few code changes (mainly reflection issues). The original code with the android backend
+can be found in a separate branch called `original`.
+
+### General
+
 This is a streaming project of my [twitch](twitch.tv/quillraven) channel.
 
 We are going to develop a simple adventure using LibGDX, Kotlin and LibKTX extensions.
