@@ -3,6 +3,7 @@ package com.github.quillraven.quillysadventure.teavm
 import com.github.quillraven.quillysadventure.VIRTUAL_H
 import com.github.quillraven.quillysadventure.VIRTUAL_W
 import com.github.quillraven.quillysadventure.ability.Ability
+import com.github.quillraven.quillysadventure.ecs.system.SaveState
 import com.github.quillraven.quillysadventure.trigger.Trigger
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionCreateCharacter
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionDamageCharacter
@@ -63,6 +64,7 @@ object TeaVMBuilder {
         TeaReflectionSupplier.addReflectionClass(TriggerActionShowDialog::class.java)
         TeaReflectionSupplier.addReflectionClass(TriggerActionMoveOrderCharacter::class.java)
         TeaReflectionSupplier.addReflectionClass(TriggerActionPlayAnimationCharacter::class.java)
+        TeaReflectionSupplier.addReflectionClass(SaveState::class.java)
 
         val tool = TeaBuilder.config(teaBuildConfiguration)
         tool.mainClass = "com.github.quillraven.quillysadventure.teavm.TeaVMLauncher"

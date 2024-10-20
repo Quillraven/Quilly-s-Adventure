@@ -208,7 +208,7 @@ class GameScreen(
             mapManager.movePlayer(x, y)
             playerCmp.tutorials.clear()
             for (i in 0 until saveState.tutorials.size) {
-                playerCmp.tutorials.add(TutorialType.values()[saveState.tutorials[i]])
+                playerCmp.tutorials.add(TutorialType.entries[saveState.tutorials[i]])
             }
         }
     }
@@ -219,7 +219,7 @@ class GameScreen(
         mapManager.mapEntityCache.clear()
         if (saveState != null) {
             saveState.mapEntities.forEach {
-                mapManager.storeMapEntities(MapType.values()[it.key], it.value)
+                mapManager.storeMapEntities(MapType.entries[it.key], it.value)
             }
             mapManager.setMap(saveState.currentMap)
         } else {

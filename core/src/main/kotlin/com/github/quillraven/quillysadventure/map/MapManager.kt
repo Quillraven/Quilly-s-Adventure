@@ -8,19 +8,35 @@ import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.utils.IntArray
 import com.github.quillraven.quillysadventure.UNIT_SCALE
 import com.github.quillraven.quillysadventure.configuration.Character
 import com.github.quillraven.quillysadventure.configuration.CharacterConfigurations
 import com.github.quillraven.quillysadventure.configuration.Item
 import com.github.quillraven.quillysadventure.configuration.ItemConfigurations
-import com.github.quillraven.quillysadventure.ecs.*
-import com.github.quillraven.quillysadventure.ecs.component.*
+import com.github.quillraven.quillysadventure.ecs.character
+import com.github.quillraven.quillysadventure.ecs.component.EntityType
+import com.github.quillraven.quillysadventure.ecs.component.RemoveComponent
+import com.github.quillraven.quillysadventure.ecs.component.TmxMapComponent
+import com.github.quillraven.quillysadventure.ecs.component.physicCmp
+import com.github.quillraven.quillysadventure.ecs.component.playerCmp
+import com.github.quillraven.quillysadventure.ecs.component.transfCmp
+import com.github.quillraven.quillysadventure.ecs.component.typeCmp
+import com.github.quillraven.quillysadventure.ecs.globalLight
+import com.github.quillraven.quillysadventure.ecs.item
+import com.github.quillraven.quillysadventure.ecs.portal
+import com.github.quillraven.quillysadventure.ecs.portalTarget
+import com.github.quillraven.quillysadventure.ecs.scenery
+import com.github.quillraven.quillysadventure.ecs.trigger
 import com.github.quillraven.quillysadventure.event.GameEventManager
 import ktx.ashley.get
 import ktx.ashley.with
 import ktx.log.logger
-import ktx.tiled.*
+import ktx.tiled.id
+import ktx.tiled.property
+import ktx.tiled.shape
+import ktx.tiled.type
+import ktx.tiled.x
+import ktx.tiled.y
 import java.util.*
 
 private val LOG = logger<MapManager>()
@@ -37,7 +53,7 @@ class MapManager(
 ) {
     private var currentMapType = MapType.TEST_MAP
     private val mapCache = EnumMap<MapType, Map>(MapType::class.java)
-    val mapEntityCache = EnumMap<MapType, IntArray>(MapType::class.java)
+    val mapEntityCache = EnumMap<MapType, MutableList<Int>>(MapType::class.java)
 
     fun currentMap() = currentMapType
 
@@ -93,7 +109,7 @@ class MapManager(
     }
 
     fun storeMapEntities(mapType: MapType) {
-        mapEntityCache.computeIfAbsent(mapType) { IntArray(32) }.apply {
+        mapEntityCache.computeIfAbsent(mapType) { mutableListOf() }.apply {
             this.clear()
             ecsEngine.entities.forEach { entity ->
                 val tmxMapCmp = entity[TmxMapComponent.mapper]
@@ -104,8 +120,8 @@ class MapManager(
         }
     }
 
-    fun storeMapEntities(mapType: MapType, entities: IntArray) {
-        mapEntityCache.computeIfAbsent(mapType) { IntArray(32) }.apply {
+    fun storeMapEntities(mapType: MapType, entities: List<Int>) {
+        mapEntityCache.computeIfAbsent(mapType) { mutableListOf() }.apply {
             this.clear()
             this.addAll(entities)
         }

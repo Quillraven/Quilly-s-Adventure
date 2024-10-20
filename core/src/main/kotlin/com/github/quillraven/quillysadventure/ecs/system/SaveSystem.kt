@@ -5,7 +5,6 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
-import com.badlogic.gdx.utils.IntArray
 import com.badlogic.gdx.utils.IntMap
 import com.github.quillraven.quillysadventure.ability.AbilityEffect
 import com.github.quillraven.quillysadventure.ecs.component.PlayerComponent
@@ -25,8 +24,8 @@ const val KEY_SAVE_STATE = "saveState"
 
 class SaveState {
     lateinit var currentMap: MapType
-    lateinit var mapEntities: IntMap<IntArray>
-    lateinit var tutorials: IntArray
+    lateinit var mapEntities: IntMap<MutableList<Int>>
+    lateinit var tutorials: MutableList<Int>
     lateinit var checkpoint: Vector2
     var abilityToCastIdx = -1
     lateinit var abilities: Array<AbilityEffect>
@@ -46,42 +45,48 @@ class SaveSystem(
 ) : IteratingSystem(allOf(PlayerComponent::class, SaveComponent::class).get()) {
     private val saveState = SaveState().apply {
         mapEntities = IntMap()
-        tutorials = IntArray()
+        tutorials = mutableListOf()
         checkpoint = vec2()
         abilities = Array()
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        preferences.flush {
-            this[KEY_SAVE_STATE] = saveState.apply {
-                // map information
-                currentMap = mapManager.currentMap()
-                mapEntities.clear()
-                mapManager.storeMapEntities(currentMap)
-                mapManager.mapEntityCache.forEach { (mapType, entities) ->
-                    mapEntities[mapType.ordinal] = IntArray(entities)
+        saveState.run {
+            // map information
+            currentMap = mapManager.currentMap()
+            mapEntities.clear()
+            mapManager.storeMapEntities(currentMap)
+            mapManager.mapEntityCache.forEach { (mapType, entities) ->
+                val entityList = mutableListOf<Int>()
+                for (i in 0 until entities.size) {
+                    entityList.add(entities[i])
                 }
-                // player component
-                tutorials.clear()
-                val playerCmp = entity.playerCmp
-                playerCmp.tutorials.forEach { tutorials.add(it.ordinal) }
-                checkpoint = playerCmp.checkpoint
-                // ability component
-                abilities.clear()
-                val abilityCmp = entity.abilityCmp
-                abilityToCastIdx = abilityCmp.abilityToCastIdx
-                abilityCmp.abilities.forEach { abilities.add(it.effect) }
-                // stats component
-                val statsCmp = entity.statsCmp
-                this.damage = statsCmp.damage
-                this.life = statsCmp.life
-                this.maxLife = statsCmp.maxLife
-                this.mana = statsCmp.mana
-                this.maxMana = statsCmp.maxMana
-                this.armor = statsCmp.armor
-                this.level = statsCmp.level
-                this.xp = statsCmp.xp
+                mapEntities[mapType.ordinal] = entityList
             }
+            // player component
+            tutorials.clear()
+            val playerCmp = entity.playerCmp
+            playerCmp.tutorials.forEach { tutorials.add(it.ordinal) }
+            checkpoint = playerCmp.checkpoint
+            // ability component
+            abilities.clear()
+            val abilityCmp = entity.abilityCmp
+            abilityToCastIdx = abilityCmp.abilityToCastIdx
+            abilityCmp.abilities.forEach { abilities.add(it.effect) }
+            // stats component
+            val statsCmp = entity.statsCmp
+            this.damage = statsCmp.damage
+            this.life = statsCmp.life
+            this.maxLife = statsCmp.maxLife
+            this.mana = statsCmp.mana
+            this.maxMana = statsCmp.maxMana
+            this.armor = statsCmp.armor
+            this.level = statsCmp.level
+            this.xp = statsCmp.xp
+        }
+
+        preferences.flush {
+            this[KEY_SAVE_STATE] = saveState
         }
 
         // remove component since the save is done
