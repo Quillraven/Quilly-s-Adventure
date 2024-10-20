@@ -33,52 +33,43 @@ class TriggerTests {
     @Test
     fun `add conditions to trigger`() {
         var wasExecuted = false
+        lateinit var aliveCondition1: TriggerConditionIsEntityAlive
+        lateinit var aliveCondition2: TriggerConditionIsEntityAlive
         val trigger = Trigger().conditions {
-            condition<TriggerConditionIsEntityAlive> {
+            aliveCondition1 = condition<TriggerConditionIsEntityAlive> {
                 tmxMapID = 0
                 checkAlive = false
             }
-            condition<TriggerConditionIsEntityAlive> {
+            aliveCondition2 = condition<TriggerConditionIsEntityAlive> {
                 tmxMapID = 1
                 checkAlive = true
             }
             wasExecuted = true
         }
 
-        val result1 = TriggerConditionIsEntityAlive().apply {
-            tmxMapID = 0
-            checkAlive = false
-        }
-        val result2 = TriggerConditionIsEntityAlive().apply {
-            tmxMapID = 1
-            checkAlive = true
-        }
-
-
         assertTrue(wasExecuted)
         assertEquals(2, trigger.conditions.size())
-        assertEquals(result1, trigger.conditions[0])
-        assertEquals(result2, trigger.conditions[1])
+        assertEquals(aliveCondition1, trigger.conditions[0])
+        assertEquals(aliveCondition2, trigger.conditions[1])
     }
 
     @Test
     fun `add actions to trigger`() {
         var wasExecuted = false
+        lateinit var delayAction: TriggerActionDelay
+        lateinit var portalAction: TriggerActionEnablePortal
         val trigger = Trigger().actions {
-            action<TriggerActionDelay> { delay = 5f }
-            action<TriggerActionEnablePortal> {
+            delayAction = action<TriggerActionDelay> { delay = 5f }
+            portalAction = action<TriggerActionEnablePortal> {
                 portalID = 1
             }
             wasExecuted = true
         }
 
-        val result1 = TriggerActionDelay().apply { delay = 5f }
-        val result2 = TriggerActionEnablePortal().apply { portalID = 1 }
-
         assertTrue(wasExecuted)
         assertEquals(2, trigger.actions.size())
-        assertEquals(result1, trigger.actions[0])
-        assertEquals(result2, trigger.actions[1])
+        assertEquals(delayAction, trigger.actions[0])
+        assertEquals(portalAction, trigger.actions[1])
     }
 
     @Test
