@@ -3,6 +3,7 @@ package com.github.quillraven.quillysadventure.teavm
 import com.github.quillraven.quillysadventure.VIRTUAL_H
 import com.github.quillraven.quillysadventure.VIRTUAL_W
 import com.github.quillraven.quillysadventure.ability.Ability
+import com.github.quillraven.quillysadventure.ability.FireballEffect
 import com.github.quillraven.quillysadventure.ecs.system.SaveState
 import com.github.quillraven.quillysadventure.trigger.Trigger
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionCreateCharacter
@@ -20,6 +21,7 @@ import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSelect
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionSetPlayerInput
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionShowDialog
 import com.github.quillraven.quillysadventure.trigger.action.TriggerActionWaitCreatedCharacterDeath
+import com.github.quillraven.quillysadventure.trigger.condition.TriggerConditionIsEntityAlive
 import com.github.quillraven.quillysadventure.ui.action.ScaleToRegionWidth
 import com.github.xpenatan.gdx.backends.teavm.config.AssetFileHandle
 import com.github.xpenatan.gdx.backends.teavm.config.TeaBuildConfiguration
@@ -65,6 +67,8 @@ object TeaVMBuilder {
         TeaReflectionSupplier.addReflectionClass(TriggerActionMoveOrderCharacter::class.java)
         TeaReflectionSupplier.addReflectionClass(TriggerActionPlayAnimationCharacter::class.java)
         TeaReflectionSupplier.addReflectionClass(SaveState::class.java)
+        TeaReflectionSupplier.addReflectionClass(FireballEffect::class.java)
+        TeaReflectionSupplier.addReflectionClass(TriggerConditionIsEntityAlive::class.java)
 
         val tool = TeaBuilder.config(teaBuildConfiguration)
         tool.mainClass = "com.github.quillraven.quillysadventure.teavm.TeaVMLauncher"

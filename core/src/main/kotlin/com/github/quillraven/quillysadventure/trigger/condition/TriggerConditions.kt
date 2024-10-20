@@ -12,7 +12,9 @@ interface TriggerCondition : Pool.Poolable {
     override fun reset() = Unit
 }
 
-data class TriggerConditionIsEntityAlive(var tmxMapID: Int = -1, var checkAlive: Boolean = true) : TriggerCondition {
+class TriggerConditionIsEntityAlive : TriggerCondition {
+    var tmxMapID: Int = -1
+    var checkAlive: Boolean = true
     private val engine = Gdx.app.ecsEngine
 
     /**
