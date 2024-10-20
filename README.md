@@ -1,4 +1,4 @@
-![Master](https://github.com/Quillraven/Quilly-s-Adventure/workflows/Master/badge.svg)
+[![Master](https://img.shields.io/github/actions/workflow/status/quillraven/Quilly-s-Adventure/verify.yml?branch=master)](https://github.com/Quillraven/Quilly-s-Adventure/actions)
 [![Kotlin](https://img.shields.io/badge/kotlin-2.0.21-red.svg)](http://kotlinlang.org/)
 [![LibGDX](https://img.shields.io/badge/libgdx-1.12.1-blue.svg)](https://libgdx.badlogicgames.com/)
 [![LibKTX](https://img.shields.io/badge/libktx-1.12.1--rc2-orange.svg)](https://libktx.github.io/)
