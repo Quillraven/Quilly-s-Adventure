@@ -645,7 +645,7 @@ fun Engine.trigger(
             "TriggerMap2.setupBossTrigger" -> setupBossTrigger(newTrigger)
             "TriggerMap2.setupBossPitLeft" -> setupBossPitLeft(newTrigger)
             "TriggerMap2.setupBossPitRight" -> setupBossPitRight(newTrigger)
-            "TriggerMap2.setpAfterBoss" -> setupAfterBoss(newTrigger)
+            "TriggerMap2.setupAfterBoss" -> setupAfterBoss(newTrigger)
             else -> gdxError("No trigger setup for name: $triggerSetupFunctionName")
         }
 
