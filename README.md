@@ -1,6 +1,6 @@
 [![Master](https://img.shields.io/github/actions/workflow/status/quillraven/Quilly-s-Adventure/verify.yml?branch=master)](https://github.com/Quillraven/Quilly-s-Adventure/actions)
 [![Kotlin](https://img.shields.io/badge/kotlin-2.0.21-red.svg)](http://kotlinlang.org/)
-[![LibGDX](https://img.shields.io/badge/libgdx-1.12.1-blue.svg)](https://libgdx.badlogicgames.com/)
+[![LibGDX](https://img.shields.io/badge/libgdx-1.13.0-blue.svg)](https://libgdx.badlogicgames.com/)
 [![LibKTX](https://img.shields.io/badge/libktx-1.12.1--rc2-orange.svg)](https://libktx.github.io/)
 
 ![image](https://user-images.githubusercontent.com/93260/77850937-2a9b9200-71d6-11ea-9517-29f7c7d9a276.png)
@@ -10,10 +10,9 @@
 ### Update 2024
 
 I updated the project to the newest (to date October 2024) LibGDX, Kotlin, 
-Gradle and LibKTX versions. I removed the Android backend (because it is annoying
-to maintain) and replaced it with a new TeaVM backend which now allows the game
+Gradle and LibKTX versions. I added a new TeaVM backend which now allows the game
 to be run in the browser. [Here](https://quillraven.github.io/Quilly-s-Adventure/) is the link.
-TeaVM required a few code changes (mainly reflection issues). The original code with the android backend
+TeaVM required a few code changes (mainly reflection issues). The original code 
 can be found in a separate branch called `original`.
 
 ### General
